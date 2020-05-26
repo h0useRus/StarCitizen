@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools.Services
 {
@@ -14,19 +14,15 @@ namespace NSW.StarCitizen.Tools.Services
 
     public class GameInfo
     {
-        private readonly Patcher _patcher;
         public GameMode Mode { get; }
         public FileInfo ExeFile { get; }
         public string ExeVersion { get; }
-        public PatchIndexes ExeIndexes { get; }
 
         public GameInfo(GameMode mode, FileInfo exeFile)
         {
             Mode = mode;
             ExeFile = exeFile;
             ExeVersion = FileVersionInfo.GetVersionInfo(exeFile.FullName).FileVersion;
-            _patcher = new Patcher(exeFile.FullName, AppSettings.OriginalPattern, AppSettings.PatchPattern);
-            ExeIndexes = _patcher.Find();
         }
 
         public override string ToString() => Mode.ToString();
