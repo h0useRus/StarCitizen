@@ -22,7 +22,7 @@ namespace NSW.StarCitizen.Tools.Services
         {
             Mode = mode;
             ExeFile = exeFile;
-            ExeVersion = FileVersionInfo.GetVersionInfo(exeFile.FullName).FileVersion;
+            ExeVersion = FileVersionInfo.GetVersionInfo(exeFile.FullName).FileVersion.Replace(',','.');
         }
 
         public override string ToString() => Mode.ToString();
