@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools.Services
 {
@@ -15,12 +14,14 @@ namespace NSW.StarCitizen.Tools.Services
     public class GameInfo
     {
         public GameMode Mode { get; }
+        public DirectoryInfo RootFolder { get; }
         public FileInfo ExeFile { get; }
         public string ExeVersion { get; }
 
-        public GameInfo(GameMode mode, FileInfo exeFile)
+        public GameInfo(DirectoryInfo rootFolder, GameMode mode, FileInfo exeFile)
         {
             Mode = mode;
+            RootFolder = rootFolder;
             ExeFile = exeFile;
             ExeVersion = FileVersionInfo.GetVersionInfo(exeFile.FullName).FileVersion.Replace(',','.');
         }
@@ -42,7 +43,7 @@ namespace NSW.StarCitizen.Tools.Services
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
                 return false;
 
-            if (!File.Exists(GetExePath(path, GameMode.LIVE)))
+            if (!File.Exists(GetExePath(path, GameMode.LIVE)) && !File.Exists(GetExePath(path, GameMode.PTU)))
                 return false;
 
             GamePath = new DirectoryInfo(path);
@@ -60,7 +61,7 @@ namespace NSW.StarCitizen.Tools.Services
                     {
                         var exeFileInfo = new FileInfo(GetExePath(GamePath.FullName, mode));
                         if (exeFileInfo.Exists)
-                            result.Add(new GameInfo(mode, exeFileInfo));
+                            result.Add(new GameInfo(directory, mode, exeFileInfo));
                     }
                 }
             }

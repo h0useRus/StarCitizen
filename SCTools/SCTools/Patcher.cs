@@ -1,8 +1,7 @@
-using System;
 using System.IO;
 using NSW.StarCitizen.Tools.Helpers;
 
-namespace NSW.StarCitizen.Tools.Services
+namespace NSW.StarCitizen.Tools
 {
     public class PatchIndexes
     {

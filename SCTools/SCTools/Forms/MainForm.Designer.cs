@@ -32,13 +32,13 @@
             this.tbGamePath = new System.Windows.Forms.TextBox();
             this.cbGameModes = new System.Windows.Forms.ComboBox();
             this.gbGameInfo = new System.Windows.Forms.GroupBox();
-            this.lblGameMode = new System.Windows.Forms.Label();
-            this.tbGameMode = new System.Windows.Forms.TextBox();
-            this.lblGameVersion = new System.Windows.Forms.Label();
             this.tbGameVersion = new System.Windows.Forms.TextBox();
+            this.lblGameVersion = new System.Windows.Forms.Label();
+            this.tbGameMode = new System.Windows.Forms.TextBox();
+            this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
-            this.btnLocalization = new System.Windows.Forms.Button();
             this.btnUserSettings = new System.Windows.Forms.Button();
+            this.btnLocalization = new System.Windows.Forms.Button();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.SuspendLayout();
@@ -87,14 +87,26 @@
             this.gbGameInfo.TabIndex = 3;
             this.gbGameInfo.TabStop = false;
             // 
-            // lblGameMode
+            // tbGameVersion
             // 
-            this.lblGameMode.AutoSize = true;
-            this.lblGameMode.Location = new System.Drawing.Point(6, 16);
-            this.lblGameMode.Name = "lblGameMode";
-            this.lblGameMode.Size = new System.Drawing.Size(87, 13);
-            this.lblGameMode.TabIndex = 0;
-            this.lblGameMode.Text = "Игровой режим";
+            this.tbGameVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbGameVersion.BackColor = System.Drawing.SystemColors.Window;
+            this.tbGameVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbGameVersion.Location = new System.Drawing.Point(9, 72);
+            this.tbGameVersion.Name = "tbGameVersion";
+            this.tbGameVersion.ReadOnly = true;
+            this.tbGameVersion.Size = new System.Drawing.Size(185, 20);
+            this.tbGameVersion.TabIndex = 3;
+            // 
+            // lblGameVersion
+            // 
+            this.lblGameVersion.AutoSize = true;
+            this.lblGameVersion.Location = new System.Drawing.Point(6, 56);
+            this.lblGameVersion.Name = "lblGameVersion";
+            this.lblGameVersion.Size = new System.Drawing.Size(88, 13);
+            this.lblGameVersion.TabIndex = 2;
+            this.lblGameVersion.Text = "Версия клиента";
             // 
             // tbGameMode
             // 
@@ -108,26 +120,14 @@
             this.tbGameMode.Size = new System.Drawing.Size(185, 20);
             this.tbGameMode.TabIndex = 1;
             // 
-            // lblGameVersion
+            // lblGameMode
             // 
-            this.lblGameVersion.AutoSize = true;
-            this.lblGameVersion.Location = new System.Drawing.Point(6, 56);
-            this.lblGameVersion.Name = "lblGameVersion";
-            this.lblGameVersion.Size = new System.Drawing.Size(88, 13);
-            this.lblGameVersion.TabIndex = 2;
-            this.lblGameVersion.Text = "Версия клиента";
-            // 
-            // tbGameVersion
-            // 
-            this.tbGameVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbGameVersion.BackColor = System.Drawing.SystemColors.Window;
-            this.tbGameVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbGameVersion.Location = new System.Drawing.Point(9, 72);
-            this.tbGameVersion.Name = "tbGameVersion";
-            this.tbGameVersion.ReadOnly = true;
-            this.tbGameVersion.Size = new System.Drawing.Size(185, 20);
-            this.tbGameVersion.TabIndex = 3;
+            this.lblGameMode.AutoSize = true;
+            this.lblGameMode.Location = new System.Drawing.Point(6, 16);
+            this.lblGameMode.Name = "lblGameMode";
+            this.lblGameMode.Size = new System.Drawing.Size(87, 13);
+            this.lblGameMode.TabIndex = 0;
+            this.lblGameMode.Text = "Игровой режим";
             // 
             // gbButtonMenu
             // 
@@ -142,18 +142,6 @@
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
             // 
-            // btnLocalization
-            // 
-            this.btnLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalization.Location = new System.Drawing.Point(6, 30);
-            this.btnLocalization.Name = "btnLocalization";
-            this.btnLocalization.Size = new System.Drawing.Size(242, 23);
-            this.btnLocalization.TabIndex = 0;
-            this.btnLocalization.Text = "Локализация";
-            this.btnLocalization.UseVisualStyleBackColor = true;
-            // 
             // btnUserSettings
             // 
             this.btnUserSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -165,6 +153,19 @@
             this.btnUserSettings.TabIndex = 1;
             this.btnUserSettings.Text = "Настройки клиента";
             this.btnUserSettings.UseVisualStyleBackColor = true;
+            // 
+            // btnLocalization
+            // 
+            this.btnLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLocalization.Location = new System.Drawing.Point(6, 30);
+            this.btnLocalization.Name = "btnLocalization";
+            this.btnLocalization.Size = new System.Drawing.Size(242, 23);
+            this.btnLocalization.TabIndex = 0;
+            this.btnLocalization.Text = "Локализация";
+            this.btnLocalization.UseVisualStyleBackColor = true;
+            this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
             // MainForm
             // 
@@ -181,7 +182,8 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "Star Citizen : Утилиты";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
