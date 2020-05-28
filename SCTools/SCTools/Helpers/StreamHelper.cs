@@ -5,12 +5,20 @@ namespace NSW.StarCitizen.Tools.Helpers
 {
     public static class StreamHelper
     {
-        public static void UpdateFile(string fileName, long index, byte[] data)
+        public static bool UpdateFile(FileInfo fileName, long index, byte[] data)
         {
-            using var stream = File.OpenWrite(fileName);
-            stream.Seek(index, SeekOrigin.Begin);
-            stream.Write(data, 0, data.Length);
-            stream.Flush();
+            try
+            {
+                using var stream = fileName.OpenWrite();
+                stream.Seek(index, SeekOrigin.Begin);
+                stream.Write(data, 0, data.Length);
+                stream.Flush();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static long IndexOf(string fileName, byte[] data)

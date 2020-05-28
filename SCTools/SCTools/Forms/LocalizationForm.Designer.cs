@@ -42,6 +42,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.TabIndex = 1;
             this.btnLocalization.Text = "Включить поддержку локализации";
             this.btnLocalization.UseVisualStyleBackColor = true;
+            this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
             // LocalizationForm
             // 
@@ -49,7 +50,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(475, 192);
             this.Controls.Add(this.btnLocalization);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LocalizationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Star Citizen : Локализация";

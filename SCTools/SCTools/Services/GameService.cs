@@ -32,6 +32,7 @@ namespace NSW.StarCitizen.Tools.Services
     public class GameService
     {
         public static GameService Instance { get; } = new GameService();
+        private GameService(){}
 
         public const string ExeName = "StarCitizen.exe";
         public const string BinFolder = "Bin64";
