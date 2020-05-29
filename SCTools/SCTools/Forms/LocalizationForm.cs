@@ -10,7 +10,8 @@ namespace NSW.StarCitizen.Tools.Forms
         private PatchInfo _current;
         private GameInfo _game;
         private LocalizationInfo _localization;
-
+        private LanguagesInfo _languages;
+        private bool holdUpdates = false;
         public LocalizationForm()
         {
             InitializeComponent();
@@ -35,6 +36,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateControls()
         {
+            holdUpdates = true;
             btnLocalization.Visible = _current.Status != PatchStatus.NotSupported;
             btnLocalization.Text = _current.Status == PatchStatus.Original
                 ? "Включить поддержку локализации"
@@ -65,8 +67,22 @@ namespace NSW.StarCitizen.Tools.Forms
                 tbServerVersion.Text = _localization.Release.Name;
                 btnInstall.Enabled = true;
             }
+
+            _languages = LocalizationService.Instance.GetLanguagesConfiguration(_game);
+            if (_languages.Languages.Count > 0)
+            {
+                cbCurrentLanguage.DataSource = _languages.Languages;
+                cbCurrentLanguage.SelectedItem = _languages.Current;
+                lblCurrentLanguage.Visible = cbCurrentLanguage.Visible = true;
+            }
+            else
+            {
+                lblCurrentLanguage.Visible = cbCurrentLanguage.Visible = false;
+            }
+
+            holdUpdates = false;
         }
-        
+
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             btnRefresh.Enabled = false;
@@ -90,6 +106,18 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
             }
             btnInstall.Enabled = true;
+        }
+
+        private async void cbCurrentLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(holdUpdates) return;
+            if (cbCurrentLanguage.SelectedItem is string selected)
+            {
+                cbCurrentLanguage.Enabled = false;
+                _languages.New = selected;
+                _languages = await LocalizationService.Instance.UpdateLanguageAsync(_game, _languages);
+                cbCurrentLanguage.Enabled = true;
+            }
         }
     }
 }

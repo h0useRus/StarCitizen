@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -54,9 +55,18 @@ namespace NSW.StarCitizen.Tools.Services
         public ReleaseInfo Release { get; set; }
     }
 
+    public class LanguagesInfo
+    {
+        public List<string> Languages { get; set; } = new List<string>();
+        public string Current { get; set; }
+        public string New { get; set; }
+    }
+
     public class LocalizationService
     {
         private const string BaseUrl = "https://api.github.com/repos";
+        private const string KeySysLanguages = "sys_languages";
+        private const string KeyCurLanguage = "g_language";
 
         public static LocalizationService Instance { get; } = new LocalizationService();
 
@@ -200,6 +210,49 @@ namespace NSW.StarCitizen.Tools.Services
             }
 
             return new LocalizationInfo { Status = LocalizationStatus.NotInstalled };
+        }
+
+        public LanguagesInfo GetLanguagesConfiguration(GameInfo gameInfo)
+        {
+            var result = new LanguagesInfo();
+            var fileName = Path.Combine(gameInfo.RootFolder.FullName, "data", "system.cfg");
+            var cfgFile = new CfgReader(fileName);
+            var keys = cfgFile.ReadKeys();
+            if (keys.ContainsKey(KeySysLanguages) && !string.IsNullOrWhiteSpace(keys[KeySysLanguages]))
+            {
+                var languages = keys[KeySysLanguages].Split(',');
+                foreach (var language in languages)
+                {
+                    result.Languages.Add(language.Trim());
+                }
+            }
+
+            if (keys.ContainsKey(KeyCurLanguage))
+            {
+                result.Current = keys[KeyCurLanguage];
+            }
+
+            return result;
+        }
+
+        public async Task<LanguagesInfo> UpdateLanguageAsync(GameInfo gameInfo, LanguagesInfo languages)
+        {
+            if (string.IsNullOrWhiteSpace(languages.New) || string.Compare(languages.Current, languages.New, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                languages.New = null;
+                return languages;
+            }
+
+
+            var fileName = Path.Combine(gameInfo.RootFolder.FullName, "data", "system.cfg");
+            var cfgFile = new CfgReader(fileName);
+            if (await cfgFile.UpdateKeyAsync(KeyCurLanguage, languages.New))
+            {
+                languages.Current = languages.New;
+            }
+
+            languages.New = null;
+            return languages;
         }
     }
 }
