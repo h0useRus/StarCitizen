@@ -39,39 +39,46 @@ namespace NSW.StarCitizen.Tools.Forms
             btnLocalization.Text = _current.Status == PatchStatus.Original
                 ? "Включить поддержку локализации"
                 : "Отключить поддержку локализации";
-        }
 
-        private async void btnUpdateFiles_Click(object sender, System.EventArgs e)
-        {
-            if (_localization == null)
+            if (string.IsNullOrWhiteSpace(SettingsService.Instance.AppSettings.Localization.LastVersion))
             {
-                btnUpdateFiles.Enabled = false;
-                _localization = await LocalizationService.Instance.GetLocalizationStatusAsync(_game);
-                btnUpdateFiles.Enabled = true;
-
-                if (_localization.Release == null)
-                {
-                    _localization = null;
-                    lblVersion.Text = "Неудалось соединиться с сервером."
-                                      + Environment.NewLine
-                                      + "Попробуйте еще через несколько минут.";
-                }
-
-                btnUpdateFiles.Text = _localization.Status switch
-                {
-                    LocalizationStatus.NotInstalled => "Установить файлы локализации",
-                    LocalizationStatus.Outdated => "Обновить файлы локализации",
-                    LocalizationStatus.Actual => "Переустановить файлы локализации",
-                };
-
-
-                lblVersion.Text = $"Версия сервера: {_localization.Release.Name}";
-                if (!string.IsNullOrWhiteSpace(SettingsService.Instance.AppSettings.Localization.LastVersion))
-                    lblVersion.Text += Environment.NewLine +
-                                       $"Ваша версия: {SettingsService.Instance.AppSettings.Localization.LastVersion}";
-
+                tbCurrentVersion.Text = LocalizationService.Instance.IsLocalizationInstalled(_game)
+                    ? "Нет информации"
+                    : "Локализацция не установлена";
             }
             else
+            {
+                tbCurrentVersion.Text = SettingsService.Instance.AppSettings.Localization.LastVersion;
+            }
+
+            btnInstall.Enabled = false;
+            if (_localization == null)
+            {
+                tbServerVersion.Text = "Нажмите 'Обновить'";
+            }
+            else if(_localization.Release == null)
+            {
+                tbServerVersion.Text = "Ошибка связи, нажмите 'Обновить' ещё раз";
+            }
+            else
+            {
+                tbServerVersion.Text = _localization.Release.Name;
+                btnInstall.Enabled = true;
+            }
+        }
+        
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            btnRefresh.Enabled = false;
+            _localization = await LocalizationService.Instance.GetLocalizationStatusAsync(_game);
+            UpdateControls();
+            btnRefresh.Enabled = true;
+        }
+
+        private async void btnInstall_Click(object sender, EventArgs e)
+        {
+            btnInstall.Enabled = false;
+            if (_localization?.Release != null)
             {
                 var fileName = await LocalizationService.Instance.DownloadAsync(_localization.Release);
                 if (!string.IsNullOrWhiteSpace(fileName)
@@ -79,13 +86,10 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     SettingsService.Instance.AppSettings.Localization.LastVersion = _localization.Release.Name;
                     SettingsService.Instance.SaveAppSettings();
-                    lblVersion.Text =
-                        $"Версия {SettingsService.Instance.AppSettings.Localization.LastVersion} успешно установлена.";
-                    _localization = null;
-                    btnUpdateFiles.Text = "Проверить обновления...";
+                    UpdateControls();
                 }
             }
+            btnInstall.Enabled = true;
         }
-
     }
 }

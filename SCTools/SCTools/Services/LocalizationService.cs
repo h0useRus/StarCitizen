@@ -145,7 +145,7 @@ namespace NSW.StarCitizen.Tools.Services
             }
             catch { }
 
-            return string.Empty;
+            return null;
         }
 
         public bool UnZipFile(string destinationFolder, string zipFileName)
@@ -177,6 +177,9 @@ namespace NSW.StarCitizen.Tools.Services
             }
         }
 
+        public bool IsLocalizationInstalled(GameInfo gameInfo)
+            => Directory.Exists(Path.Combine(gameInfo.RootFolder.FullName, "data", "Localization"));
+
         public async Task<LocalizationInfo> GetLocalizationStatusAsync(GameInfo gameInfo)
         {
             var lastRelease = await GetLastReleaseAsync();
@@ -191,7 +194,7 @@ namespace NSW.StarCitizen.Tools.Services
                         ? LocalizationStatus.Actual
                         : LocalizationStatus.Outdated
                 };
-                if (!Directory.Exists(Path.Combine(gameInfo.RootFolder.FullName, "data", "Localization")))
+                if (!IsLocalizationInstalled(gameInfo))
                     result.Status = LocalizationStatus.NotInstalled;
                 return result;
             }

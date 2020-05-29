@@ -29,8 +29,14 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitializeComponent()
         {
             this.btnLocalization = new System.Windows.Forms.Button();
-            this.btnUpdateFiles = new System.Windows.Forms.Button();
-            this.lblVersion = new System.Windows.Forms.Label();
+            this.gbLocalization = new System.Windows.Forms.GroupBox();
+            this.lblCurrentVersion = new System.Windows.Forms.Label();
+            this.tbCurrentVersion = new System.Windows.Forms.TextBox();
+            this.lblServerVersion = new System.Windows.Forms.Label();
+            this.tbServerVersion = new System.Windows.Forms.TextBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnInstall = new System.Windows.Forms.Button();
+            this.gbLocalization.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnLocalization
@@ -40,47 +46,108 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLocalization.Location = new System.Drawing.Point(12, 12);
             this.btnLocalization.Name = "btnLocalization";
-            this.btnLocalization.Size = new System.Drawing.Size(237, 23);
+            this.btnLocalization.Size = new System.Drawing.Size(480, 23);
             this.btnLocalization.TabIndex = 1;
             this.btnLocalization.Text = "Включить поддержку локализации";
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
-            // btnUpdateFiles
+            // gbLocalization
             // 
-            this.btnUpdateFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdateFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateFiles.Location = new System.Drawing.Point(12, 41);
-            this.btnUpdateFiles.Name = "btnUpdateFiles";
-            this.btnUpdateFiles.Size = new System.Drawing.Size(237, 23);
-            this.btnUpdateFiles.TabIndex = 2;
-            this.btnUpdateFiles.Text = "Проверить обновления...";
-            this.btnUpdateFiles.UseVisualStyleBackColor = true;
-            this.btnUpdateFiles.Click += new System.EventHandler(this.btnUpdateFiles_Click);
+            this.gbLocalization.Controls.Add(this.btnRefresh);
+            this.gbLocalization.Controls.Add(this.tbServerVersion);
+            this.gbLocalization.Controls.Add(this.lblServerVersion);
+            this.gbLocalization.Controls.Add(this.tbCurrentVersion);
+            this.gbLocalization.Controls.Add(this.lblCurrentVersion);
+            this.gbLocalization.Location = new System.Drawing.Point(12, 41);
+            this.gbLocalization.Name = "gbLocalization";
+            this.gbLocalization.Size = new System.Drawing.Size(480, 202);
+            this.gbLocalization.TabIndex = 2;
+            this.gbLocalization.TabStop = false;
+            this.gbLocalization.Text = "Локализация";
             // 
-            // lblVersion
+            // lblCurrentVersion
             // 
-            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblCurrentVersion.AutoSize = true;
+            this.lblCurrentVersion.Location = new System.Drawing.Point(7, 20);
+            this.lblCurrentVersion.Name = "lblCurrentVersion";
+            this.lblCurrentVersion.Size = new System.Drawing.Size(94, 13);
+            this.lblCurrentVersion.TabIndex = 0;
+            this.lblCurrentVersion.Text = "Текущая версия:";
+            // 
+            // tbCurrentVersion
+            // 
+            this.tbCurrentVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblVersion.Location = new System.Drawing.Point(13, 67);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(236, 52);
-            this.lblVersion.TabIndex = 3;
-            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tbCurrentVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCurrentVersion.Location = new System.Drawing.Point(118, 17);
+            this.tbCurrentVersion.Name = "tbCurrentVersion";
+            this.tbCurrentVersion.ReadOnly = true;
+            this.tbCurrentVersion.Size = new System.Drawing.Size(283, 20);
+            this.tbCurrentVersion.TabIndex = 1;
+            // 
+            // lblServerVersion
+            // 
+            this.lblServerVersion.AutoSize = true;
+            this.lblServerVersion.Location = new System.Drawing.Point(7, 46);
+            this.lblServerVersion.Name = "lblServerVersion";
+            this.lblServerVersion.Size = new System.Drawing.Size(105, 13);
+            this.lblServerVersion.TabIndex = 2;
+            this.lblServerVersion.Text = "Последняя версия:";
+            // 
+            // tbServerVersion
+            // 
+            this.tbServerVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbServerVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbServerVersion.Location = new System.Drawing.Point(118, 43);
+            this.tbServerVersion.Name = "tbServerVersion";
+            this.tbServerVersion.ReadOnly = true;
+            this.tbServerVersion.Size = new System.Drawing.Size(283, 20);
+            this.tbServerVersion.TabIndex = 3;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Location = new System.Drawing.Point(407, 17);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(67, 46);
+            this.btnRefresh.TabIndex = 4;
+            this.btnRefresh.Text = "Обновить";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnInstall
+            // 
+            this.btnInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInstall.Location = new System.Drawing.Point(22, 116);
+            this.btnInstall.Name = "btnInstall";
+            this.btnInstall.Size = new System.Drawing.Size(464, 23);
+            this.btnInstall.TabIndex = 3;
+            this.btnInstall.Text = "Установить последнюю версию";
+            this.btnInstall.UseVisualStyleBackColor = true;
+            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
             // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(260, 128);
-            this.Controls.Add(this.lblVersion);
-            this.Controls.Add(this.btnUpdateFiles);
+            this.ClientSize = new System.Drawing.Size(503, 255);
+            this.Controls.Add(this.btnInstall);
+            this.Controls.Add(this.gbLocalization);
             this.Controls.Add(this.btnLocalization);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "LocalizationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Star Citizen : Локализация";
+            this.gbLocalization.ResumeLayout(false);
+            this.gbLocalization.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -88,7 +155,12 @@ namespace NSW.StarCitizen.Tools.Forms
         #endregion
 
         private System.Windows.Forms.Button btnLocalization;
-        private System.Windows.Forms.Button btnUpdateFiles;
-        private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.GroupBox gbLocalization;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.TextBox tbServerVersion;
+        private System.Windows.Forms.Label lblServerVersion;
+        private System.Windows.Forms.TextBox tbCurrentVersion;
+        private System.Windows.Forms.Label lblCurrentVersion;
+        private System.Windows.Forms.Button btnInstall;
     }
 }
