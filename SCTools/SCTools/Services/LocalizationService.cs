@@ -74,7 +74,9 @@ namespace NSW.StarCitizen.Tools.Services
         private readonly string _repoUrl;
         private LocalizationService()
         {
+#if NET45
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+#endif
             _gitClient = new HttpClient();
             _gitClient.DefaultRequestHeaders.UserAgent.ParseAdd("SCTools/1.0");
             _repoUrl = $"{BaseUrl}/{SettingsService.Instance.AppSettings.Localization.Author}/{SettingsService.Instance.AppSettings.Localization.Repo}/";

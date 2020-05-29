@@ -153,6 +153,7 @@
             this.btnUserSettings.TabIndex = 1;
             this.btnUserSettings.Text = "Настройки клиента";
             this.btnUserSettings.UseVisualStyleBackColor = true;
+            this.btnUserSettings.Visible = false;
             // 
             // btnLocalization
             // 
