@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tbGamePath = new System.Windows.Forms.TextBox();
             this.cbGameModes = new System.Windows.Forms.ComboBox();
@@ -39,6 +40,7 @@
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
             this.btnUserSettings = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
+            this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.SuspendLayout();
@@ -151,9 +153,8 @@
             this.btnUserSettings.Name = "btnUserSettings";
             this.btnUserSettings.Size = new System.Drawing.Size(242, 23);
             this.btnUserSettings.TabIndex = 1;
-            this.btnUserSettings.Text = "Настройки клиента";
+            this.btnUserSettings.Text = "Настройки программы";
             this.btnUserSettings.UseVisualStyleBackColor = true;
-            this.btnUserSettings.Visible = false;
             // 
             // btnLocalization
             // 
@@ -167,6 +168,11 @@
             this.btnLocalization.Text = "Локализация";
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
+            // 
+            // niTray
+            // 
+            this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
+            this.niTray.Visible = true;
             // 
             // MainForm
             // 
@@ -204,5 +210,6 @@
         private System.Windows.Forms.GroupBox gbButtonMenu;
         private System.Windows.Forms.Button btnUserSettings;
         private System.Windows.Forms.Button btnLocalization;
+        private System.Windows.Forms.NotifyIcon niTray;
     }
 }

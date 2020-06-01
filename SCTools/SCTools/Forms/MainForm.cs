@@ -10,6 +10,7 @@ namespace NSW.StarCitizen.Tools.Forms
         public MainForm()
         {
             InitializeComponent();
+            niTray.Text = Text;
             InitVisuals();
         }
 
@@ -61,6 +62,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? "Постоянная Вселенная"
                     : "Постоянная Тестовая Вселенная";
+
+                btnLocalization.Text = $"Локализация {gameInfo.Mode}";
 
                 tbGameVersion.Text = gameInfo.ExeVersion;
                 gbGameInfo.Visible = gbButtonMenu.Visible = true;
