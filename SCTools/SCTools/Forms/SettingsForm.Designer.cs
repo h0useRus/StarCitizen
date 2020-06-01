@@ -1,4 +1,4 @@
-﻿namespace NSW.StarCitizen.Tools.Forms
+namespace NSW.StarCitizen.Tools.Forms
 {
     partial class SettingsForm
     {
@@ -29,72 +29,92 @@
         private void InitializeComponent()
         {
             this.gbGeneral = new System.Windows.Forms.GroupBox();
-            this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
             this.cbGeneralRunMinimized = new System.Windows.Forms.CheckBox();
-            this.cbGeneralCloseToTray = new System.Windows.Forms.CheckBox();
+            this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
             this.gbLocalization = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbLocalizationRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbLocalizationCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.cbLocalizationAutoDownload = new System.Windows.Forms.CheckBox();
-            this.cbLocalizationRefreshTime = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.gbGeneral.SuspendLayout();
             this.gbLocalization.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbGeneral
             // 
-            this.gbGeneral.Controls.Add(this.cbGeneralCloseToTray);
+            this.gbGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbGeneral.Controls.Add(this.cbGeneralRunMinimized);
             this.gbGeneral.Controls.Add(this.cbGeneralRunWithWindows);
             this.gbGeneral.Location = new System.Drawing.Point(12, 12);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(507, 90);
+            this.gbGeneral.Size = new System.Drawing.Size(360, 66);
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "Основные";
             // 
-            // cbGeneralRunWithWindows
-            // 
-            this.cbGeneralRunWithWindows.AutoSize = true;
-            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(6, 42);
-            this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
-            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(196, 17);
-            this.cbGeneralRunWithWindows.TabIndex = 0;
-            this.cbGeneralRunWithWindows.Text = "Запускать при загрузке Windows";
-            this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
-            // 
             // cbGeneralRunMinimized
             // 
             this.cbGeneralRunMinimized.AutoSize = true;
-            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(6, 65);
+            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(6, 42);
             this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
             this.cbGeneralRunMinimized.Size = new System.Drawing.Size(128, 17);
             this.cbGeneralRunMinimized.TabIndex = 1;
             this.cbGeneralRunMinimized.Text = "Запускать свернуто";
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
+            this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
             // 
-            // cbGeneralCloseToTray
+            // cbGeneralRunWithWindows
             // 
-            this.cbGeneralCloseToTray.AutoSize = true;
-            this.cbGeneralCloseToTray.Location = new System.Drawing.Point(6, 19);
-            this.cbGeneralCloseToTray.Name = "cbGeneralCloseToTray";
-            this.cbGeneralCloseToTray.Size = new System.Drawing.Size(214, 17);
-            this.cbGeneralCloseToTray.TabIndex = 2;
-            this.cbGeneralCloseToTray.Text = "Сворачивать в область уведомлений";
-            this.cbGeneralCloseToTray.UseVisualStyleBackColor = true;
+            this.cbGeneralRunWithWindows.AutoSize = true;
+            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(6, 19);
+            this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
+            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(196, 17);
+            this.cbGeneralRunWithWindows.TabIndex = 0;
+            this.cbGeneralRunWithWindows.Text = "Запускать при загрузке Windows";
+            this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
+            this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
             // 
             // gbLocalization
             // 
+            this.gbLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLocalization.Controls.Add(this.label1);
             this.gbLocalization.Controls.Add(this.cbLocalizationRefreshTime);
             this.gbLocalization.Controls.Add(this.cbLocalizationCheckNewVersions);
             this.gbLocalization.Controls.Add(this.cbLocalizationAutoDownload);
-            this.gbLocalization.Location = new System.Drawing.Point(12, 108);
+            this.gbLocalization.Location = new System.Drawing.Point(12, 84);
             this.gbLocalization.Name = "gbLocalization";
-            this.gbLocalization.Size = new System.Drawing.Size(507, 69);
+            this.gbLocalization.Size = new System.Drawing.Size(360, 69);
             this.gbLocalization.TabIndex = 3;
             this.gbLocalization.TabStop = false;
             this.gbLocalization.Text = "Локализация";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(267, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "минут ";
+            // 
+            // cbLocalizationRefreshTime
+            // 
+            this.cbLocalizationRefreshTime.BackColor = System.Drawing.SystemColors.Info;
+            this.cbLocalizationRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLocalizationRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbLocalizationRefreshTime.FormattingEnabled = true;
+            this.cbLocalizationRefreshTime.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "15",
+            "30",
+            "60"});
+            this.cbLocalizationRefreshTime.Location = new System.Drawing.Point(215, 17);
+            this.cbLocalizationRefreshTime.Name = "cbLocalizationRefreshTime";
+            this.cbLocalizationRefreshTime.Size = new System.Drawing.Size(46, 21);
+            this.cbLocalizationRefreshTime.TabIndex = 3;
             // 
             // cbLocalizationCheckNewVersions
             // 
@@ -116,38 +136,11 @@
             this.cbLocalizationAutoDownload.Text = "Автоматически скачивать новую версию";
             this.cbLocalizationAutoDownload.UseVisualStyleBackColor = true;
             // 
-            // cbLocalizationRefreshTime
-            // 
-            this.cbLocalizationRefreshTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbLocalizationRefreshTime.BackColor = System.Drawing.SystemColors.Info;
-            this.cbLocalizationRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLocalizationRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLocalizationRefreshTime.FormattingEnabled = true;
-            this.cbLocalizationRefreshTime.Items.AddRange(new object[] {
-            "5",
-            "10",
-            "15",
-            "30",
-            "60"});
-            this.cbLocalizationRefreshTime.Location = new System.Drawing.Point(215, 17);
-            this.cbLocalizationRefreshTime.Name = "cbLocalizationRefreshTime";
-            this.cbLocalizationRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbLocalizationRefreshTime.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(267, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "минут ";
-            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(531, 190);
+            this.ClientSize = new System.Drawing.Size(384, 158);
             this.Controls.Add(this.gbLocalization);
             this.Controls.Add(this.gbGeneral);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -156,6 +149,7 @@
             this.Name = "SettingsForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Настройки программы";
             this.gbGeneral.ResumeLayout(false);
             this.gbGeneral.PerformLayout();
@@ -168,7 +162,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbGeneral;
-        private System.Windows.Forms.CheckBox cbGeneralCloseToTray;
         private System.Windows.Forms.CheckBox cbGeneralRunMinimized;
         private System.Windows.Forms.CheckBox cbGeneralRunWithWindows;
         private System.Windows.Forms.GroupBox gbLocalization;

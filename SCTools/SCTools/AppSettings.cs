@@ -1,10 +1,28 @@
+using System.Windows.Forms;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace NSW.StarCitizen.Tools
 {
     public class AppSettings
     {
+        private const string AppName = "Star Citizen Tools";
+        private static RegistryKey StartupKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        
+
         public string GameFolder { get; set; }
+        public bool RunMinimized { get; set; } = false;
+        public bool RunWithWindows
+        {
+            get => StartupKey.GetValue(AppName) != null;
+            set
+            {
+                if (value)
+                    StartupKey.SetValue(AppName, Application.ExecutablePath);
+                else
+                    StartupKey.DeleteValue(AppName, false);
+            }
+        }
         public LocalizationSettings Localization { get; set; } = new LocalizationSettings();
     }
 

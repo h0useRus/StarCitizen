@@ -1,4 +1,4 @@
-﻿namespace NSW.StarCitizen.Tools.Forms
+namespace NSW.StarCitizen.Tools.Forms
 {
     partial class MainForm
     {
@@ -38,7 +38,7 @@
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
-            this.btnUserSettings = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.gbGameInfo.SuspendLayout();
@@ -136,7 +136,7 @@
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbButtonMenu.Controls.Add(this.btnUserSettings);
+            this.gbButtonMenu.Controls.Add(this.btnSettings);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
@@ -144,17 +144,18 @@
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
             // 
-            // btnUserSettings
+            // btnSettings
             // 
-            this.btnUserSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUserSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUserSettings.Location = new System.Drawing.Point(6, 69);
-            this.btnUserSettings.Name = "btnUserSettings";
-            this.btnUserSettings.Size = new System.Drawing.Size(242, 23);
-            this.btnUserSettings.TabIndex = 1;
-            this.btnUserSettings.Text = "Настройки программы";
-            this.btnUserSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Location = new System.Drawing.Point(6, 69);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(242, 23);
+            this.btnSettings.TabIndex = 1;
+            this.btnSettings.Text = "Настройки программы";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnLocalization
             // 
@@ -173,6 +174,7 @@
             // 
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
+            this.niTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseDoubleClick);
             // 
             // MainForm
             // 
@@ -188,8 +190,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Утилиты";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
@@ -208,7 +212,7 @@
         private System.Windows.Forms.TextBox tbGameVersion;
         private System.Windows.Forms.Label lblGameVersion;
         private System.Windows.Forms.GroupBox gbButtonMenu;
-        private System.Windows.Forms.Button btnUserSettings;
+        private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnLocalization;
         private System.Windows.Forms.NotifyIcon niTray;
     }
