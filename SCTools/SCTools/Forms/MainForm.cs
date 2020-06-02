@@ -7,6 +7,7 @@ namespace NSW.StarCitizen.Tools.Forms
     public partial class MainForm : Form
     {
         private GameInfo _current;
+        private bool _locaizationOpen;
         public MainForm()
         {
             InitializeComponent();
@@ -78,8 +79,12 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnLocalization_Click(object sender, EventArgs e)
         {
+            if (_current == null) return;
+
             using var dlg =  new LocalizationForm();
+            _locaizationOpen = true;
             dlg.ShowDialog(this, _current);
+            _locaizationOpen = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -124,6 +129,18 @@ namespace NSW.StarCitizen.Tools.Forms
             if (_stopGeneral) return;
             SettingsService.Instance.AppSettings.RunMinimized = cbGeneralRunMinimized.Checked;
             SettingsService.Instance.SaveAppSettings();
+        }
+
+        private void niTray_BalloonTipClicked(object sender, EventArgs e)
+        {
+            if (!_locaizationOpen)
+            {
+                btnLocalization_Click(sender, e);
+            }
+            else
+            {
+                niTray_MouseDoubleClick(sender, null);
+            }
         }
     }
 }
