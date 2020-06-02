@@ -38,9 +38,10 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
-            this.btnSettings = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
+            this.cbGeneralRunMinimized = new System.Windows.Forms.CheckBox();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +86,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbGameInfo.Controls.Add(this.lblGameMode);
             this.gbGameInfo.Location = new System.Drawing.Point(12, 39);
             this.gbGameInfo.Name = "gbGameInfo";
-            this.gbGameInfo.Size = new System.Drawing.Size(200, 110);
+            this.gbGameInfo.Size = new System.Drawing.Size(200, 101);
             this.gbGameInfo.TabIndex = 3;
             this.gbGameInfo.TabStop = false;
             // 
@@ -136,26 +137,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbButtonMenu.Controls.Add(this.btnSettings);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
-            this.gbButtonMenu.Size = new System.Drawing.Size(254, 110);
+            this.gbButtonMenu.Size = new System.Drawing.Size(254, 101);
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(6, 69);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(242, 23);
-            this.btnSettings.TabIndex = 1;
-            this.btnSettings.Text = "Настройки программы";
-            this.btnSettings.UseVisualStyleBackColor = true;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnLocalization
             // 
@@ -176,11 +163,37 @@ namespace NSW.StarCitizen.Tools.Forms
             this.niTray.Visible = true;
             this.niTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseDoubleClick);
             // 
+            // cbGeneralRunWithWindows
+            // 
+            this.cbGeneralRunWithWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbGeneralRunWithWindows.AutoSize = true;
+            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 147);
+            this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
+            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(196, 17);
+            this.cbGeneralRunWithWindows.TabIndex = 5;
+            this.cbGeneralRunWithWindows.Text = "Запускать при загрузке Windows";
+            this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
+            this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
+            // 
+            // cbGeneralRunMinimized
+            // 
+            this.cbGeneralRunMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbGeneralRunMinimized.AutoSize = true;
+            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(218, 147);
+            this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
+            this.cbGeneralRunMinimized.Size = new System.Drawing.Size(128, 17);
+            this.cbGeneralRunMinimized.TabIndex = 6;
+            this.cbGeneralRunMinimized.Text = "Запускать свернуто";
+            this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
+            this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 161);
+            this.ClientSize = new System.Drawing.Size(484, 176);
+            this.Controls.Add(this.cbGeneralRunMinimized);
+            this.Controls.Add(this.cbGeneralRunWithWindows);
             this.Controls.Add(this.gbButtonMenu);
             this.Controls.Add(this.gbGameInfo);
             this.Controls.Add(this.cbGameModes);
@@ -190,7 +203,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Утилиты";
             this.TopMost = true;
@@ -212,8 +224,9 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.TextBox tbGameVersion;
         private System.Windows.Forms.Label lblGameVersion;
         private System.Windows.Forms.GroupBox gbButtonMenu;
-        private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnLocalization;
         private System.Windows.Forms.NotifyIcon niTray;
+        private System.Windows.Forms.CheckBox cbGeneralRunWithWindows;
+        private System.Windows.Forms.CheckBox cbGeneralRunMinimized;
     }
 }

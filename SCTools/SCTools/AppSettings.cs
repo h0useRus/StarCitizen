@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using NSW.StarCitizen.Tools.Services;
 
 namespace NSW.StarCitizen.Tools
 {
@@ -26,6 +28,13 @@ namespace NSW.StarCitizen.Tools
         public LocalizationSettings Localization { get; set; } = new LocalizationSettings();
     }
 
+    public class LocalizationSettingsInfo
+    {
+        public GameMode Mode { get; set; }
+        public string LastVersion { get; set; }
+        
+    }
+
     public class LocalizationSettings
     {
         [JsonIgnore]
@@ -38,6 +47,8 @@ namespace NSW.StarCitizen.Tools
         public string Author { get; set; } = "defterai";
         [JsonIgnore]
         public string Repo { get; set; } = "StarCitizenModding";
-        public string LastVersion { get; set; }
+        public List<LocalizationSettingsInfo> Infos { get; set; }
+        public bool MonitorForUpdates { get; set; } = false;
+        public int MonitorRefreshTime { get; set; } = 5;
     }
 }

@@ -15,6 +15,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 : FormWindowState.Normal;
 
             niTray.Text = Text;
+            LocalizationService.Instance.RegisterNotification(niTray);
+            InitGeneral();
             InitVisuals();
         }
 
@@ -89,19 +91,39 @@ namespace NSW.StarCitizen.Tools.Forms
                 tbGamePath.TextAlign = HorizontalAlignment.Left;
                 cbGameModes.DataSource = GameService.Instance.GetModes();
             }
-        }
 
-        private void btnSettings_Click(object sender, EventArgs e)
-        {
-            using var dlg = new SettingsForm();
-            dlg.ShowDialog(this);
-
+            if (SettingsService.Instance.AppSettings.Localization.MonitorForUpdates)
+            {
+                LocalizationService.Instance.MonitorStart();
+            }
         }
 
         private void niTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
                 WindowState = FormWindowState.Normal;
+        }
+
+        private bool _stopGeneral;
+        private void InitGeneral()
+        {
+            _stopGeneral = true;
+            cbGeneralRunMinimized.Checked = SettingsService.Instance.AppSettings.RunMinimized;
+            cbGeneralRunWithWindows.Checked = SettingsService.Instance.AppSettings.RunWithWindows;
+            _stopGeneral = false;
+        }
+
+        private void cbGeneralRunWithWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_stopGeneral) return;
+            SettingsService.Instance.AppSettings.RunWithWindows = cbGeneralRunWithWindows.Checked;
+        }
+
+        private void cbGeneralRunMinimized_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_stopGeneral) return;
+            SettingsService.Instance.AppSettings.RunMinimized = cbGeneralRunMinimized.Checked;
+            SettingsService.Instance.SaveAppSettings();
         }
     }
 }

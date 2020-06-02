@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Services;
 
@@ -7,7 +6,6 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : Form
     {
-        private PatchInfo _current;
         private GameInfo _game;
         private LocalizationInfo _localization;
         private LanguagesInfo _languages;
@@ -23,26 +21,24 @@ namespace NSW.StarCitizen.Tools.Forms
         private bool Init(GameInfo gameInfo)
         {
             _game = gameInfo;
-            _current = LocalizationService.Instance.GetPatchSupport(gameInfo);
             UpdateControls();
+            // rollback localization
+            var patch = LocalizationService.Instance.GetPatchSupport(gameInfo);
+            if (patch.Status == PatchStatus.Patched)
+            {
+                LocalizationService.Instance.Patch(patch);
+            }
+
             return true;
         }
 
-        private void btnLocalization_Click(object sender, System.EventArgs e)
-        {
-            _current = LocalizationService.Instance.Patch(_current);
-            UpdateControls();
-        }
+        
 
         private void UpdateControls()
         {
             holdUpdates = true;
-            btnLocalization.Visible = _current.Status != PatchStatus.NotSupported;
-            btnLocalization.Text = _current.Status == PatchStatus.Original
-                ? "Включить поддержку локализации"
-                : "Отключить поддержку локализации";
 
-            if (string.IsNullOrWhiteSpace(SettingsService.Instance.AppSettings.Localization.LastVersion))
+            if (string.IsNullOrWhiteSpace(LocalizationService.Instance.GetSettings(_game.Mode).LastVersion))
             {
                 tbCurrentVersion.Text = LocalizationService.Instance.IsLocalizationInstalled(_game)
                     ? "Нет информации"
@@ -50,7 +46,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             else
             {
-                tbCurrentVersion.Text = SettingsService.Instance.AppSettings.Localization.LastVersion;
+                tbCurrentVersion.Text = LocalizationService.Instance.GetSettings(_game.Mode).LastVersion;
             }
 
             btnInstall.Enabled = false;
@@ -80,6 +76,12 @@ namespace NSW.StarCitizen.Tools.Forms
                 lblCurrentLanguage.Visible = cbCurrentLanguage.Visible = false;
             }
 
+            cbLocalizationCheckNewVersions.Checked =
+                SettingsService.Instance.AppSettings.Localization.MonitorForUpdates;
+
+            cbLocalizationRefreshTime.SelectedItem =
+                SettingsService.Instance.AppSettings.Localization.MonitorRefreshTime.ToString();
+
             holdUpdates = false;
         }
 
@@ -100,8 +102,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 if (!string.IsNullOrWhiteSpace(fileName)
                     && LocalizationService.Instance.UnZipFile(_game.RootFolder.FullName, fileName))
                 {
-                    SettingsService.Instance.AppSettings.Localization.LastVersion = _localization.Release.Name;
-                    SettingsService.Instance.SaveAppSettings();
+                    LocalizationService.Instance.UpdateLastPatchVersion(_game.Mode, _localization.Release.Name);
                     UpdateControls();
                 }
             }
@@ -118,6 +119,32 @@ namespace NSW.StarCitizen.Tools.Forms
                 _languages = await LocalizationService.Instance.UpdateLanguageAsync(_game, _languages);
                 cbCurrentLanguage.Enabled = true;
             }
+        }
+
+        private void cbLocalizationCheckNewVersions_CheckedChanged(object sender, EventArgs e)
+        {
+            if(holdUpdates) return;
+            SettingsService.Instance.AppSettings.Localization.MonitorForUpdates =
+                cbLocalizationCheckNewVersions.Checked;
+            SettingsService.Instance.SaveAppSettings();
+            RefreshMonitor();
+        }
+
+        private void RefreshMonitor()
+        {
+            if (SettingsService.Instance.AppSettings.Localization.MonitorForUpdates)
+                LocalizationService.Instance.MonitorStart();
+            else
+                LocalizationService.Instance.MonitorStop();
+        }
+
+        private void cbLocalizationRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (holdUpdates) return;
+            SettingsService.Instance.AppSettings.Localization.MonitorRefreshTime =
+                int.TryParse(cbLocalizationRefreshTime.SelectedItem.ToString(), out var result) ? result : 5;
+            SettingsService.Instance.SaveAppSettings();
+            RefreshMonitor();
         }
     }
 }

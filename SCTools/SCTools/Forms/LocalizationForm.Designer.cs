@@ -28,37 +28,27 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLocalization = new System.Windows.Forms.Button();
             this.gbLocalization = new System.Windows.Forms.GroupBox();
+            this.btnInstall = new System.Windows.Forms.Button();
+            this.cbCurrentLanguage = new System.Windows.Forms.ComboBox();
             this.lblCurrentLanguage = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.tbServerVersion = new System.Windows.Forms.TextBox();
             this.lblServerVersion = new System.Windows.Forms.Label();
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
-            this.btnInstall = new System.Windows.Forms.Button();
-            this.cbCurrentLanguage = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbLocalizationRefreshTime = new System.Windows.Forms.ComboBox();
+            this.cbLocalizationCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbLocalization.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnLocalization
-            // 
-            this.btnLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalization.Location = new System.Drawing.Point(12, 12);
-            this.btnLocalization.Name = "btnLocalization";
-            this.btnLocalization.Size = new System.Drawing.Size(480, 23);
-            this.btnLocalization.TabIndex = 1;
-            this.btnLocalization.Text = "Включить поддержку локализации";
-            this.btnLocalization.UseVisualStyleBackColor = true;
-            this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
-            // 
             // gbLocalization
             // 
-            this.gbLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbLocalization.Controls.Add(this.label1);
+            this.gbLocalization.Controls.Add(this.cbLocalizationRefreshTime);
+            this.gbLocalization.Controls.Add(this.cbLocalizationCheckNewVersions);
+            this.gbLocalization.Controls.Add(this.btnInstall);
             this.gbLocalization.Controls.Add(this.cbCurrentLanguage);
             this.gbLocalization.Controls.Add(this.lblCurrentLanguage);
             this.gbLocalization.Controls.Add(this.btnRefresh);
@@ -66,12 +56,38 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbLocalization.Controls.Add(this.lblServerVersion);
             this.gbLocalization.Controls.Add(this.tbCurrentVersion);
             this.gbLocalization.Controls.Add(this.lblCurrentVersion);
-            this.gbLocalization.Location = new System.Drawing.Point(12, 41);
+            this.gbLocalization.Location = new System.Drawing.Point(12, 12);
             this.gbLocalization.Name = "gbLocalization";
-            this.gbLocalization.Size = new System.Drawing.Size(480, 135);
+            this.gbLocalization.Size = new System.Drawing.Size(480, 164);
             this.gbLocalization.TabIndex = 2;
             this.gbLocalization.TabStop = false;
             this.gbLocalization.Text = "Локализация";
+            // 
+            // btnInstall
+            // 
+            this.btnInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInstall.Location = new System.Drawing.Point(10, 69);
+            this.btnInstall.Name = "btnInstall";
+            this.btnInstall.Size = new System.Drawing.Size(464, 23);
+            this.btnInstall.TabIndex = 3;
+            this.btnInstall.Text = "Установить последнюю версию";
+            this.btnInstall.UseVisualStyleBackColor = true;
+            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
+            // 
+            // cbCurrentLanguage
+            // 
+            this.cbCurrentLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbCurrentLanguage.BackColor = System.Drawing.SystemColors.Info;
+            this.cbCurrentLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCurrentLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbCurrentLanguage.FormattingEnabled = true;
+            this.cbCurrentLanguage.Location = new System.Drawing.Point(118, 104);
+            this.cbCurrentLanguage.Name = "cbCurrentLanguage";
+            this.cbCurrentLanguage.Size = new System.Drawing.Size(147, 21);
+            this.cbCurrentLanguage.TabIndex = 6;
+            this.cbCurrentLanguage.SelectedIndexChanged += new System.EventHandler(this.cbCurrentLanguage_SelectedIndexChanged);
             // 
             // lblCurrentLanguage
             // 
@@ -134,40 +150,50 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblCurrentVersion.TabIndex = 0;
             this.lblCurrentVersion.Text = "Текущая версия:";
             // 
-            // btnInstall
+            // label1
             // 
-            this.btnInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInstall.Location = new System.Drawing.Point(22, 116);
-            this.btnInstall.Name = "btnInstall";
-            this.btnInstall.Size = new System.Drawing.Size(464, 23);
-            this.btnInstall.TabIndex = 3;
-            this.btnInstall.Text = "Установить последнюю версию";
-            this.btnInstall.UseVisualStyleBackColor = true;
-            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(271, 134);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "минут ";
             // 
-            // cbCurrentLanguage
+            // cbLocalizationRefreshTime
             // 
-            this.cbCurrentLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCurrentLanguage.BackColor = System.Drawing.SystemColors.Info;
-            this.cbCurrentLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCurrentLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCurrentLanguage.FormattingEnabled = true;
-            this.cbCurrentLanguage.Location = new System.Drawing.Point(118, 104);
-            this.cbCurrentLanguage.Name = "cbCurrentLanguage";
-            this.cbCurrentLanguage.Size = new System.Drawing.Size(131, 21);
-            this.cbCurrentLanguage.TabIndex = 6;
-            this.cbCurrentLanguage.SelectedIndexChanged += new System.EventHandler(this.cbCurrentLanguage_SelectedIndexChanged);
+            this.cbLocalizationRefreshTime.BackColor = System.Drawing.SystemColors.Info;
+            this.cbLocalizationRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLocalizationRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbLocalizationRefreshTime.FormattingEnabled = true;
+            this.cbLocalizationRefreshTime.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "15",
+            "30",
+            "60"});
+            this.cbLocalizationRefreshTime.Location = new System.Drawing.Point(219, 131);
+            this.cbLocalizationRefreshTime.Name = "cbLocalizationRefreshTime";
+            this.cbLocalizationRefreshTime.Size = new System.Drawing.Size(46, 21);
+            this.cbLocalizationRefreshTime.TabIndex = 8;
+            this.cbLocalizationRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbLocalizationRefreshTime_SelectedIndexChanged);
+            // 
+            // cbLocalizationCheckNewVersions
+            // 
+            this.cbLocalizationCheckNewVersions.AutoSize = true;
+            this.cbLocalizationCheckNewVersions.Location = new System.Drawing.Point(10, 133);
+            this.cbLocalizationCheckNewVersions.Name = "cbLocalizationCheckNewVersions";
+            this.cbLocalizationCheckNewVersions.Size = new System.Drawing.Size(203, 17);
+            this.cbLocalizationCheckNewVersions.TabIndex = 7;
+            this.cbLocalizationCheckNewVersions.Text = "Автоматически проверять каждые";
+            this.cbLocalizationCheckNewVersions.UseVisualStyleBackColor = true;
+            this.cbLocalizationCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbLocalizationCheckNewVersions_CheckedChanged);
             // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 188);
-            this.Controls.Add(this.btnInstall);
+            this.ClientSize = new System.Drawing.Size(503, 185);
             this.Controls.Add(this.gbLocalization);
-            this.Controls.Add(this.btnLocalization);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -183,8 +209,6 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnLocalization;
         private System.Windows.Forms.GroupBox gbLocalization;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.TextBox tbServerVersion;
@@ -194,5 +218,8 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label lblCurrentLanguage;
         private System.Windows.Forms.ComboBox cbCurrentLanguage;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbLocalizationRefreshTime;
+        private System.Windows.Forms.CheckBox cbLocalizationCheckNewVersions;
     }
 }
