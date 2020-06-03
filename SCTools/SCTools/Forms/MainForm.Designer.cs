@@ -161,8 +161,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
-            this.niTray.BalloonTipClicked += new System.EventHandler(this.niTray_BalloonTipClicked);
-            this.niTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseDoubleClick);
+            this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
             // cbGeneralRunWithWindows
             // 
@@ -208,6 +207,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Text = "Star Citizen : Утилиты";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
