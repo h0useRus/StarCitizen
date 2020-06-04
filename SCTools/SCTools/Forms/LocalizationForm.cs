@@ -109,14 +109,14 @@ namespace NSW.StarCitizen.Tools.Forms
             btnInstall.Enabled = true;
         }
 
-        private async void cbCurrentLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbCurrentLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(holdUpdates) return;
             if (cbCurrentLanguage.SelectedItem is string selected)
             {
                 cbCurrentLanguage.Enabled = false;
                 _languages.New = selected;
-                _languages = await LocalizationService.Instance.UpdateLanguageAsync(_game, _languages);
+                _languages = LocalizationService.Instance.UpdateLanguage(_game, _languages);
                 cbCurrentLanguage.Enabled = true;
             }
         }

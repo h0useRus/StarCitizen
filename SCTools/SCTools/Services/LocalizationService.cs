@@ -236,26 +236,27 @@ namespace NSW.StarCitizen.Tools.Services
         {
             var result = new LanguagesInfo();
             var fileName = Path.Combine(gameInfo.RootFolder.FullName, "data", "system.cfg");
-            var cfgFile = new CfgReader(fileName);
-            var keys = cfgFile.ReadKeys();
-            if (keys.ContainsKey(KeySysLanguages) && !string.IsNullOrWhiteSpace(keys[KeySysLanguages]))
+            var cfgFile = new CfgFile(fileName);
+            var data = cfgFile.Read();
+
+            if (data.TryGetValue(KeySysLanguages, out var value))
             {
-                var languages = keys[KeySysLanguages].Split(',');
+                var languages = value.Split(',');
                 foreach (var language in languages)
                 {
                     result.Languages.Add(language.Trim());
                 }
             }
 
-            if (keys.ContainsKey(KeyCurLanguage))
+            if (data.TryGetValue(KeyCurLanguage, out value))
             {
-                result.Current = keys[KeyCurLanguage];
+                result.Current = value;
             }
 
             return result;
         }
 
-        public async Task<LanguagesInfo> UpdateLanguageAsync(GameInfo gameInfo, LanguagesInfo languages)
+        public LanguagesInfo UpdateLanguage(GameInfo gameInfo, LanguagesInfo languages)
         {
             if (string.IsNullOrWhiteSpace(languages.New) || string.Compare(languages.Current, languages.New, StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -265,8 +266,11 @@ namespace NSW.StarCitizen.Tools.Services
 
 
             var fileName = Path.Combine(gameInfo.RootFolder.FullName, "data", "system.cfg");
-            var cfgFile = new CfgReader(fileName);
-            if (await cfgFile.UpdateKeyAsync(KeyCurLanguage, languages.New))
+            var cfgFile = new CfgFile(fileName);
+            var data = cfgFile.Read();
+            data.AddOrUpdateRow(KeyCurLanguage, languages.New);
+
+            if (data.Save())
             {
                 languages.Current = languages.New;
             }
