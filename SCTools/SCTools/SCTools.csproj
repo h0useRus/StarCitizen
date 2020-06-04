@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.2.1</VersionPrefix>
+    <VersionPrefix>0.3.0</VersionPrefix>
     <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
     <Description>Star Citizen : Tools</Description>
     <Authors>Denis Ibragimov</Authors>
