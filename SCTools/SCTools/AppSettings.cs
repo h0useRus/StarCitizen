@@ -37,7 +37,7 @@ namespace NSW.StarCitizen.Tools
     public enum RepositoryType
     {
         Unknown,
-        Git
+        GitHub
     }
 
     public class LocalizationSource
@@ -47,7 +47,7 @@ namespace NSW.StarCitizen.Tools
         public RepositoryType RepositoryType { get; set; }
         public static LocalizationSource Default { get; } = new LocalizationSource
         {
-            Name = "Russian Community", Repository = "defterai/StarCitizenModding", RepositoryType = RepositoryType.Git
+            Name = "Russian Community", Repository = "defterai/StarCitizenModding", RepositoryType = RepositoryType.GitHub
         };
     }
 
