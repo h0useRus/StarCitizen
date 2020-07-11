@@ -15,8 +15,19 @@
     <AssemblyName>SCTools</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
     <LangVersion>8</LangVersion>
-    <ApplicationIcon>res\app-icon.ico</ApplicationIcon>
+    <ApplicationIcon>app-icon.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="res\ca.cer" />
+    <None Remove="res\core.cer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="res\ca.cer" />
+    <EmbeddedResource Include="res\core.cer" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

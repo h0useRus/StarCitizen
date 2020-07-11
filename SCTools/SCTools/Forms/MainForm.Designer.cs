@@ -1,3 +1,5 @@
+using NSW.StarCitizen.Tools.Properties;
+
 namespace NSW.StarCitizen.Tools.Forms
 {
     partial class MainForm
@@ -58,7 +60,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGamePath.ReadOnly = true;
             this.tbGamePath.Size = new System.Drawing.Size(380, 21);
             this.tbGamePath.TabIndex = 1;
-            this.tbGamePath.Text = "Нажмите здесь, чтобы выбрать путь до папки Star Citizen";
+            this.tbGamePath.Text = "Press here to select Star Citizen game folder";
             this.tbGamePath.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tbGamePath.WordWrap = false;
             this.tbGamePath.Click += new System.EventHandler(this.btnGamePath_Click);
@@ -107,9 +109,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblGameVersion.AutoSize = true;
             this.lblGameVersion.Location = new System.Drawing.Point(6, 56);
             this.lblGameVersion.Name = "lblGameVersion";
-            this.lblGameVersion.Size = new System.Drawing.Size(88, 13);
+            this.lblGameVersion.Size = new System.Drawing.Size(70, 13);
             this.lblGameVersion.TabIndex = 2;
-            this.lblGameVersion.Text = "Версия клиента";
+            this.lblGameVersion.Text = "Client version";
             // 
             // tbGameMode
             // 
@@ -128,9 +130,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblGameMode.AutoSize = true;
             this.lblGameMode.Location = new System.Drawing.Point(6, 16);
             this.lblGameMode.Name = "lblGameMode";
-            this.lblGameMode.Size = new System.Drawing.Size(87, 13);
+            this.lblGameMode.Size = new System.Drawing.Size(64, 13);
             this.lblGameMode.TabIndex = 0;
-            this.lblGameMode.Text = "Игровой режим";
+            this.lblGameMode.Text = "Game mode";
             // 
             // gbButtonMenu
             // 
@@ -153,13 +155,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.Name = "btnLocalization";
             this.btnLocalization.Size = new System.Drawing.Size(242, 23);
             this.btnLocalization.TabIndex = 0;
-            this.btnLocalization.Text = "Локализация";
+            this.btnLocalization.Text = "Localization";
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
             // niTray
             // 
-            this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
+            this.niTray.Icon = Resources.AppIcon;
             this.niTray.Visible = true;
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
@@ -169,9 +171,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGeneralRunWithWindows.AutoSize = true;
             this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 147);
             this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
-            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(196, 17);
+            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(143, 17);
             this.cbGeneralRunWithWindows.TabIndex = 5;
-            this.cbGeneralRunWithWindows.Text = "Запускать при загрузке Windows";
+            this.cbGeneralRunWithWindows.Text = "Run on Windows startup";
             this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
             this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
             // 
@@ -181,9 +183,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGeneralRunMinimized.AutoSize = true;
             this.cbGeneralRunMinimized.Location = new System.Drawing.Point(218, 147);
             this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
-            this.cbGeneralRunMinimized.Size = new System.Drawing.Size(128, 17);
+            this.cbGeneralRunMinimized.Size = new System.Drawing.Size(94, 17);
             this.cbGeneralRunMinimized.TabIndex = 6;
-            this.cbGeneralRunMinimized.Text = "Запускать свернуто";
+            this.cbGeneralRunMinimized.Text = "Run minimized";
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
             this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
             // 
@@ -200,11 +202,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.tbGamePath);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = Resources.AppIcon;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Star Citizen : Утилиты";
+            this.Text = "Star Citizen : Utils";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);

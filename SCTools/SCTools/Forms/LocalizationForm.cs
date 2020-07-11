@@ -22,17 +22,8 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             _game = gameInfo;
             UpdateControls();
-            // rollback localization
-            var patch = LocalizationService.Instance.GetPatchSupport(gameInfo);
-            if (patch.Status == PatchStatus.Patched)
-            {
-                LocalizationService.Instance.Patch(patch);
-            }
-
             return true;
         }
-
-        
 
         private void UpdateControls()
         {

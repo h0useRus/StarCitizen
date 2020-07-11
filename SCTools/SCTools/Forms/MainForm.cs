@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Services;
 
 namespace NSW.StarCitizen.Tools.Forms
@@ -22,9 +23,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitVisuals()
         {
-            niTray.Text = Text;
+            niTray.Text = Text = Resources.AppName;
             gbGameInfo.Visible = gbButtonMenu.Visible = false;
-            tbGamePath.Text = "Нажмите здесь, чтобы выбрать путь до папки Star Citizen";
+            tbGamePath.Text = Resources.GamePathHintText;
             tbGamePath.TextAlign = HorizontalAlignment.Center;
             cbGameModes.DataSource = null;
         }
@@ -130,10 +131,10 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 _current = gameInfo;
                 tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
-                    ? "Постоянная Вселенная"
-                    : "Постоянная Тестовая Вселенная";
+                    ? Resources.GameModeLIVE
+                    : Resources.GameModePTU;
 
-                btnLocalization.Text = $"Локализация {gameInfo.Mode}";
+                btnLocalization.Text = $"{Resources.Localization} {gameInfo.Mode}";
                 tbGameVersion.Text = gameInfo.ExeVersion;
                 gbGameInfo.Visible = gbButtonMenu.Visible = true;
             }
