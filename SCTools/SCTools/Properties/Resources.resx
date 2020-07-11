@@ -124,16 +124,37 @@
   <data name="AppName" xml:space="preserve">
     <value>Star Citizen : Utils</value>
   </data>
-  <data name="GameModeLIVE" xml:space="preserve">
+  <data name="AppOptions_RunMinimized" xml:space="preserve">
+    <value>Run minimized</value>
+  </data>
+  <data name="AppOptions_RunOnWindowsStartup" xml:space="preserve">
+    <value>Run on Windows startup</value>
+  </data>
+  <data name="GameMode_LIVE" xml:space="preserve">
     <value>Persistent Universe</value>
   </data>
-  <data name="GameModePTU" xml:space="preserve">
+  <data name="GameMode_PTU" xml:space="preserve">
     <value>Persistent Test Universe</value>
   </data>
-  <data name="GamePathHintText" xml:space="preserve">
-    <value>Press here to select Star Citizen game folder</value>
+  <data name="GamePath_Description" xml:space="preserve">
+    <value>Please select Star Citizen root folder.</value>
   </data>
-  <data name="Localization" xml:space="preserve">
-    <value>Localization</value>
+  <data name="GamePath_Error_Text" xml:space="preserve">
+    <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
+  </data>
+  <data name="GamePath_Error_Title" xml:space="preserve">
+    <value>Wrong path to Star Citizen folder</value>
+  </data>
+  <data name="GamePath_Hint" xml:space="preserve">
+    <value>Press here to select Star Citizen root folder</value>
+  </data>
+  <data name="Game_Mode" xml:space="preserve">
+    <value>Game mode</value>
+  </data>
+  <data name="Game_Version" xml:space="preserve">
+    <value>Game version</value>
+  </data>
+  <data name="Localization_Text" xml:space="preserve">
+    <value>Localization {0}</value>
   </data>
 </root>

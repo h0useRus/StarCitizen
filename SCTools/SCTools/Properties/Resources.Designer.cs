@@ -80,38 +80,101 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run minimized.
+        /// </summary>
+        internal static string AppOptions_RunMinimized {
+            get {
+                return ResourceManager.GetString("AppOptions_RunMinimized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run on Windows startup.
+        /// </summary>
+        internal static string AppOptions_RunOnWindowsStartup {
+            get {
+                return ResourceManager.GetString("AppOptions_RunOnWindowsStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game mode.
+        /// </summary>
+        internal static string Game_Mode {
+            get {
+                return ResourceManager.GetString("Game_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game version.
+        /// </summary>
+        internal static string Game_Version {
+            get {
+                return ResourceManager.GetString("Game_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Persistent Universe.
         /// </summary>
-        internal static string GameModeLIVE {
+        internal static string GameMode_LIVE {
             get {
-                return ResourceManager.GetString("GameModeLIVE", resourceCulture);
+                return ResourceManager.GetString("GameMode_LIVE", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Persistent Test Universe.
         /// </summary>
-        internal static string GameModePTU {
+        internal static string GameMode_PTU {
             get {
-                return ResourceManager.GetString("GameModePTU", resourceCulture);
+                return ResourceManager.GetString("GameMode_PTU", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press here to select Star Citizen game folder.
+        ///   Looks up a localized string similar to Please select Star Citizen root folder..
         /// </summary>
-        internal static string GamePathHintText {
+        internal static string GamePath_Description {
             get {
-                return ResourceManager.GetString("GamePathHintText", resourceCulture);
+                return ResourceManager.GetString("GamePath_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Localization.
+        ///   Looks up a localized string similar to Make sure you select the same Star Citizen folder as when installing the game..
         /// </summary>
-        internal static string Localization {
+        internal static string GamePath_Error_Text {
             get {
-                return ResourceManager.GetString("Localization", resourceCulture);
+                return ResourceManager.GetString("GamePath_Error_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong path to Star Citizen folder.
+        /// </summary>
+        internal static string GamePath_Error_Title {
+            get {
+                return ResourceManager.GetString("GamePath_Error_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press here to select Star Citizen root folder.
+        /// </summary>
+        internal static string GamePath_Hint {
+            get {
+                return ResourceManager.GetString("GamePath_Hint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localization {0}.
+        /// </summary>
+        internal static string Localization_Text {
+            get {
+                return ResourceManager.GetString("Localization_Text", resourceCulture);
             }
         }
     }

@@ -25,7 +25,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             niTray.Text = Text = Resources.AppName;
             gbGameInfo.Visible = gbButtonMenu.Visible = false;
-            tbGamePath.Text = Resources.GamePathHintText;
+            tbGamePath.Text = Resources.GamePath_Hint;
             tbGamePath.TextAlign = HorizontalAlignment.Center;
             cbGameModes.DataSource = null;
         }
@@ -74,7 +74,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if(WindowState==FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
                 Maximize();
             else
                 Minimize();
@@ -90,7 +90,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             using var dlg = new FolderBrowserDialog
             {
-                Description = "Выберите установочную папку Star Citizen.",
+                Description = Resources.GamePath_Description,
                 RootFolder = Environment.SpecialFolder.MyComputer,
                 ShowNewFolderButton = false,
                 SelectedPath = tbGamePath.TextAlign == HorizontalAlignment.Left ? tbGamePath.Text : null
@@ -110,10 +110,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 else
                 {
                     InitVisuals();
-                    MessageBox.Show(
-                        "Выбран неправильный путь до Star Citizen!" + Environment.NewLine +
-                        "Убедитесь, что вы выбрали ту же папку, что и при установке игры.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Resources.GamePath_Error_Text, Resources.GamePath_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -131,10 +128,10 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 _current = gameInfo;
                 tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
-                    ? Resources.GameModeLIVE
-                    : Resources.GameModePTU;
+                    ? Resources.GameMode_LIVE
+                    : Resources.GameMode_PTU;
 
-                btnLocalization.Text = $"{Resources.Localization} {gameInfo.Mode}";
+                btnLocalization.Text = string.Format(Resources.Localization_Text, gameInfo.Mode);
                 tbGameVersion.Text = gameInfo.ExeVersion;
                 gbGameInfo.Visible = gbButtonMenu.Visible = true;
             }
