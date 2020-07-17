@@ -20,16 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="res\ca.cer" />
-    <None Remove="res\core.cer" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="res\ca.cer" />
-    <EmbeddedResource Include="res\core.cer" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

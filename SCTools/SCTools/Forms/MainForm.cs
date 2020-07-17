@@ -1,22 +1,19 @@
 using System;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Properties;
-using NSW.StarCitizen.Tools.Services;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class MainForm : Form
     {
-        private GameInfo _current;
         private bool _stopGeneral;
-
 
         public MainForm()
         {
             InitializeComponent();
             InitVisuals();
             InitGeneral();
-            LocalizationService.Instance.RegisterNotification(niTray);
         }
 
         #region Methods
@@ -32,8 +29,8 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitGeneral()
         {
             _stopGeneral = true;
-            cbGeneralRunMinimized.Checked = SettingsService.Instance.AppSettings.RunMinimized;
-            cbGeneralRunWithWindows.Checked = SettingsService.Instance.AppSettings.RunWithWindows;
+            cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
+            cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
             _stopGeneral = false;
         }
 
@@ -55,20 +52,14 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(SettingsService.Instance.AppSettings.GameFolder)
-                && GameService.Instance.SetFolder(SettingsService.Instance.AppSettings.GameFolder))
+            if (Program.SetGameFolder(Program.Settings.GameFolder))
             {
-                tbGamePath.Text = SettingsService.Instance.AppSettings.GameFolder.ToUpper();
+                tbGamePath.Text = Program.Settings.GameFolder.ToUpper();
                 tbGamePath.TextAlign = HorizontalAlignment.Left;
-                cbGameModes.DataSource = GameService.Instance.GetModes();
+                cbGameModes.DataSource = Program.GetGameModes();
             }
 
-            if (SettingsService.Instance.AppSettings.Localization.MonitorForUpdates)
-            {
-                LocalizationService.Instance.MonitorStart();
-            }
-
-            if (SettingsService.Instance.AppSettings.RunMinimized)
+            if (Program.Settings.RunMinimized)
                 Minimize();
         }
 
@@ -98,14 +89,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                if (GameService.Instance.SetFolder(dlg.SelectedPath))
+                if (Program.SetGameFolder(dlg.SelectedPath))
                 {
-                    SettingsService.Instance.AppSettings.GameFolder =
-                        tbGamePath.Text = GameService.Instance.GamePath.FullName.ToUpper();
-                    SettingsService.Instance.SaveAppSettings();
-
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
-                    cbGameModes.DataSource = GameService.Instance.GetModes();
+                    cbGameModes.DataSource = Program.GetGameModes();
                 }
                 else
                 {
@@ -116,22 +103,22 @@ namespace NSW.StarCitizen.Tools.Forms
         }
         private void btnLocalization_Click(object sender, EventArgs e)
         {
-            if (_current == null)
+            if (Program.SelectedGame == null)
                 return;
 
             using var dlg = new LocalizationForm();
-            dlg.ShowDialog(this, _current);
+            dlg.ShowDialog(this, Program.SelectedGame);
         }
         private void cbGameModes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbGameModes.SelectedItem is GameInfo gameInfo)
             {
-                _current = gameInfo;
+                Program.SelectedGame = gameInfo;
                 tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
 
-                btnLocalization.Text = string.Format(Resources.Localization_Text, gameInfo.Mode);
+                btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
                 tbGameVersion.Text = gameInfo.ExeVersion;
                 gbGameInfo.Visible = gbButtonMenu.Visible = true;
             }
@@ -140,14 +127,14 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (_stopGeneral)
                 return;
-            SettingsService.Instance.AppSettings.RunWithWindows = cbGeneralRunWithWindows.Checked;
+            Program.Settings.RunWithWindows = cbGeneralRunWithWindows.Checked;
         }
         private void cbGeneralRunMinimized_CheckedChanged(object sender, EventArgs e)
         {
             if (_stopGeneral)
                 return;
-            SettingsService.Instance.AppSettings.RunMinimized = cbGeneralRunMinimized.Checked;
-            SettingsService.Instance.SaveAppSettings();
+            Program.Settings.RunMinimized = cbGeneralRunMinimized.Checked;
+            Program.SaveAppSettings();
         }
         #endregion
     }
