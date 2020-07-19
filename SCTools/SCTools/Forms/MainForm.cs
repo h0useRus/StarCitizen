@@ -7,7 +7,7 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class MainForm : Form
     {
-        private bool _stopGeneral;
+        private bool _holdUpdates;
 
         public MainForm()
         {
@@ -28,10 +28,10 @@ namespace NSW.StarCitizen.Tools.Forms
         }
         private void InitGeneral()
         {
-            _stopGeneral = true;
+            _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
             cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
-            _stopGeneral = false;
+            _holdUpdates = false;
         }
 
         private void Minimize()
@@ -103,17 +103,17 @@ namespace NSW.StarCitizen.Tools.Forms
         }
         private void btnLocalization_Click(object sender, EventArgs e)
         {
-            if (Program.SelectedGame == null)
+            if (Program.CurrentGame == null)
                 return;
 
             using var dlg = new LocalizationForm();
-            dlg.ShowDialog(this, Program.SelectedGame);
+            dlg.ShowDialog(this);
         }
         private void cbGameModes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbGameModes.SelectedItem is GameInfo gameInfo)
             {
-                Program.SelectedGame = gameInfo;
+                Program.CurrentGame = gameInfo;
                 tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
@@ -125,14 +125,12 @@ namespace NSW.StarCitizen.Tools.Forms
         }
         private void cbGeneralRunWithWindows_CheckedChanged(object sender, EventArgs e)
         {
-            if (_stopGeneral)
-                return;
+            if (_holdUpdates) return;
             Program.Settings.RunWithWindows = cbGeneralRunWithWindows.Checked;
         }
         private void cbGeneralRunMinimized_CheckedChanged(object sender, EventArgs e)
         {
-            if (_stopGeneral)
-                return;
+            if (_holdUpdates) return;
             Program.Settings.RunMinimized = cbGeneralRunMinimized.Checked;
             Program.SaveAppSettings();
         }

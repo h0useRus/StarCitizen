@@ -10,7 +10,7 @@ namespace NSW.StarCitizen.Tools
         public const string ExeName = "StarCitizen.exe";
         public const string BinFolder = "Bin64";
 
-        public static GameInfo SelectedGame { get; set; }
+        public static GameInfo CurrentGame { get; set; }
 
         public static bool SetGameFolder(string path)
         {

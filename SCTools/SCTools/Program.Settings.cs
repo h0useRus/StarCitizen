@@ -14,13 +14,12 @@ namespace NSW.StarCitizen.Tools
         public static AppSettings Settings => _appSettings ??= GetAppSettings();
         private static AppSettings GetAppSettings()
         {
-            var appSettings = JsonHelper.ReadFile<AppSettings>(_appSettingsFileName);
+            var appSettings = JsonHelper.ReadFile<AppSettings>(_appSettingsFileName) ?? new AppSettings();
             ValidateAppSettings(appSettings);
             return appSettings;
         }
         private static void ValidateAppSettings(AppSettings appSettings)
         {
-            appSettings ??= new AppSettings();
             if (appSettings.Localization.Repositories != null && appSettings.Localization.Repositories.Count > 0) return;
             appSettings.Localization.Repositories = new List<LocalizationSource> { LocalizationSource.Default };
             SaveAppSettings(appSettings);

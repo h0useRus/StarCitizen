@@ -1,5 +1,3 @@
-using NSW.StarCitizen.Tools.Properties;
-
 namespace NSW.StarCitizen.Tools.Forms
 {
     partial class LocalizationForm
@@ -31,83 +29,83 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.cbLocalizationRefreshTime = new System.Windows.Forms.ComboBox();
-            this.cbLocalizationCheckNewVersions = new System.Windows.Forms.CheckBox();
+            this.cbRefreshTime = new System.Windows.Forms.ComboBox();
+            this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.btnInstall = new System.Windows.Forms.Button();
-            this.cbCurrentLanguage = new System.Windows.Forms.ComboBox();
+            this.cbLanguages = new System.Windows.Forms.ComboBox();
             this.lblCurrentLanguage = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.lblServerVersion = new System.Windows.Forms.Label();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
-            this.cbLocalizationVersions = new System.Windows.Forms.ComboBox();
+            this.cbVersions = new System.Windows.Forms.ComboBox();
             this.cbRepository = new System.Windows.Forms.ComboBox();
+            this.btnLocalizationDisable = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 129);
+            this.label1.Location = new System.Drawing.Point(270, 149);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "minutes";
             // 
-            // cbLocalizationRefreshTime
+            // cbRefreshTime
             // 
-            this.cbLocalizationRefreshTime.BackColor = System.Drawing.SystemColors.Info;
-            this.cbLocalizationRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLocalizationRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLocalizationRefreshTime.FormattingEnabled = true;
-            this.cbLocalizationRefreshTime.Items.AddRange(new object[] {
+            this.cbRefreshTime.BackColor = System.Drawing.SystemColors.Info;
+            this.cbRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbRefreshTime.FormattingEnabled = true;
+            this.cbRefreshTime.Items.AddRange(new object[] {
             "5",
             "10",
             "15",
             "30",
             "60"});
-            this.cbLocalizationRefreshTime.Location = new System.Drawing.Point(218, 126);
-            this.cbLocalizationRefreshTime.Name = "cbLocalizationRefreshTime";
-            this.cbLocalizationRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbLocalizationRefreshTime.TabIndex = 8;
-            this.cbLocalizationRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbLocalizationRefreshTime_SelectedIndexChanged);
+            this.cbRefreshTime.Location = new System.Drawing.Point(218, 146);
+            this.cbRefreshTime.Name = "cbRefreshTime";
+            this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
+            this.cbRefreshTime.TabIndex = 8;
             // 
-            // cbLocalizationCheckNewVersions
+            // cbCheckNewVersions
             // 
-            this.cbLocalizationCheckNewVersions.AutoSize = true;
-            this.cbLocalizationCheckNewVersions.Location = new System.Drawing.Point(9, 128);
-            this.cbLocalizationCheckNewVersions.Name = "cbLocalizationCheckNewVersions";
-            this.cbLocalizationCheckNewVersions.Size = new System.Drawing.Size(150, 17);
-            this.cbLocalizationCheckNewVersions.TabIndex = 7;
-            this.cbLocalizationCheckNewVersions.Text = global::NSW.StarCitizen.Tools.Properties.Resources.Localization_AutomaticCheck_Text;
-            this.cbLocalizationCheckNewVersions.UseVisualStyleBackColor = true;
-            this.cbLocalizationCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbLocalizationCheckNewVersions_CheckedChanged);
+            this.cbCheckNewVersions.AutoSize = true;
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 148);
+            this.cbCheckNewVersions.Name = "cbCheckNewVersions";
+            this.cbCheckNewVersions.Size = new System.Drawing.Size(161, 17);
+            this.cbCheckNewVersions.TabIndex = 7;
+            this.cbCheckNewVersions.Text = "Check for new version every";
+            this.cbCheckNewVersions.UseVisualStyleBackColor = true;
             // 
             // btnInstall
             // 
+            this.btnInstall.Enabled = false;
             this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInstall.Location = new System.Drawing.Point(9, 64);
+            this.btnInstall.Location = new System.Drawing.Point(9, 90);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(464, 23);
             this.btnInstall.TabIndex = 3;
-            this.btnInstall.Text = global::NSW.StarCitizen.Tools.Properties.Resources.Localization_InstallVersion_Text;
+            this.btnInstall.Text = "Install selected version";
             this.btnInstall.UseVisualStyleBackColor = true;
-            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
             // 
-            // cbCurrentLanguage
+            // cbLanguages
             // 
-            this.cbCurrentLanguage.BackColor = System.Drawing.SystemColors.Info;
-            this.cbCurrentLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCurrentLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCurrentLanguage.FormattingEnabled = true;
-            this.cbCurrentLanguage.Location = new System.Drawing.Point(117, 99);
-            this.cbCurrentLanguage.Name = "cbCurrentLanguage";
-            this.cbCurrentLanguage.Size = new System.Drawing.Size(147, 21);
-            this.cbCurrentLanguage.TabIndex = 6;
-            this.cbCurrentLanguage.SelectedIndexChanged += new System.EventHandler(this.cbCurrentLanguage_SelectedIndexChanged);
+            this.cbLanguages.BackColor = System.Drawing.SystemColors.Info;
+            this.cbLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLanguages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbLanguages.FormattingEnabled = true;
+            this.cbLanguages.Location = new System.Drawing.Point(117, 119);
+            this.cbLanguages.Name = "cbLanguages";
+            this.cbLanguages.Size = new System.Drawing.Size(147, 21);
+            this.cbLanguages.TabIndex = 6;
             // 
             // lblCurrentLanguage
             // 
             this.lblCurrentLanguage.AutoSize = true;
-            this.lblCurrentLanguage.Location = new System.Drawing.Point(6, 102);
+            this.lblCurrentLanguage.Location = new System.Drawing.Point(6, 122);
             this.lblCurrentLanguage.Name = "lblCurrentLanguage";
             this.lblCurrentLanguage.Size = new System.Drawing.Size(91, 13);
             this.lblCurrentLanguage.TabIndex = 5;
@@ -116,22 +114,22 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnRefresh
             // 
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Location = new System.Drawing.Point(406, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(406, 37);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(67, 46);
+            this.btnRefresh.Size = new System.Drawing.Size(67, 47);
             this.btnRefresh.TabIndex = 4;
-            this.btnRefresh.Text = global::NSW.StarCitizen.Tools.Properties.Resources.Localization_Refresh_Text;
+            this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // lblServerVersion
             // 
             this.lblServerVersion.AutoSize = true;
-            this.lblServerVersion.Location = new System.Drawing.Point(6, 41);
+            this.lblServerVersion.Location = new System.Drawing.Point(6, 66);
             this.lblServerVersion.Name = "lblServerVersion";
-            this.lblServerVersion.Size = new System.Drawing.Size(90, 13);
+            this.lblServerVersion.Size = new System.Drawing.Size(95, 13);
             this.lblServerVersion.TabIndex = 2;
-            this.lblServerVersion.Text = "Selected Version:";
+            this.lblServerVersion.Text = "Available versions:";
             // 
             // lblCurrentVersion
             // 
@@ -142,18 +140,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblCurrentVersion.TabIndex = 0;
             this.lblCurrentVersion.Text = "Source repository:";
             // 
-            // cbLocalizationVersions
+            // cbVersions
             // 
-            this.cbLocalizationVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLocalizationVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLocalizationVersions.FormattingEnabled = true;
-            this.cbLocalizationVersions.Location = new System.Drawing.Point(117, 37);
-            this.cbLocalizationVersions.Name = "cbLocalizationVersions";
-            this.cbLocalizationVersions.Size = new System.Drawing.Size(283, 21);
-            this.cbLocalizationVersions.TabIndex = 10;
+            this.cbVersions.BackColor = System.Drawing.SystemColors.Info;
+            this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbVersions.FormattingEnabled = true;
+            this.cbVersions.Location = new System.Drawing.Point(117, 63);
+            this.cbVersions.Name = "cbVersions";
+            this.cbVersions.Size = new System.Drawing.Size(283, 21);
+            this.cbVersions.TabIndex = 10;
+            this.cbVersions.SelectedIndexChanged += new System.EventHandler(this.cbVersions_SelectedIndexChanged);
             // 
             // cbRepository
             // 
+            this.cbRepository.BackColor = System.Drawing.SystemColors.Info;
             this.cbRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbRepository.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbRepository.FormattingEnabled = true;
@@ -161,21 +162,54 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.Name = "cbRepository";
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 11;
+            this.cbRepository.SelectedIndexChanged += new System.EventHandler(this.cbRepository_SelectedIndexChanged);
+            // 
+            // btnLocalizationDisable
+            // 
+            this.btnLocalizationDisable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLocalizationDisable.Location = new System.Drawing.Point(273, 117);
+            this.btnLocalizationDisable.Name = "btnLocalizationDisable";
+            this.btnLocalizationDisable.Size = new System.Drawing.Size(200, 23);
+            this.btnLocalizationDisable.TabIndex = 12;
+            this.btnLocalizationDisable.Text = "Disable localization support";
+            this.btnLocalizationDisable.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Current version:";
+            // 
+            // tbCurrentVersion
+            // 
+            this.tbCurrentVersion.BackColor = System.Drawing.SystemColors.Info;
+            this.tbCurrentVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCurrentVersion.Location = new System.Drawing.Point(117, 37);
+            this.tbCurrentVersion.Name = "tbCurrentVersion";
+            this.tbCurrentVersion.ReadOnly = true;
+            this.tbCurrentVersion.Size = new System.Drawing.Size(283, 20);
+            this.tbCurrentVersion.TabIndex = 14;
             // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 157);
+            this.ClientSize = new System.Drawing.Size(483, 177);
+            this.Controls.Add(this.tbCurrentVersion);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnLocalizationDisable);
             this.Controls.Add(this.cbRepository);
-            this.Controls.Add(this.cbLocalizationVersions);
+            this.Controls.Add(this.cbVersions);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.cbLocalizationRefreshTime);
-            this.Controls.Add(this.cbLocalizationCheckNewVersions);
+            this.Controls.Add(this.cbRefreshTime);
+            this.Controls.Add(this.cbCheckNewVersions);
             this.Controls.Add(this.lblCurrentVersion);
             this.Controls.Add(this.btnInstall);
             this.Controls.Add(this.lblServerVersion);
-            this.Controls.Add(this.cbCurrentLanguage);
+            this.Controls.Add(this.cbLanguages);
             this.Controls.Add(this.lblCurrentLanguage);
             this.Controls.Add(this.btnRefresh);
             this.DoubleBuffered = true;
@@ -187,6 +221,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Star Citizen : Localization";
+            this.Load += new System.EventHandler(this.LocalizationForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,11 +233,14 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Label lblCurrentVersion;
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label lblCurrentLanguage;
-        private System.Windows.Forms.ComboBox cbCurrentLanguage;
+        private System.Windows.Forms.ComboBox cbLanguages;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbLocalizationRefreshTime;
-        private System.Windows.Forms.CheckBox cbLocalizationCheckNewVersions;
-        private System.Windows.Forms.ComboBox cbLocalizationVersions;
+        private System.Windows.Forms.ComboBox cbRefreshTime;
+        private System.Windows.Forms.CheckBox cbCheckNewVersions;
+        private System.Windows.Forms.ComboBox cbVersions;
         private System.Windows.Forms.ComboBox cbRepository;
+        private System.Windows.Forms.Button btnLocalizationDisable;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbCurrentVersion;
     }
 }

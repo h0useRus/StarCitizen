@@ -9,9 +9,11 @@ namespace NSW.StarCitizen.Tools.Localization
         string Name { get; }
         string Repository { get; }
         LocalizationRepositoryType Type { get; }
-        LocalizationInfo Current { get; set; }
+        LocalizationInfo CurrentVersion { get; set; }
+        IEnumerable<LocalizationInfo> Versions { get; set; }
 
         Task<IEnumerable<LocalizationInfo>> GetAllAsync();
+        Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync();
         Task<string> DownloadAsync(LocalizationInfo localizationInfo);
         void MonitorStart(int refreshTime);
         void MonitorStop();

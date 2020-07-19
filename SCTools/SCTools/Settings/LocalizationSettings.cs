@@ -6,16 +6,15 @@ namespace NSW.StarCitizen.Tools.Settings
     public class LocalizationSettings
     {
         public List<LocalizationSource> Repositories { get; set; }
-        public List<LocalizationInfo> Infos { get; set; }
-        public bool MonitorForUpdates { get; set; } = false;
+        public List<LocalizationInstallation> Installations { get; set; }
         public int MonitorRefreshTime { get; set; } = 5;
     }
 
-    public class LocalizationInfo
+    public class LocalizationInstallation
     {
         public GameMode Mode { get; set; }
         public string LastVersion { get; set; }
-        public string Source { get; set; }
+        public string Repository { get; set; }
         public bool MonitorForUpdates { get; set; }
         public int MonitorRefreshTime { get; set; }
     }

@@ -13,7 +13,8 @@ namespace NSW.StarCitizen.Tools.Localization
         public string Name { get; }
         public string Repository { get; }
         public LocalizationRepositoryType Type { get; }
-        public LocalizationInfo Current { get; set; }
+        public LocalizationInfo CurrentVersion { get; set; }
+        public IEnumerable<LocalizationInfo> Versions { get; set; }
 
         protected LocalizationRepository(LocalizationRepositoryType type, string name, string repository)
         {
@@ -30,6 +31,13 @@ namespace NSW.StarCitizen.Tools.Localization
         }
 
         public abstract Task<IEnumerable<LocalizationInfo>> GetAllAsync();
+
+        public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync()
+        {
+            Versions = (await GetAllAsync()).OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
+            return Versions;
+        }
+
         public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo);
 
         protected async Task<LocalizationInfo> GetLatestAsync()
@@ -56,9 +64,9 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             var result = await GetLatestAsync();
 
-            if (result != null && Current != null)
+            if (result != null && CurrentVersion != null)
             {
-                if(string.Compare(result.Name, Current.Name, StringComparison.OrdinalIgnoreCase) != 0)
+                if(string.Compare(result.Name, CurrentVersion.Name, StringComparison.OrdinalIgnoreCase) != 0)
                     MonitorNewVersion?.Invoke(this, result.Name);
             }
         }

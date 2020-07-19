@@ -10,5 +10,7 @@ namespace NSW.StarCitizen.Tools.Localization
         public DateTimeOffset Released { get; set; }
         public bool PreRelease { get; set; }
         public override string ToString() => Name;
+
+        public static LocalizationInfo Empty { get; } = new LocalizationInfo { Name = "Please press Refresh button" };
     }
 }
