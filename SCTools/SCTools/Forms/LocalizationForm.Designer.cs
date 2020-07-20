@@ -70,6 +70,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
             this.cbRefreshTime.TabIndex = 8;
+            this.cbRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbRefreshTime_SelectedIndexChanged);
             // 
             // cbCheckNewVersions
             // 
@@ -80,6 +81,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbCheckNewVersions.TabIndex = 7;
             this.cbCheckNewVersions.Text = "Check for new version every";
             this.cbCheckNewVersions.UseVisualStyleBackColor = true;
+            this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
             // 
             // btnInstall
             // 

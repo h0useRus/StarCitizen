@@ -40,6 +40,8 @@ namespace NSW.StarCitizen.Tools.Localization
         }
 
         public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo);
+        public bool IsMonitorStarted { get; private set; }
+        public int MonitorRefreshTime { get; private set; }
 
         protected async Task<LocalizationInfo> GetLatestAsync()
         {
@@ -49,15 +51,21 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public void MonitorStart(int refreshTime)
         {
-            _monitorTimer.Stop();
+            if(IsMonitorStarted && MonitorRefreshTime == refreshTime) return;
+            MonitorStop();
             _monitorTimer.Interval = TimeSpan.FromMinutes(refreshTime).TotalMilliseconds;
             _monitorTimer.Start();
+            IsMonitorStarted = true;
+            MonitorRefreshTime = refreshTime;
             MonitorStarted?.Invoke(this, Name);
+            MonitorTimerOnElapsedAsync(_monitorTimer, null);
         }
 
         public void MonitorStop()
         {
+            if(!IsMonitorStarted) return;
             _monitorTimer.Stop();
+            IsMonitorStarted = false;
             MonitorStopped?.Invoke(this, Name);
         }
 
@@ -65,9 +73,9 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             var result = await GetLatestAsync();
 
-            if (result != null && CurrentVersion != null)
+            if (result != null)
             {
-                if(string.Compare(result.Name, CurrentVersion.Name, StringComparison.OrdinalIgnoreCase) != 0)
+                if(string.Compare(result.Name, CurrentVersion?.Name, StringComparison.OrdinalIgnoreCase) != 0)
                     MonitorNewVersion?.Invoke(this, result.Name);
             }
         }

@@ -146,5 +146,25 @@ namespace NSW.StarCitizen.Tools.Forms
                 Enabled = true;
             }
         }
+
+        private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbCheckNewVersions.Checked != Program.CurrentInstallation.MonitorForUpdates)
+            {
+                Program.CurrentInstallation.MonitorForUpdates = cbCheckNewVersions.Checked;
+                Program.SaveAppSettings();
+                Program.RunMonitors();
+            }
+        }
+
+        private void cbRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbRefreshTime.SelectedItem.ToString() != Program.CurrentInstallation.MonitorRefreshTime.ToString())
+            {
+                Program.CurrentInstallation.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+                Program.SaveAppSettings();
+                Program.RunMonitors();
+            }
+        }
     }
 }

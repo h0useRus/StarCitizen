@@ -21,11 +21,17 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitVisuals()
         {
             niTray.Text = Text = Resources.AppName;
+            Program.Notification += (sender, s) =>
+            {
+                niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
+            };
+
             gbGameInfo.Visible = gbButtonMenu.Visible = false;
             tbGamePath.Text = Resources.GamePath_Hint;
             tbGamePath.TextAlign = HorizontalAlignment.Center;
             cbGameModes.DataSource = null;
         }
+
         private void InitGeneral()
         {
             _holdUpdates = true;
@@ -52,6 +58,8 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            
+
             if (Program.SetGameFolder(Program.Settings.GameFolder))
             {
                 tbGamePath.Text = Program.Settings.GameFolder.ToUpper();
@@ -61,6 +69,8 @@ namespace NSW.StarCitizen.Tools.Forms
 
             if (Program.Settings.RunMinimized)
                 Minimize();
+
+            Program.RunMonitors();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

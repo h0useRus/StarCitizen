@@ -11,7 +11,7 @@ namespace NSW.StarCitizen.Tools.Localization
         private const string PatcherLibraryName = "CIGDevelopmentTools.dll";
 
         private static string GetLibraryName(string destinationFolder, bool isDisabledMode)
-            => Path.Combine(destinationFolder, "Bin64", isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
+            => Path.Combine(destinationFolder, Program.BinFolder, isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
         public bool Unpack(string zipFileName, string destinationFolder, bool isDisabledMode)
         {
             try

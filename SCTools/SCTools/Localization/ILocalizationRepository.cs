@@ -16,6 +16,10 @@ namespace NSW.StarCitizen.Tools.Localization
         Task<IEnumerable<LocalizationInfo>> GetAllAsync();
         Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync();
         Task<string> DownloadAsync(LocalizationInfo localizationInfo);
+
+
+        bool IsMonitorStarted { get; }
+        int MonitorRefreshTime { get; }
         void MonitorStart(int refreshTime);
         void MonitorStop();
 

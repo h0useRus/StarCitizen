@@ -27,12 +27,34 @@ namespace NSW.StarCitizen.Tools
                         if (!_localizationRepositories.ContainsKey(repository.Repository))
                         {
                             // Only git supported
-                            _localizationRepositories[repository.Repository] = new GitHubLocalizationRepository(repository.Name, repository.Repository);
+                            var repo = new GitHubLocalizationRepository(repository.Name, repository.Repository);
+                            repo.MonitorStarted += OnMonitorStarted;
+                            repo.MonitorStopped += OnMonitorStopped;
+                            repo.MonitorNewVersion+= OnMonitorNewVersion;
+                            _localizationRepositories[repository.Repository] = repo;
                         }
                     }
                 }
                 return _localizationRepositories;
             }
+        }
+
+        private static void OnMonitorNewVersion(object sender, string e)
+        {
+            var r = (ILocalizationRepository)sender;
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, $"Found new version {e}."));
+        }
+
+        private static void OnMonitorStopped(object sender, string e)
+        {
+            var r = (ILocalizationRepository)sender;
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, "Stop monitoring."));
+        }
+
+        private static void OnMonitorStarted(object sender, string e)
+        {
+            var r = (ILocalizationRepository)sender;
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, "Start monitoring."));
         }
 
         private static ILocalizationRepository _currentRepository;
@@ -103,5 +125,36 @@ namespace NSW.StarCitizen.Tools
 
             return result;
         }
+
+        public static void RunMonitors()
+        {
+            if (Settings.Localization?.Installations != null)
+                foreach (var installation in Settings.Localization.Installations)
+                {
+                    if (!string.IsNullOrWhiteSpace(installation.Repository)
+                        && LocalizationRepositories.ContainsKey(installation.Repository))
+                    {
+                        var repository = LocalizationRepositories[installation.Repository];
+
+                        if (repository.CurrentVersion?.Name != installation.LastVersion)
+                            repository.CurrentVersion = new LocalizationInfo {Name = installation.LastVersion};
+
+                        if (repository.IsMonitorStarted != installation.MonitorForUpdates
+                            || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
+                        {
+                            if (installation.MonitorForUpdates)
+                            {
+                                repository.MonitorStart(installation.MonitorRefreshTime);
+                            }
+                            else
+                            {
+                                repository.MonitorStop();
+                            }
+                        }
+                    }
+                }
+        }
+
+        public static event EventHandler<Tuple<string, string>> Notification;
     }
 }
