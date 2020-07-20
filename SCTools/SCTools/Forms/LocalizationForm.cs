@@ -9,7 +9,7 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : Form
     {
-        private bool _holdUpdates;
+        //private bool _holdUpdates;
         public LocalizationForm()
         {
             InitializeComponent();
@@ -21,6 +21,21 @@ namespace NSW.StarCitizen.Tools.Forms
             cbRepository.DataSource = Program.LocalizationRepositories.Values.ToList();
             var current = Program.GetCurrentLocalizationRepository();
             if (current != null) cbRepository.SelectedItem = current;
+        }
+
+        private void cbRepository_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox cb)
+            {
+                Program.CurrentRepository = (ILocalizationRepository)cb.SelectedItem;
+                cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                UpdateControls();
+            }
+        }
+
+        private void UpdateControls()
+        {
+            tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
             //Languages
             var lng = Program.GetLanguagesConfiguration();
             if (lng.Languages.Any())
@@ -33,20 +48,24 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 cbLanguages.Enabled = false;
             }
-        }
-
-        private void cbRepository_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (sender is ComboBox cb)
+            // enable disable
+            switch (Program.CurrentInstaller.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
             {
-                Program.CurrentRepository = (ILocalizationRepository)cb.SelectedItem;
-                tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
-
-                cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
-
-                cbCheckNewVersions.Checked = Program.CurrentInstallation.MonitorForUpdates;
-                cbRefreshTime.SelectedItem = Program.CurrentInstallation.MonitorRefreshTime.ToString();
+                case LocalizationInstallationType.None:
+                    btnLocalizationDisable.Visible = false;
+                    break;
+                case LocalizationInstallationType.Enabled:
+                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
+                    break;
+                case LocalizationInstallationType.Disabled:
+                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
+                    break;
             }
+            // monitoring
+            cbCheckNewVersions.Checked = Program.CurrentInstallation.MonitorForUpdates;
+            cbRefreshTime.SelectedItem = Program.CurrentInstallation.MonitorRefreshTime.ToString();
         }
 
         private void cbVersions_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,16 +104,18 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
+
+                    var disabledMode = Program.CurrentInstaller.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
-                    var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, false);
+                    var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
                     //if(result)
-                    //    result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, false);
+                    //    result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
                     if (result)
                     {
                         Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
                         Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
                         Program.SaveAppSettings();
-                        tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
+                        UpdateControls();
                     }
                     else
                     {

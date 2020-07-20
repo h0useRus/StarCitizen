@@ -9,6 +9,9 @@ namespace NSW.StarCitizen.Tools.Localization
     {
         private const string PatcherOriginalName = "patcher.bin";
         private const string PatcherLibraryName = "CIGDevelopmentTools.dll";
+
+        private static string GetLibraryName(string destinationFolder, bool isDisabledMode)
+            => Path.Combine(destinationFolder, "Bin64", isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
         public bool Unpack(string zipFileName, string destinationFolder, bool isDisabledMode)
         {
             try
@@ -36,8 +39,7 @@ namespace NSW.StarCitizen.Tools.Localization
                     }
                     else if (entry.FullName.EndsWith(PatcherOriginalName))
                     {
-                        entry.ExtractToFile(
-                            Path.Combine(destinationFolder, "Bin64", isDisabledMode ? PatcherOriginalName : PatcherLibraryName), true);
+                        entry.ExtractToFile(GetLibraryName(destinationFolder, isDisabledMode), true);
                     }
 
                 }
@@ -52,8 +54,17 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public bool Validate(string destinationFolder, bool isDisabledMode)
         {
-            var fileName = Path.Combine(destinationFolder, "Bin64", isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
+            var fileName = GetLibraryName(destinationFolder, isDisabledMode);
             return VerifyHelper.VerifyFile(Resources.SigningCertificate, fileName);
+        }
+
+        public LocalizationInstallationType GetInstallationType(string destinationFolder)
+        {
+            if (File.Exists(GetLibraryName(destinationFolder, true)))
+                return LocalizationInstallationType.Disabled;
+            return File.Exists(GetLibraryName(destinationFolder, false))
+                ? LocalizationInstallationType.Enabled
+                : LocalizationInstallationType.None;
         }
     }
 }

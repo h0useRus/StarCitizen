@@ -188,6 +188,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable localization.
+        /// </summary>
+        internal static string Localization_Button_Disable_localization {
+            get {
+                return ResourceManager.GetString("Localization_Button_Disable_localization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable localization.
+        /// </summary>
+        internal static string Localization_Button_Enable_localization {
+            get {
+                return ResourceManager.GetString("Localization_Button_Enable_localization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current language:.
         /// </summary>
         internal static string Localization_CurrentLanguage {

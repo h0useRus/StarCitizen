@@ -190,4 +190,10 @@
   <data name="Localization_Install_ErrorTitle" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Localization_Button_Disable_localization" xml:space="preserve">
+    <value>Disable localization</value>
+  </data>
+  <data name="Localization_Button_Enable_localization" xml:space="preserve">
+    <value>Enable localization</value>
+  </data>
 </root>
