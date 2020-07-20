@@ -249,5 +249,15 @@ namespace NSW.StarCitizen.Tools.Properties {
                 return ResourceManager.GetString("LocalizationButton_Text", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SigningCertificate {
+            get {
+                object obj = ResourceManager.GetObject("SigningCertificate", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

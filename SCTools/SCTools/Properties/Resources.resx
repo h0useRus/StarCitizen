@@ -181,4 +181,7 @@
   <data name="Localization_Title" xml:space="preserve">
     <value>Star Citizen : Localization</value>
   </data>
+  <data name="SigningCertificate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Defter.CA.cer;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

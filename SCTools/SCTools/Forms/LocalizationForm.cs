@@ -87,7 +87,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
                     var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, false);
                     if(result)
-                        result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName);
+                        result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, false);
                     if (result)
                     {
                         Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;

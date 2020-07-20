@@ -1,5 +1,7 @@
 using System.IO;
 using System.IO.Compression;
+using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Localization
 {
@@ -48,6 +50,10 @@ namespace NSW.StarCitizen.Tools.Localization
             }
         }
 
-        public bool Validate(string destinationFolder) => true;
+        public bool Validate(string destinationFolder, bool isDisabledMode)
+        {
+            var fileName = Path.Combine(destinationFolder, "Bin64", isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
+            return VerifyHelper.VerifyFile(Resources.SigningCertificate, fileName);
+        }
     }
 }
