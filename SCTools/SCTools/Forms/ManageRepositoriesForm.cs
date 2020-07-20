@@ -33,11 +33,14 @@ namespace NSW.StarCitizen.Tools.Forms
                 item.Tag = repository.Value;
                 item.SubItems.Add(repository.Key);
             }
+
+            btnRemove.Enabled = lvRepositories.Items.Count > 1;
         }
 
         private void lvRepositories_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            if (lvRepositories.SelectedItems.Count > 0 &&
+                lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
             {
                 tbName.Text = repository.Name;
                 tbUrl.Text = GitHubUrl + repository.Repository ;
@@ -91,6 +94,22 @@ namespace NSW.StarCitizen.Tools.Forms
                     Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (lvRepositories.SelectedItems.Count > 0 && lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            {
+                Program.LocalizationRepositories.Remove(repository.Repository);
+                var lr = Program.Settings.Localization.Repositories.FirstOrDefault(r=> string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+                if (lr != null)
+                {
+                    Program.Settings.Localization.Repositories.Remove(lr);
+                    Program.SaveAppSettings();
+                }
+                
+                lvRepositories.Items.Remove(lvRepositories.SelectedItems[0]);
+            }
         }
     }
 }

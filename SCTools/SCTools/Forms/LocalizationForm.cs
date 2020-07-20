@@ -166,5 +166,12 @@ namespace NSW.StarCitizen.Tools.Forms
                 Program.RunMonitors();
             }
         }
+
+        private void btnManage_Click(object sender, EventArgs e)
+        {
+            var dlg = new ManageRepositoriesForm();
+            dlg.ShowDialog(this);
+            LocalizationForm_Load(sender, e);
+        }
     }
 }

@@ -207,6 +207,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnManage.TabIndex = 15;
             this.btnManage.Text = "Manage";
             this.btnManage.UseVisualStyleBackColor = true;
+            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // LocalizationForm
             // 
