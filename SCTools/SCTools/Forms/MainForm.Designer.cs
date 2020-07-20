@@ -31,6 +31,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tbGamePath = new System.Windows.Forms.TextBox();
             this.cbGameModes = new System.Windows.Forms.ComboBox();
             this.gbGameInfo = new System.Windows.Forms.GroupBox();
@@ -159,6 +160,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // niTray
             // 
+            this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
@@ -201,6 +203,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.tbGamePath);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
