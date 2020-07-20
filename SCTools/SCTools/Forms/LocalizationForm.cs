@@ -55,6 +55,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 if (cb.SelectedItem is LocalizationInfo info)
                 {
                     btnInstall.Enabled = !string.IsNullOrWhiteSpace(info.DownloadUrl);
+                    Program.CurrentRepository.CurrentVersion = info;
                 }
             }
         }
@@ -62,12 +63,44 @@ namespace NSW.StarCitizen.Tools.Forms
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             if (Program.CurrentRepository != null)
-            {
-                btnRefresh.Enabled = false;
-                await Program.CurrentRepository.RefreshVersionsAsync();
-                cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
-                btnRefresh.Enabled = true;
-            }
+                try
+                {
+                    Enabled = false;
+                    Cursor.Current = Cursors.WaitCursor;
+                    await Program.CurrentRepository.RefreshVersionsAsync();
+                    cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                    Enabled = true;
+                }
+        }
+
+        private async void btnInstall_Click(object sender, EventArgs e)
+        {
+            if (Program.CurrentRepository?.CurrentVersion != null)
+                try
+                {
+                    Enabled = false;
+                    Cursor.Current = Cursors.WaitCursor;
+                    var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
+                    var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, false);
+                    if(result)
+                        result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName);
+                    if (result)
+                    {
+                        Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
+                        Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
+                        Program.SaveAppSettings();
+                        tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
+                    }
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                    Enabled = true;
+                }
         }
     }
 }

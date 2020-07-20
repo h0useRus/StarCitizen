@@ -42,12 +42,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalizationDisable = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
+            this.btnManage = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 149);
+            this.label1.Location = new System.Drawing.Point(270, 151);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 9;
@@ -65,7 +66,7 @@ namespace NSW.StarCitizen.Tools.Forms
             "15",
             "30",
             "60"});
-            this.cbRefreshTime.Location = new System.Drawing.Point(218, 146);
+            this.cbRefreshTime.Location = new System.Drawing.Point(218, 148);
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
             this.cbRefreshTime.TabIndex = 8;
@@ -73,7 +74,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // cbCheckNewVersions
             // 
             this.cbCheckNewVersions.AutoSize = true;
-            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 148);
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 150);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
             this.cbCheckNewVersions.Size = new System.Drawing.Size(161, 17);
             this.cbCheckNewVersions.TabIndex = 7;
@@ -84,12 +85,13 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.btnInstall.Enabled = false;
             this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInstall.Location = new System.Drawing.Point(9, 90);
+            this.btnInstall.Location = new System.Drawing.Point(9, 92);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(464, 23);
             this.btnInstall.TabIndex = 3;
             this.btnInstall.Text = "Install selected version";
             this.btnInstall.UseVisualStyleBackColor = true;
+            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
             // 
             // cbLanguages
             // 
@@ -97,7 +99,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLanguages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbLanguages.FormattingEnabled = true;
-            this.cbLanguages.Location = new System.Drawing.Point(117, 119);
+            this.cbLanguages.Location = new System.Drawing.Point(117, 121);
             this.cbLanguages.Name = "cbLanguages";
             this.cbLanguages.Size = new System.Drawing.Size(147, 21);
             this.cbLanguages.TabIndex = 6;
@@ -105,7 +107,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblCurrentLanguage
             // 
             this.lblCurrentLanguage.AutoSize = true;
-            this.lblCurrentLanguage.Location = new System.Drawing.Point(6, 122);
+            this.lblCurrentLanguage.Location = new System.Drawing.Point(6, 124);
             this.lblCurrentLanguage.Name = "lblCurrentLanguage";
             this.lblCurrentLanguage.Size = new System.Drawing.Size(91, 13);
             this.lblCurrentLanguage.TabIndex = 5;
@@ -114,9 +116,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnRefresh
             // 
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Location = new System.Drawing.Point(406, 37);
+            this.btnRefresh.Location = new System.Drawing.Point(406, 39);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(67, 47);
+            this.btnRefresh.Size = new System.Drawing.Size(67, 44);
             this.btnRefresh.TabIndex = 4;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -125,7 +127,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblServerVersion
             // 
             this.lblServerVersion.AutoSize = true;
-            this.lblServerVersion.Location = new System.Drawing.Point(6, 66);
+            this.lblServerVersion.Location = new System.Drawing.Point(6, 68);
             this.lblServerVersion.Name = "lblServerVersion";
             this.lblServerVersion.Size = new System.Drawing.Size(95, 13);
             this.lblServerVersion.TabIndex = 2;
@@ -146,7 +148,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbVersions.FormattingEnabled = true;
-            this.cbVersions.Location = new System.Drawing.Point(117, 63);
+            this.cbVersions.Location = new System.Drawing.Point(117, 65);
             this.cbVersions.Name = "cbVersions";
             this.cbVersions.Size = new System.Drawing.Size(283, 21);
             this.cbVersions.TabIndex = 10;
@@ -167,7 +169,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnLocalizationDisable
             // 
             this.btnLocalizationDisable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalizationDisable.Location = new System.Drawing.Point(273, 117);
+            this.btnLocalizationDisable.Location = new System.Drawing.Point(273, 119);
             this.btnLocalizationDisable.Name = "btnLocalizationDisable";
             this.btnLocalizationDisable.Size = new System.Drawing.Size(200, 23);
             this.btnLocalizationDisable.TabIndex = 12;
@@ -177,7 +179,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 40);
+            this.label2.Location = new System.Drawing.Point(6, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 13;
@@ -187,17 +189,28 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.tbCurrentVersion.BackColor = System.Drawing.SystemColors.Info;
             this.tbCurrentVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbCurrentVersion.Location = new System.Drawing.Point(117, 37);
+            this.tbCurrentVersion.Location = new System.Drawing.Point(117, 39);
             this.tbCurrentVersion.Name = "tbCurrentVersion";
             this.tbCurrentVersion.ReadOnly = true;
             this.tbCurrentVersion.Size = new System.Drawing.Size(283, 20);
             this.tbCurrentVersion.TabIndex = 14;
             // 
+            // btnManage
+            // 
+            this.btnManage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManage.Location = new System.Drawing.Point(406, 10);
+            this.btnManage.Name = "btnManage";
+            this.btnManage.Size = new System.Drawing.Size(67, 23);
+            this.btnManage.TabIndex = 15;
+            this.btnManage.Text = "Manage";
+            this.btnManage.UseVisualStyleBackColor = true;
+            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 177);
+            this.ClientSize = new System.Drawing.Size(483, 176);
+            this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnLocalizationDisable);
@@ -242,5 +255,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnLocalizationDisable;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbCurrentVersion;
+        private System.Windows.Forms.Button btnManage;
     }
 }
