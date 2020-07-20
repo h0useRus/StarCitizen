@@ -66,5 +66,22 @@ namespace NSW.StarCitizen.Tools.Localization
                 ? LocalizationInstallationType.Enabled
                 : LocalizationInstallationType.None;
         }
+
+        public LocalizationInstallationType RevertLocalization(string destinationFolder)
+        {
+            if (File.Exists(GetLibraryName(destinationFolder, false)))
+            {
+                File.Move(GetLibraryName(destinationFolder, false), GetLibraryName(destinationFolder, true));
+                return LocalizationInstallationType.Disabled;
+            }
+
+            if (File.Exists(GetLibraryName(destinationFolder, true)))
+            {
+                File.Move(GetLibraryName(destinationFolder, true), GetLibraryName(destinationFolder, false));
+                return LocalizationInstallationType.Enabled;
+            }
+
+            return LocalizationInstallationType.None;
+        }
     }
 }

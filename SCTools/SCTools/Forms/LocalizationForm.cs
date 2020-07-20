@@ -29,8 +29,8 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Program.CurrentRepository = (ILocalizationRepository)cb.SelectedItem;
                 cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
-                UpdateControls();
             }
+            UpdateControls();
         }
 
         private void UpdateControls()
@@ -49,7 +49,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 cbLanguages.Enabled = false;
             }
             // enable disable
-            switch (Program.CurrentInstaller.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
+            switch (Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
             {
                 case LocalizationInstallationType.None:
                     btnLocalizationDisable.Visible = false;
@@ -74,8 +74,9 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 if (cb.SelectedItem is LocalizationInfo info)
                 {
-                    btnInstall.Enabled = !string.IsNullOrWhiteSpace(info.DownloadUrl);
-                    Program.CurrentRepository.CurrentVersion = info;
+                    btnInstall.Enabled = info.Actual;
+                    if(info.Actual)
+                        Program.CurrentRepository.CurrentVersion = info;
                 }
             }
         }
@@ -105,11 +106,11 @@ namespace NSW.StarCitizen.Tools.Forms
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
 
-                    var disabledMode = Program.CurrentInstaller.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
+                    var disabledMode = Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
-                    var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
+                    var result = Program.CurrentRepository.Installer.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
                     //if(result)
-                    //    result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
+                    //    result = Program.CurrentRepository.Installer.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
                     if (result)
                     {
                         Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
@@ -128,6 +129,22 @@ namespace NSW.StarCitizen.Tools.Forms
                     Cursor.Current = Cursors.Default;
                     Enabled = true;
                 }
+        }
+
+        private void btnLocalizationDisable_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                Program.CurrentRepository.Installer.RevertLocalization(Program.CurrentGame.RootFolder.FullName);
+                UpdateControls();
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Enabled = true;
+            }
         }
     }
 }

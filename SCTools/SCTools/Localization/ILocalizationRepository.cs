@@ -9,6 +9,7 @@ namespace NSW.StarCitizen.Tools.Localization
         string Name { get; }
         string Repository { get; }
         LocalizationRepositoryType Type { get; }
+        ILocalizationInstaller Installer { get; }
         LocalizationInfo CurrentVersion { get; set; }
         IEnumerable<LocalizationInfo> Versions { get; set; }
 

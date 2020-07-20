@@ -175,6 +175,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalizationDisable.TabIndex = 12;
             this.btnLocalizationDisable.Text = "Disable localization support";
             this.btnLocalizationDisable.UseVisualStyleBackColor = true;
+            this.btnLocalizationDisable.Click += new System.EventHandler(this.btnLocalizationDisable_Click);
             // 
             // label2
             // 

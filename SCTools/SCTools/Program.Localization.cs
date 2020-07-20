@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Settings;
@@ -44,8 +43,6 @@ namespace NSW.StarCitizen.Tools
         }
 
         public static LocalizationInstallation CurrentInstallation { get; private set; }
-
-        public static ILocalizationInstaller CurrentInstaller { get; } = new DefaultLocalizationInstaller();
 
         public static ILocalizationRepository GetCurrentLocalizationRepository()
         {

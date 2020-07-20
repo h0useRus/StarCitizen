@@ -28,6 +28,8 @@ namespace NSW.StarCitizen.Tools.Localization
             _repoUrl = $"{BaseUrl}/{repository}/";
         }
 
+        public override ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
+
         public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync()
         {
             try
