@@ -2,9 +2,9 @@ using System;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Forms;
 
-namespace SCTools
+namespace NSW.StarCitizen.Tools
 {
-    static class Program
+    public static partial class Program
     {
         /// <summary>
         ///  The main entry point for the application.
@@ -12,9 +12,6 @@ namespace SCTools
         [STAThread]
         static void Main()
         {
-#if !NET45
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

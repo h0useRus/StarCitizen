@@ -1,150 +1,177 @@
 using System;
+using System.Linq;
 using System.Windows.Forms;
-using NSW.StarCitizen.Tools.Services;
+using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Properties;
+
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : Form
     {
-        private GameInfo _game;
-        private LocalizationInfo _localization;
-        private LanguagesInfo _languages;
-        private bool holdUpdates = false;
+        //private bool _holdUpdates;
         public LocalizationForm()
         {
             InitializeComponent();
         }
 
-        public DialogResult ShowDialog(IWin32Window owner, GameInfo gameInfo)
-            => Init(gameInfo) ? ShowDialog(owner) : DialogResult.Cancel;
-
-        private bool Init(GameInfo gameInfo)
+        private void LocalizationForm_Load(object sender, EventArgs e)
         {
-            _game = gameInfo;
-            UpdateControls();
-            // rollback localization
-            var patch = LocalizationService.Instance.GetPatchSupport(gameInfo);
-            if (patch.Status == PatchStatus.Patched)
-            {
-                LocalizationService.Instance.Patch(patch);
-            }
-
-            return true;
+            // Repositories
+            cbRepository.DataSource = Program.LocalizationRepositories.Values.ToList();
+            var current = Program.GetCurrentLocalizationRepository();
+            if (current != null) cbRepository.SelectedItem = current;
         }
 
-        
+        private void cbRepository_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox cb)
+            {
+                Program.CurrentRepository = (ILocalizationRepository)cb.SelectedItem;
+                cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+            }
+            UpdateControls();
+        }
 
         private void UpdateControls()
         {
-            holdUpdates = true;
-
-            if (string.IsNullOrWhiteSpace(LocalizationService.Instance.GetSettings(_game.Mode).LastVersion))
+            tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
+            //Languages
+            var lng = Program.GetLanguagesConfiguration();
+            if (lng.Languages.Any())
             {
-                tbCurrentVersion.Text = LocalizationService.Instance.IsLocalizationInstalled(_game)
-                    ? "Нет информации"
-                    : "Локализацция не установлена";
+                cbLanguages.DataSource = lng.Languages;
+                cbLanguages.SelectedItem = lng.Current;
+                cbLanguages.Enabled = true;
             }
             else
             {
-                tbCurrentVersion.Text = LocalizationService.Instance.GetSettings(_game.Mode).LastVersion;
+                cbLanguages.Enabled = false;
             }
-
-            btnInstall.Enabled = false;
-            if (_localization == null)
+            // enable disable
+            switch (Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
             {
-                tbServerVersion.Text = "Нажмите 'Обновить'";
+                case LocalizationInstallationType.None:
+                    btnLocalizationDisable.Visible = false;
+                    break;
+                case LocalizationInstallationType.Enabled:
+                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
+                    break;
+                case LocalizationInstallationType.Disabled:
+                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
+                    break;
             }
-            else if(_localization.Release == null)
-            {
-                tbServerVersion.Text = "Ошибка связи, нажмите 'Обновить' ещё раз";
-            }
-            else
-            {
-                tbServerVersion.Text = _localization.Release.Name;
-                btnInstall.Enabled = true;
-            }
+            // monitoring
+            cbCheckNewVersions.Checked = Program.CurrentInstallation.MonitorForUpdates;
+            cbRefreshTime.SelectedItem = Program.CurrentInstallation.MonitorRefreshTime.ToString();
+        }
 
-            _languages = LocalizationService.Instance.GetLanguagesConfiguration(_game);
-            if (_languages.Languages.Count > 0)
+        private void cbVersions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox cb)
             {
-                cbCurrentLanguage.DataSource = _languages.Languages;
-                cbCurrentLanguage.SelectedItem = _languages.Current;
-                lblCurrentLanguage.Visible = cbCurrentLanguage.Visible = true;
+                if (cb.SelectedItem is LocalizationInfo info)
+                {
+                    btnInstall.Enabled = info.Actual;
+                    if(info.Actual)
+                        Program.CurrentRepository.CurrentVersion = info;
+                }
             }
-            else
-            {
-                lblCurrentLanguage.Visible = cbCurrentLanguage.Visible = false;
-            }
-
-            cbLocalizationCheckNewVersions.Checked =
-                SettingsService.Instance.AppSettings.Localization.MonitorForUpdates;
-
-            cbLocalizationRefreshTime.SelectedItem =
-                SettingsService.Instance.AppSettings.Localization.MonitorRefreshTime.ToString();
-
-            holdUpdates = false;
         }
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
-            btnRefresh.Enabled = false;
-            _localization = await LocalizationService.Instance.GetLocalizationStatusAsync(_game);
-            UpdateControls();
-            btnRefresh.Enabled = true;
+            if (Program.CurrentRepository != null)
+                try
+                {
+                    Enabled = false;
+                    Cursor.Current = Cursors.WaitCursor;
+                    await Program.CurrentRepository.RefreshVersionsAsync();
+                    cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                    Enabled = true;
+                }
         }
 
         private async void btnInstall_Click(object sender, EventArgs e)
         {
-            btnInstall.Enabled = false;
-            if (_localization?.Release != null)
-            {
-                var fileName = await LocalizationService.Instance.DownloadAsync(_localization.Release);
-                if (!string.IsNullOrWhiteSpace(fileName)
-                    && LocalizationService.Instance.UnZipFile(_game.RootFolder.FullName, fileName))
+            if (Program.CurrentRepository?.CurrentVersion != null)
+                try
                 {
-                    LocalizationService.Instance.UpdateLastPatchVersion(_game.Mode, _localization.Release.Name);
-                    UpdateControls();
+                    Enabled = false;
+                    Cursor.Current = Cursors.WaitCursor;
+
+                    var disabledMode = Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
+                    var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
+                    var result = Program.CurrentRepository.Installer.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
+                    if (result)
+                        result = Program.CurrentRepository.Installer.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
+                    if (result)
+                    {
+                        Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
+                        Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
+                        Program.SaveAppSettings();
+                        UpdateControls();
+                    }
+                    else
+                    {
+                        MessageBox.Show(Resources.Localization_Install_ErrorText,
+                            Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-            }
-            btnInstall.Enabled = true;
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                    Enabled = true;
+                }
         }
 
-        private void cbCurrentLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnLocalizationDisable_Click(object sender, EventArgs e)
         {
-            if(holdUpdates) return;
-            if (cbCurrentLanguage.SelectedItem is string selected)
+            try
             {
-                cbCurrentLanguage.Enabled = false;
-                _languages.New = selected;
-                _languages = LocalizationService.Instance.UpdateLanguage(_game, _languages);
-                cbCurrentLanguage.Enabled = true;
+                Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                Program.CurrentRepository.Installer.RevertLocalization(Program.CurrentGame.RootFolder.FullName);
+                UpdateControls();
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Enabled = true;
             }
         }
 
-        private void cbLocalizationCheckNewVersions_CheckedChanged(object sender, EventArgs e)
+        private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
         {
-            if(holdUpdates) return;
-            SettingsService.Instance.AppSettings.Localization.MonitorForUpdates =
-                cbLocalizationCheckNewVersions.Checked;
-            SettingsService.Instance.SaveAppSettings();
-            RefreshMonitor();
+            if (cbCheckNewVersions.Checked != Program.CurrentInstallation.MonitorForUpdates)
+            {
+                Program.CurrentInstallation.MonitorForUpdates = cbCheckNewVersions.Checked;
+                Program.SaveAppSettings();
+                Program.RunMonitors();
+            }
         }
 
-        private void RefreshMonitor()
+        private void cbRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SettingsService.Instance.AppSettings.Localization.MonitorForUpdates)
-                LocalizationService.Instance.MonitorStart();
-            else
-                LocalizationService.Instance.MonitorStop();
+            if (cbRefreshTime.SelectedItem.ToString() != Program.CurrentInstallation.MonitorRefreshTime.ToString())
+            {
+                Program.CurrentInstallation.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+                Program.SaveAppSettings();
+                Program.RunMonitors();
+            }
         }
 
-        private void cbLocalizationRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnManage_Click(object sender, EventArgs e)
         {
-            if (holdUpdates) return;
-            SettingsService.Instance.AppSettings.Localization.MonitorRefreshTime =
-                int.TryParse(cbLocalizationRefreshTime.SelectedItem.ToString(), out var result) ? result : 5;
-            SettingsService.Instance.SaveAppSettings();
-            RefreshMonitor();
+            var dlg = new ManageRepositoriesForm();
+            dlg.ShowDialog(this);
+            LocalizationForm_Load(sender, e);
         }
     }
 }

@@ -15,7 +15,8 @@
     <AssemblyName>SCTools</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
     <LangVersion>8</LangVersion>
-    <ApplicationIcon>res\app-icon.ico</ApplicationIcon>
+    <ApplicationIcon>app-icon.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <ItemGroup>

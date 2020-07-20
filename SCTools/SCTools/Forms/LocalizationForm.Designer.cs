@@ -28,172 +28,208 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbLocalization = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbRefreshTime = new System.Windows.Forms.ComboBox();
+            this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.btnInstall = new System.Windows.Forms.Button();
-            this.cbCurrentLanguage = new System.Windows.Forms.ComboBox();
+            this.cbLanguages = new System.Windows.Forms.ComboBox();
             this.lblCurrentLanguage = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.tbServerVersion = new System.Windows.Forms.TextBox();
             this.lblServerVersion = new System.Windows.Forms.Label();
-            this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbLocalizationRefreshTime = new System.Windows.Forms.ComboBox();
-            this.cbLocalizationCheckNewVersions = new System.Windows.Forms.CheckBox();
-            this.gbLocalization.SuspendLayout();
+            this.cbVersions = new System.Windows.Forms.ComboBox();
+            this.cbRepository = new System.Windows.Forms.ComboBox();
+            this.btnLocalizationDisable = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbCurrentVersion = new System.Windows.Forms.TextBox();
+            this.btnManage = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // gbLocalization
-            // 
-            this.gbLocalization.Controls.Add(this.label1);
-            this.gbLocalization.Controls.Add(this.cbLocalizationRefreshTime);
-            this.gbLocalization.Controls.Add(this.cbLocalizationCheckNewVersions);
-            this.gbLocalization.Controls.Add(this.btnInstall);
-            this.gbLocalization.Controls.Add(this.cbCurrentLanguage);
-            this.gbLocalization.Controls.Add(this.lblCurrentLanguage);
-            this.gbLocalization.Controls.Add(this.btnRefresh);
-            this.gbLocalization.Controls.Add(this.tbServerVersion);
-            this.gbLocalization.Controls.Add(this.lblServerVersion);
-            this.gbLocalization.Controls.Add(this.tbCurrentVersion);
-            this.gbLocalization.Controls.Add(this.lblCurrentVersion);
-            this.gbLocalization.Location = new System.Drawing.Point(12, 12);
-            this.gbLocalization.Name = "gbLocalization";
-            this.gbLocalization.Size = new System.Drawing.Size(480, 164);
-            this.gbLocalization.TabIndex = 2;
-            this.gbLocalization.TabStop = false;
-            this.gbLocalization.Text = "Локализация";
-            // 
-            // btnInstall
-            // 
-            this.btnInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInstall.Location = new System.Drawing.Point(10, 69);
-            this.btnInstall.Name = "btnInstall";
-            this.btnInstall.Size = new System.Drawing.Size(464, 23);
-            this.btnInstall.TabIndex = 3;
-            this.btnInstall.Text = "Установить последнюю версию";
-            this.btnInstall.UseVisualStyleBackColor = true;
-            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
-            // 
-            // cbCurrentLanguage
-            // 
-            this.cbCurrentLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCurrentLanguage.BackColor = System.Drawing.SystemColors.Info;
-            this.cbCurrentLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCurrentLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCurrentLanguage.FormattingEnabled = true;
-            this.cbCurrentLanguage.Location = new System.Drawing.Point(118, 104);
-            this.cbCurrentLanguage.Name = "cbCurrentLanguage";
-            this.cbCurrentLanguage.Size = new System.Drawing.Size(147, 21);
-            this.cbCurrentLanguage.TabIndex = 6;
-            this.cbCurrentLanguage.SelectedIndexChanged += new System.EventHandler(this.cbCurrentLanguage_SelectedIndexChanged);
-            // 
-            // lblCurrentLanguage
-            // 
-            this.lblCurrentLanguage.AutoSize = true;
-            this.lblCurrentLanguage.Location = new System.Drawing.Point(7, 107);
-            this.lblCurrentLanguage.Name = "lblCurrentLanguage";
-            this.lblCurrentLanguage.Size = new System.Drawing.Size(84, 13);
-            this.lblCurrentLanguage.TabIndex = 5;
-            this.lblCurrentLanguage.Text = "Текущий язык:";
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Location = new System.Drawing.Point(407, 17);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(67, 46);
-            this.btnRefresh.TabIndex = 4;
-            this.btnRefresh.Text = "Обновить";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // tbServerVersion
-            // 
-            this.tbServerVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbServerVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbServerVersion.Location = new System.Drawing.Point(118, 43);
-            this.tbServerVersion.Name = "tbServerVersion";
-            this.tbServerVersion.ReadOnly = true;
-            this.tbServerVersion.Size = new System.Drawing.Size(283, 20);
-            this.tbServerVersion.TabIndex = 3;
-            // 
-            // lblServerVersion
-            // 
-            this.lblServerVersion.AutoSize = true;
-            this.lblServerVersion.Location = new System.Drawing.Point(7, 46);
-            this.lblServerVersion.Name = "lblServerVersion";
-            this.lblServerVersion.Size = new System.Drawing.Size(105, 13);
-            this.lblServerVersion.TabIndex = 2;
-            this.lblServerVersion.Text = "Последняя версия:";
-            // 
-            // tbCurrentVersion
-            // 
-            this.tbCurrentVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCurrentVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbCurrentVersion.Location = new System.Drawing.Point(118, 17);
-            this.tbCurrentVersion.Name = "tbCurrentVersion";
-            this.tbCurrentVersion.ReadOnly = true;
-            this.tbCurrentVersion.Size = new System.Drawing.Size(283, 20);
-            this.tbCurrentVersion.TabIndex = 1;
-            // 
-            // lblCurrentVersion
-            // 
-            this.lblCurrentVersion.AutoSize = true;
-            this.lblCurrentVersion.Location = new System.Drawing.Point(7, 20);
-            this.lblCurrentVersion.Name = "lblCurrentVersion";
-            this.lblCurrentVersion.Size = new System.Drawing.Size(94, 13);
-            this.lblCurrentVersion.TabIndex = 0;
-            this.lblCurrentVersion.Text = "Текущая версия:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(271, 134);
+            this.label1.Location = new System.Drawing.Point(270, 151);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 9;
-            this.label1.Text = "минут ";
+            this.label1.Text = "minutes";
             // 
-            // cbLocalizationRefreshTime
+            // cbRefreshTime
             // 
-            this.cbLocalizationRefreshTime.BackColor = System.Drawing.SystemColors.Info;
-            this.cbLocalizationRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLocalizationRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbLocalizationRefreshTime.FormattingEnabled = true;
-            this.cbLocalizationRefreshTime.Items.AddRange(new object[] {
+            this.cbRefreshTime.BackColor = System.Drawing.SystemColors.Info;
+            this.cbRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbRefreshTime.FormattingEnabled = true;
+            this.cbRefreshTime.Items.AddRange(new object[] {
             "5",
             "10",
             "15",
             "30",
             "60"});
-            this.cbLocalizationRefreshTime.Location = new System.Drawing.Point(219, 131);
-            this.cbLocalizationRefreshTime.Name = "cbLocalizationRefreshTime";
-            this.cbLocalizationRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbLocalizationRefreshTime.TabIndex = 8;
-            this.cbLocalizationRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbLocalizationRefreshTime_SelectedIndexChanged);
+            this.cbRefreshTime.Location = new System.Drawing.Point(218, 148);
+            this.cbRefreshTime.Name = "cbRefreshTime";
+            this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
+            this.cbRefreshTime.TabIndex = 8;
+            this.cbRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbRefreshTime_SelectedIndexChanged);
             // 
-            // cbLocalizationCheckNewVersions
+            // cbCheckNewVersions
             // 
-            this.cbLocalizationCheckNewVersions.AutoSize = true;
-            this.cbLocalizationCheckNewVersions.Location = new System.Drawing.Point(10, 133);
-            this.cbLocalizationCheckNewVersions.Name = "cbLocalizationCheckNewVersions";
-            this.cbLocalizationCheckNewVersions.Size = new System.Drawing.Size(203, 17);
-            this.cbLocalizationCheckNewVersions.TabIndex = 7;
-            this.cbLocalizationCheckNewVersions.Text = "Автоматически проверять каждые";
-            this.cbLocalizationCheckNewVersions.UseVisualStyleBackColor = true;
-            this.cbLocalizationCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbLocalizationCheckNewVersions_CheckedChanged);
+            this.cbCheckNewVersions.AutoSize = true;
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 150);
+            this.cbCheckNewVersions.Name = "cbCheckNewVersions";
+            this.cbCheckNewVersions.Size = new System.Drawing.Size(161, 17);
+            this.cbCheckNewVersions.TabIndex = 7;
+            this.cbCheckNewVersions.Text = "Check for new version every";
+            this.cbCheckNewVersions.UseVisualStyleBackColor = true;
+            this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
+            // 
+            // btnInstall
+            // 
+            this.btnInstall.Enabled = false;
+            this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInstall.Location = new System.Drawing.Point(9, 92);
+            this.btnInstall.Name = "btnInstall";
+            this.btnInstall.Size = new System.Drawing.Size(464, 23);
+            this.btnInstall.TabIndex = 3;
+            this.btnInstall.Text = "Install selected version";
+            this.btnInstall.UseVisualStyleBackColor = true;
+            this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
+            // 
+            // cbLanguages
+            // 
+            this.cbLanguages.BackColor = System.Drawing.SystemColors.Info;
+            this.cbLanguages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLanguages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbLanguages.FormattingEnabled = true;
+            this.cbLanguages.Location = new System.Drawing.Point(117, 121);
+            this.cbLanguages.Name = "cbLanguages";
+            this.cbLanguages.Size = new System.Drawing.Size(147, 21);
+            this.cbLanguages.TabIndex = 6;
+            // 
+            // lblCurrentLanguage
+            // 
+            this.lblCurrentLanguage.AutoSize = true;
+            this.lblCurrentLanguage.Location = new System.Drawing.Point(6, 124);
+            this.lblCurrentLanguage.Name = "lblCurrentLanguage";
+            this.lblCurrentLanguage.Size = new System.Drawing.Size(91, 13);
+            this.lblCurrentLanguage.TabIndex = 5;
+            this.lblCurrentLanguage.Text = "Current language:";
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRefresh.Location = new System.Drawing.Point(406, 39);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(67, 44);
+            this.btnRefresh.TabIndex = 4;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // lblServerVersion
+            // 
+            this.lblServerVersion.AutoSize = true;
+            this.lblServerVersion.Location = new System.Drawing.Point(6, 68);
+            this.lblServerVersion.Name = "lblServerVersion";
+            this.lblServerVersion.Size = new System.Drawing.Size(95, 13);
+            this.lblServerVersion.TabIndex = 2;
+            this.lblServerVersion.Text = "Available versions:";
+            // 
+            // lblCurrentVersion
+            // 
+            this.lblCurrentVersion.AutoSize = true;
+            this.lblCurrentVersion.Location = new System.Drawing.Point(6, 15);
+            this.lblCurrentVersion.Name = "lblCurrentVersion";
+            this.lblCurrentVersion.Size = new System.Drawing.Size(92, 13);
+            this.lblCurrentVersion.TabIndex = 0;
+            this.lblCurrentVersion.Text = "Source repository:";
+            // 
+            // cbVersions
+            // 
+            this.cbVersions.BackColor = System.Drawing.SystemColors.Info;
+            this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbVersions.FormattingEnabled = true;
+            this.cbVersions.Location = new System.Drawing.Point(117, 65);
+            this.cbVersions.Name = "cbVersions";
+            this.cbVersions.Size = new System.Drawing.Size(283, 21);
+            this.cbVersions.TabIndex = 10;
+            this.cbVersions.SelectedIndexChanged += new System.EventHandler(this.cbVersions_SelectedIndexChanged);
+            // 
+            // cbRepository
+            // 
+            this.cbRepository.BackColor = System.Drawing.SystemColors.Info;
+            this.cbRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRepository.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbRepository.FormattingEnabled = true;
+            this.cbRepository.Location = new System.Drawing.Point(117, 12);
+            this.cbRepository.Name = "cbRepository";
+            this.cbRepository.Size = new System.Drawing.Size(283, 21);
+            this.cbRepository.TabIndex = 11;
+            this.cbRepository.SelectedIndexChanged += new System.EventHandler(this.cbRepository_SelectedIndexChanged);
+            // 
+            // btnLocalizationDisable
+            // 
+            this.btnLocalizationDisable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLocalizationDisable.Location = new System.Drawing.Point(273, 119);
+            this.btnLocalizationDisable.Name = "btnLocalizationDisable";
+            this.btnLocalizationDisable.Size = new System.Drawing.Size(200, 23);
+            this.btnLocalizationDisable.TabIndex = 12;
+            this.btnLocalizationDisable.Text = "Disable localization support";
+            this.btnLocalizationDisable.UseVisualStyleBackColor = true;
+            this.btnLocalizationDisable.Click += new System.EventHandler(this.btnLocalizationDisable_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Current version:";
+            // 
+            // tbCurrentVersion
+            // 
+            this.tbCurrentVersion.BackColor = System.Drawing.SystemColors.Info;
+            this.tbCurrentVersion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbCurrentVersion.Location = new System.Drawing.Point(117, 39);
+            this.tbCurrentVersion.Name = "tbCurrentVersion";
+            this.tbCurrentVersion.ReadOnly = true;
+            this.tbCurrentVersion.Size = new System.Drawing.Size(283, 20);
+            this.tbCurrentVersion.TabIndex = 14;
+            // 
+            // btnManage
+            // 
+            this.btnManage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManage.Location = new System.Drawing.Point(406, 10);
+            this.btnManage.Name = "btnManage";
+            this.btnManage.Size = new System.Drawing.Size(67, 23);
+            this.btnManage.TabIndex = 15;
+            this.btnManage.Text = "Manage";
+            this.btnManage.UseVisualStyleBackColor = true;
+            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
             // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 185);
-            this.Controls.Add(this.gbLocalization);
+            this.ClientSize = new System.Drawing.Size(483, 176);
+            this.Controls.Add(this.btnManage);
+            this.Controls.Add(this.tbCurrentVersion);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnLocalizationDisable);
+            this.Controls.Add(this.cbRepository);
+            this.Controls.Add(this.cbVersions);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cbRefreshTime);
+            this.Controls.Add(this.cbCheckNewVersions);
+            this.Controls.Add(this.lblCurrentVersion);
+            this.Controls.Add(this.btnInstall);
+            this.Controls.Add(this.lblServerVersion);
+            this.Controls.Add(this.cbLanguages);
+            this.Controls.Add(this.lblCurrentLanguage);
+            this.Controls.Add(this.btnRefresh);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -201,25 +237,28 @@ namespace NSW.StarCitizen.Tools.Forms
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Star Citizen : Локализация";
-            this.gbLocalization.ResumeLayout(false);
-            this.gbLocalization.PerformLayout();
+            this.Text = "Star Citizen : Localization";
+            this.Load += new System.EventHandler(this.LocalizationForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox gbLocalization;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.TextBox tbServerVersion;
         private System.Windows.Forms.Label lblServerVersion;
-        private System.Windows.Forms.TextBox tbCurrentVersion;
         private System.Windows.Forms.Label lblCurrentVersion;
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label lblCurrentLanguage;
-        private System.Windows.Forms.ComboBox cbCurrentLanguage;
+        private System.Windows.Forms.ComboBox cbLanguages;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cbLocalizationRefreshTime;
-        private System.Windows.Forms.CheckBox cbLocalizationCheckNewVersions;
+        private System.Windows.Forms.ComboBox cbRefreshTime;
+        private System.Windows.Forms.CheckBox cbCheckNewVersions;
+        private System.Windows.Forms.ComboBox cbVersions;
+        private System.Windows.Forms.ComboBox cbRepository;
+        private System.Windows.Forms.Button btnLocalizationDisable;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbCurrentVersion;
+        private System.Windows.Forms.Button btnManage;
     }
 }
