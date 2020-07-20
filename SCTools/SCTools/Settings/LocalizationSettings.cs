@@ -27,7 +27,7 @@ namespace NSW.StarCitizen.Tools.Settings
         public static LocalizationSource Default { get; } = new LocalizationSource
         {
             Name = "Russian Community",
-            Repository = "defterai/StarCitizenModding",
+            Repository = "n1ghter/sc_ru",
             Type = "GitHub"
         };
     }
