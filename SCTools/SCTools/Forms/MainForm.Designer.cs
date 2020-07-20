@@ -153,13 +153,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.Name = "btnLocalization";
             this.btnLocalization.Size = new System.Drawing.Size(242, 23);
             this.btnLocalization.TabIndex = 0;
-            this.btnLocalization.Text = global::NSW.StarCitizen.Tools.Properties.Resources.LocalizationButton_Text;
+            this.btnLocalization.Text = "Localization";
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
             // niTray
             // 
-            this.niTray.Icon = global::NSW.StarCitizen.Tools.Properties.Resources.AppIcon;
             this.niTray.Visible = true;
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
@@ -170,9 +169,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGeneralRunWithWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 147);
             this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
-            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(140, 17);
+            this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(142, 17);
             this.cbGeneralRunWithWindows.TabIndex = 5;
-            this.cbGeneralRunWithWindows.Text = global::NSW.StarCitizen.Tools.Properties.Resources.AppOptions_RunOnWindowsStartup;
+            this.cbGeneralRunWithWindows.Text = "Run On Windows startup";
             this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
             this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
             // 
@@ -185,7 +184,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
             this.cbGeneralRunMinimized.Size = new System.Drawing.Size(91, 17);
             this.cbGeneralRunMinimized.TabIndex = 6;
-            this.cbGeneralRunMinimized.Text = global::NSW.StarCitizen.Tools.Properties.Resources.AppOptions_RunMinimized;
+            this.cbGeneralRunMinimized.Text = "Run minimized";
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
             this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
             // 
@@ -202,7 +201,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.tbGamePath);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = global::NSW.StarCitizen.Tools.Properties.Resources.AppIcon;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

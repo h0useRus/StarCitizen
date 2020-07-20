@@ -101,6 +101,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 if (Program.SetGameFolder(dlg.SelectedPath))
                 {
+                    tbGamePath.Text = dlg.SelectedPath.ToUpper();
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = Program.GetGameModes();
                 }
