@@ -197,6 +197,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, it was an error during installation. Please try again..
+        /// </summary>
+        internal static string Localization_Install_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Install_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Localization_Install_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Install_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Install selected version.
         /// </summary>
         internal static string Localization_InstallVersion_Text {

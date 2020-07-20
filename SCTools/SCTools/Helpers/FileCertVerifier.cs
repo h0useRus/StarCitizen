@@ -89,7 +89,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         public bool VerifyFileCertificate(string filename)
         {
             if (filename == null)
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
             X509Certificate2Collection fileCertificateCollection = new X509Certificate2Collection();
             fileCertificateCollection.Import(filename);
             if (fileCertificateCollection.Count == 1)
@@ -126,7 +126,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         public bool VerifyFileSignature(string filename)
         {
             if (filename == null)
-                throw new ArgumentNullException("filename");
+                throw new ArgumentNullException(nameof(filename));
             return WinTrust.VerifyEmbeddedSignature(filename);
         }
 

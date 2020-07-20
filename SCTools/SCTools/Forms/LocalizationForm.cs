@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Properties;
 
 
 namespace NSW.StarCitizen.Tools.Forms
@@ -86,14 +87,19 @@ namespace NSW.StarCitizen.Tools.Forms
                     Cursor.Current = Cursors.WaitCursor;
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
                     var result = Program.CurrentInstaller.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, false);
-                    if(result)
-                        result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, false);
+                    //if(result)
+                    //    result = Program.CurrentInstaller.Validate(Program.CurrentGame.RootFolder.FullName, false);
                     if (result)
                     {
                         Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
                         Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
                         Program.SaveAppSettings();
                         tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Resources.Localization_Install_ErrorText,
+                            Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 finally
