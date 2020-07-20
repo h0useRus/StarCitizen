@@ -40,6 +40,8 @@ namespace NSW.StarCitizen.Tools.Localization
         }
 
         public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo);
+        public abstract Task<bool> CheckAsync();
+
         public bool IsMonitorStarted { get; private set; }
         public int MonitorRefreshTime { get; private set; }
 

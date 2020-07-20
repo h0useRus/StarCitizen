@@ -76,6 +76,19 @@ namespace NSW.StarCitizen.Tools.Localization
             return null;
         }
 
+        public override async Task<bool> CheckAsync()
+        {
+            try
+            {
+                using var response = await _gitClient.GetAsync(_repoUrl + "releases");
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #region Git objects
         public class GitRelease
         {
