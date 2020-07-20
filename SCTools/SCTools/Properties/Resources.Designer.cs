@@ -98,6 +98,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CoreSigning {
+            get {
+                object obj = ResourceManager.GetObject("CoreSigning", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game mode.
         /// </summary>
         internal static string Game_Mode {
@@ -283,16 +293,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string LocalizationButton_Text {
             get {
                 return ResourceManager.GetString("LocalizationButton_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] SigningCertificate {
-            get {
-                object obj = ResourceManager.GetObject("SigningCertificate", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }

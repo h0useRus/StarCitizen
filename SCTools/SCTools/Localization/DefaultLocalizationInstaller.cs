@@ -55,7 +55,7 @@ namespace NSW.StarCitizen.Tools.Localization
         public bool Validate(string destinationFolder, bool isDisabledMode)
         {
             var fileName = GetLibraryName(destinationFolder, isDisabledMode);
-            return VerifyHelper.VerifyFile(Resources.SigningCertificate, fileName);
+            return VerifyHelper.VerifyFile(Resources.CoreSigning, fileName);
         }
 
         public LocalizationInstallationType GetInstallationType(string destinationFolder)

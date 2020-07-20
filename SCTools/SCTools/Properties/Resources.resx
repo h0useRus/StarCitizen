@@ -181,9 +181,6 @@
   <data name="Localization_Title" xml:space="preserve">
     <value>Star Citizen : Localization</value>
   </data>
-  <data name="SigningCertificate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\Defter.CA.cer;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Localization_Install_ErrorText" xml:space="preserve">
     <value>Unfortunately, it was an error during installation. Please try again.</value>
   </data>
@@ -195,5 +192,8 @@
   </data>
   <data name="Localization_Button_Enable_localization" xml:space="preserve">
     <value>Enable localization</value>
+  </data>
+  <data name="CoreSigning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Defter.CoreSigning.cer;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

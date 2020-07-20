@@ -109,8 +109,8 @@ namespace NSW.StarCitizen.Tools.Forms
                     var disabledMode = Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
                     var result = Program.CurrentRepository.Installer.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
-                    //if(result)
-                    //    result = Program.CurrentRepository.Installer.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
+                    if (result)
+                        result = Program.CurrentRepository.Installer.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
                     if (result)
                     {
                         Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
