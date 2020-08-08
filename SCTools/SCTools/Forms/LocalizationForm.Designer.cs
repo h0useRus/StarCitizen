@@ -105,6 +105,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbLanguages.Name = "cbLanguages";
             this.cbLanguages.Size = new System.Drawing.Size(147, 21);
             this.cbLanguages.TabIndex = 6;
+            this.cbLanguages.SelectionChangeCommitted += new System.EventHandler(this.cbLanguages_SelectionChangeCommitted);
             // 
             // lblCurrentLanguage
             // 

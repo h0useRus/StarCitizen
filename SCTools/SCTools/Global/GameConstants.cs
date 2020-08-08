@@ -10,6 +10,7 @@ namespace NSW.StarCitizen.Tools.Global
         public const string PatcherOriginalName = "patcher.bin";
         public const string PatcherLibraryName = "CIGDevelopmentTools.dll";
         public const string SystemConfigName = "system.cfg";
+        public const string UserConfigName = "user.cfg";
         public const string SystemLanguagesKey = "sys_languages";
         public const string CurrentLanguageKey = "g_language";
 
@@ -24,5 +25,7 @@ namespace NSW.StarCitizen.Tools.Global
         public static string GetDataFolderPath(string gameModePath) => Path.Combine(gameModePath, DataFolderName);
 
         public static string GetSystemConfigPath(string gameModePath) => Path.Combine(gameModePath, DataFolderName, SystemConfigName);
+
+        public static string GetUserConfigPath(string gameModePath) => Path.Combine(gameModePath, UserConfigName);
     }
 }

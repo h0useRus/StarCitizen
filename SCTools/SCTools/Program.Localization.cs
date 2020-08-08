@@ -101,26 +101,82 @@ namespace NSW.StarCitizen.Tools
 
         public static LanguageInfo GetLanguagesConfiguration()
         {
-            var result = new LanguageInfo();
-            var fileName = GameConstants.GetSystemConfigPath(CurrentGame.RootFolder.FullName);
-            var cfgFile = new CfgFile(fileName);
-            var data = cfgFile.Read();
+            var languageInfo = new LanguageInfo();
+            // system.cfg
+            string systemConfigPath = GameConstants.GetSystemConfigPath(CurrentGame.RootFolder.FullName);
+            var systemConfigData = LoadGameConfiguration(systemConfigPath);
+            LoadLanguageInfo(systemConfigData, languageInfo);
+            // user.cfg
+            string userConfigPath = GameConstants.GetUserConfigPath(CurrentGame.RootFolder.FullName);
+            CfgData userConfigData = LoadGameConfiguration(userConfigPath);
+            if (LoadAndFixLanguageInfo(userConfigData, languageInfo))
+            { 
+                SaveGameConfiguration(userConfigPath, userConfigData);
+            }
+            return languageInfo;
+        }
 
-            if (data.TryGetValue(GameConstants.SystemLanguagesKey, out var value))
+        public static bool SaveCurrentLanguage(string languageName)
+        {
+            string userConfigPath = GameConstants.GetUserConfigPath(CurrentGame.RootFolder.FullName);
+            CfgData userConfigData = LoadGameConfiguration(userConfigPath);
+            if (!string.IsNullOrEmpty(languageName))
             {
+                userConfigData.AddOrUpdateRow(GameConstants.CurrentLanguageKey, languageName);
+                return SaveGameConfiguration(userConfigPath, userConfigData);
+            }
+            return false;
+        }
+
+        private static bool LoadAndFixLanguageInfo(CfgData cfgData, LanguageInfo languageInfo)
+        {
+            if (cfgData.Any())
+            {
+                bool anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
+                if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value))
+                {
+                    if (languageInfo.Languages.Contains(value))
+                    {
+                        languageInfo.Current = value;
+                    }
+                    else
+                    {
+                        cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
+                        anyFieldFixed = true;
+                    }
+                }
+                return anyFieldFixed;
+            }
+            return false;
+        }
+
+        private static void LoadLanguageInfo(CfgData cfgData, LanguageInfo languageInfo)
+        {
+            if (cfgData.TryGetValue(GameConstants.SystemLanguagesKey, out var value))
+            {
+                languageInfo.Languages.Clear();
                 var languages = value.Split(',');
                 foreach (var language in languages)
                 {
-                    result.Languages.Add(language.Trim());
+                    languageInfo.Languages.Add(language.Trim());
                 }
             }
-
-            if (data.TryGetValue(GameConstants.CurrentLanguageKey, out value))
+            if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out value))
             {
-                result.Current = value;
+                languageInfo.Current = value;
             }
+        }
 
-            return result;
+        private static CfgData LoadGameConfiguration(string configFilePath)
+        {
+            var cfgFile = new CfgFile(configFilePath);
+            return cfgFile.Read();
+        }
+
+        private static bool SaveGameConfiguration(string configFilePath, CfgData data)
+        {
+            var cfgFile = new CfgFile(configFilePath);
+            return cfgFile.Save(data);
         }
 
         public static void RunMonitors()

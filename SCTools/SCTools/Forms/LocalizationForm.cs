@@ -41,7 +41,7 @@ namespace NSW.StarCitizen.Tools.Forms
             var lng = Program.GetLanguagesConfiguration();
             if (lng.Languages.Any())
             {
-                cbLanguages.DataSource = lng.Languages;
+                cbLanguages.DataSource = lng.Languages.ToList();
                 cbLanguages.SelectedItem = lng.Current;
                 cbLanguages.Enabled = true;
             }
@@ -196,6 +196,15 @@ namespace NSW.StarCitizen.Tools.Forms
             var dlg = new ManageRepositoriesForm();
             dlg.ShowDialog(this);
             LocalizationForm_Load(sender, e);
+        }
+
+        private void cbLanguages_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var currentLanguage = cbLanguages.SelectedItem;
+            if (currentLanguage != null)
+            {
+                Program.SaveCurrentLanguage(cbLanguages.SelectedItem.ToString());
+            }
         }
     }
 }
