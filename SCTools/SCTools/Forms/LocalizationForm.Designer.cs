@@ -40,7 +40,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions = new System.Windows.Forms.ComboBox();
             this.cbRepository = new System.Windows.Forms.ComboBox();
             this.btnLocalizationDisable = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblSelectedVersion = new System.Windows.Forms.Label();
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.btnManage = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -180,14 +180,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalizationDisable.UseVisualStyleBackColor = true;
             this.btnLocalizationDisable.Click += new System.EventHandler(this.btnLocalizationDisable_Click);
             // 
-            // label2
+            // lblSelectedVersion
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Current version:";
+            this.lblSelectedVersion.AutoSize = true;
+            this.lblSelectedVersion.Location = new System.Drawing.Point(6, 42);
+            this.lblSelectedVersion.Name = "lblSelectedVersion";
+            this.lblSelectedVersion.Size = new System.Drawing.Size(81, 13);
+            this.lblSelectedVersion.TabIndex = 13;
+            this.lblSelectedVersion.Text = "Current version:";
             // 
             // tbCurrentVersion
             // 
@@ -217,7 +217,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.ClientSize = new System.Drawing.Size(483, 176);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblSelectedVersion);
             this.Controls.Add(this.btnLocalizationDisable);
             this.Controls.Add(this.cbRepository);
             this.Controls.Add(this.cbVersions);
@@ -258,7 +258,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ComboBox cbVersions;
         private System.Windows.Forms.ComboBox cbRepository;
         private System.Windows.Forms.Button btnLocalizationDisable;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblSelectedVersion;
         private System.Windows.Forms.TextBox tbCurrentVersion;
         private System.Windows.Forms.Button btnManage;
     }

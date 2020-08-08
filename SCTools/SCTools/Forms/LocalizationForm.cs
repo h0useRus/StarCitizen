@@ -36,18 +36,41 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateControls()
         {
-            tbCurrentVersion.Text = Program.CurrentRepository.CurrentVersion.Name;
             //Languages
-            var lng = Program.GetLanguagesConfiguration();
-            if (lng.Languages.Any())
+            var installedVersion = Program.CurrentInstallation.InstalledVersion;
+            if (!string.IsNullOrEmpty(installedVersion))
             {
-                cbLanguages.DataSource = lng.Languages.ToList();
-                cbLanguages.SelectedItem = lng.Current;
-                cbLanguages.Enabled = true;
+                lblSelectedVersion.Text = "Installed version: ";
+                tbCurrentVersion.Text = installedVersion;
+                var lng = Program.GetLanguagesConfiguration();
+                if (lng.Languages.Any())
+                {
+                    cbLanguages.DataSource = lng.Languages.ToList();
+                    cbLanguages.SelectedItem = lng.Current;
+                    cbLanguages.Enabled = true;
+                }
+                else
+                {
+                    cbLanguages.Enabled = false;
+                }
+                lblCurrentLanguage.Visible = true;
+                cbLanguages.Visible = true;
             }
             else
             {
-                cbLanguages.Enabled = false;
+                var lastVersion = Program.CurrentInstallation.LastVersion;
+                if (!string.IsNullOrEmpty(lastVersion))
+                {
+                    lblSelectedVersion.Text = "Latest version: ";
+                    tbCurrentVersion.Text = lastVersion;
+                }
+                else
+                {
+                    lblSelectedVersion.Text = "Installed version: ";
+                    tbCurrentVersion.Text = "N/A";
+                }                
+                lblCurrentLanguage.Visible = false;
+                cbLanguages.Visible = false;
             }
             // enable disable
             switch (Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
@@ -56,11 +79,11 @@ namespace NSW.StarCitizen.Tools.Forms
                     btnLocalizationDisable.Visible = false;
                     break;
                 case LocalizationInstallationType.Enabled:
-                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(installedVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
                     break;
                 case LocalizationInstallationType.Disabled:
-                    btnLocalizationDisable.Visible = true;
+                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(installedVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
                     break;
             }
@@ -113,15 +136,14 @@ namespace NSW.StarCitizen.Tools.Forms
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
 
+                    var installRepository = Program.CurrentRepository;
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(120000);
-                    var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion, cancellationTokenSource.Token);
-                    var result = Program.CurrentRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
+                    var filePath = await installRepository.DownloadAsync(installRepository.CurrentVersion, cancellationTokenSource.Token);
+                    var result = installRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
                     switch (result)
                     {
                         case InstallStatus.Success:
-                            Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
-                            Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
-                            Program.SaveAppSettings();
+                            Program.UpdateCurrentInstallationReposiory(installRepository);
                             break;
                         case InstallStatus.PackageError:
                             MessageBox.Show(Resources.Localization_Package_ErrorText,

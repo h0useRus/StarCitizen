@@ -13,6 +13,7 @@ namespace NSW.StarCitizen.Tools.Settings
     public class LocalizationInstallation
     {
         public GameMode Mode { get; set; }
+        public string InstalledVersion { get; set; }
         public string LastVersion { get; set; }
         public string Repository { get; set; }
         public bool MonitorForUpdates { get; set; }
