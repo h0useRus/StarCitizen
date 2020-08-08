@@ -225,6 +225,42 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, it was an error during download. Please try again..
+        /// </summary>
+        internal static string Localization_Download_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Download_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Error.
+        /// </summary>
+        internal static string Localization_Download_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Download_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions..
+        /// </summary>
+        internal static string Localization_File_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_File_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Error.
+        /// </summary>
+        internal static string Localization_File_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_File_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unfortunately, it was an error during installation. Please try again..
         /// </summary>
         internal static string Localization_Install_ErrorText {
@@ -234,7 +270,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error.
+        ///   Looks up a localized string similar to Install Error.
         /// </summary>
         internal static string Localization_Install_ErrorTitle {
             get {
@@ -248,6 +284,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_InstallVersion_Text {
             get {
                 return ResourceManager.GetString("Localization_InstallVersion_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package is corrupted or not valid. Please try another or contact with package owner..
+        /// </summary>
+        internal static string Localization_Package_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Package_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package Error.
+        /// </summary>
+        internal static string Localization_Package_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Package_ErrorTitle", resourceCulture);
             }
         }
         
@@ -284,6 +338,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Title {
             get {
                 return ResourceManager.GetString("Localization_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package security verification is not passed. Please try another or contact with package owner..
+        /// </summary>
+        internal static string Localization_Verify_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Verify_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification Error.
+        /// </summary>
+        internal static string Localization_Verify_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Verify_ErrorTitle", resourceCulture);
             }
         }
         

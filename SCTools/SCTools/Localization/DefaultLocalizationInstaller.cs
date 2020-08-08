@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using NSW.StarCitizen.Tools.Helpers;
@@ -9,79 +11,149 @@ namespace NSW.StarCitizen.Tools.Localization
     {
         private const string PatcherOriginalName = "patcher.bin";
         private const string PatcherLibraryName = "CIGDevelopmentTools.dll";
+        private const string DataDirName = "data";
 
-        private static string GetLibraryName(string destinationFolder, bool isDisabledMode)
-            => Path.Combine(destinationFolder, Program.BinFolder, isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
-        public bool Unpack(string zipFileName, string destinationFolder, bool isDisabledMode)
+        public InstallStatus Install(string zipFileName, string destinationFolder)
         {
+            DirectoryInfo unpackDir = null;
+            string unpackDirPath = Path.Combine(destinationFolder, "temp_" + Path.GetRandomFileName());
             try
             {
-                using var archive = ZipFile.OpenRead(zipFileName);
-                var rootEntry = archive.Entries[0];
-                //extract only data folder
-                foreach (var entry in archive.Entries)
+                unpackDir = Directory.CreateDirectory(unpackDirPath);
+                if (!Unpack(zipFileName, unpackDir.FullName))
                 {
-                    if (entry.FullName.Contains(@"/data/"))
-                    {
-                        if (string.IsNullOrWhiteSpace(entry.Name))
-                        {
-                            var dir = Path.Combine(destinationFolder,
-                                entry.FullName.Replace(rootEntry.FullName, string.Empty));
-                            if (!Directory.Exists(dir))
-                                Directory.CreateDirectory(dir);
-                        }
-                        else
-                        {
-                            entry.ExtractToFile(
-                                Path.Combine(destinationFolder,
-                                    entry.FullName.Replace(rootEntry.FullName, string.Empty)), true);
-                        }
-                    }
-                    else if (entry.FullName.EndsWith(PatcherOriginalName))
-                    {
-                        entry.ExtractToFile(GetLibraryName(destinationFolder, isDisabledMode), true);
-                    }
-
+                    return InstallStatus.PackageError;
                 }
-
-                return true;
+                string newLibraryPath = Path.Combine(unpackDir.FullName, PatcherOriginalName);
+                if (!VerifyHelper.VerifyFile(Resources.CoreSigning, newLibraryPath))
+                {
+                    return InstallStatus.VerifyError;
+                }
+                DirectoryInfo dataPathDir = new DirectoryInfo(Path.Combine(destinationFolder, DataDirName));
+                if (dataPathDir.Exists)
+                    dataPathDir.Delete(true);
+                Directory.Move(Path.Combine(unpackDir.FullName, DataDirName), dataPathDir.FullName);
+                string enabledLibraryPath = GetEnabledLibraryPath(destinationFolder);
+                if (File.Exists(enabledLibraryPath))
+                {
+                    File.Delete(enabledLibraryPath);
+                    File.Move(newLibraryPath, enabledLibraryPath);
+                }
+                else
+                {
+                    string disabledLibraryPath = GetDisabledLibraryPath(destinationFolder);
+                    if (File.Exists(disabledLibraryPath))
+                    {
+                        File.Delete(disabledLibraryPath);
+                    }
+                    File.Move(newLibraryPath, disabledLibraryPath);
+                }
             }
-            catch
+            catch (IOException)
             {
-                return false;
+                return InstallStatus.FileError;
             }
-        }
-
-        public bool Validate(string destinationFolder, bool isDisabledMode)
-        {
-            var fileName = GetLibraryName(destinationFolder, isDisabledMode);
-            return VerifyHelper.VerifyFile(Resources.CoreSigning, fileName);
+            catch (Exception)
+            {
+                return InstallStatus.UnknownError;
+            }
+            finally
+            {
+                if (unpackDir != null)
+                {
+                    DeleteDirectoryRecursive(unpackDir);
+                }
+            }
+            return InstallStatus.Success;
         }
 
         public LocalizationInstallationType GetInstallationType(string destinationFolder)
         {
-            if (File.Exists(GetLibraryName(destinationFolder, true)))
+            if (File.Exists(GetEnabledLibraryPath(destinationFolder)))
+                return LocalizationInstallationType.Enabled;
+            if (File.Exists(GetDisabledLibraryPath(destinationFolder)))
                 return LocalizationInstallationType.Disabled;
-            return File.Exists(GetLibraryName(destinationFolder, false))
-                ? LocalizationInstallationType.Enabled
-                : LocalizationInstallationType.None;
+            return LocalizationInstallationType.None;
         }
 
         public LocalizationInstallationType RevertLocalization(string destinationFolder)
         {
-            if (File.Exists(GetLibraryName(destinationFolder, false)))
+            string enabledLibraryPath = GetEnabledLibraryPath(destinationFolder);
+            string disabledLibraryPath = GetDisabledLibraryPath(destinationFolder);
+
+            if (File.Exists(enabledLibraryPath))
             {
-                File.Move(GetLibraryName(destinationFolder, false), GetLibraryName(destinationFolder, true));
+                File.Move(enabledLibraryPath, disabledLibraryPath);
                 return LocalizationInstallationType.Disabled;
             }
 
-            if (File.Exists(GetLibraryName(destinationFolder, true)))
+            if (File.Exists(disabledLibraryPath))
             {
-                File.Move(GetLibraryName(destinationFolder, true), GetLibraryName(destinationFolder, false));
+                File.Move(disabledLibraryPath, enabledLibraryPath);
                 return LocalizationInstallationType.Enabled;
             }
 
             return LocalizationInstallationType.None;
+        }
+
+        private bool Unpack(string zipFileName, string destinationFolder)
+        {
+            using var archive = ZipFile.OpenRead(zipFileName);
+            if (archive.Entries.Count == 0)
+            {
+                return false;
+            }
+            bool dataExtracted = false;
+            bool coreExtracted = false;
+            var rootEntry = archive.Entries[0];
+            var dataPathStart = DataDirName + "/";
+            //extract only data folder and core module
+            foreach (var entry in archive.Entries)
+            {
+                if (entry.FullName.StartsWith(rootEntry.FullName, true, CultureInfo.InvariantCulture))
+                {
+                    string relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
+                    if (string.IsNullOrEmpty(entry.Name) && relativePath.EndsWith("/"))
+                    {
+                        var dir = Path.Combine(destinationFolder, relativePath);
+                        if (!Directory.Exists(dir))
+                            Directory.CreateDirectory(dir);
+                    }
+                    else if (relativePath.StartsWith(dataPathStart, true, CultureInfo.InvariantCulture))
+                    {
+                        entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
+                        dataExtracted = true;
+                    }
+                    else if (relativePath.Equals(PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
+                        coreExtracted = true;
+                    }
+                }
+            }
+            return dataExtracted && coreExtracted;
+        }
+
+        private static string GetEnabledLibraryPath(string destinationFolder)
+        {
+            return Path.Combine(destinationFolder, Program.BinFolder, PatcherLibraryName);
+        }
+
+        private static string GetDisabledLibraryPath(string destinationFolder)
+        {
+            return Path.Combine(destinationFolder, Program.BinFolder, PatcherOriginalName);
+        }
+
+        private static void DeleteDirectoryRecursive(DirectoryInfo dir)
+        {
+            try
+            {
+                dir.Delete(true);
+            }
+            catch
+            {
+                // ignore directory not removed
+            }
         }
     }
 }

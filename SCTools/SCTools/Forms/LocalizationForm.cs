@@ -105,29 +105,47 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-
-                    var disabledMode = Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName) == LocalizationInstallationType.Disabled;
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
-                    var result = Program.CurrentRepository.Installer.Unpack(filePath, Program.CurrentGame.RootFolder.FullName, disabledMode);
-                    if (result)
-                        result = Program.CurrentRepository.Installer.Validate(Program.CurrentGame.RootFolder.FullName, disabledMode);
-                    if (result)
+                    if (!string.IsNullOrEmpty(filePath))
                     {
-                        Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
-                        Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
-                        Program.SaveAppSettings();
-                        UpdateControls();
+                        var result = Program.CurrentRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
+                        switch (result)
+                        {
+                            case InstallStatus.Success:
+                                Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
+                                Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
+                                Program.SaveAppSettings();
+                                break;
+                            case InstallStatus.PackageError:
+                                MessageBox.Show(Resources.Localization_Package_ErrorText,
+                                  Resources.Localization_Package_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                            case InstallStatus.VerifyError:
+                                MessageBox.Show(Resources.Localization_Verify_ErrorText,
+                                  Resources.Localization_Verify_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                            case InstallStatus.FileError:
+                                MessageBox.Show(Resources.Localization_File_ErrorText,
+                                  Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                            case InstallStatus.UnknownError:
+                            default:
+                                MessageBox.Show(Resources.Localization_Install_ErrorText,
+                                   Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                        }
                     }
                     else
                     {
-                        MessageBox.Show(Resources.Localization_Install_ErrorText,
-                            Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Resources.Localization_Download_ErrorText,
+                                Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 finally
                 {
                     Cursor.Current = Cursors.Default;
                     Enabled = true;
+                    UpdateControls();
                 }
         }
 
@@ -138,12 +156,12 @@ namespace NSW.StarCitizen.Tools.Forms
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
                 Program.CurrentRepository.Installer.RevertLocalization(Program.CurrentGame.RootFolder.FullName);
-                UpdateControls();
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
                 Enabled = true;
+                UpdateControls();
             }
         }
 
