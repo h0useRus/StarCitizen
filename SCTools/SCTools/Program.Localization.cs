@@ -1,8 +1,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Settings;
@@ -11,9 +11,6 @@ namespace NSW.StarCitizen.Tools
 {
     public static partial class Program
     {
-        private const string KeySysLanguages = "sys_languages";
-        private const string KeyCurLanguage = "g_language";
-
         private static Dictionary<string, ILocalizationRepository> _localizationRepositories;
         public static Dictionary<string, ILocalizationRepository> LocalizationRepositories
         {
@@ -105,11 +102,11 @@ namespace NSW.StarCitizen.Tools
         public static LanguageInfo GetLanguagesConfiguration()
         {
             var result = new LanguageInfo();
-            var fileName = Path.Combine(CurrentGame.RootFolder.FullName, "data", "system.cfg");
+            var fileName = GameConstants.GetSystemConfigPath(CurrentGame.RootFolder.FullName);
             var cfgFile = new CfgFile(fileName);
             var data = cfgFile.Read();
 
-            if (data.TryGetValue(KeySysLanguages, out var value))
+            if (data.TryGetValue(GameConstants.SystemLanguagesKey, out var value))
             {
                 var languages = value.Split(',');
                 foreach (var language in languages)
@@ -118,7 +115,7 @@ namespace NSW.StarCitizen.Tools
                 }
             }
 
-            if (data.TryGetValue(KeyCurLanguage, out value))
+            if (data.TryGetValue(GameConstants.CurrentLanguageKey, out value))
             {
                 result.Current = value;
             }
