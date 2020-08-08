@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
@@ -88,7 +89,13 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-                    await Program.CurrentRepository.RefreshVersionsAsync();
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(10000);
+                    var releases = await Program.CurrentRepository.RefreshVersionsAsync(cancellationTokenSource.Token);
+                    if (releases == null)
+                    {
+                        MessageBox.Show(Resources.Localization_Download_ErrorText,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
                 }
                 finally
@@ -105,7 +112,9 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-                    var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion);
+
+                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(120000);
+                    var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion, cancellationTokenSource.Token);
                     if (!string.IsNullOrEmpty(filePath))
                     {
                         var result = Program.CurrentRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);

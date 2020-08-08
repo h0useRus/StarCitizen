@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Localization;
@@ -75,8 +76,9 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
 
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(20000);
             var result = new GitHubLocalizationRepository(name, repository);
-            if (await result.CheckAsync())
+            if (await result.CheckAsync(cancellationTokenSource.Token))
             {
                 Program.LocalizationRepositories[result.Repository] = result;
                 Program.Settings.Localization.Repositories.Add(new LocalizationSource

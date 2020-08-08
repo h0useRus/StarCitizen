@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NSW.StarCitizen.Tools.Helpers;
@@ -30,39 +31,38 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public override ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
 
-        public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync()
+        public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             try
             {
-                GitRelease[] releases = null;
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases");
+                using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    releases = JsonHelper.Read<GitRelease[]>(content);
-                }
-
-                if (releases != null && releases.Any())
-                {
-                    return releases.Select(r => new LocalizationInfo
+                    GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
+                    if (releases != null && releases.Any())
                     {
-                        Name = r.Name,
-                        TagName = r.TagName,
-                        PreRelease = r.PreRelease,
-                        Released = r.Published,
-                        DownloadUrl = r.ZipUrl
-                    });
+                        return releases.Select(r => new LocalizationInfo
+                        {
+                            Name = r.Name,
+                            TagName = r.TagName,
+                            PreRelease = r.PreRelease,
+                            Released = r.Published,
+                            DownloadUrl = r.ZipUrl
+                        });
+                    }
+                    return Enumerable.Empty<LocalizationInfo>();
                 }
             }
             catch { }
-            return Enumerable.Empty<LocalizationInfo>();
+            return null;
         }
 
-        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo)
+        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken)
         {
             try
             {
-                using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl);
+                using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     var contentStream = await response.Content.ReadAsStreamAsync();
@@ -76,11 +76,11 @@ namespace NSW.StarCitizen.Tools.Localization
             return null;
         }
 
-        public override async Task<bool> CheckAsync()
+        public override async Task<bool> CheckAsync(CancellationToken cancellationToken)
         {
             try
             {
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases");
+                using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch

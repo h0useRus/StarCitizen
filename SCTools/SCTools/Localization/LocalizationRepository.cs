@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -8,7 +9,7 @@ namespace NSW.StarCitizen.Tools.Localization
 {
     public abstract class LocalizationRepository : ILocalizationRepository
     {
-        private readonly Timer _monitorTimer;
+        private readonly System.Timers.Timer _monitorTimer;
         
         public string Name { get; }
         public string Repository { get; }
@@ -26,28 +27,32 @@ namespace NSW.StarCitizen.Tools.Localization
             Name = name;
             Repository = repository.Trim('/');
 
-            _monitorTimer = new Timer();
+            _monitorTimer = new System.Timers.Timer();
             _monitorTimer.Elapsed += MonitorTimerOnElapsedAsync;
 
         }
 
-        public abstract Task<IEnumerable<LocalizationInfo>> GetAllAsync();
+        public abstract Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken);
 
-        public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync()
+        public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken)
         {
-            Versions = (await GetAllAsync()).OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
-            return Versions;
+            var releases = await GetAllAsync(cancellationToken);
+            if (releases != null)
+            {
+                Versions = releases.OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
+            }
+            return releases;
         }
 
-        public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo);
-        public abstract Task<bool> CheckAsync();
+        public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken);
+        public abstract Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         public bool IsMonitorStarted { get; private set; }
         public int MonitorRefreshTime { get; private set; }
 
-        protected async Task<LocalizationInfo> GetLatestAsync()
+        protected async Task<LocalizationInfo> GetLatestAsync(CancellationToken cancellationToken)
         {
-            var releases = await GetAllAsync();
+            var releases = await GetAllAsync(cancellationToken);
             return releases?.OrderByDescending(r => r.Released).First();
         }
 
@@ -73,7 +78,8 @@ namespace NSW.StarCitizen.Tools.Localization
 
         private async void MonitorTimerOnElapsedAsync(object sender, ElapsedEventArgs e)
         {
-            var result = await GetLatestAsync();
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            var result = await GetLatestAsync(cancellationTokenSource.Token);
 
             if (result != null)
             {

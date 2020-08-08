@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -25,7 +26,8 @@ namespace NSW.StarCitizen.Tools.Localization
                     return InstallStatus.PackageError;
                 }
                 string newLibraryPath = Path.Combine(unpackDir.FullName, PatcherOriginalName);
-                if (!VerifyHelper.VerifyFile(Resources.CoreSigning, newLibraryPath))
+                FileCertVerifier libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
+                if (!libraryCertVerifier.VerifyFile(newLibraryPath))
                 {
                     return InstallStatus.VerifyError;
                 }
@@ -48,6 +50,10 @@ namespace NSW.StarCitizen.Tools.Localization
                     }
                     File.Move(newLibraryPath, disabledLibraryPath);
                 }
+            }
+            catch (CryptographicException)
+            {
+                return InstallStatus.VerifyError;
             }
             catch (IOException)
             {
