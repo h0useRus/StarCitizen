@@ -73,7 +73,7 @@ namespace NSW.StarCitizen.Tools
             return null;
         }
 
-        public static void UpdateCurrentInstallationReposiory(ILocalizationRepository localizationRepository)
+        public static void UpdateCurrentInstallationRepository(ILocalizationRepository localizationRepository)
         {
             CurrentInstallation.Repository = localizationRepository.Repository;
             CurrentInstallation.LastVersion = localizationRepository.CurrentVersion.Name;
@@ -86,6 +86,12 @@ namespace NSW.StarCitizen.Tools
                 otherInstallation.InstalledVersion = null;
             }
             SaveAppSettings();
+        }
+
+        public static LocalizationInstallation GetLocalizationInstallationFromRepository(ILocalizationRepository localizationRepository)
+        {
+            return Settings.Localization.Installations.FirstOrDefault(i => (i.Mode == CurrentGame.Mode) &&
+                (string.Compare(i.Repository, localizationRepository.Repository, StringComparison.OrdinalIgnoreCase) == 0));
         }
 
         public static void SetCurrentLocalizationRepository(ILocalizationRepository localizationRepository)

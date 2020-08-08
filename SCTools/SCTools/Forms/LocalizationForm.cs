@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -143,7 +144,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     switch (result)
                     {
                         case InstallStatus.Success:
-                            Program.UpdateCurrentInstallationReposiory(installRepository);
+                            Program.UpdateCurrentInstallationRepository(installRepository);
                             break;
                         case InstallStatus.PackageError:
                             MessageBox.Show(Resources.Localization_Package_ErrorText,
@@ -227,6 +228,18 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Program.SaveCurrentLanguage(cbLanguages.SelectedItem.ToString());
             }
+        }
+
+        private void cbRepository_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ILocalizationRepository repository = (ILocalizationRepository)cbRepository.Items[e.Index];
+            var localizationInstallation = Program.GetLocalizationInstallationFromRepository(repository);
+            bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
+            using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
+            using var font = new Font(cbRepository.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
+            e.DrawBackground();
+            e.Graphics.DrawString(repository.Name, font, brush, e.Bounds);
+            e.DrawFocusRectangle();
         }
     }
 }

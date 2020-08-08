@@ -167,6 +167,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.Name = "cbRepository";
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 11;
+            this.cbRepository.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbRepository.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbRepository_DrawItem);
             this.cbRepository.SelectedIndexChanged += new System.EventHandler(this.cbRepository_SelectedIndexChanged);
             // 
             // btnLocalizationDisable
