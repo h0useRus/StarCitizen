@@ -37,11 +37,8 @@ namespace NSW.StarCitizen.Tools.Localization
         public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
-            if (releases != null)
-            {
-                Versions = releases.OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
-            }
-            return releases;
+            Versions = releases.OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
+            return Versions;
         }
 
         public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken);
@@ -53,7 +50,7 @@ namespace NSW.StarCitizen.Tools.Localization
         protected async Task<LocalizationInfo> GetLatestAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
-            return releases?.OrderByDescending(r => r.Released).First();
+            return releases.OrderByDescending(r => r.Released).First();
         }
 
         public void MonitorStart(int refreshTime)
@@ -78,14 +75,16 @@ namespace NSW.StarCitizen.Tools.Localization
 
         private async void MonitorTimerOnElapsedAsync(object sender, ElapsedEventArgs e)
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            var result = await GetLatestAsync(cancellationTokenSource.Token);
-
-            if (result != null)
+            try
             {
-                if(string.Compare(result.Name, CurrentVersion?.Name, StringComparison.OrdinalIgnoreCase) != 0)
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                var result = await GetLatestAsync(cancellationTokenSource.Token);
+                if (string.Compare(result.Name, CurrentVersion?.Name, StringComparison.OrdinalIgnoreCase) != 0)
+                {
                     MonitorNewVersion?.Invoke(this, result.Name);
+                }
             }
+            catch {}
         }
 
         public override string ToString() => Name;

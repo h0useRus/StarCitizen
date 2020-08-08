@@ -90,13 +90,13 @@ namespace NSW.StarCitizen.Tools.Forms
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(10000);
-                    var releases = await Program.CurrentRepository.RefreshVersionsAsync(cancellationTokenSource.Token);
-                    if (releases == null)
-                    {
-                        MessageBox.Show(Resources.Localization_Download_ErrorText,
-                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    await Program.CurrentRepository.RefreshVersionsAsync(cancellationTokenSource.Token);
                     cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                }
+                catch
+                {
+                    MessageBox.Show(Resources.Localization_Download_ErrorText,
+                           Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -115,40 +115,37 @@ namespace NSW.StarCitizen.Tools.Forms
 
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(120000);
                     var filePath = await Program.CurrentRepository.DownloadAsync(Program.CurrentRepository.CurrentVersion, cancellationTokenSource.Token);
-                    if (!string.IsNullOrEmpty(filePath))
+                    var result = Program.CurrentRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
+                    switch (result)
                     {
-                        var result = Program.CurrentRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
-                        switch (result)
-                        {
-                            case InstallStatus.Success:
-                                Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
-                                Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
-                                Program.SaveAppSettings();
-                                break;
-                            case InstallStatus.PackageError:
-                                MessageBox.Show(Resources.Localization_Package_ErrorText,
-                                  Resources.Localization_Package_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                            case InstallStatus.VerifyError:
-                                MessageBox.Show(Resources.Localization_Verify_ErrorText,
-                                  Resources.Localization_Verify_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                            case InstallStatus.FileError:
-                                MessageBox.Show(Resources.Localization_File_ErrorText,
-                                  Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                            case InstallStatus.UnknownError:
-                            default:
-                                MessageBox.Show(Resources.Localization_Install_ErrorText,
-                                   Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                break;
-                        }
+                        case InstallStatus.Success:
+                            Program.CurrentInstallation.Repository = Program.CurrentRepository.Repository;
+                            Program.CurrentInstallation.LastVersion = Program.CurrentRepository.CurrentVersion.Name;
+                            Program.SaveAppSettings();
+                            break;
+                        case InstallStatus.PackageError:
+                            MessageBox.Show(Resources.Localization_Package_ErrorText,
+                                Resources.Localization_Package_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case InstallStatus.VerifyError:
+                            MessageBox.Show(Resources.Localization_Verify_ErrorText,
+                                Resources.Localization_Verify_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case InstallStatus.FileError:
+                            MessageBox.Show(Resources.Localization_File_ErrorText,
+                                Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case InstallStatus.UnknownError:
+                        default:
+                            MessageBox.Show(Resources.Localization_Install_ErrorText,
+                                Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
                     }
-                    else
-                    {
-                        MessageBox.Show(Resources.Localization_Download_ErrorText,
-                                Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                }
+                catch
+                {
+                    MessageBox.Show(Resources.Localization_Download_ErrorText,
+                        Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {

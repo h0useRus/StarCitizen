@@ -33,47 +33,42 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            try
+            using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
+            if (releases != null && releases.Any())
             {
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
-                if (response.IsSuccessStatusCode)
+                return releases.Select(r => new LocalizationInfo
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
-                    if (releases != null && releases.Any())
-                    {
-                        return releases.Select(r => new LocalizationInfo
-                        {
-                            Name = r.Name,
-                            TagName = r.TagName,
-                            PreRelease = r.PreRelease,
-                            Released = r.Published,
-                            DownloadUrl = r.ZipUrl
-                        });
-                    }
-                    return Enumerable.Empty<LocalizationInfo>();
-                }
+                    Name = r.Name,
+                    TagName = r.TagName,
+                    PreRelease = r.PreRelease,
+                    Released = r.Published,
+                    DownloadUrl = r.ZipUrl
+                });
             }
-            catch { }
-            return null;
+            return Enumerable.Empty<LocalizationInfo>();
         }
 
         public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken)
         {
+            using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            var contentStream = await response.Content.ReadAsStreamAsync();
+            var tempFileName = Path.Combine(Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
             try
             {
-                using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
-                if (response.IsSuccessStatusCode)
-                {
-                    var contentStream = await response.Content.ReadAsStreamAsync();
-                    var tempFileName = Path.Combine(Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
-                    using var fileStream = File.Create(tempFileName);
-                    await contentStream.CopyToAsync(fileStream);
-                    return tempFileName;
-                }
+                using var fileStream = File.Create(tempFileName);
+                await contentStream.CopyToAsync(fileStream);
             }
-            catch { }
-            return null;
+            catch (Exception e)
+            {
+                if (File.Exists(tempFileName))
+                    File.Delete(tempFileName);
+                throw e;
+            }
+            return tempFileName;
         }
 
         public override async Task<bool> CheckAsync(CancellationToken cancellationToken)
