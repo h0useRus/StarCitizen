@@ -220,4 +220,22 @@
   <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
     <value>Verification Error</value>
   </data>
+  <data name="Localization_Found_New_Version" xml:space="preserve">
+    <value>Found new version {0}.</value>
+  </data>
+  <data name="Localization_Installed_Version" xml:space="preserve">
+    <value>Installed version:</value>
+  </data>
+  <data name="Localization_Latest_Version" xml:space="preserve">
+    <value>Latest version:</value>
+  </data>
+  <data name="Localization_Press_Refresh_Button" xml:space="preserve">
+    <value>Please press Refresh button</value>
+  </data>
+  <data name="Localization_Start_Monitoring" xml:space="preserve">
+    <value>Start monitoring.</value>
+  </data>
+  <data name="Localization_Stop_Monitoring" xml:space="preserve">
+    <value>Stop monitoring.</value>
+  </data>
 </root>

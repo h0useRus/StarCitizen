@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NSW.StarCitizen.Tools.Global;
-using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools
 {

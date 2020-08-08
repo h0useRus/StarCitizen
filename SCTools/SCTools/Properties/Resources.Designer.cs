@@ -261,6 +261,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found new version {0}..
+        /// </summary>
+        internal static string Localization_Found_New_Version {
+            get {
+                return ResourceManager.GetString("Localization_Found_New_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unfortunately, it was an error during installation. Please try again..
         /// </summary>
         internal static string Localization_Install_ErrorText {
@@ -279,11 +288,29 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installed version:.
+        /// </summary>
+        internal static string Localization_Installed_Version {
+            get {
+                return ResourceManager.GetString("Localization_Installed_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Install selected version.
         /// </summary>
         internal static string Localization_InstallVersion_Text {
             get {
                 return ResourceManager.GetString("Localization_InstallVersion_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latest version:.
+        /// </summary>
+        internal static string Localization_Latest_Version {
+            get {
+                return ResourceManager.GetString("Localization_Latest_Version", resourceCulture);
             }
         }
         
@@ -302,6 +329,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Package_ErrorTitle {
             get {
                 return ResourceManager.GetString("Localization_Package_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please press Refresh button.
+        /// </summary>
+        internal static string Localization_Press_Refresh_Button {
+            get {
+                return ResourceManager.GetString("Localization_Press_Refresh_Button", resourceCulture);
             }
         }
         
@@ -329,6 +365,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Source {
             get {
                 return ResourceManager.GetString("Localization_Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start monitoring..
+        /// </summary>
+        internal static string Localization_Start_Monitoring {
+            get {
+                return ResourceManager.GetString("Localization_Start_Monitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop monitoring..
+        /// </summary>
+        internal static string Localization_Stop_Monitoring {
+            get {
+                return ResourceManager.GetString("Localization_Stop_Monitoring", resourceCulture);
             }
         }
         

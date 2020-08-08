@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools
@@ -39,19 +41,19 @@ namespace NSW.StarCitizen.Tools
         private static void OnMonitorNewVersion(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, $"Found new version {e}."));
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, string.Format(Resources.Localization_Found_New_Version, e)));
         }
 
         private static void OnMonitorStopped(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, "Stop monitoring."));
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, Resources.Localization_Stop_Monitoring));
         }
 
         private static void OnMonitorStarted(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, "Start monitoring."));
+            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, Resources.Localization_Start_Monitoring));
         }
 
         private static ILocalizationRepository _currentRepository;

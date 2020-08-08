@@ -40,7 +40,7 @@ namespace NSW.StarCitizen.Tools.Forms
             var installedVersion = Program.CurrentInstallation.InstalledVersion;
             if (!string.IsNullOrEmpty(installedVersion))
             {
-                lblSelectedVersion.Text = "Installed version: ";
+                lblSelectedVersion.Text = Resources.Localization_Installed_Version;
                 tbCurrentVersion.Text = installedVersion;
                 var lng = Program.GetLanguagesConfiguration();
                 if (lng.Languages.Any())
@@ -61,12 +61,12 @@ namespace NSW.StarCitizen.Tools.Forms
                 var lastVersion = Program.CurrentInstallation.LastVersion;
                 if (!string.IsNullOrEmpty(lastVersion))
                 {
-                    lblSelectedVersion.Text = "Latest version: ";
+                    lblSelectedVersion.Text = Resources.Localization_Latest_Version;
                     tbCurrentVersion.Text = lastVersion;
                 }
                 else
                 {
-                    lblSelectedVersion.Text = "Installed version: ";
+                    lblSelectedVersion.Text = Resources.Localization_Installed_Version;
                     tbCurrentVersion.Text = "N/A";
                 }                
                 lblCurrentLanguage.Visible = false;
