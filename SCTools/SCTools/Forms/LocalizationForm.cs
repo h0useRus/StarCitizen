@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
+using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -11,14 +12,19 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : Form
     {
-        //private bool _holdUpdates;
-        public LocalizationForm()
+        public readonly GameInfo _currentGame;
+        public readonly GameSettings _gameSettings;
+
+        public LocalizationForm(GameInfo currentGame)
         {
+            _currentGame = currentGame;
+            _gameSettings = new GameSettings(currentGame);
             InitializeComponent();
         }
 
         private void LocalizationForm_Load(object sender, EventArgs e)
         {
+            _gameSettings.Load();
             // Repositories
             cbRepository.DataSource = Program.LocalizationRepositories.Values.ToList();
             var current = Program.GetCurrentLocalizationRepository();
@@ -43,11 +49,10 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 lblSelectedVersion.Text = Resources.Localization_Installed_Version;
                 tbCurrentVersion.Text = installedVersion;
-                var lng = Program.GetLanguagesConfiguration();
-                if (lng.Languages.Any())
+                if (_gameSettings.LanguageInfo.Languages.Any())
                 {
-                    cbLanguages.DataSource = lng.Languages.ToList();
-                    cbLanguages.SelectedItem = lng.Current;
+                    cbLanguages.DataSource = _gameSettings.LanguageInfo.Languages.ToList();
+                    cbLanguages.SelectedItem = _gameSettings.LanguageInfo.Current;
                     cbLanguages.Enabled = true;
                 }
                 else
@@ -74,7 +79,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 cbLanguages.Visible = false;
             }
             // enable disable
-            switch (Program.CurrentRepository.Installer.GetInstallationType(Program.CurrentGame.RootFolder.FullName))
+            switch (Program.CurrentRepository.Installer.GetInstallationType(_currentGame.RootFolder.FullName))
             {
                 case LocalizationInstallationType.None:
                     btnLocalizationDisable.Visible = false;
@@ -153,10 +158,11 @@ namespace NSW.StarCitizen.Tools.Forms
                     progressDlg.Show(this);
                     var filePath = await installRepository.DownloadAsync(installRepository.CurrentVersion, progressDlg.CancelToken, downloadDialogAdapter);
                     var installDialogAdapter = new InstallProgressDialogAdapter(progressDlg);
-                    var result = installRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
+                    var result = installRepository.Installer.Install(filePath, _currentGame.RootFolder.FullName);
                     switch (result)
                     {
                         case InstallStatus.Success:
+                            _gameSettings.Load();
                             progressDlg.CurrentTaskProgress = 1.0f;
                             Program.UpdateCurrentInstallationRepository(installRepository);
                             break;
@@ -203,7 +209,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                Program.CurrentRepository.Installer.RevertLocalization(Program.CurrentGame.RootFolder.FullName);
+                Program.CurrentRepository.Installer.RevertLocalization(_currentGame.RootFolder.FullName);
             }
             finally
             {
@@ -243,9 +249,10 @@ namespace NSW.StarCitizen.Tools.Forms
         private void cbLanguages_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var currentLanguage = cbLanguages.SelectedItem;
-            if (currentLanguage != null)
+            if (currentLanguage != null && !_gameSettings.SaveCurrentLanguage(currentLanguage.ToString()))
             {
-                Program.SaveCurrentLanguage(cbLanguages.SelectedItem.ToString());
+                cbLanguages.SelectedItem = _gameSettings.LanguageInfo.Current;
+                /// TODO: Add dialog with error
             }
         }
 

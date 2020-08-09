@@ -117,7 +117,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (Program.CurrentGame == null)
                 return;
 
-            using var dlg = new LocalizationForm();
+            using var dlg = new LocalizationForm(Program.CurrentGame);
             dlg.ShowDialog(this);
         }
         private void cbGameModes_SelectedIndexChanged(object sender, EventArgs e)
