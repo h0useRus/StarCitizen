@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NSW.StarCitizen.Tools.Localization
@@ -13,10 +14,10 @@ namespace NSW.StarCitizen.Tools.Localization
         LocalizationInfo CurrentVersion { get; set; }
         IEnumerable<LocalizationInfo> Versions { get; set; }
 
-        Task<IEnumerable<LocalizationInfo>> GetAllAsync();
-        Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync();
-        Task<string> DownloadAsync(LocalizationInfo localizationInfo);
-        Task<bool> CheckAsync();
+        Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken);
+        Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken);
+        Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         bool IsMonitorStarted { get; }
         int MonitorRefreshTime { get; }

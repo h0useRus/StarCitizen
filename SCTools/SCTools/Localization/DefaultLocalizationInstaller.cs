@@ -1,5 +1,9 @@
+using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
+using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -7,81 +11,169 @@ namespace NSW.StarCitizen.Tools.Localization
 {
     public class DefaultLocalizationInstaller : ILocalizationInstaller
     {
-        private const string PatcherOriginalName = "patcher.bin";
-        private const string PatcherLibraryName = "CIGDevelopmentTools.dll";
-
-        private static string GetLibraryName(string destinationFolder, bool isDisabledMode)
-            => Path.Combine(destinationFolder, Program.BinFolder, isDisabledMode ? PatcherOriginalName : PatcherLibraryName);
-        public bool Unpack(string zipFileName, string destinationFolder, bool isDisabledMode)
+        public InstallStatus Install(string zipFileName, string destinationFolder)
         {
+            DirectoryInfo unpackDataDir = null;
+            DirectoryInfo backupDataDir = null;
+            DirectoryInfo dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
             try
             {
-                using var archive = ZipFile.OpenRead(zipFileName);
-                var rootEntry = archive.Entries[0];
-                //extract only data folder
-                foreach (var entry in archive.Entries)
+                string unpackDataDirPath = Path.Combine(destinationFolder, "temp_" + Path.GetRandomFileName());
+                unpackDataDir = Directory.CreateDirectory(unpackDataDirPath);
+                if (!Unpack(zipFileName, unpackDataDir.FullName))
                 {
-                    if (entry.FullName.Contains(@"/data/"))
-                    {
-                        if (string.IsNullOrWhiteSpace(entry.Name))
-                        {
-                            var dir = Path.Combine(destinationFolder,
-                                entry.FullName.Replace(rootEntry.FullName, string.Empty));
-                            if (!Directory.Exists(dir))
-                                Directory.CreateDirectory(dir);
-                        }
-                        else
-                        {
-                            entry.ExtractToFile(
-                                Path.Combine(destinationFolder,
-                                    entry.FullName.Replace(rootEntry.FullName, string.Empty)), true);
-                        }
-                    }
-                    else if (entry.FullName.EndsWith(PatcherOriginalName))
-                    {
-                        entry.ExtractToFile(GetLibraryName(destinationFolder, isDisabledMode), true);
-                    }
-
+                    return InstallStatus.PackageError;
                 }
-
-                return true;
+                string newLibraryPath = Path.Combine(unpackDataDir.FullName, GameConstants.PatcherOriginalName);
+                FileCertVerifier libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
+                if (!libraryCertVerifier.VerifyFile(newLibraryPath))
+                {
+                    return InstallStatus.VerifyError;
+                }
+                if (dataPathDir.Exists)
+                {
+                    string backupDataDirPath = Path.Combine(destinationFolder, "backup_" + Path.GetRandomFileName());
+                    Directory.Move(dataPathDir.FullName, backupDataDirPath);
+                    backupDataDir = new DirectoryInfo(backupDataDirPath);
+                }
+                Directory.Move(GameConstants.GetDataFolderPath(unpackDataDir.FullName), dataPathDir.FullName);
+                if (backupDataDir != null)
+                {
+                    DeleteDirectoryRecursive(backupDataDir);
+                    backupDataDir = null;
+                }
+                string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+                if (File.Exists(enabledLibraryPath))
+                {
+                    File.Delete(enabledLibraryPath);
+                    File.Move(newLibraryPath, enabledLibraryPath);
+                }
+                else
+                {
+                    string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+                    if (File.Exists(disabledLibraryPath))
+                    {
+                        File.Delete(disabledLibraryPath);
+                    }
+                    File.Move(newLibraryPath, disabledLibraryPath);
+                }
             }
-            catch
+            catch (CryptographicException)
             {
-                return false;
+                return InstallStatus.VerifyError;
             }
-        }
-
-        public bool Validate(string destinationFolder, bool isDisabledMode)
-        {
-            var fileName = GetLibraryName(destinationFolder, isDisabledMode);
-            return VerifyHelper.VerifyFile(Resources.CoreSigning, fileName);
+            catch (IOException)
+            {
+                return InstallStatus.FileError;
+            }
+            catch (Exception)
+            {
+                return InstallStatus.UnknownError;
+            }
+            finally
+            {
+                if (unpackDataDir != null)
+                {
+                    DeleteDirectoryRecursive(unpackDataDir);
+                }
+                if (backupDataDir != null)
+                {
+                    RestoreDirectory(backupDataDir, dataPathDir);
+                }
+            }
+            return InstallStatus.Success;
         }
 
         public LocalizationInstallationType GetInstallationType(string destinationFolder)
         {
-            if (File.Exists(GetLibraryName(destinationFolder, true)))
+            if (File.Exists(GameConstants.GetEnabledPatcherPath(destinationFolder)))
+                return LocalizationInstallationType.Enabled;
+            if (File.Exists(GameConstants.GetDisabledPatcherPath(destinationFolder)))
                 return LocalizationInstallationType.Disabled;
-            return File.Exists(GetLibraryName(destinationFolder, false))
-                ? LocalizationInstallationType.Enabled
-                : LocalizationInstallationType.None;
+            return LocalizationInstallationType.None;
         }
 
         public LocalizationInstallationType RevertLocalization(string destinationFolder)
         {
-            if (File.Exists(GetLibraryName(destinationFolder, false)))
+            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+
+            if (File.Exists(enabledLibraryPath))
             {
-                File.Move(GetLibraryName(destinationFolder, false), GetLibraryName(destinationFolder, true));
+                File.Move(enabledLibraryPath, disabledLibraryPath);
                 return LocalizationInstallationType.Disabled;
             }
 
-            if (File.Exists(GetLibraryName(destinationFolder, true)))
+            if (File.Exists(disabledLibraryPath))
             {
-                File.Move(GetLibraryName(destinationFolder, true), GetLibraryName(destinationFolder, false));
+                File.Move(disabledLibraryPath, enabledLibraryPath);
                 return LocalizationInstallationType.Enabled;
             }
 
             return LocalizationInstallationType.None;
+        }
+
+        private bool Unpack(string zipFileName, string destinationFolder)
+        {
+            using var archive = ZipFile.OpenRead(zipFileName);
+            if (archive.Entries.Count == 0)
+            {
+                return false;
+            }
+            bool dataExtracted = false;
+            bool coreExtracted = false;
+            var rootEntry = archive.Entries[0];
+            var dataPathStart = GameConstants.DataFolderName + "/";
+            //extract only data folder and core module
+            foreach (var entry in archive.Entries)
+            {
+                if (entry.FullName.StartsWith(rootEntry.FullName, true, CultureInfo.InvariantCulture))
+                {
+                    string relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
+                    if (string.IsNullOrEmpty(entry.Name) && relativePath.EndsWith("/"))
+                    {
+                        var dir = Path.Combine(destinationFolder, relativePath);
+                        if (!Directory.Exists(dir))
+                            Directory.CreateDirectory(dir);
+                    }
+                    else if (relativePath.StartsWith(dataPathStart, true, CultureInfo.InvariantCulture))
+                    {
+                        entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
+                        dataExtracted = true;
+                    }
+                    else if (relativePath.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
+                        coreExtracted = true;
+                    }
+                }
+            }
+            return dataExtracted && coreExtracted;
+        }
+
+        private static void DeleteDirectoryRecursive(DirectoryInfo dir)
+        {
+            try
+            {
+                dir.Delete(true);
+            }
+            catch {}
+        }
+
+        private static void RestoreDirectory(DirectoryInfo dir, DirectoryInfo destDir)
+        {
+            if (dir.Exists)
+            {
+                try
+                {
+                    DeleteDirectoryRecursive(destDir);
+                    Directory.Move(dir.FullName, destDir.FullName);
+                }
+                catch
+                {
+                    DeleteDirectoryRecursive(dir);
+                }
+            }
         }
     }
 }

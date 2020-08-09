@@ -1,23 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NSW.StarCitizen.Tools.Global;
 
 namespace NSW.StarCitizen.Tools
 {
     public static partial class Program
     {
-        public const string ExeName = "StarCitizen.exe";
-        public const string BinFolder = "Bin64";
-
         public static GameInfo CurrentGame { get; set; }
 
         public static bool SetGameFolder(string path)
         {
-            if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            if (string.IsNullOrWhiteSpace(path))
                 return false;
 
-            if (!File.Exists(GetGameExePath(path, GameMode.LIVE)) && !File.Exists(GetGameExePath(path, GameMode.PTU)))
+            var gameInfos = GetGameModes(path);
+            if (!gameInfos.Any())
                 return false;
 
             if (string.Compare(Settings.GameFolder, path, StringComparison.OrdinalIgnoreCase) != 0)
@@ -28,23 +27,29 @@ namespace NSW.StarCitizen.Tools
 
             return true;
         }
-        public static IEnumerable<GameInfo> GetGameModes()
+
+        public static IEnumerable<GameInfo> GetGameModes(string gameFolder)
         {
             var result = new List<GameInfo>();
-            if (Directory.Exists(Settings.GameFolder))
+            if (Directory.Exists(gameFolder))
             {
-                foreach (var directory in new DirectoryInfo(Settings.GameFolder).GetDirectories())
+                foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
                 {
-                    if (Enum.TryParse(directory.Name, true, out GameMode mode))
+                    var gameModeDir = new DirectoryInfo(GameConstants.GetGameModePath(gameFolder, mode));
+                    if (gameModeDir.Exists)
                     {
-                        var exeFileInfo = new FileInfo(GetGameExePath(Settings.GameFolder, mode));
+                        var exeFileInfo = new FileInfo(GameConstants.GetGameExePath(gameModeDir.FullName));
                         if (exeFileInfo.Exists)
-                            result.Add(new GameInfo(directory, mode, exeFileInfo));
+                            result.Add(new GameInfo(gameModeDir, mode, exeFileInfo));
                     }
                 }
             }
             return result;
         }
-        private static string GetGameExePath(string rootPath, GameMode mode) => Path.Combine(rootPath, mode.ToString(), BinFolder, ExeName);
+
+        public static IEnumerable<GameInfo> GetGameModes()
+        {
+            return GetGameModes(Settings.GameFolder);
+        }
     }
 }
