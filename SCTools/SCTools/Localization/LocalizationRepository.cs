@@ -41,7 +41,7 @@ namespace NSW.StarCitizen.Tools.Localization
             return Versions;
         }
 
-        public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken);
+        public abstract Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
         public abstract Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         public bool IsMonitorStarted { get; private set; }
