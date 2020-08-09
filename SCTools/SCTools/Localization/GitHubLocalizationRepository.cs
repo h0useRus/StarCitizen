@@ -51,16 +51,29 @@ namespace NSW.StarCitizen.Tools.Localization
             return Enumerable.Empty<LocalizationInfo>();
         }
 
-        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken)
+        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken,
+            IDownloadProgress downloadProgress)
         {
             using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
             response.EnsureSuccessStatusCode();
-            var contentStream = await response.Content.ReadAsStreamAsync();
+            if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
+            {
+                downloadProgress.ReportContentSize(response.Content.Headers.ContentLength.Value);
+            }
+            using var contentStream = await response.Content.ReadAsStreamAsync();
             var tempFileName = Path.Combine(Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
             try
             {
                 using var fileStream = File.Create(tempFileName);
-                await contentStream.CopyToAsync(fileStream);
+                if (downloadProgress != null)
+                {
+                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken,
+                        new Progress<long>(value => downloadProgress.ReportDownloadedSize(value)));
+                }
+                else
+                {
+                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken);
+                }
             }
             catch (Exception e)
             {

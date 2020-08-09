@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -109,41 +109,55 @@ namespace NSW.StarCitizen.Tools.Forms
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
             if (Program.CurrentRepository != null)
+            {
+                using var progressDlg = new ProgressForm(10000);
                 try
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(10000);
-                    await Program.CurrentRepository.RefreshVersionsAsync(cancellationTokenSource.Token);
-                    cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                    progressDlg.Text = "Refresh available versions";
+                    progressDlg.Show(this);
+                    await Program.CurrentRepository.RefreshVersionsAsync(progressDlg.CancelToken);
+                    progressDlg.CurrentTaskProgress = 1.0f;
                 }
                 catch
                 {
-                    MessageBox.Show(Resources.Localization_Download_ErrorText,
-                           Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!progressDlg.IsCanceledByUser)
+                    {
+                        MessageBox.Show(Resources.Localization_Download_ErrorText,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 finally
                 {
                     Cursor.Current = Cursors.Default;
                     Enabled = true;
+                    progressDlg.Hide();
+                    cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
                 }
+            }
         }
 
         private async void btnInstall_Click(object sender, EventArgs e)
         {
             if (Program.CurrentRepository?.CurrentVersion != null)
+            {
+                using var progressDlg = new ProgressForm();
                 try
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-
                     var installRepository = Program.CurrentRepository;
-                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(120000);
-                    var filePath = await installRepository.DownloadAsync(installRepository.CurrentVersion, cancellationTokenSource.Token);
+                    progressDlg.Text = $"Install version: {installRepository.CurrentVersion}";
+                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
+                    progressDlg.Show(this);
+                    var filePath = await installRepository.DownloadAsync(installRepository.CurrentVersion, progressDlg.CancelToken, downloadDialogAdapter);
+                    var installDialogAdapter = new InstallProgressDialogAdapter(progressDlg);
                     var result = installRepository.Installer.Install(filePath, Program.CurrentGame.RootFolder.FullName);
                     switch (result)
                     {
                         case InstallStatus.Success:
+                            progressDlg.CurrentTaskProgress = 1.0f;
                             Program.UpdateCurrentInstallationRepository(installRepository);
                             break;
                         case InstallStatus.PackageError:
@@ -167,15 +181,20 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 catch
                 {
-                    MessageBox.Show(Resources.Localization_Download_ErrorText,
-                        Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!progressDlg.IsCanceledByUser)
+                    {
+                        MessageBox.Show(Resources.Localization_Download_ErrorText,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 finally
                 {
                     Cursor.Current = Cursors.Default;
                     Enabled = true;
+                    progressDlg.Hide();
                     UpdateControls();
                 }
+            }
         }
 
         private void btnLocalizationDisable_Click(object sender, EventArgs e)
