@@ -160,6 +160,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // cbRepository
             // 
             this.cbRepository.BackColor = System.Drawing.SystemColors.Info;
+            this.cbRepository.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbRepository.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbRepository.FormattingEnabled = true;
@@ -167,7 +168,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.Name = "cbRepository";
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 11;
-            this.cbRepository.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbRepository.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbRepository_DrawItem);
             this.cbRepository.SelectedIndexChanged += new System.EventHandler(this.cbRepository_SelectedIndexChanged);
             // 
@@ -216,7 +216,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 176);
+            this.ClientSize = new System.Drawing.Size(483, 177);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
             this.Controls.Add(this.lblSelectedVersion);

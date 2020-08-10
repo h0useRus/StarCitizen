@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Global;
+using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Forms
@@ -50,6 +51,12 @@ namespace NSW.StarCitizen.Tools.Forms
             Show();
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
+        }
+
+        private void Restore()
+        {
+            Maximize();
+            WinApi.ShowToFront(Handle);
         }
 
         #endregion
@@ -146,5 +153,14 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.SaveAppSettings();
         }
         #endregion
+
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
+            {
+                Restore();
+            }
+            base.WndProc(ref message);
+        }
     }
 }
