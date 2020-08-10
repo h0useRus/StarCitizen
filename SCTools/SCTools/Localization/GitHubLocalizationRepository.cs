@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NSW.StarCitizen.Tools.Helpers;
@@ -30,57 +31,64 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public override ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
 
-        public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync()
+        public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            try
+            using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
+            if (releases != null && releases.Any())
             {
-                GitRelease[] releases = null;
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases");
-                if (response.IsSuccessStatusCode)
+                return releases.Select(r => new LocalizationInfo
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    releases = JsonHelper.Read<GitRelease[]>(content);
-                }
-
-                if (releases != null && releases.Any())
-                {
-                    return releases.Select(r => new LocalizationInfo
-                    {
-                        Name = r.Name,
-                        TagName = r.TagName,
-                        PreRelease = r.PreRelease,
-                        Released = r.Published,
-                        DownloadUrl = r.ZipUrl
-                    });
-                }
+                    Name = r.Name,
+                    TagName = r.TagName,
+                    PreRelease = r.PreRelease,
+                    Released = r.Published,
+                    DownloadUrl = r.ZipUrl
+                });
             }
-            catch { }
             return Enumerable.Empty<LocalizationInfo>();
         }
 
-        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo)
+        public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken,
+            IDownloadProgress downloadProgress)
         {
+            using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
+            {
+                downloadProgress.ReportContentSize(response.Content.Headers.ContentLength.Value);
+            }
+            using var contentStream = await response.Content.ReadAsStreamAsync();
+            var tempFileName = Path.Combine(Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
             try
             {
-                using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl);
-                if (response.IsSuccessStatusCode)
+                using var fileStream = File.Create(tempFileName);
+                if (downloadProgress != null)
                 {
-                    var contentStream = await response.Content.ReadAsStreamAsync();
-                    var tempFileName = Path.Combine(Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
-                    using var fileStream = File.Create(tempFileName);
-                    await contentStream.CopyToAsync(fileStream);
-                    return tempFileName;
+                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken,
+                        new Progress<long>(value => downloadProgress.ReportDownloadedSize(value)));
+                }
+                else
+                {
+                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken);
                 }
             }
-            catch { }
-            return null;
+            catch (Exception e)
+            {
+                if (File.Exists(tempFileName))
+                    File.Delete(tempFileName);
+                throw e;
+            }
+            return tempFileName;
         }
 
-        public override async Task<bool> CheckAsync()
+        public override async Task<bool> CheckAsync(CancellationToken cancellationToken)
         {
             try
             {
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases");
+                using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch

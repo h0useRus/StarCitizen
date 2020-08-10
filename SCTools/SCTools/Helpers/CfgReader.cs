@@ -88,10 +88,24 @@ namespace NSW.StarCitizen.Tools.Helpers
             {
                 row = new CfgRow(key, value);
                 _rows.Add(row);
+                return row;
             }
 
             row.UpdateValue(value);
             return row;
+        }
+
+        public CfgRow RemoveRow(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
+
+            var row = GetRowByKey(key);
+            if (row != null)
+            {
+                _rows.Remove(row);
+                return row;
+            }
+            return null;
         }
 
         public bool TryGetValue(string key, out string value)
