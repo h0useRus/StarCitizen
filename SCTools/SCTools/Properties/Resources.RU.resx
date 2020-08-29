@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\app-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="AppName" xml:space="preserve">
     <value>Star Citizen : Utils</value>
   </data>
@@ -131,100 +127,151 @@
     <value>Persistent Test Universe</value>
   </data>
   <data name="GamePath_Description" xml:space="preserve">
-    <value>Please select Star Citizen root folder.</value>
+    <value>Пожалуйста укажите корневую папку Star Citizen.</value>
   </data>
   <data name="GamePath_Error_Text" xml:space="preserve">
     <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
   </data>
   <data name="GamePath_Error_Title" xml:space="preserve">
-    <value>Wrong path to Star Citizen folder</value>
+    <value>Неверный путь к директории игры Star Citizen</value>
   </data>
   <data name="GamePath_Hint" xml:space="preserve">
-    <value>Press here to select Star Citizen root folder</value>
-  </data>
-  <data name="Localization_Game_Mode" xml:space="preserve">
-    <value>Game mode</value>
-  </data>
-  <data name="Localization_Game_Version" xml:space="preserve">
-    <value>Game version</value>
+    <value>Нажмите сюда чтобы указать корневую папку Star Citizen</value>
   </data>
   <data name="LocalizationButton_Text" xml:space="preserve">
-    <value>Localization {0}</value>
+    <value>Локализация {0}</value>
+  </data>
+  <data name="Localization_Add_Text" xml:space="preserve">
+    <value>Добавить</value>
   </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
-    <value>minutes</value>
+    <value>минут</value>
   </data>
   <data name="Localization_AutomaticCheck_Text" xml:space="preserve">
-    <value>Automatically check every</value>
+    <value>Автоматически проверять каждые</value>
   </data>
-  <data name="Localization_CurrentLanguage" xml:space="preserve">
-    <value>Current language:</value>
-  </data>
-  <data name="Localization_InstallVersion_Text" xml:space="preserve">
-    <value>Install selected version</value>
-  </data>
-  <data name="Localization_Refresh_Text" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="Localization_SelectedVersion" xml:space="preserve">
-    <value>Selected Version:</value>
-  </data>
-  <data name="Localization_Source" xml:space="preserve">
-    <value>Localization source:</value>
-  </data>
-  <data name="Localization_Title" xml:space="preserve">
-    <value>Star Citizen : Localization</value>
-  </data>
-  <data name="Localization_Install_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during installation. Please try again.</value>
-  </data>
-  <data name="Localization_Install_ErrorTitle" xml:space="preserve">
-    <value>Install Error</value>
+  <data name="Localization_AvailableVersions_Text" xml:space="preserve">
+    <value>Доступные версии:</value>
   </data>
   <data name="Localization_Button_Disable_localization" xml:space="preserve">
-    <value>Disable localization</value>
+    <value>Выключить локализацию</value>
   </data>
   <data name="Localization_Button_Enable_localization" xml:space="preserve">
-    <value>Enable localization</value>
+    <value>Включить локализацию</value>
   </data>
-  <data name="CoreSigning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\Defter.CoreSigning.cer;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Localization_Cancel_Text" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
+    <value>Проверять на обновление каждые</value>
+  </data>
+  <data name="Localization_CurrentLanguage" xml:space="preserve">
+    <value>Текущий язык:</value>
+  </data>
+  <data name="Localization_Downloading_Text" xml:space="preserve">
+    <value>Загрузка...</value>
   </data>
   <data name="Localization_Download_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during download. Please try again.</value>
+    <value>К сожалению произошла ошибка во время загрузки. Пожалуйста, попробуйте еще раз.</value>
   </data>
   <data name="Localization_Download_ErrorTitle" xml:space="preserve">
-    <value>Download Error</value>
+    <value>Ошибка загрузки</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions.</value>
+    <value>К сожалению произошла ошибка копирования файлов во время установки. Пожалуйста убедитесь что папка установки или файлы не открыты в других приложениях.</value>
   </data>
   <data name="Localization_File_ErrorTitle" xml:space="preserve">
-    <value>File Error</value>
-  </data>
-  <data name="Localization_Package_ErrorText" xml:space="preserve">
-    <value>Package is corrupted or not valid. Please try another or contact with package owner.</value>
-  </data>
-  <data name="Localization_Package_ErrorTitle" xml:space="preserve">
-    <value>Package Error</value>
-  </data>
-  <data name="Localization_Verify_ErrorText" xml:space="preserve">
-    <value>Package security verification is not passed. Please try another or contact with package owner.</value>
-  </data>
-  <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
-    <value>Verification Error</value>
+    <value>Ошибка копирования файлов</value>
   </data>
   <data name="Localization_Found_New_Version" xml:space="preserve">
-    <value>Found new version {0}.</value>
+    <value>Обнаружена новая версия {0}.</value>
+  </data>
+  <data name="Localization_Game_Mode" xml:space="preserve">
+    <value>Режим игры</value>
+  </data>
+  <data name="Localization_Game_Version" xml:space="preserve">
+    <value>Версия игры</value>
+  </data>
+  <data name="Localization_GitHubURL_Text" xml:space="preserve">
+    <value>Ссылка на GitHub </value>
   </data>
   <data name="Localization_Installed_Version" xml:space="preserve">
-    <value>Installed version:</value>
+    <value>Установл. версия:</value>
+  </data>
+  <data name="Localization_Installing_Text" xml:space="preserve">
+    <value>Установка...</value>
+  </data>
+  <data name="Localization_InstallVersion_Text" xml:space="preserve">
+    <value>Установить выбранную версию</value>
+  </data>
+  <data name="Localization_InstallVersion_Title" xml:space="preserve">
+    <value>Установка версии: {0}</value>
+  </data>
+  <data name="Localization_Install_ErrorText" xml:space="preserve">
+    <value>К сожалению произошла ошибка во время установки. Пожалуйста, попробуйте еще раз.</value>
+  </data>
+  <data name="Localization_Install_ErrorTitle" xml:space="preserve">
+    <value>Ошибка установки</value>
+  </data>
+  <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
+    <value>Имя репозитория '{0}' пустое или уже существует.</value>
+  </data>
+  <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
+    <value>Ссылка на репозиторий '{0}' пустая или уже существует.</value>
+  </data>
+  <data name="Localization_Language_Text" xml:space="preserve">
+    <value>Язык</value>
   </data>
   <data name="Localization_Latest_Version" xml:space="preserve">
-    <value>Latest version:</value>
+    <value>Последняя версия:</value>
+  </data>
+  <data name="Localization_Manage_Text" xml:space="preserve">
+    <value>Управл.</value>
+  </data>
+  <data name="Localization_Name_Text" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
+    <value>Нет доступа к репозиторию '{0}'</value>
+  </data>
+  <data name="Localization_Package_ErrorText" xml:space="preserve">
+    <value>Загруженный пакет поврежден или не верный. Пожалуйста попытайсь загрузить другой или свяжитесь с владельцем репозитория.</value>
+  </data>
+  <data name="Localization_Package_ErrorTitle" xml:space="preserve">
+    <value>Ошибка пакета</value>
+  </data>
+  <data name="Localization_Path_Text" xml:space="preserve">
+    <value>Путь</value>
   </data>
   <data name="Localization_Press_Refresh_Button" xml:space="preserve">
-    <value>Please press Refresh button</value>
+    <value>Пожалуйста нажмите кнопку обновить</value>
+  </data>
+  <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
+    <value>Обновление доступных версий</value>
+  </data>
+  <data name="Localization_Refresh_Text" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Localization_Remove_Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Localization_Repositories_Title" xml:space="preserve">
+    <value>Star Citizen : Репозитории локализации</value>
+  </data>
+  <data name="Localization_RunMinimized_Text" xml:space="preserve">
+    <value>Запускать свернутым</value>
+  </data>
+  <data name="Localization_RunOnStartup_Text" xml:space="preserve">
+    <value>Автозагрузка на старте системы</value>
+  </data>
+  <data name="Localization_SelectedVersion" xml:space="preserve">
+    <value>Выбранная версия:</value>
+  </data>
+  <data name="Localization_Source" xml:space="preserve">
+    <value>Репозиторий:</value>
+  </data>
+  <data name="Localization_SourceRepository_Text" xml:space="preserve">
+    <value>Источник:</value>
   </data>
   <data name="Localization_Start_Monitoring" xml:space="preserve">
     <value>Start monitoring.</value>
@@ -232,70 +279,16 @@
   <data name="Localization_Stop_Monitoring" xml:space="preserve">
     <value>Stop monitoring.</value>
   </data>
-  <data name="Localization_AvailableVersions_Text" xml:space="preserve">
-    <value>Available versions:</value>
-  </data>
-  <data name="Localization_Manage_Text" xml:space="preserve">
-    <value>Manage</value>
-  </data>
-  <data name="Localization_SourceRepository_Text" xml:space="preserve">
-    <value>Source repository:</value>
-  </data>
-  <data name="Localization_Add_Text" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="Localization_Cancel_Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
-    <value>Check for new version every</value>
-  </data>
-  <data name="Localization_Downloading_Text" xml:space="preserve">
-    <value>Downloading...</value>
-  </data>
-  <data name="Localization_GitHubURL_Text" xml:space="preserve">
-    <value>GitHub URL</value>
-  </data>
-  <data name="Localization_Installing_Text" xml:space="preserve">
-    <value>Installing...</value>
-  </data>
-  <data name="Localization_InstallVersion_Title" xml:space="preserve">
-    <value>Install version:  {0}</value>
-  </data>
-  <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>Repository name '{0}' is empty or already exist.</value>
-  </data>
-  <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>Repository url '{0}' is empty or already exist.</value>
-  </data>
-  <data name="Localization_Language_Text" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="Localization_Name_Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
-    <value>No access to repository '{0}'</value>
-  </data>
-  <data name="Localization_Path_Text" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
-    <value>Refresh available versions</value>
-  </data>
-  <data name="Localization_Remove_Text" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="Localization_Repositories_Title" xml:space="preserve">
-    <value>Star Citizen : Localization repositories</value>
-  </data>
-  <data name="Localization_RunMinimized_Text" xml:space="preserve">
-    <value>Run minimized</value>
-  </data>
-  <data name="Localization_RunOnStartup_Text" xml:space="preserve">
-    <value>Run On Windows startup</value>
-  </data>
   <data name="Localization_Stop_Text" xml:space="preserve">
-    <value>Stop</value>
+    <value>Прервать</value>
+  </data>
+  <data name="Localization_Title" xml:space="preserve">
+    <value>Star Citizen : Локализация</value>
+  </data>
+  <data name="Localization_Verify_ErrorText" xml:space="preserve">
+    <value>Пакет не прошел проверку безопасности. Пожалуйста попытайсь загрузить другой или свяжитесь с владельцем репозитория.</value>
+  </data>
+  <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
+    <value>Ошибка проверки</value>
   </data>
 </root>

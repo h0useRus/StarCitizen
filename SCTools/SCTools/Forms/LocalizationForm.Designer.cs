@@ -28,7 +28,7 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMinutes = new System.Windows.Forms.Label();
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.btnInstall = new System.Windows.Forms.Button();
@@ -45,14 +45,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnManage = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // lblMinutes
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "minutes";
+            this.lblMinutes.AutoSize = true;
+            this.lblMinutes.Location = new System.Drawing.Point(270, 151);
+            this.lblMinutes.Name = "lblMinutes";
+            this.lblMinutes.Size = new System.Drawing.Size(43, 13);
+            this.lblMinutes.TabIndex = 9;
+            this.lblMinutes.Text = "minutes";
             // 
             // cbRefreshTime
             // 
@@ -223,7 +223,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.btnLocalizationDisable);
             this.Controls.Add(this.cbRepository);
             this.Controls.Add(this.cbVersions);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMinutes);
             this.Controls.Add(this.cbRefreshTime);
             this.Controls.Add(this.cbCheckNewVersions);
             this.Controls.Add(this.lblCurrentVersion);
@@ -254,7 +254,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label lblCurrentLanguage;
         private System.Windows.Forms.ComboBox cbLanguages;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.ComboBox cbRefreshTime;
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
         private System.Windows.Forms.ComboBox cbVersions;

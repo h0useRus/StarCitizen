@@ -20,6 +20,21 @@ namespace NSW.StarCitizen.Tools.Forms
             _currentGame = currentGame;
             _gameSettings = new GameSettings(currentGame);
             InitializeComponent();
+            InitializeLocalization();
+        }
+
+        private void InitializeLocalization()
+        {
+            Text = Resources.Localization_Title;
+            btnManage.Text = Resources.Localization_Manage_Text;
+            btnRefresh.Text = Resources.Localization_Refresh_Text;
+            btnInstall.Text = Resources.Localization_InstallVersion_Text;
+            lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
+            lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
+            lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
+            lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
+            cbVersions.Text = Resources.Localization_Press_Refresh_Button;
+            cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
         }
 
         private void LocalizationForm_Load(object sender, EventArgs e)
@@ -27,7 +42,7 @@ namespace NSW.StarCitizen.Tools.Forms
             _gameSettings.Load();
             // Repositories
             cbRepository.DataSource = Program.LocalizationRepositories.Values.ToList();
-            var current = Program.GetCurrentLocalizationRepository();
+            var current = Program.GetCurrentLocalizationRepository(_currentGame.Mode);
             if (current != null) cbRepository.SelectedItem = current;
         }
 
@@ -36,7 +51,10 @@ namespace NSW.StarCitizen.Tools.Forms
             if (sender is ComboBox cb)
             {
                 Program.CurrentRepository = (ILocalizationRepository)cb.SelectedItem;
-                cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                if (Program.CurrentRepository.Versions != null)
+                    cbVersions.DataSource = Program.CurrentRepository.Versions;
+                else
+                    cbVersions.DataSource = new[] { Resources.Localization_Press_Refresh_Button };
             }
             UpdateControls();
         }
@@ -120,7 +138,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-                    progressDlg.Text = "Refresh available versions";
+                    progressDlg.Text = Resources.Localization_RefreshAvailableVersion_Title;
+                    progressDlg.UserCancelText = Resources.Localization_Stop_Text;
                     progressDlg.Show(this);
                     await Program.CurrentRepository.RefreshVersionsAsync(progressDlg.CancelToken);
                     progressDlg.CurrentTaskProgress = 1.0f;
@@ -138,7 +157,10 @@ namespace NSW.StarCitizen.Tools.Forms
                     Cursor.Current = Cursors.Default;
                     Enabled = true;
                     progressDlg.Hide();
-                    cbVersions.DataSource = Program.CurrentRepository.Versions ?? new[] { LocalizationInfo.Empty };
+                    if (Program.CurrentRepository.Versions != null)
+                        cbVersions.DataSource = Program.CurrentRepository.Versions;
+                    else
+                        cbVersions.DataSource = new[] { Resources.Localization_Press_Refresh_Button };
                 }
             }
         }
@@ -153,7 +175,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
                     var installRepository = Program.CurrentRepository;
-                    progressDlg.Text = $"Install version: {installRepository.CurrentVersion}";
+                    progressDlg.Text = string.Format(Resources.Localization_InstallVersion_Title, installRepository.CurrentVersion);
                     var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
                     progressDlg.Show(this);
                     var filePath = await installRepository.DownloadAsync(installRepository.CurrentVersion, progressDlg.CancelToken, downloadDialogAdapter);
@@ -164,7 +186,7 @@ namespace NSW.StarCitizen.Tools.Forms
                         case InstallStatus.Success:
                             _gameSettings.Load();
                             progressDlg.CurrentTaskProgress = 1.0f;
-                            Program.UpdateCurrentInstallationRepository(installRepository);
+                            Program.UpdateCurrentInstallationRepository(_currentGame.Mode, installRepository);
                             break;
                         case InstallStatus.PackageError:
                             MessageBox.Show(Resources.Localization_Package_ErrorText,
@@ -259,7 +281,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private void cbRepository_DrawItem(object sender, DrawItemEventArgs e)
         {
             ILocalizationRepository repository = (ILocalizationRepository)cbRepository.Items[e.Index];
-            var localizationInstallation = Program.GetLocalizationInstallationFromRepository(repository);
+            var localizationInstallation = Program.GetLocalizationInstallationFromRepository(_currentGame.Mode, repository);
             bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
             using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
             using var font = new Font(cbRepository.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);

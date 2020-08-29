@@ -1,7 +1,7 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
@@ -62,21 +62,21 @@ namespace NSW.StarCitizen.Tools
 
         public static LocalizationInstallation CurrentInstallation { get; private set; }
 
-        public static ILocalizationRepository GetCurrentLocalizationRepository()
+        public static ILocalizationRepository GetCurrentLocalizationRepository(GameMode gameMode)
         {
-            var info = Settings.Localization.Installations?.FirstOrDefault(i => i.Mode == CurrentGame.Mode);
+            var info = Settings.Localization.Installations?.FirstOrDefault(i => i.Mode == gameMode);
             if (info != null && LocalizationRepositories.ContainsKey(info.Repository))
                 return LocalizationRepositories[info.Repository];
             return null;
         }
 
-        public static void UpdateCurrentInstallationRepository(ILocalizationRepository localizationRepository)
+        public static void UpdateCurrentInstallationRepository(GameMode gameMode, ILocalizationRepository localizationRepository)
         {
             CurrentInstallation.Repository = localizationRepository.Repository;
             CurrentInstallation.LastVersion = localizationRepository.CurrentVersion.Name;
             CurrentInstallation.InstalledVersion = localizationRepository.CurrentVersion.Name;
             Settings.Localization.Installations ??= new List<LocalizationInstallation>();
-            var otherInstallations = Settings.Localization.Installations.Where(i => (i.Mode == CurrentGame.Mode) &&
+            var otherInstallations = Settings.Localization.Installations.Where(i => (i.Mode == gameMode) &&
                 (string.Compare(i.Repository, localizationRepository.Repository, StringComparison.OrdinalIgnoreCase) != 0));
             foreach (var otherInstallation in otherInstallations)
             {
@@ -85,9 +85,9 @@ namespace NSW.StarCitizen.Tools
             SaveAppSettings();
         }
 
-        public static LocalizationInstallation GetLocalizationInstallationFromRepository(ILocalizationRepository localizationRepository)
+        public static LocalizationInstallation GetLocalizationInstallationFromRepository(GameMode gameMode, ILocalizationRepository localizationRepository)
         {
-            return Settings.Localization.Installations.FirstOrDefault(i => (i.Mode == CurrentGame.Mode) &&
+            return Settings.Localization.Installations.FirstOrDefault(i => (i.Mode == gameMode) &&
                 (string.Compare(i.Repository, localizationRepository.Repository, StringComparison.OrdinalIgnoreCase) == 0));
         }
 

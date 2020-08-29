@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
@@ -15,9 +14,19 @@ namespace NSW.StarCitizen.Tools.Forms
         public ManageRepositoriesForm()
         {
             InitializeComponent();
-            var item = lvRepositories.Columns.Add("chName", "Name");
+            InitializeLocalization();
+            var item = lvRepositories.Columns.Add("chName", Resources.Localization_Name_Text);
             item.Width = lvRepositories.Width / 2 - 5;
-            lvRepositories.Columns.Add("chPath", "Path", lvRepositories.Width - item.Width - 5);
+            lvRepositories.Columns.Add("chPath", Resources.Localization_Path_Text, lvRepositories.Width - item.Width - 5);
+        }
+
+        private void InitializeLocalization()
+        {
+            Text = Resources.Localization_Repositories_Title;
+            lblName.Text = Resources.Localization_Name_Text;
+            lblPath.Text = Resources.Localization_GitHubURL_Text;
+            btnAdd.Text = Resources.Localization_Add_Text;
+            btnRemove.Text = Resources.Localization_Remove_Text;
         }
 
         private void ManageRepositoriesForm_Load(object sender, EventArgs e)
@@ -55,7 +64,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 || Program.LocalizationRepositories.Values
                     .Any(v => string.Compare(v.Name, name, StringComparison.OrdinalIgnoreCase) == 0))
             {
-                MessageBox.Show($"Name {name} is empty or already exist.",
+                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoName_Text, name),
                     Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -71,7 +80,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 || Program.LocalizationRepositories.Values
                     .Any(v=> string.Compare(v.Repository, repository, StringComparison.OrdinalIgnoreCase) == 0))
             {
-                MessageBox.Show($"Repository {repository} is empty or already exist.",
+                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, repository),
                     Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -92,7 +101,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             else
             {
-                MessageBox.Show($"No access to repository {repository}.",
+                MessageBox.Show(string.Format(Resources.Localization_NoRepoAccess_Text, repository),
                     Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

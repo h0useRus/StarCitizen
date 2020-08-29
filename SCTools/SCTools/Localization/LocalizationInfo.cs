@@ -1,5 +1,4 @@
 using System;
-using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Localization
 {
@@ -12,7 +11,5 @@ namespace NSW.StarCitizen.Tools.Localization
         public bool PreRelease { get; set; }
         public bool Actual => !string.IsNullOrWhiteSpace(DownloadUrl);
         public override string ToString() => Name;
-
-        public static LocalizationInfo Empty { get; } = new LocalizationInfo { Name = Resources.Localization_Press_Refresh_Button };
     }
 }

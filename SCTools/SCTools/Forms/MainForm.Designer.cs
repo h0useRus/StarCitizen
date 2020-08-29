@@ -40,6 +40,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
+            this.lblLanguage = new System.Windows.Forms.Label();
+            this.cbLanguage = new System.Windows.Forms.ComboBox();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
@@ -75,7 +77,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGameModes.Name = "cbGameModes";
             this.cbGameModes.Size = new System.Drawing.Size(74, 21);
             this.cbGameModes.TabIndex = 2;
-            this.cbGameModes.SelectedIndexChanged += new System.EventHandler(this.cbGameModes_SelectedIndexChanged);
+            this.cbGameModes.SelectionChangeCommitted += new System.EventHandler(this.cbGameModes_SelectionChangeCommitted);
             // 
             // gbGameInfo
             // 
@@ -138,12 +140,33 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbButtonMenu.Controls.Add(this.lblLanguage);
+            this.gbButtonMenu.Controls.Add(this.cbLanguage);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
             this.gbButtonMenu.Size = new System.Drawing.Size(254, 101);
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
+            // 
+            // lblLanguage
+            // 
+            this.lblLanguage.AutoSize = true;
+            this.lblLanguage.Location = new System.Drawing.Point(6, 56);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(55, 13);
+            this.lblLanguage.TabIndex = 3;
+            this.lblLanguage.Text = "Language";
+            // 
+            // cbLanguage
+            // 
+            this.cbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLanguage.FormattingEnabled = true;
+            this.cbLanguage.Location = new System.Drawing.Point(7, 72);
+            this.cbLanguage.Name = "cbLanguage";
+            this.cbLanguage.Size = new System.Drawing.Size(241, 21);
+            this.cbLanguage.TabIndex = 1;
+            this.cbLanguage.SelectionChangeCommitted += new System.EventHandler(this.cbLanguage_SelectionChangeCommitted);
             // 
             // btnLocalization
             // 
@@ -214,6 +237,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
+            this.gbButtonMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,5 +256,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.NotifyIcon niTray;
         private System.Windows.Forms.CheckBox cbGeneralRunWithWindows;
         private System.Windows.Forms.CheckBox cbGeneralRunMinimized;
+        private System.Windows.Forms.Label lblLanguage;
+        private System.Windows.Forms.ComboBox cbLanguage;
     }
 }

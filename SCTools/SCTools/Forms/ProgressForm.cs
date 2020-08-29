@@ -70,16 +70,16 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             _cancellationTokenSource = new CancellationTokenSource();
             InitializeComponent();
-            CurrentTaskName = "";
-            CurrentTaskInfo = "";
+            CurrentTaskName = string.Empty;
+            CurrentTaskInfo = string.Empty;
         }
 
         public ProgressForm(int timeoutMilliseconds)
         {
             _cancellationTokenSource = new CancellationTokenSource(timeoutMilliseconds);
             InitializeComponent();
-            CurrentTaskName = "";
-            CurrentTaskInfo = "";
+            CurrentTaskName = string.Empty;
+            CurrentTaskInfo = string.Empty;
         }
 
         protected override void OnLoad(EventArgs e)
