@@ -25,7 +25,7 @@ namespace NSW.StarCitizen.Tools.Localization
                     return InstallStatus.PackageError;
                 }
                 string newLibraryPath = Path.Combine(unpackDataDir.FullName, GameConstants.PatcherOriginalName);
-                FileCertVerifier libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
+                using var libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
                 if (!libraryCertVerifier.VerifyFile(newLibraryPath))
                 {
                     return InstallStatus.VerifyError;

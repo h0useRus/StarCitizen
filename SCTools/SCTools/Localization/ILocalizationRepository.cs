@@ -25,7 +25,7 @@ namespace NSW.StarCitizen.Tools.Localization
         void ReportDownloadedSize(long value);
     }
 
-    public interface ILocalizationRepository
+    public interface ILocalizationRepository : IDisposable
     {
         string Name { get; }
         string Repository { get; }

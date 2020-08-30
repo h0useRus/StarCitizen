@@ -22,6 +22,7 @@ namespace NSW.StarCitizen.Tools.Localization
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             _gitClient = new HttpClient();
             _gitClient.DefaultRequestHeaders.UserAgent.ParseAdd("SCTools/1.0");
+            _gitClient.Timeout = TimeSpan.FromMinutes(1);
         }
 
         public GitHubLocalizationRepository(string name, string repository) : base(LocalizationRepositoryType.GitHub, name, repository)
@@ -33,7 +34,7 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            using var response = await _gitClient.GetAsync(_repoReleasesUrl, cancellationToken);
+            using var response = await GetAsync(_repoReleasesUrl, cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
@@ -54,7 +55,7 @@ namespace NSW.StarCitizen.Tools.Localization
         public override async Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken,
             IDownloadProgress downloadProgress)
         {
-            using var response = await _gitClient.GetAsync(localizationInfo.DownloadUrl, cancellationToken);
+            using var response = await GetAsync(localizationInfo.DownloadUrl, cancellationToken);
             response.EnsureSuccessStatusCode();
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
             {
@@ -88,13 +89,19 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             try
             {
-                using var response = await _gitClient.GetAsync(_repoReleasesUrl, cancellationToken);
+                using var response = await GetAsync(_repoReleasesUrl, cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch
             {
                 return false;
             }
+        }
+
+        private async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
+        {
+            using var getTask = _gitClient.GetAsync(requestUri, cancellationToken);
+            return await getTask.ConfigureAwait(false);
         }
 
         #region Git objects

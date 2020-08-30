@@ -176,11 +176,13 @@ namespace NSW.StarCitizen.Tools.Forms
                         case UninstallStatus.Success:
                             _gameSettings.RemoveCurrentLanguage();
                             _gameSettings.Load();
+                            progressDlg.CurrentTaskProgress = 1.0f;
                             Program.RepositoryManager.RemoveInstalledRepository(_currentGame.Mode, _currentRepository);
                             break;
                         case UninstallStatus.Partial:
                             _gameSettings.RemoveCurrentLanguage();
                             _gameSettings.Load();
+                            progressDlg.CurrentTaskProgress = 1.0f;
                             Program.RepositoryManager.RemoveInstalledRepository(_currentGame.Mode, _currentRepository);
                             MessageBox.Show(Resources.Localization_Uninstall_WarningText,
                                     Resources.Localization_Uninstall_WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -244,8 +246,8 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnManage_Click(object sender, EventArgs e)
         {
-            var dlg = new ManageRepositoriesForm(_currentGame);
-            dlg.ShowDialog(this);
+            using var dialog = new ManageRepositoriesForm();
+            dialog.ShowDialog(this);
             LocalizationForm_Load(sender, e);
         }
 

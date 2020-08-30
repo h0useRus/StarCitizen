@@ -11,7 +11,7 @@ namespace NSW.StarCitizen.Tools.Forms
     {
         private const string GitHubUrl = "https://github.com/";
 
-        public ManageRepositoriesForm(GameInfo currentGame)
+        public ManageRepositoriesForm()
         {
             InitializeComponent();
             InitializeLocalization();
@@ -81,23 +81,22 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
 
-            var repository = new GitHubLocalizationRepository(name, repositoryUrl);
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(20000);
-            switch (await Program.RepositoryManager.AddRepositoryAsync(repository, cancellationTokenSource.Token))
+            using var cancellationTokenSource = new CancellationTokenSource(20000);
+            switch (await Program.RepositoryManager.AddRepositoryAsync(name, repositoryUrl, cancellationTokenSource.Token))
             {
                 case RepositoryManager.AddStatus.Success:
                     DataBindList();
                     break;
                 case RepositoryManager.AddStatus.DuplicateName:
-                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoName_Text, repository.Name),
+                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoName_Text, name),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.DuplicateUrl:
-                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoUrl_Text, repository.Repository),
+                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoUrl_Text, repositoryUrl),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.Unreachable:
-                    MessageBox.Show(string.Format(Resources.Localization_NoRepoAccess_Text, repository),
+                    MessageBox.Show(string.Format(Resources.Localization_NoRepoAccess_Text, name),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }

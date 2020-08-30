@@ -82,6 +82,16 @@ namespace NSW.StarCitizen.Tools.Forms
             CurrentTaskInfo = string.Empty;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                components?.Dispose();
+                _cancellationTokenSource.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);

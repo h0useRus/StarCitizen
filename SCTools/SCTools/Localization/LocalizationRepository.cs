@@ -32,6 +32,11 @@ namespace NSW.StarCitizen.Tools.Localization
 
         }
 
+        public void Dispose()
+        {
+            _monitorTimer.Dispose();
+        }
+
         public abstract Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken);
 
         public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken)
@@ -98,7 +103,7 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             try
             {
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                using var cancellationTokenSource = new CancellationTokenSource();
                 var result = await GetLatestAsync(cancellationTokenSource.Token);
                 if (string.Compare(result.Name, CurrentVersion?.Name, StringComparison.OrdinalIgnoreCase) != 0)
                 {

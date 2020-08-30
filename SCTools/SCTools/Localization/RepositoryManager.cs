@@ -49,14 +49,15 @@ namespace NSW.StarCitizen.Tools.Localization
             return null;
         }
 
-        public async Task<AddStatus> AddRepositoryAsync(ILocalizationRepository repository, CancellationToken cancellationToken)
+        public async Task<AddStatus> AddRepositoryAsync(string name, string url, CancellationToken cancellationToken)
         {
-            if (ContainsRepositoryName(repository.Name))
+            if (ContainsRepositoryName(name))
                 return AddStatus.DuplicateName;
 
-            if (ContainsRepositoryUrl(repository.Repository))
+            if (ContainsRepositoryUrl(url))
                 return AddStatus.DuplicateUrl;
 
+            ILocalizationRepository repository = new GitHubLocalizationRepository(name, url);
             if (await repository.CheckAsync(cancellationToken))
             {
                 AddRepository(repository);
@@ -69,6 +70,7 @@ namespace NSW.StarCitizen.Tools.Localization
                 Program.SaveAppSettings();
                 return AddStatus.Success;
             }
+            repository.Dispose();
             return AddStatus.Unreachable;
         }
 
@@ -86,6 +88,7 @@ namespace NSW.StarCitizen.Tools.Localization
                 Program.Settings.Localization.Repositories.Remove(localizationSource);
                 Program.SaveAppSettings();
             }
+            repository.Dispose();
             return result;
         }
 
