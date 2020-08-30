@@ -121,16 +121,16 @@
     <value>Star Citizen : Utils</value>
   </data>
   <data name="GameMode_LIVE" xml:space="preserve">
-    <value>Persistent Universe</value>
+    <value>Постоянная Вселенная</value>
   </data>
   <data name="GameMode_PTU" xml:space="preserve">
-    <value>Persistent Test Universe</value>
+    <value>Постоянная Вселенная (Тест)</value>
   </data>
   <data name="GamePath_Description" xml:space="preserve">
     <value>Пожалуйста укажите корневую папку Star Citizen.</value>
   </data>
   <data name="GamePath_Error_Text" xml:space="preserve">
-    <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
+    <value>Пожалуйста убедитесь что вы выбрали такую же папку Star Citizen что и во время установки игры.</value>
   </data>
   <data name="GamePath_Error_Title" xml:space="preserve">
     <value>Неверный путь к директории игры Star Citizen</value>
@@ -146,9 +146,6 @@
   </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
     <value>минут</value>
-  </data>
-  <data name="Localization_AutomaticCheck_Text" xml:space="preserve">
-    <value>Автоматически проверять каждые</value>
   </data>
   <data name="Localization_AvailableVersions_Text" xml:space="preserve">
     <value>Доступные версии:</value>
@@ -176,6 +173,15 @@
   </data>
   <data name="Localization_Download_ErrorTitle" xml:space="preserve">
     <value>Ошибка загрузки</value>
+  </data>
+  <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
+    <value>Имя репозитория '{0}' уже используется.</value>
+  </data>
+  <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
+    <value>Ссылка на репозиторий '{0}' уже используется.</value>
+  </data>
+  <data name="Localization_Error_Title" xml:space="preserve">
+    <value>Ошибка</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>К сожалению произошла ошибка копирования файлов во время установки. Пожалуйста убедитесь что папка установки или файлы не открыты в других приложениях.</value>
@@ -214,10 +220,10 @@
     <value>Ошибка установки</value>
   </data>
   <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>Имя репозитория '{0}' пустое или уже существует.</value>
+    <value>Имя репозитория '{0}' пустое.</value>
   </data>
   <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>Ссылка на репозиторий '{0}' пустая или уже существует.</value>
+    <value>Ссылка на репозиторий '{0}' не верная или пустая.</value>
   </data>
   <data name="Localization_Language_Text" xml:space="preserve">
     <value>Язык</value>
@@ -252,6 +258,9 @@
   <data name="Localization_Refresh_Text" xml:space="preserve">
     <value>Обновить</value>
   </data>
+  <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
+    <value>Репозиторий '{0}' используется '{1}'. Вы уверены что хотите удалить его?</value>
+  </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
     <value>Удалить</value>
   </data>
@@ -264,20 +273,14 @@
   <data name="Localization_RunOnStartup_Text" xml:space="preserve">
     <value>Автозагрузка на старте системы</value>
   </data>
-  <data name="Localization_SelectedVersion" xml:space="preserve">
-    <value>Выбранная версия:</value>
-  </data>
-  <data name="Localization_Source" xml:space="preserve">
-    <value>Репозиторий:</value>
-  </data>
   <data name="Localization_SourceRepository_Text" xml:space="preserve">
     <value>Источник:</value>
   </data>
   <data name="Localization_Start_Monitoring" xml:space="preserve">
-    <value>Start monitoring.</value>
+    <value>Мониторинг начат.</value>
   </data>
   <data name="Localization_Stop_Monitoring" xml:space="preserve">
-    <value>Stop monitoring.</value>
+    <value>Мониторинг остановлен.</value>
   </data>
   <data name="Localization_Stop_Text" xml:space="preserve">
     <value>Прервать</value>
@@ -290,5 +293,8 @@
   </data>
   <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
     <value>Ошибка проверки</value>
+  </data>
+  <data name="Localization_Warning_Title" xml:space="preserve">
+    <value>Внимание</value>
   </data>
 </root>

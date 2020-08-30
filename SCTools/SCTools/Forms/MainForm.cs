@@ -41,7 +41,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeGeneral()
         {
-            Program.Notification += (sender, s) =>
+            Program.RepositoryManager.Notification += (sender, s) =>
             {
                 niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
             };
@@ -85,7 +85,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (Program.Settings.RunMinimized)
                 Minimize();
 
-            Program.RunMonitors();
+            Program.RepositoryManager.RunMonitors();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

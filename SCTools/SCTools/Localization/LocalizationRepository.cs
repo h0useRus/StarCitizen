@@ -15,8 +15,8 @@ namespace NSW.StarCitizen.Tools.Localization
         public string Repository { get; }
         public LocalizationRepositoryType Type { get; }
         public abstract ILocalizationInstaller Installer { get; }
-        public LocalizationInfo CurrentVersion { get; set; }
-        public IEnumerable<LocalizationInfo> Versions { get; set; }
+        public LocalizationInfo CurrentVersion { get; private set; }
+        public IEnumerable<LocalizationInfo> Versions { get; private set; }
 
         protected LocalizationRepository(LocalizationRepositoryType type, string name, string repository)
         {
@@ -37,7 +37,7 @@ namespace NSW.StarCitizen.Tools.Localization
         public async Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
-            Versions = releases.OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
+            UpdateVersions(releases);
             return Versions;
         }
 
@@ -50,7 +50,28 @@ namespace NSW.StarCitizen.Tools.Localization
         protected async Task<LocalizationInfo> GetLatestAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
+            if (releases.Any()) UpdateVersions(releases);
             return releases.OrderByDescending(r => r.Released).First();
+        }
+
+        public void SetCurrentVersion(LocalizationInfo version)
+        {
+            if (version != null)
+                CurrentVersion = version;
+        }
+
+        public void UpdateCurrentVersion(string fallbackVersionName)
+        {
+            LocalizationInfo foundVersion = null;
+            if (Versions != null && Versions.Any())
+            {
+                var searchVersionName = CurrentVersion?.Name ?? fallbackVersionName;
+                if (searchVersionName != null)
+                    foundVersion = Versions.SingleOrDefault(li => string.Compare(li.Name,
+                        searchVersionName, StringComparison.OrdinalIgnoreCase) == 0);
+                foundVersion ??= Versions.FirstOrDefault();
+            }
+            CurrentVersion = foundVersion ?? new LocalizationInfo { Name = fallbackVersionName };
         }
 
         public void MonitorStart(int refreshTime)
@@ -85,6 +106,11 @@ namespace NSW.StarCitizen.Tools.Localization
                 }
             }
             catch {}
+        }
+
+        private void UpdateVersions(IEnumerable<LocalizationInfo> versions)
+        {
+            Versions = versions.OrderByDescending(v => v.Name).ThenByDescending(v => v.Released).ToList();
         }
 
         public override string ToString() => Name;

@@ -31,13 +31,15 @@ namespace NSW.StarCitizen.Tools.Localization
         string Repository { get; }
         LocalizationRepositoryType Type { get; }
         ILocalizationInstaller Installer { get; }
-        LocalizationInfo CurrentVersion { get; set; }
-        IEnumerable<LocalizationInfo> Versions { get; set; }
+        LocalizationInfo CurrentVersion { get; }
+        IEnumerable<LocalizationInfo> Versions { get; }
 
         Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken);
         Task<IEnumerable<LocalizationInfo>> RefreshVersionsAsync(CancellationToken cancellationToken);
         Task<string> DownloadAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
         Task<bool> CheckAsync(CancellationToken cancellationToken);
+        void SetCurrentVersion(LocalizationInfo version);
+        void UpdateCurrentVersion(string fallbackVersionName);
 
         bool IsMonitorStarted { get; }
         int MonitorRefreshTime { get; }

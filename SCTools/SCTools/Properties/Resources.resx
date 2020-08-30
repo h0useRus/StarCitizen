@@ -154,9 +154,6 @@
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
     <value>minutes</value>
   </data>
-  <data name="Localization_AutomaticCheck_Text" xml:space="preserve">
-    <value>Automatically check every</value>
-  </data>
   <data name="Localization_CurrentLanguage" xml:space="preserve">
     <value>Current language:</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Localization_Refresh_Text" xml:space="preserve">
     <value>Refresh</value>
-  </data>
-  <data name="Localization_SelectedVersion" xml:space="preserve">
-    <value>Selected Version:</value>
-  </data>
-  <data name="Localization_Source" xml:space="preserve">
-    <value>Localization source:</value>
   </data>
   <data name="Localization_Title" xml:space="preserve">
     <value>Star Citizen : Localization</value>
@@ -253,6 +244,15 @@
   <data name="Localization_Downloading_Text" xml:space="preserve">
     <value>Downloading...</value>
   </data>
+  <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
+    <value>Repository name '{0}' is already exist.</value>
+  </data>
+  <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
+    <value>Repository url '{0}' is already exist.</value>
+  </data>
+  <data name="Localization_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="Localization_GitHubURL_Text" xml:space="preserve">
     <value>GitHub URL</value>
   </data>
@@ -263,10 +263,10 @@
     <value>Install version:  {0}</value>
   </data>
   <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>Repository name '{0}' is empty or already exist.</value>
+    <value>Repository name is empty.</value>
   </data>
   <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>Repository url '{0}' is empty or already exist.</value>
+    <value>Repository url is empty.</value>
   </data>
   <data name="Localization_Language_Text" xml:space="preserve">
     <value>Language</value>
@@ -283,6 +283,9 @@
   <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
     <value>Refresh available versions</value>
   </data>
+  <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
+    <value>Repository '{0}' used by '{1}'. Do you want remove it?</value>
+  </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -297,5 +300,8 @@
   </data>
   <data name="Localization_Stop_Text" xml:space="preserve">
     <value>Stop</value>
+  </data>
+  <data name="Localization_Warning_Title" xml:space="preserve">
+    <value>Warning</value>
   </data>
 </root>

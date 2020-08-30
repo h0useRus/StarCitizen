@@ -29,13 +29,15 @@ namespace NSW.StarCitizen.Tools.Settings
                     _startupKey.DeleteValue(AppName, false);
             }
         }
-        public LocalizationSettings Localization { get; set; } = new LocalizationSettings();
+        public LocalizationSettings Localization { get; } = new LocalizationSettings();
 
         private string GetLanguage()
         {
             if (CultureInfo.DefaultThreadCurrentCulture != null)
                 return CultureInfo.DefaultThreadCurrentCulture.Name;
-            return string.Empty;
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InstalledUICulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InstalledUICulture;
+            return CultureInfo.InstalledUICulture.Name;
         }
 
         private void SetLanguage(string cultureName)

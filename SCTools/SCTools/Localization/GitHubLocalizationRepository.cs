@@ -15,7 +15,7 @@ namespace NSW.StarCitizen.Tools.Localization
     {
         private const string BaseUrl = "https://api.github.com/repos";
         private static readonly HttpClient _gitClient;
-        private readonly string _repoUrl;
+        private readonly string _repoReleasesUrl;
 
         static GitHubLocalizationRepository()
         {
@@ -26,20 +26,20 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public GitHubLocalizationRepository(string name, string repository) : base(LocalizationRepositoryType.GitHub, name, repository)
         {
-            _repoUrl = $"{BaseUrl}/{repository}/";
+            _repoReleasesUrl = $"{BaseUrl}/{repository}/releases";
         }
 
         public override ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
 
         public override async Task<IEnumerable<LocalizationInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
+            using var response = await _gitClient.GetAsync(_repoReleasesUrl, cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             GitRelease[] releases = JsonHelper.Read<GitRelease[]>(content);
             if (releases != null && releases.Any())
             {
-                return releases.Select(r => new LocalizationInfo
+                return releases.Where(r => !string.IsNullOrWhiteSpace(r.ZipUrl)).Select(r => new LocalizationInfo
                 {
                     Name = r.Name,
                     TagName = r.TagName,
@@ -88,7 +88,7 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             try
             {
-                using var response = await _gitClient.GetAsync(_repoUrl + "releases", cancellationToken);
+                using var response = await _gitClient.GetAsync(_repoReleasesUrl, cancellationToken);
                 return response.IsSuccessStatusCode;
             }
             catch

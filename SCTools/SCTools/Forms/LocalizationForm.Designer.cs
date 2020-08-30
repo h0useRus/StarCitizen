@@ -155,7 +155,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions.Name = "cbVersions";
             this.cbVersions.Size = new System.Drawing.Size(283, 21);
             this.cbVersions.TabIndex = 10;
-            this.cbVersions.SelectedIndexChanged += new System.EventHandler(this.cbVersions_SelectedIndexChanged);
+            this.cbVersions.SelectionChangeCommitted += new System.EventHandler(this.cbVersions_SelectionChangeCommitted);
             // 
             // cbRepository
             // 
@@ -169,7 +169,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 11;
             this.cbRepository.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbRepository_DrawItem);
-            this.cbRepository.SelectedIndexChanged += new System.EventHandler(this.cbRepository_SelectedIndexChanged);
+            this.cbRepository.SelectionChangeCommitted += new System.EventHandler(this.cbRepository_SelectionChangeCommitted);
             // 
             // btnLocalizationDisable
             // 
