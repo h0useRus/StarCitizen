@@ -84,6 +84,21 @@ namespace NSW.StarCitizen.Tools.Localization
             return InstallStatus.Success;
         }
 
+        public UninstallStatus Uninstall(string destinationFolder)
+        {
+            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            if (File.Exists(enabledLibraryPath) && !DeleteFileNoThrow(enabledLibraryPath))
+                return UninstallStatus.Failed;
+            var result = UninstallStatus.Success;
+            string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+            if (File.Exists(disabledLibraryPath) && !DeleteFileNoThrow(disabledLibraryPath))
+                result = UninstallStatus.Partial;
+            DirectoryInfo dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
+            if (dataPathDir.Exists && !DeleteDirectoryRecursive(dataPathDir))
+                result = UninstallStatus.Partial;
+            return result;
+        }
+
         public LocalizationInstallationType GetInstallationType(string destinationFolder)
         {
             if (File.Exists(GameConstants.GetEnabledPatcherPath(destinationFolder)))
@@ -151,13 +166,30 @@ namespace NSW.StarCitizen.Tools.Localization
             return dataExtracted && coreExtracted;
         }
 
-        private static void DeleteDirectoryRecursive(DirectoryInfo dir)
+        private static bool DeleteFileNoThrow(string filePath)
+        {
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private static bool DeleteDirectoryRecursive(DirectoryInfo dir)
         {
             try
             {
                 dir.Delete(true);
             }
-            catch {}
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         private static void RestoreDirectory(DirectoryInfo dir, DirectoryInfo destDir)

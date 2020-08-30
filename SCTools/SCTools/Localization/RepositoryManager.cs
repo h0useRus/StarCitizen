@@ -113,6 +113,17 @@ namespace NSW.StarCitizen.Tools.Localization
             Program.SaveAppSettings();
         }
 
+        public void RemoveInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
+        {
+            var installation = GetRepositoryInstallation(gameMode, repository);
+            if (installation != null && installation.InstalledVersion != null)
+            {
+                installation.LastVersion = installation.InstalledVersion;
+                installation.InstalledVersion = null;
+                Program.SaveAppSettings();
+            }
+        }
+
         public LocalizationInstallation GetRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
         {
             return Program.Settings.Localization.Installations?.FirstOrDefault(i => i.Mode == gameMode &&

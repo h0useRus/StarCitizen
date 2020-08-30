@@ -585,6 +585,78 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to uninstall localzation. Please ensure install folder and files is not open in other applicaitions..
+        /// </summary>
+        internal static string Localization_Uninstall_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall error.
+        /// </summary>
+        internal static string Localization_Uninstall_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure your are want uninstall localization and remove all files?.
+        /// </summary>
+        internal static string Localization_Uninstall_QuestionText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_QuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall confirmation.
+        /// </summary>
+        internal static string Localization_Uninstall_QuestionTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_QuestionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localization removed not fully. Some files can&apos;t be removed..
+        /// </summary>
+        internal static string Localization_Uninstall_WarningText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_WarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall warning.
+        /// </summary>
+        internal static string Localization_Uninstall_WarningTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_WarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstalling....
+        /// </summary>
+        internal static string Localization_Uninstalling_Text {
+            get {
+                return ResourceManager.GetString("Localization_Uninstalling_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall localization.
+        /// </summary>
+        internal static string Localization_UninstallLocalization_Text {
+            get {
+                return ResourceManager.GetString("Localization_UninstallLocalization_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Package security verification is not passed. Please try another or contact with package owner..
         /// </summary>
         internal static string Localization_Verify_ErrorText {

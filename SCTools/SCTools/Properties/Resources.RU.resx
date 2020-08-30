@@ -288,6 +288,30 @@
   <data name="Localization_Title" xml:space="preserve">
     <value>Star Citizen : Локализация</value>
   </data>
+  <data name="Localization_Uninstalling_Text" xml:space="preserve">
+    <value>Удаление...</value>
+  </data>
+  <data name="Localization_UninstallLocalization_Text" xml:space="preserve">
+    <value>Полное удаление локализации</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
+    <value>Не возможно удалить локализацию. Пожалуйста убедитесь что папка установки или файлы не открыты в других приложениях.</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
+    <value>Ошибка удаления локализации</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionText" xml:space="preserve">
+    <value>Вы уверены что хотите удалить локализацию и все её файлы?</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionTitle" xml:space="preserve">
+    <value>Подтверджение удаления</value>
+  </data>
+  <data name="Localization_Uninstall_WarningText" xml:space="preserve">
+    <value>Локализация удалено не полностью. Некоторые файлы не удалось удалить.</value>
+  </data>
+  <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
+    <value>Удаление локализации</value>
+  </data>
   <data name="Localization_Verify_ErrorText" xml:space="preserve">
     <value>Пакет не прошел проверку безопасности. Пожалуйста попытайсь загрузить другой или свяжитесь с владельцем репозитория.</value>
   </data>

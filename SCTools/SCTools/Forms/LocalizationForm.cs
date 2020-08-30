@@ -31,6 +31,7 @@ namespace NSW.StarCitizen.Tools.Forms
             btnManage.Text = Resources.Localization_Manage_Text;
             btnRefresh.Text = Resources.Localization_Refresh_Text;
             btnInstall.Text = Resources.Localization_InstallVersion_Text;
+            btnUninstall.Text = Resources.Localization_UninstallLocalization_Text;
             lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
             lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
             lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
@@ -63,6 +64,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 btnInstall.Enabled = true;
                 _currentRepository.SetCurrentVersion(info);
+                UpdateButtonsVisibility();
             }
         }
 
@@ -151,6 +153,55 @@ namespace NSW.StarCitizen.Tools.Forms
                     Enabled = true;
                     progressDlg.Hide();
                     UpdateControls();
+                }
+            }
+        }
+
+        private void btnUninstall_Click(object sender, EventArgs e)
+        {
+            if (_currentInstallation.InstalledVersion != null)
+            {
+                var dialogResult = MessageBox.Show(Resources.Localization_Uninstall_QuestionText,
+                    Resources.Localization_Uninstall_QuestionTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.No)
+                    return;
+                using var progressDlg = new ProgressForm();
+                try
+                {
+                    progressDlg.Text = Resources.Localization_UninstallLocalization_Text;
+                    var uninstallDialogAdapter = new UninstallProgressDialogAdapter(progressDlg);
+                    progressDlg.Show(this);
+                    switch (_currentRepository.Installer.Uninstall(_currentGame.RootFolder.FullName))
+                    {
+                        case UninstallStatus.Success:
+                            _gameSettings.RemoveCurrentLanguage();
+                            _gameSettings.Load();
+                            Program.RepositoryManager.RemoveInstalledRepository(_currentGame.Mode, _currentRepository);
+                            break;
+                        case UninstallStatus.Partial:
+                            _gameSettings.RemoveCurrentLanguage();
+                            _gameSettings.Load();
+                            Program.RepositoryManager.RemoveInstalledRepository(_currentGame.Mode, _currentRepository);
+                            MessageBox.Show(Resources.Localization_Uninstall_WarningText,
+                                    Resources.Localization_Uninstall_WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+                        case UninstallStatus.Failed:
+                        default:
+                            MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
+                                Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
+                        Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    progressDlg.Hide();
+                    UpdateControls();
+                    cbRepository.Refresh();
                 }
             }
         }
@@ -301,6 +352,22 @@ namespace NSW.StarCitizen.Tools.Forms
             // monitoring
             cbCheckNewVersions.Checked = _currentInstallation.MonitorForUpdates;
             cbRefreshTime.SelectedItem = _currentInstallation.MonitorRefreshTime.ToString();
+            UpdateButtonsVisibility();
+        }
+
+        private void UpdateButtonsVisibility()
+        {
+            if (_currentInstallation.InstalledVersion != null && _currentRepository.CurrentVersion != null &&
+                string.Compare(_currentInstallation.InstalledVersion, _currentRepository.CurrentVersion.Name, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                btnInstall.Visible = false;
+                btnUninstall.Visible = true;
+            }
+            else
+            {
+                btnInstall.Visible = true;
+                btnUninstall.Visible = false;
+            }
         }
     }
 }

@@ -304,4 +304,28 @@
   <data name="Localization_Warning_Title" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="Localization_Uninstalling_Text" xml:space="preserve">
+    <value>Uninstalling...</value>
+  </data>
+  <data name="Localization_UninstallLocalization_Text" xml:space="preserve">
+    <value>Uninstall localization</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
+    <value>Unable to uninstall localzation. Please ensure install folder and files is not open in other applicaitions.</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
+    <value>Uninstall error</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionText" xml:space="preserve">
+    <value>Are you sure your are want uninstall localization and remove all files?</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionTitle" xml:space="preserve">
+    <value>Uninstall confirmation</value>
+  </data>
+  <data name="Localization_Uninstall_WarningText" xml:space="preserve">
+    <value>Localization removed not fully. Some files can't be removed.</value>
+  </data>
+  <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
+    <value>Uninstall warning</value>
+  </data>
 </root>
