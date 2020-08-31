@@ -25,11 +25,46 @@ namespace NSW.StarCitizen.Tools.Settings
         public string Name { get; set; }
         public string Repository { get; set; }
         public string Type { get; set; }
-        public static LocalizationSource Default { get; } = new LocalizationSource
+
+        public static LocalizationSource DefaultBaseModding { get; } = new LocalizationSource
+        {
+            Name = "Base Modding Package",
+            Repository = "defterai/starcitizenmodding",
+            Type = "GitHub"
+        };
+
+        public static LocalizationSource DefaultRussian { get; } = new LocalizationSource
         {
             Name = "Russian Community",
             Repository = "n1ghter/sc_ru",
             Type = "GitHub"
+        };
+
+        public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource
+        {
+            Name = "Ukrainian Community",
+            Repository = "defterai/sc_uk",
+            Type = "GitHub"
+        };
+
+        public static LocalizationSource DefaultChinese { get; } = new LocalizationSource
+        {
+            Name = "Chinese Community",
+            Repository = "terrencetodd/sc_cn_zh",
+            Type = "GitHub"
+        };
+
+        public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
+            DefaultRussian,
+            DefaultUkrainian,
+            DefaultChinese,
+        };
+
+        public static IReadOnlyList<LocalizationSource> StandardList { get; } = new List<LocalizationSource>() {
+            DefaultRussian,
+            DefaultUkrainian,
+            DefaultChinese,
+            DefaultBaseModding
         };
     }
 }

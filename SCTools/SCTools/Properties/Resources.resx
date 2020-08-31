@@ -328,4 +328,10 @@
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Uninstall warning</value>
   </data>
+  <data name="Localization_StdRepos_Title" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Localization_UserRepos_Title" xml:space="preserve">
+    <value>User</value>
+  </data>
 </root>

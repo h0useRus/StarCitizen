@@ -558,6 +558,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standard.
+        /// </summary>
+        internal static string Localization_StdRepos_Title {
+            get {
+                return ResourceManager.GetString("Localization_StdRepos_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop monitoring..
         /// </summary>
         internal static string Localization_Stop_Monitoring {
@@ -653,6 +662,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_UninstallLocalization_Text {
             get {
                 return ResourceManager.GetString("Localization_UninstallLocalization_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string Localization_UserRepos_Title {
+            get {
+                return ResourceManager.GetString("Localization_UserRepos_Title", resourceCulture);
             }
         }
         

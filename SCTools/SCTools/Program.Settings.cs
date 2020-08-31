@@ -21,7 +21,7 @@ namespace NSW.StarCitizen.Tools
         private static void ValidateAppSettings(AppSettings appSettings)
         {
             if (appSettings.Localization.Repositories != null && appSettings.Localization.Repositories.Count > 0) return;
-            appSettings.Localization.Repositories = new List<LocalizationSource> { LocalizationSource.Default };
+            appSettings.Localization.Repositories = new List<LocalizationSource>(LocalizationSource.DefaultList);
             SaveAppSettings(appSettings);
         }
         public static bool SaveAppSettings() => SaveAppSettings(Settings);

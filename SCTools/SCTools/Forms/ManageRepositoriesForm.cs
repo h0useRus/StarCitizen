@@ -1,28 +1,33 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using NSW.StarCitizen.Tools.Global;
+using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class ManageRepositoriesForm : Form
     {
         private const string GitHubUrl = "https://github.com/";
+        private readonly RepositoriesListViewAdapter _repositoriesListAdapter;
+        private readonly RepositoriesListViewAdapter _stdRepositoriesListAdapter;
 
         public ManageRepositoriesForm()
         {
             InitializeComponent();
             InitializeLocalization();
-            var item = lvRepositories.Columns.Add("chName", Resources.Localization_Name_Text);
-            item.Width = lvRepositories.Width / 2 - 5;
-            lvRepositories.Columns.Add("chPath", Resources.Localization_Path_Text, lvRepositories.Width - item.Width - 5);
+            _repositoriesListAdapter = new RepositoriesListViewAdapter(lvRepositories);
+            _stdRepositoriesListAdapter = new RepositoriesListViewAdapter(lvStdRepositories);
+            _stdRepositoriesListAdapter.SetRepositoriesList(LocalizationSource.StandardList);
         }
 
         private void InitializeLocalization()
         {
             Text = Resources.Localization_Repositories_Title;
+            tabPageUserRepositories.Text = Resources.Localization_UserRepos_Title;
+            tabPageStdRepositories.Text = Resources.Localization_StdRepos_Title;
             lblName.Text = Resources.Localization_Name_Text;
             lblPath.Text = Resources.Localization_GitHubURL_Text;
             btnAdd.Text = Resources.Localization_Add_Text;
@@ -36,21 +41,14 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void DataBindList()
         {
-            lvRepositories.Items.Clear();
-            foreach (var repository in Program.RepositoryManager.GetRepositoriesList())
-            {
-                var item = lvRepositories.Items.Add(repository.Name, repository.Name);
-                item.Tag = repository;
-                item.SubItems.Add(repository.Repository);
-            }
-
-            btnRemove.Enabled = lvRepositories.Items.Count > 1;
+            _repositoriesListAdapter.SetRepositoriesList(Program.RepositoryManager.GetRepositoriesList());
+            UpdateButtons();
         }
 
         private void lvRepositories_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvRepositories.SelectedItems.Count > 0 &&
-                lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
             {
                 tbName.Text = repository.Name;
                 tbUrl.Text = GitHubUrl + repository.Repository ;
@@ -104,7 +102,8 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (lvRepositories.SelectedItems.Count > 0 && lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
             {
                 var usedByGameMode = Program.RepositoryManager.GetRepositoryUsedGameMode(repository);
                 if (usedByGameMode != null)
@@ -114,8 +113,26 @@ namespace NSW.StarCitizen.Tools.Forms
                         return;
                 }
                 Program.RepositoryManager.RemoveRepository(repository);
-                lvRepositories.Items.Remove(lvRepositories.SelectedItems[0]);
+                _repositoriesListAdapter.RemoveSelectedItem();
+                UpdateButtons();
             }
+        }
+
+        private void lvStdRepositories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var source = _stdRepositoriesListAdapter.GetSelectedSource();
+            if (source != null)
+            {
+                tbName.Text = source.Name;
+                tbUrl.Text = GitHubUrl + source.Repository;
+            }
+        }
+
+        private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e) => UpdateButtons();
+
+        private void UpdateButtons()
+        {
+            btnRemove.Enabled = _repositoriesListAdapter.RepositoriesCount > 1 && tabRepositories.SelectedIndex == 0;
         }
     }
 }
