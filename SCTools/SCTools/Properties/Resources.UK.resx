@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppName" xml:space="preserve">
-    <value>Star Citizen : Utils</value>
+    <value>Star Citizen : Utils - v{0}</value>
   </data>
   <data name="GameMode_LIVE" xml:space="preserve">
     <value>Постійний Всесвіт</value>
@@ -144,6 +144,9 @@
   <data name="Localization_Add_Text" xml:space="preserve">
     <value>Додати</value>
   </data>
+  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+    <value>Оновлення додатку</value>
+  </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
     <value>хвилин</value>
   </data>
@@ -158,6 +161,12 @@
   </data>
   <data name="Localization_Cancel_Text" xml:space="preserve">
     <value>Скасувати</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Перевірити оновлення...</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Перевірка оновлень</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
     <value>Перевіряти оновлення кожні</value>
@@ -183,6 +192,9 @@
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>Помилка</value>
   </data>
+  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+    <value>Помилка встановлення оновлення</value>
+  </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>На жаль виникла помилка копіювання файлів під час встановлення. Будь ласка, переконайтесь що директорія встановлення або файли в ній не відкриті в інших програмах.</value>
   </data>
@@ -206,6 +218,9 @@
   </data>
   <data name="Localization_Installing_Text" xml:space="preserve">
     <value>Встановлення...</value>
+  </data>
+  <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
+    <value>Встановити оновлення: {0}</value>
   </data>
   <data name="Localization_InstallVersion_Text" xml:space="preserve">
     <value>Встановити обрану версію</value>
@@ -239,6 +254,9 @@
   </data>
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
     <value>Доступ до репозиторію '{0}' відсутній. Перевірте посилання репозиторію.</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>Не знайдено оновленнь</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Завантажений пакет пошкоджений або не підтримується. Будь ласка, спробуйте завантажити інший або повідомте власника репозиторія.</value>
@@ -314,6 +332,9 @@
   </data>
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Видалення локалізації</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>Доступна нова версія додатку {0}.\nВстановити?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Користувача</value>

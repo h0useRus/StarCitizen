@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
@@ -27,7 +28,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeLocalization()
         {
-            Text = niTray.Text = Resources.AppName;
+            Text = niTray.Text = string.Format(Resources.AppName, Program.Version.ToString(3));
             if (!_isGameFolderSet)
                 tbGamePath.Text = Resources.GamePath_Hint;
             if (Program.CurrentGame != null)
@@ -37,10 +38,17 @@ namespace NSW.StarCitizen.Tools.Forms
             lblLanguage.Text = Resources.Localization_Language_Text;
             cbGeneralRunMinimized.Text = Resources.Localization_RunMinimized_Text;
             cbGeneralRunWithWindows.Text = Resources.Localization_RunOnStartup_Text;
+            lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
+            cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
+            UpdateInstallButton();
         }
 
         private void InitializeGeneral()
         {
+            Program.Updater.Notification += (sender, s) =>
+            {
+                niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
+            };
             Program.RepositoryManager.Notification += (sender, s) =>
             {
                 niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
@@ -49,9 +57,11 @@ namespace NSW.StarCitizen.Tools.Forms
             cbLanguage.DisplayMember = "Value";
             cbLanguage.ValueMember = "Key";
             cbLanguage.SelectedValue = Program.Settings.Language;
+            cbRefreshTime.SelectedItem = Program.Settings.MonitorRefreshTime.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
             cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
+            cbCheckNewVersions.Checked = Program.Settings.MonitorUpdates;
             _holdUpdates = false;
         }
 
@@ -86,6 +96,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 Minimize();
 
             Program.RepositoryManager.RunMonitors();
+            if (Program.Settings.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -163,6 +175,73 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private async void btnAppUpdate_Click(object sender, EventArgs e)
+        {
+            if (Program.Updater.GetScheduledUpdateInfo() != null)
+            {
+                if (Program.InstallScheduledUpdate())
+                    Close();
+                UpdateInstallButton();
+                return;
+            }
+            using var progressDlg = new ProgressForm();
+            try
+            {
+                Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                progressDlg.Text = Resources.Localization_ApplicationUpdate_Title;
+                var checkForUpdateDialogAdapter = new CheckForUpdateDialogAdapter(progressDlg);
+                progressDlg.Show(this);
+                var availableVersion = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
+                progressDlg.CurrentTaskProgress = 1.0f;
+                if (availableVersion == null)
+                {
+                    progressDlg.Hide();
+                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text, Resources.Localization_CheckForUpdate_Title,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
+                var filePath = await Program.Updater.DownloadVersionAsync(availableVersion, progressDlg.CancelToken, downloadDialogAdapter);
+                Program.Updater.ScheduleInstallUpdate(availableVersion, filePath);
+            }
+            catch
+            {
+                if (!progressDlg.IsCanceledByUser)
+                {
+                    progressDlg.Hide();
+                    MessageBox.Show(this, Resources.Localization_Download_ErrorText,
+                        Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Enabled = true;
+                progressDlg.Hide();
+                UpdateInstallButton();
+            }
+        }
+
+        private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_holdUpdates) return;
+            Program.Settings.MonitorUpdates = cbCheckNewVersions.Checked;
+            if (Program.Settings.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
+            else
+                Program.Updater.MonitorStop();
+            Program.SaveAppSettings();
+        }
+
+        private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Program.Settings.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+            if (Program.Settings.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
+            Program.SaveAppSettings();
+        }
+
         #endregion
 
         protected override void WndProc(ref Message message)
@@ -216,6 +295,15 @@ namespace NSW.StarCitizen.Tools.Forms
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
+        }
+
+        private void UpdateInstallButton()
+        {
+            var scheduledUpdateInfo = Program.Updater.GetScheduledUpdateInfo();
+            if (scheduledUpdateInfo != null)
+                btnAppUpdate.Text = string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion());
+            else
+                btnAppUpdate.Text = Resources.Localization_CheckForUpdates_Text;
         }
 
         private static Dictionary<string, string> GetSupportedLanguages()

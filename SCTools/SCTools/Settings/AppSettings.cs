@@ -29,6 +29,11 @@ namespace NSW.StarCitizen.Tools.Settings
                     _startupKey.DeleteValue(AppName, false);
             }
         }
+
+        public bool MonitorUpdates { get; set; } = false;
+
+        public int MonitorRefreshTime { get; set; } = 5;
+
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
 
         private string GetLanguage()

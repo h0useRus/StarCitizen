@@ -39,7 +39,7 @@ namespace NSW.StarCitizen.Tools.Localization
                 Directory.Move(GameConstants.GetDataFolderPath(unpackDataDir.FullName), dataPathDir.FullName);
                 if (backupDataDir != null)
                 {
-                    DeleteDirectoryRecursive(backupDataDir);
+                    FileUtils.DeleteDirectoryNoThrow(backupDataDir, true);
                     backupDataDir = null;
                 }
                 string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
@@ -74,7 +74,7 @@ namespace NSW.StarCitizen.Tools.Localization
             {
                 if (unpackDataDir != null)
                 {
-                    DeleteDirectoryRecursive(unpackDataDir);
+                    FileUtils.DeleteDirectoryNoThrow(unpackDataDir, true);
                 }
                 if (backupDataDir != null)
                 {
@@ -87,14 +87,14 @@ namespace NSW.StarCitizen.Tools.Localization
         public UninstallStatus Uninstall(string destinationFolder)
         {
             string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            if (File.Exists(enabledLibraryPath) && !DeleteFileNoThrow(enabledLibraryPath))
+            if (File.Exists(enabledLibraryPath) && !FileUtils.DeleteFileNoThrow(enabledLibraryPath))
                 return UninstallStatus.Failed;
             var result = UninstallStatus.Success;
             string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-            if (File.Exists(disabledLibraryPath) && !DeleteFileNoThrow(disabledLibraryPath))
+            if (File.Exists(disabledLibraryPath) && !FileUtils.DeleteFileNoThrow(disabledLibraryPath))
                 result = UninstallStatus.Partial;
             DirectoryInfo dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
-            if (dataPathDir.Exists && !DeleteDirectoryRecursive(dataPathDir))
+            if (dataPathDir.Exists && !FileUtils.DeleteDirectoryNoThrow(dataPathDir, true))
                 result = UninstallStatus.Partial;
             return result;
         }
@@ -166,44 +166,18 @@ namespace NSW.StarCitizen.Tools.Localization
             return dataExtracted && coreExtracted;
         }
 
-        private static bool DeleteFileNoThrow(string filePath)
-        {
-            try
-            {
-                File.Delete(filePath);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private static bool DeleteDirectoryRecursive(DirectoryInfo dir)
-        {
-            try
-            {
-                dir.Delete(true);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
         private static void RestoreDirectory(DirectoryInfo dir, DirectoryInfo destDir)
         {
             if (dir.Exists)
             {
                 try
                 {
-                    DeleteDirectoryRecursive(destDir);
+                    FileUtils.DeleteDirectoryNoThrow(destDir, true);
                     Directory.Move(dir.FullName, destDir.FullName);
                 }
                 catch
                 {
-                    DeleteDirectoryRecursive(dir);
+                    FileUtils.DeleteDirectoryNoThrow(dir, true);
                 }
             }
         }

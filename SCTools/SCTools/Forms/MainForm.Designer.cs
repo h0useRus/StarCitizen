@@ -40,12 +40,16 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
+            this.btnAppUpdate = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.lblLanguage = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
             this.cbGeneralRunMinimized = new System.Windows.Forms.CheckBox();
+            this.lblMinutes = new System.Windows.Forms.Label();
+            this.cbRefreshTime = new System.Windows.Forms.ComboBox();
+            this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.SuspendLayout();
@@ -81,8 +85,8 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // gbGameInfo
             // 
-            this.gbGameInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbGameInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbGameInfo.Controls.Add(this.tbGameVersion);
             this.gbGameInfo.Controls.Add(this.lblGameVersion);
             this.gbGameInfo.Controls.Add(this.tbGameMode);
@@ -139,15 +143,26 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // gbButtonMenu
             // 
-            this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbButtonMenu.Controls.Add(this.btnAppUpdate);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
             this.gbButtonMenu.Size = new System.Drawing.Size(254, 108);
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
+            // 
+            // btnAppUpdate
+            // 
+            this.btnAppUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAppUpdate.Location = new System.Drawing.Point(6, 69);
+            this.btnAppUpdate.Name = "btnAppUpdate";
+            this.btnAppUpdate.Size = new System.Drawing.Size(242, 23);
+            this.btnAppUpdate.TabIndex = 4;
+            this.btnAppUpdate.Text = "Check for application updates";
+            this.btnAppUpdate.UseVisualStyleBackColor = true;
+            this.btnAppUpdate.Click += new System.EventHandler(this.btnAppUpdate_Click);
             // 
             // btnLocalization
             // 
@@ -190,10 +205,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // cbGeneralRunWithWindows
             // 
-            this.cbGeneralRunWithWindows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbGeneralRunWithWindows.AutoSize = true;
             this.cbGeneralRunWithWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 154);
+            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 152);
             this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
             this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(142, 17);
             this.cbGeneralRunWithWindows.TabIndex = 5;
@@ -203,7 +217,6 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // cbGeneralRunMinimized
             // 
-            this.cbGeneralRunMinimized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbGeneralRunMinimized.AutoSize = true;
             this.cbGeneralRunMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbGeneralRunMinimized.Location = new System.Drawing.Point(12, 177);
@@ -214,11 +227,53 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
             this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
             // 
+            // lblMinutes
+            // 
+            this.lblMinutes.AutoSize = true;
+            this.lblMinutes.Location = new System.Drawing.Point(270, 207);
+            this.lblMinutes.Name = "lblMinutes";
+            this.lblMinutes.Size = new System.Drawing.Size(43, 13);
+            this.lblMinutes.TabIndex = 11;
+            this.lblMinutes.Text = "minutes";
+            // 
+            // cbRefreshTime
+            // 
+            this.cbRefreshTime.BackColor = System.Drawing.SystemColors.Info;
+            this.cbRefreshTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRefreshTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbRefreshTime.FormattingEnabled = true;
+            this.cbRefreshTime.Items.AddRange(new object[] {
+            "5",
+            "10",
+            "15",
+            "30",
+            "60"});
+            this.cbRefreshTime.Location = new System.Drawing.Point(218, 202);
+            this.cbRefreshTime.Name = "cbRefreshTime";
+            this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
+            this.cbRefreshTime.TabIndex = 13;
+            this.cbRefreshTime.SelectionChangeCommitted += new System.EventHandler(this.cbRefreshTime_SelectionChangeCommitted);
+            // 
+            // cbCheckNewVersions
+            // 
+            this.cbCheckNewVersions.AutoSize = true;
+            this.cbCheckNewVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(12, 203);
+            this.cbCheckNewVersions.Name = "cbCheckNewVersions";
+            this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
+            this.cbCheckNewVersions.TabIndex = 12;
+            this.cbCheckNewVersions.Text = "Check for new version every";
+            this.cbCheckNewVersions.UseVisualStyleBackColor = true;
+            this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 203);
+            this.ClientSize = new System.Drawing.Size(484, 228);
+            this.Controls.Add(this.lblMinutes);
+            this.Controls.Add(this.cbRefreshTime);
+            this.Controls.Add(this.cbCheckNewVersions);
             this.Controls.Add(this.lblLanguage);
             this.Controls.Add(this.cbGeneralRunMinimized);
             this.Controls.Add(this.cbLanguage);
@@ -260,5 +315,9 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.CheckBox cbGeneralRunMinimized;
         private System.Windows.Forms.Label lblLanguage;
         private System.Windows.Forms.ComboBox cbLanguage;
+        private System.Windows.Forms.Button btnAppUpdate;
+        private System.Windows.Forms.Label lblMinutes;
+        private System.Windows.Forms.ComboBox cbRefreshTime;
+        private System.Windows.Forms.CheckBox cbCheckNewVersions;
     }
 }

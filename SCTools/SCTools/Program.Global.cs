@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using NSW.StarCitizen.Tools.Global;
 
 namespace NSW.StarCitizen.Tools
@@ -9,6 +10,10 @@ namespace NSW.StarCitizen.Tools
     public static partial class Program
     {
         public static GameInfo CurrentGame { get; set; }
+
+        public static string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name;
+
+        public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public static bool SetGameFolder(string path)
         {

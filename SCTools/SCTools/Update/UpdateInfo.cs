@@ -1,8 +1,8 @@
 using System;
 
-namespace NSW.StarCitizen.Tools.Localization
+namespace NSW.StarCitizen.Tools.Update
 {
-    public class LocalizationInfo
+    public abstract class UpdateInfo
     {
         public string Name { get; set; }
         public string TagName { get; set; }
@@ -10,5 +10,12 @@ namespace NSW.StarCitizen.Tools.Localization
         public DateTimeOffset Released { get; set; }
         public bool PreRelease { get; set; }
         public override string ToString() => Name;
+
+        public abstract string GetVersion();
+
+        public interface IFactory
+        {
+            UpdateInfo Create(string version);
+        }
     }
 }

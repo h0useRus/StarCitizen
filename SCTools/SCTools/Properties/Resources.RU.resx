@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppName" xml:space="preserve">
-    <value>Star Citizen : Utils</value>
+    <value>Star Citizen : Utils - v{0}</value>
   </data>
   <data name="GameMode_LIVE" xml:space="preserve">
     <value>Постоянная Вселенная</value>
@@ -144,6 +144,9 @@
   <data name="Localization_Add_Text" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+    <value>Обновление приложения</value>
+  </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
     <value>минут</value>
   </data>
@@ -158,6 +161,12 @@
   </data>
   <data name="Localization_Cancel_Text" xml:space="preserve">
     <value>Отмена</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Проверка обновлений...</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Проверка обновлений</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
     <value>Проверять на обновление каждые</value>
@@ -183,6 +192,9 @@
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+    <value>Failed install application update</value>
+  </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>К сожалению произошла ошибка копирования файлов во время установки. Пожалуйста убедитесь что папка установки или файлы не открыты в других приложениях.</value>
   </data>
@@ -206,6 +218,9 @@
   </data>
   <data name="Localization_Installing_Text" xml:space="preserve">
     <value>Установка...</value>
+  </data>
+  <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
+    <value>Установить обновление: {0}</value>
   </data>
   <data name="Localization_InstallVersion_Text" xml:space="preserve">
     <value>Установить выбранную версию</value>
@@ -239,6 +254,9 @@
   </data>
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
     <value>Нет доступа к репозиторию '{0}'</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>Обновлений не обнаружено</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Загруженный пакет поврежден или не верный. Пожалуйста попытайсь загрузить другой или свяжитесь с владельцем репозитория.</value>
@@ -314,6 +332,9 @@
   </data>
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Удаление локализации</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>New application version {0} is available.\nInstall now?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Пользовательские</value>
