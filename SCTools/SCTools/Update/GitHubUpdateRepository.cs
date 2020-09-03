@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -14,23 +12,9 @@ namespace NSW.StarCitizen.Tools.Update
     public class GitHubUpdateRepository : UpdateRepository
     {
         private const string BaseUrl = "https://api.github.com/repos";
-        private static readonly HttpClientHandler _gitClientHandler;
-        private static readonly HttpClient _gitClient;
         private readonly string _repoReleasesUrl;
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
-
         public GitHubDownloadType DownloadType { get; }
-
-        static GitHubUpdateRepository()
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            _gitClientHandler = new HttpClientHandler();
-            _gitClientHandler.UseProxy = false;
-            _gitClient = new HttpClient(_gitClientHandler);
-            _gitClient.DefaultRequestHeaders.UserAgent.ParseAdd($"{Program.Name}/{Program.Version.ToString(3)}");
-            _gitClient.Timeout = TimeSpan.FromMinutes(1);
-        }
-
         public GitHubUpdateRepository(GitHubDownloadType downloadType, GitHubUpdateInfo.Factory gitHubUpdateInfoFactory, string name, string repository) :
             base(UpdateRepositoryType.GitHub, gitHubUpdateInfoFactory, name, repository)
         {
@@ -41,7 +25,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public override async Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            using var response = await GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
+            using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var releases = JsonHelper.Read<GitRelease[]>(content);
@@ -60,7 +44,7 @@ namespace NSW.StarCitizen.Tools.Update
         public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
             CancellationToken cancellationToken, IDownloadProgress downloadProgress)
         {
-            using var response = await GetAsync(updateInfo.DownloadUrl, cancellationToken);
+            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl, cancellationToken);
             response.EnsureSuccessStatusCode();
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
             {
@@ -94,7 +78,7 @@ namespace NSW.StarCitizen.Tools.Update
         {
             try
             {
-                using var response = await GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
+                using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
                 return response.IsSuccessStatusCode;
             }
             catch
@@ -102,12 +86,6 @@ namespace NSW.StarCitizen.Tools.Update
                 return false;
             }
         }
-
-        private async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
-        {
-            return await _gitClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
-        }
-
         private IEnumerable<UpdateInfo> GetSourceCodeUpdates(GitRelease[] releases)
         {
             return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r))

@@ -193,7 +193,7 @@
     <value>Ошибка</value>
   </data>
   <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
-    <value>Failed install application update</value>
+    <value>Ошибка установки обновления приложения</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>К сожалению произошла ошибка копирования файлов во время установки. Пожалуйста убедитесь что папка установки или файлы не открыты в других приложениях.</value>
@@ -334,7 +334,7 @@
     <value>Удаление локализации</value>
   </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>New application version {0} is available.\nInstall now?</value>
+    <value>Доступная новая версия приложения {0}.\nЖелаете установить?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Пользовательские</value>

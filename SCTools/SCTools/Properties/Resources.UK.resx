@@ -193,7 +193,7 @@
     <value>Помилка</value>
   </data>
   <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
-    <value>Помилка встановлення оновлення</value>
+    <value>Помилка встановлення оновлення додатку</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>На жаль виникла помилка копіювання файлів під час встановлення. Будь ласка, переконайтесь що директорія встановлення або файли в ній не відкриті в інших програмах.</value>
@@ -256,7 +256,7 @@
     <value>Доступ до репозиторію '{0}' відсутній. Перевірте посилання репозиторію.</value>
   </data>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
-    <value>Не знайдено оновленнь</value>
+    <value>Оновлень не знайдено</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Завантажений пакет пошкоджений або не підтримується. Будь ласка, спробуйте завантажити інший або повідомте власника репозиторія.</value>
@@ -334,7 +334,7 @@
     <value>Видалення локалізації</value>
   </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>Доступна нова версія додатку {0}.\nВстановити?</value>
+    <value>Доступна нова версія додатку {0}.\nБажаєте встановити?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Користувача</value>

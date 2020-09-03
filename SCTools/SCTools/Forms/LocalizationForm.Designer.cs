@@ -76,9 +76,10 @@ namespace NSW.StarCitizen.Tools.Forms
             // cbCheckNewVersions
             // 
             this.cbCheckNewVersions.AutoSize = true;
+            this.cbCheckNewVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 177);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
-            this.cbCheckNewVersions.Size = new System.Drawing.Size(161, 17);
+            this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
             this.cbCheckNewVersions.TabIndex = 9;
             this.cbCheckNewVersions.Text = "Check for new version every";
             this.cbCheckNewVersions.UseVisualStyleBackColor = true;

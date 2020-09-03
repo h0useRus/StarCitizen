@@ -192,18 +192,23 @@ namespace NSW.StarCitizen.Tools.Forms
                 progressDlg.Text = Resources.Localization_ApplicationUpdate_Title;
                 var checkForUpdateDialogAdapter = new CheckForUpdateDialogAdapter(progressDlg);
                 progressDlg.Show(this);
-                var availableVersion = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
+                var availableUpdate = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
                 progressDlg.CurrentTaskProgress = 1.0f;
-                if (availableVersion == null)
+                if (availableUpdate == null)
                 {
                     progressDlg.Hide();
                     MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text, Resources.Localization_CheckForUpdate_Title,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
-                var filePath = await Program.Updater.DownloadVersionAsync(availableVersion, progressDlg.CancelToken, downloadDialogAdapter);
-                Program.Updater.ScheduleInstallUpdate(availableVersion, filePath);
+                var dialogResult = MessageBox.Show(string.Format(Resources.Localization_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
+                    var filePath = await Program.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken, downloadDialogAdapter);
+                    Program.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
+                }
             }
             catch
             {

@@ -73,6 +73,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.lblTaskInfo);
             this.Controls.Add(this.prTaskProgress);
             this.Controls.Add(this.btnStop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressForm";

@@ -352,7 +352,10 @@
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
     <value>No updates were found</value>
   </data>
+  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+    <value>New application version {0} is available.\nDo you want download it now?</value>
+  </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>New application version {0} is available.\nInstall now?</value>
+    <value>New application version {0} is available.\nDo you want install it now?</value>
   </data>
 </root>
