@@ -128,7 +128,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         IntPtr FileInfoPtr;
         WinTrustDataStateAction StateAction = WinTrustDataStateAction.Ignore;
         IntPtr StateData = IntPtr.Zero;
-        String URLReference = null;
+        string? URLReference = null;
         WinTrustDataProvFlags ProvFlags = WinTrustDataProvFlags.RevocationCheckNone | WinTrustDataProvFlags.DisableMD2andMD4;
         WinTrustDataUIContext UIContext = WinTrustDataUIContext.Execute;
         IntPtr SignatureSettings = IntPtr.Zero;

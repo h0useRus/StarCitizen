@@ -58,24 +58,21 @@ namespace NSW.StarCitizen.Tools.Forms
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             var name = tbName.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(name))
+            if (name == null || string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show(string.Format(Resources.Localization_InvalidRepoName_Text, name),
                     Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string repositoryUrl = null;
+            Uri uri;
+            string repositoryUrl;
             var url = tbUrl.Text?.ToLower().Trim();
-            if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri) ||
+                string.IsNullOrWhiteSpace(repositoryUrl = uri.AbsolutePath.Trim('/')))
             {
-                repositoryUrl = uri.AbsolutePath.Trim('/');
-            }
-
-            if (string.IsNullOrWhiteSpace(repositoryUrl))
-            {
-                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, repositoryUrl),
-                    Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
+                       Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

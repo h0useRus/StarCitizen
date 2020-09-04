@@ -6,7 +6,7 @@ namespace NSW.StarCitizen.Tools.Helpers
     public static class SingleInstance
     {
         public static readonly int WM_SHOWFIRSTINSTANCE = WinApi.RegisterWindowMessage("WM_SHOWFIRSTINSTANCE|{0}", Program.ApplicationId);
-        private static Mutex _mutex;
+        private static Mutex? _mutex;
         public static bool Start()
         {
             string mutexName = $"Local\\{Program.ApplicationId}";

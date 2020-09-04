@@ -13,8 +13,8 @@ namespace NSW.StarCitizen.Tools.Localization
     {
         public InstallStatus Install(string zipFileName, string destinationFolder)
         {
-            DirectoryInfo unpackDataDir = null;
-            DirectoryInfo backupDataDir = null;
+            DirectoryInfo? unpackDataDir = null;
+            DirectoryInfo? backupDataDir = null;
             DirectoryInfo dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
             try
             {

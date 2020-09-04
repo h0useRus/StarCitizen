@@ -10,18 +10,17 @@ namespace NSW.StarCitizen.Tools.Update
         string Name { get; }
         string Repository { get; }
         UpdateRepositoryType Type { get; }
-        UpdateInfo.IFactory UpdateInfoFactory { get; }
-        UpdateInfo CurrentVersion { get; }
-        IEnumerable<UpdateInfo> UpdateReleases { get; }
-        UpdateInfo LatestUpdateInfo { get; }
+        string? CurrentVersion { get; }
+        IEnumerable<UpdateInfo>? UpdateReleases { get; }
+        UpdateInfo? LatestUpdateInfo { get; }
 
         Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
         Task<IEnumerable<UpdateInfo>> RefreshUpdatesAsync(CancellationToken cancellationToken);
-        Task<UpdateInfo> GetLatestAsync(CancellationToken cancellationToken);
-        Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
+        Task<UpdateInfo?> GetLatestAsync(CancellationToken cancellationToken);
+        Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
         Task<bool> CheckAsync(CancellationToken cancellationToken);
-        void SetCurrentVersion(UpdateInfo version);
-        void UpdateCurrentVersion(string fallbackVersionName);
+        void SetCurrentVersion(string version);
+        UpdateInfo? UpdateCurrentVersion(string? fallbackVersionName);
 
         bool IsMonitorStarted { get; }
         int MonitorRefreshTime { get; }

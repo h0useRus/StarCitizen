@@ -40,7 +40,7 @@ namespace NSW.StarCitizen.Tools.Adapters
             }
         }
 
-        public ILocalizationRepository GetSelectedRepository()
+        public ILocalizationRepository? GetSelectedRepository()
         {
             if (_listView.SelectedItems.Count > 0 &&
                 _listView.SelectedItems[0]?.Tag is ILocalizationRepository repository)
@@ -50,7 +50,7 @@ namespace NSW.StarCitizen.Tools.Adapters
             return null;
         }
 
-        public LocalizationSource GetSelectedSource()
+        public LocalizationSource? GetSelectedSource()
         {
             if (_listView.SelectedItems.Count > 0 &&
                 _listView.SelectedItems[0]?.Tag is LocalizationSource source)

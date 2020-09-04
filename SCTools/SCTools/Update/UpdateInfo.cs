@@ -12,10 +12,5 @@ namespace NSW.StarCitizen.Tools.Update
         public override string ToString() => Name;
 
         public abstract string GetVersion();
-
-        public interface IFactory
-        {
-            UpdateInfo Create(string version);
-        }
     }
 }

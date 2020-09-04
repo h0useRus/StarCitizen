@@ -14,12 +14,11 @@ namespace NSW.StarCitizen.Tools.Update
         public string Name { get; }
         public string Repository { get; }
         public UpdateRepositoryType Type { get; }
-        public UpdateInfo.IFactory UpdateInfoFactory { get; }
-        public UpdateInfo CurrentVersion { get; private set; }
-        public IEnumerable<UpdateInfo> UpdateReleases { get; private set; }
-        public UpdateInfo LatestUpdateInfo => UpdateReleases?.OrderByDescending(r => r.Released)?.FirstOrDefault();
+        public string? CurrentVersion { get; private set; }
+        public IEnumerable<UpdateInfo>? UpdateReleases { get; private set; }
+        public UpdateInfo? LatestUpdateInfo => UpdateReleases?.OrderByDescending(r => r.Released)?.FirstOrDefault();
 
-        protected UpdateRepository(UpdateRepositoryType type, UpdateInfo.IFactory updateInfoFactory, string name, string repository)
+        protected UpdateRepository(UpdateRepositoryType type, string name, string repository)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -27,7 +26,6 @@ namespace NSW.StarCitizen.Tools.Update
                 throw new ArgumentNullException(nameof(repository));
 
             Type = type;
-            UpdateInfoFactory = updateInfoFactory;
             Name = name;
             Repository = repository.Trim('/');
 
@@ -49,7 +47,7 @@ namespace NSW.StarCitizen.Tools.Update
             return UpdateReleases;
         }
 
-        public async Task<UpdateInfo> GetLatestAsync(CancellationToken cancellationToken)
+        public async Task<UpdateInfo?> GetLatestAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
             if (releases.Any())
@@ -60,30 +58,31 @@ namespace NSW.StarCitizen.Tools.Update
             return null;
         }
 
-        public abstract Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
+        public abstract Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
         public abstract Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         public bool IsMonitorStarted { get; private set; }
         public int MonitorRefreshTime { get; private set; }
 
-        public void SetCurrentVersion(UpdateInfo version)
+        public void SetCurrentVersion(string version)
         {
             if (version != null)
                 CurrentVersion = version;
         }
 
-        public void UpdateCurrentVersion(string fallbackVersion)
+        public UpdateInfo? UpdateCurrentVersion(string? fallbackVersion)
         {
-            UpdateInfo foundVersion = null;
+            UpdateInfo? foundVersion = null;
             if (UpdateReleases != null && UpdateReleases.Any())
             {
-                var searchVersion = CurrentVersion?.GetVersion() ?? fallbackVersion;
+                var searchVersion = CurrentVersion ?? fallbackVersion;
                 if (searchVersion != null)
                     foundVersion = UpdateReleases.SingleOrDefault(li => string.Compare(li.GetVersion(),
                         searchVersion, StringComparison.OrdinalIgnoreCase) == 0);
                 foundVersion ??= UpdateReleases.FirstOrDefault();
             }
-            CurrentVersion = foundVersion ?? UpdateInfoFactory.Create(fallbackVersion);
+            CurrentVersion = foundVersion?.GetVersion() ?? fallbackVersion;
+            return foundVersion;
         }
 
         public void MonitorStart(int refreshTime)
@@ -117,13 +116,13 @@ namespace NSW.StarCitizen.Tools.Update
             MonitorStopped?.Invoke(this, Name);
         }
 
-        private async void MonitorTimerOnElapsedAsync(object sender, ElapsedEventArgs e)
+        private async void MonitorTimerOnElapsedAsync(object sender, ElapsedEventArgs? e)
         {
             try
             {
                 using var cancellationTokenSource = new CancellationTokenSource();
                 var result = await GetLatestAsync(cancellationTokenSource.Token);
-                if (result != null && string.Compare(result.GetVersion(), CurrentVersion?.GetVersion(), StringComparison.OrdinalIgnoreCase) != 0)
+                if (result != null && string.Compare(result.GetVersion(), CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     MonitorNewVersion?.Invoke(this, result.GetVersion());
                 }
@@ -133,8 +132,8 @@ namespace NSW.StarCitizen.Tools.Update
 
         public override string ToString() => Name;
 
-        public event EventHandler<string> MonitorStarted;
-        public event EventHandler<string> MonitorStopped;
-        public event EventHandler<string> MonitorNewVersion;
+        public event EventHandler<string>? MonitorStarted;
+        public event EventHandler<string>? MonitorStopped;
+        public event EventHandler<string>? MonitorNewVersion;
     }
 }

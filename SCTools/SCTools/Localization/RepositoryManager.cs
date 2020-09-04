@@ -14,7 +14,7 @@ namespace NSW.StarCitizen.Tools.Localization
         private readonly Dictionary<string, ILocalizationRepository> _localizationRepositories
             = new Dictionary<string, ILocalizationRepository>(StringComparer.OrdinalIgnoreCase);
 
-        public event EventHandler<Tuple<string, string>> Notification;
+        public event EventHandler<Tuple<string, string>>? Notification;
 
         public enum AddStatus
         {
@@ -42,7 +42,7 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public bool ContainsRepositoryUrl(string url) => _localizationRepositories.Values.Any(v => string.Compare(v.Repository, url, StringComparison.OrdinalIgnoreCase) == 0);
 
-        public ILocalizationRepository GetRepository(string url)
+        public ILocalizationRepository? GetRepository(string url)
         {
             if (_localizationRepositories.ContainsKey(url))
                 return _localizationRepositories[url];
@@ -92,21 +92,20 @@ namespace NSW.StarCitizen.Tools.Localization
             return result;
         }
 
-        public ILocalizationRepository GetInstalledRepository(GameMode gameMode)
+        public ILocalizationRepository? GetInstalledRepository(GameMode gameMode)
         {
-            var info = Program.Settings.Localization.Installations?.FirstOrDefault(i => (i.Mode == gameMode) &&
+            var info = Program.Settings.Localization.Installations.FirstOrDefault(i => (i.Mode == gameMode) &&
                 !string.IsNullOrEmpty(i.InstalledVersion));
             return info != null ? GetRepository(info.Repository) : null;
         }
 
         public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
         {
-            Program.Settings.Localization.Installations ??= new List<LocalizationInstallation>();
             var installation = GetRepositoryInstallation(gameMode, repository);
             if (installation == null)
                 installation = AddRepositoryInstallation(gameMode, repository);
-            installation.LastVersion = repository.CurrentVersion?.GetVersion();
-            installation.InstalledVersion = repository.CurrentVersion?.GetVersion();
+            installation.LastVersion = repository.CurrentVersion;
+            installation.InstalledVersion = repository.CurrentVersion;
             var otherInstallations = Program.Settings.Localization.Installations.Where(i => (i.Mode == gameMode) &&
                 (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) != 0));
             foreach (var otherInstallation in otherInstallations)
@@ -127,15 +126,14 @@ namespace NSW.StarCitizen.Tools.Localization
             }
         }
 
-        public LocalizationInstallation GetRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
+        public LocalizationInstallation? GetRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
         {
-            return Program.Settings.Localization.Installations?.FirstOrDefault(i => i.Mode == gameMode &&
+            return Program.Settings.Localization.Installations.FirstOrDefault(i => i.Mode == gameMode &&
                 string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
         }
 
         public LocalizationInstallation CreateRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
         {
-            Program.Settings.Localization.Installations ??= new List<LocalizationInstallation>();
             var currentInstallation = GetRepositoryInstallation(gameMode, repository);
             if (currentInstallation == null)
             {

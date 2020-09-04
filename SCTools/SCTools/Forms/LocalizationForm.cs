@@ -64,7 +64,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (cbVersions.SelectedItem is UpdateInfo info)
             {
                 btnInstall.Enabled = true;
-                _currentRepository.SetCurrentVersion(info);
+                _currentRepository.SetCurrentVersion(info.GetVersion());
                 UpdateButtonsVisibility();
             }
         }
@@ -101,17 +101,17 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnInstall_Click(object sender, EventArgs e)
         {
-            if (_currentRepository.CurrentVersion != null)
+            if (cbVersions.SelectedItem is UpdateInfo selectedUpdateInfo)
             {
                 using var progressDlg = new ProgressForm();
                 try
                 {
                     Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
-                    progressDlg.Text = string.Format(Resources.Localization_InstallVersion_Title, _currentRepository.CurrentVersion);
+                    progressDlg.Text = string.Format(Resources.Localization_InstallVersion_Title, selectedUpdateInfo.GetVersion());
                     var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
                     progressDlg.Show(this);
-                    var filePath = await _currentRepository.DownloadAsync(_currentRepository.CurrentVersion, null,
+                    var filePath = await _currentRepository.DownloadAsync(selectedUpdateInfo, null,
                         progressDlg.CancelToken, downloadDialogAdapter);
                     var installDialogAdapter = new InstallProgressDialogAdapter(progressDlg);
                     var result = _currentRepository.Installer.Install(filePath, _currentGame.RootFolder.FullName);
@@ -286,13 +286,13 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateAvailableVersions()
         {
-            _currentRepository.UpdateCurrentVersion(_currentInstallation.LastVersion ?? _currentInstallation.InstalledVersion);
+            var currentUpdateInfo = _currentRepository.UpdateCurrentVersion(
+                 _currentInstallation.LastVersion ?? _currentInstallation.InstalledVersion);
             if (_currentRepository.UpdateReleases != null)
             {
-                btnInstall.Enabled = _currentRepository.CurrentVersion != null;
+                btnInstall.Enabled = currentUpdateInfo != null;
                 cbVersions.DataSource = _currentRepository.UpdateReleases;
-                if (_currentRepository.CurrentVersion != null)
-                    cbVersions.SelectedItem = _currentRepository.CurrentVersion;
+                cbVersions.SelectedItem = currentUpdateInfo;
             }
             else
             {
@@ -362,7 +362,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private void UpdateButtonsVisibility()
         {
             if (_currentInstallation.InstalledVersion != null && _currentRepository.CurrentVersion != null &&
-                string.Compare(_currentInstallation.InstalledVersion, _currentRepository.CurrentVersion.GetVersion(), StringComparison.OrdinalIgnoreCase) == 0)
+                string.Compare(_currentInstallation.InstalledVersion, _currentRepository.CurrentVersion, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 btnInstall.Visible = false;
                 btnUninstall.Visible = true;

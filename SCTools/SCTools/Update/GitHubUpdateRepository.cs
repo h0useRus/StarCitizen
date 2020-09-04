@@ -16,7 +16,7 @@ namespace NSW.StarCitizen.Tools.Update
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
         public GitHubDownloadType DownloadType { get; }
         public GitHubUpdateRepository(GitHubDownloadType downloadType, GitHubUpdateInfo.Factory gitHubUpdateInfoFactory, string name, string repository) :
-            base(UpdateRepositoryType.GitHub, gitHubUpdateInfoFactory, name, repository)
+            base(UpdateRepositoryType.GitHub, name, repository)
         {
             DownloadType = downloadType;
             _repoReleasesUrl = $"{BaseUrl}/{repository}/releases";
@@ -41,8 +41,8 @@ namespace NSW.StarCitizen.Tools.Update
             return Enumerable.Empty<UpdateInfo>();
         }
 
-        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
-            CancellationToken cancellationToken, IDownloadProgress downloadProgress)
+        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath,
+            CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
             using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl, cancellationToken);
             response.EnsureSuccessStatusCode();

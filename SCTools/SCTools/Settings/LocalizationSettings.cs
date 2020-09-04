@@ -5,16 +5,16 @@ namespace NSW.StarCitizen.Tools.Settings
 {
     public class LocalizationSettings
     {
-        public List<LocalizationSource> Repositories { get; set; }
-        public List<LocalizationInstallation> Installations { get; set; }
+        public List<LocalizationSource> Repositories { get; set; } = new List<LocalizationSource>();
+        public List<LocalizationInstallation> Installations { get; set; } = new List<LocalizationInstallation>();
         public int MonitorRefreshTime { get; set; } = 5;
     }
 
     public class LocalizationInstallation
     {
         public GameMode Mode { get; set; }
-        public string InstalledVersion { get; set; }
-        public string LastVersion { get; set; }
+        public string? InstalledVersion { get; set; }
+        public string? LastVersion { get; set; }
         public string Repository { get; set; }
         public bool MonitorForUpdates { get; set; }
         public int MonitorRefreshTime { get; set; }

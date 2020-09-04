@@ -15,7 +15,7 @@ namespace NSW.StarCitizen.Tools.Forms
     {
         private bool _isGameFolderSet;
         private bool _holdUpdates;
-        private string _lastBrowsePath;
+        private string? _lastBrowsePath;
 
         public MainForm()
         {
@@ -123,7 +123,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Description = Resources.GamePath_Description,
                 RootFolder = Environment.SpecialFolder.MyComputer,
                 ShowNewFolderButton = false,
-                SelectedPath = _lastBrowsePath ?? (_isGameFolderSet ? tbGamePath.Text : null)
+                SelectedPath = _lastBrowsePath ?? (_isGameFolderSet ? tbGamePath.Text : string.Empty)
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -258,7 +258,7 @@ namespace NSW.StarCitizen.Tools.Forms
             base.WndProc(ref message);
         }
 
-        private bool SetGameFolder(string path)
+        private bool SetGameFolder(string? path)
         {
             if (Program.SetGameFolder(path))
             {

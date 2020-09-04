@@ -10,7 +10,7 @@ namespace NSW.StarCitizen.Tools.Settings
         private const string AppName = "Star Citizen Tools";
         private static readonly RegistryKey _startupKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
 
-        public string GameFolder { get; set; }
+        public string? GameFolder { get; set; }
         public string Language
         {
             get => GetLanguage();

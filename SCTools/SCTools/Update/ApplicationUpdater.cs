@@ -21,13 +21,13 @@ namespace NSW.StarCitizen.Tools.Update
 
         private readonly IUpdateRepository _updateRepository;
 
-        public event EventHandler<Tuple<string, string>> Notification;
+        public event EventHandler<Tuple<string, string>>? Notification;
 
         public ApplicationUpdater()
         {
             var updateInfoFactory = GitHubUpdateInfo.Factory.NewWithVersionByTagName();
             _updateRepository = new GitHubUpdateRepository(GitHubDownloadType.Assets, updateInfoFactory, Program.Name, "h0useRus/StarCitizen");
-            _updateRepository.SetCurrentVersion(updateInfoFactory.Create(Program.Version.ToString(3)));
+            _updateRepository.SetCurrentVersion(Program.Version.ToString(3));
             _updateRepository.MonitorStarted += OnMonitorStarted;
             _updateRepository.MonitorStopped += OnMonitorStopped;
             _updateRepository.MonitorNewVersion += OnMonitorNewVersion;
@@ -42,11 +42,11 @@ namespace NSW.StarCitizen.Tools.Update
 
         public void MonitorStop() => _updateRepository.MonitorStop();
 
-        public async Task<UpdateInfo> CheckForUpdateVersionAsync(CancellationToken cancellationToken)
+        public async Task<UpdateInfo?> CheckForUpdateVersionAsync(CancellationToken cancellationToken)
         {
             var latestUpdateInfo = await _updateRepository.GetLatestAsync(cancellationToken);
             if (latestUpdateInfo != null && string.Compare(latestUpdateInfo.GetVersion(),
-                _updateRepository.CurrentVersion?.GetVersion(), StringComparison.OrdinalIgnoreCase) != 0)
+                _updateRepository.CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
             {
                 return latestUpdateInfo;
             }
@@ -84,7 +84,7 @@ namespace NSW.StarCitizen.Tools.Update
             return false;
         }
 
-        public UpdateInfo GetScheduledUpdateInfo()
+        public UpdateInfo? GetScheduledUpdateInfo()
         {
             if (File.Exists(_schedInstallArchivePath))
                 return JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath);
@@ -93,7 +93,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo)
         {
-            return string.Compare(updateInfo.GetVersion(), _updateRepository.CurrentVersion?.GetVersion(), StringComparison.OrdinalIgnoreCase) == 0;
+            return string.Compare(updateInfo.GetVersion(), _updateRepository.CurrentVersion, StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public bool ScheduleInstallUpdate(UpdateInfo updateInfo, string filePath)

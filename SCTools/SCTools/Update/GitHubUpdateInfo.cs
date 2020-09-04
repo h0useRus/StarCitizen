@@ -17,16 +17,7 @@ namespace NSW.StarCitizen.Tools.Update
             _namedVersion = namedVersion;
         }
 
-        private GitHubUpdateInfo(bool namedVersion, string version)
-        {
-            _namedVersion = namedVersion;
-            if (_namedVersion)
-                Name = version;
-            else
-                TagName = version;
-        }
-
-        public class Factory : IFactory
+        public class Factory
         {
             private readonly bool _namedVersion;
 
@@ -54,11 +45,6 @@ namespace NSW.StarCitizen.Tools.Update
                 PreRelease = release.PreRelease,
                 Released = release.Published,
                 DownloadUrl = release.Assets?.FirstOrDefault()?.ZipUrl
-            };
-
-            public UpdateInfo Create(string version) => new GitHubUpdateInfo(_namedVersion, version)
-            {
-                TagName = version
             };
         }
     }

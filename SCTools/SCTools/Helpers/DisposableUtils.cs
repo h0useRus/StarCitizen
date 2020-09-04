@@ -28,8 +28,8 @@ namespace NSW.StarCitizen.Tools.Helpers
     {
         public T Object { get; }
 
-        public static DynamicDisposable<T> Create(T obj) => (obj != null) ? new DynamicDisposable<T>(obj) : null;
-
+        public static DynamicDisposable<T> CreateNonNull(T obj) => new DynamicDisposable<T>(obj);
+        public static DynamicDisposable<T>? CreateNullable(T obj) => (obj != null) ? new DynamicDisposable<T>(obj) : null;
         public DynamicDisposable(T obj)
         {
             Object = obj;
