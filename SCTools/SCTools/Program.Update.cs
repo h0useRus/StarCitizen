@@ -10,16 +10,17 @@ namespace NSW.StarCitizen.Tools
 
         public static bool InstallUpdateOnLaunch()
         {
-            var scheduledUpdatInfo = Updater.GetScheduledUpdateInfo();
-            if (scheduledUpdatInfo != null)
+            var scheduledUpdateInfo = Updater.GetScheduledUpdateInfo();
+            if (scheduledUpdateInfo != null)
             {
-                if (Updater.IsAlreadyInstalledVersion(scheduledUpdatInfo))
+                if (Updater.IsAlreadyInstalledVersion(scheduledUpdateInfo))
                 {
                     Updater.CancelScheduleInstallUpdate();
                     return false;
                 }
+                Updater.ApplyScheduledUpdateProps(scheduledUpdateInfo);
                 var result = MessageBox.Show(string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
-                    scheduledUpdatInfo.GetVersion()), Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    scheduledUpdateInfo.GetVersion()), Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     return InstallScheduledUpdate();

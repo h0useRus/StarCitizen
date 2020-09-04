@@ -93,13 +93,19 @@ namespace NSW.StarCitizen.Tools.Update
 
         public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo)
         {
-            return string.Compare(updateInfo.GetVersion(), _updateRepository.CurrentVersion, StringComparison.OrdinalIgnoreCase) == 0;
+            return string.Compare(updateInfo.GetVersion(), Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
+        public void ApplyScheduledUpdateProps(UpdateInfo updateInfo)
+        {
+            _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
         }
 
         public bool ScheduleInstallUpdate(UpdateInfo updateInfo, string filePath)
         {
             if (File.Exists(filePath))
             {
+                _updateRepository.SetCurrentVersion(Program.Version.ToString(3));
                 try
                 {
                     if (!Directory.Exists(_updatesStoragePath))
@@ -111,7 +117,11 @@ namespace NSW.StarCitizen.Tools.Update
                         File.Delete(_schedInstallArchivePath);
                     }
                     File.Move(filePath, _schedInstallArchivePath);
-                    return JsonHelper.WriteFile(_schedInstallJsonPath, updateInfo);
+                    if (JsonHelper.WriteFile(_schedInstallJsonPath, updateInfo))
+                    {
+                        _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
+                        return true;
+                    }
                 }
                 catch
                 {
@@ -124,6 +134,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public bool CancelScheduleInstallUpdate()
         {
+            _updateRepository.SetCurrentVersion(Program.Version.ToString(3));
             if (File.Exists(_schedInstallJsonPath))
                 FileUtils.DeleteFileNoThrow(_schedInstallJsonPath);
             return File.Exists(_schedInstallArchivePath) &&
