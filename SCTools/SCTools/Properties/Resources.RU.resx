@@ -333,8 +333,13 @@
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Удаление локализации</value>
   </data>
+  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+    <value>Доступная новая версия приложения {0}.
+Желаете загрузить?</value>
+  </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>Доступная новая версия приложения {0}.\nЖелаете установить?</value>
+    <value>Доступная новая версия приложения {0}.
+Желаете установить?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Пользовательские</value>

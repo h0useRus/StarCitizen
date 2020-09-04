@@ -185,9 +185,6 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public async Task<bool> SaveAsync(CfgData data)
         {
-            if (!File.Exists(_fileName))
-                return false;
-
             try
             {
                 using var writer = File.CreateText(_fileName);
@@ -206,9 +203,6 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public bool Save(CfgData data)
         {
-            if (!File.Exists(_fileName))
-                return false;
-
             try
             {
                 using var writer = File.CreateText(_fileName);

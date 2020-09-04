@@ -333,8 +333,13 @@
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Видалення локалізації</value>
   </data>
+  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+    <value>Доступна нова версія додатку {0}.
+Бажаєте завантажити?</value>
+  </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>Доступна нова версія додатку {0}.\nБажаєте встановити?</value>
+    <value>Доступна нова версія додатку {0}.
+Бажаєте встановити?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Користувача</value>
@@ -347,8 +352,5 @@
   </data>
   <data name="Localization_Warning_Title" xml:space="preserve">
     <value>Увага</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value />
   </data>
 </root>

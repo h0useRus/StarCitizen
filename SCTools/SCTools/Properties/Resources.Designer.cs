@@ -720,7 +720,8 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New application version {0} is available.\nDo you want download it now?.
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want download it now?.
         /// </summary>
         internal static string Localization_UpdateAvailableDownloadAsk_Text {
             get {
@@ -729,7 +730,8 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New application version {0} is available.\nDo you want install it now?.
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want install it now?.
         /// </summary>
         internal static string Localization_UpdateAvailableInstallAsk_Text {
             get {

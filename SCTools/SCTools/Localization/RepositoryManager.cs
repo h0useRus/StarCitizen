@@ -152,27 +152,24 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public void RunMonitors()
         {
-            if (Program.Settings.Localization?.Installations != null)
+            foreach (var installation in Program.Settings.Localization.Installations)
             {
-                foreach (var installation in Program.Settings.Localization.Installations)
+                if (!string.IsNullOrWhiteSpace(installation.Repository))
                 {
-                    if (!string.IsNullOrWhiteSpace(installation.Repository))
+                    var repository = GetRepository(installation.Repository);
+                    if (repository != null)
                     {
-                        var repository = GetRepository(installation.Repository);
-                        if (repository != null)
+                        if (repository.IsMonitorStarted != installation.MonitorForUpdates
+                            || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
                         {
-                            if (repository.IsMonitorStarted != installation.MonitorForUpdates
-                                || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
+                            if (installation.MonitorForUpdates)
                             {
-                                if (installation.MonitorForUpdates)
-                                {
-                                    repository.UpdateCurrentVersion(installation.LastVersion ?? installation.InstalledVersion);
-                                    repository.MonitorStart(installation.MonitorRefreshTime);
-                                }
-                                else
-                                {
-                                    repository.MonitorStop();
-                                }
+                                repository.UpdateCurrentVersion(installation.LastVersion ?? installation.InstalledVersion);
+                                repository.MonitorStart(installation.MonitorRefreshTime);
+                            }
+                            else
+                            {
+                                repository.MonitorStop();
                             }
                         }
                     }
