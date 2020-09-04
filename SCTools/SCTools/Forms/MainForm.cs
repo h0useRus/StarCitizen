@@ -57,11 +57,11 @@ namespace NSW.StarCitizen.Tools.Forms
             cbLanguage.DisplayMember = "Value";
             cbLanguage.ValueMember = "Key";
             cbLanguage.SelectedValue = Program.Settings.Language;
-            cbRefreshTime.SelectedItem = Program.Settings.MonitorRefreshTime.ToString();
+            cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
             cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
-            cbCheckNewVersions.Checked = Program.Settings.MonitorUpdates;
+            cbCheckNewVersions.Checked = Program.Settings.Update.MonitorUpdates;
             _holdUpdates = false;
         }
 
@@ -96,8 +96,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 Minimize();
 
             Program.RepositoryManager.RunMonitors();
-            if (Program.Settings.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
+            if (Program.Settings.Update.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -231,9 +231,9 @@ namespace NSW.StarCitizen.Tools.Forms
         private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
         {
             if (_holdUpdates) return;
-            Program.Settings.MonitorUpdates = cbCheckNewVersions.Checked;
-            if (Program.Settings.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
+            Program.Settings.Update.MonitorUpdates = cbCheckNewVersions.Checked;
+            if (Program.Settings.Update.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
             else
                 Program.Updater.MonitorStop();
             Program.SaveAppSettings();
@@ -241,9 +241,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            Program.Settings.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
-            if (Program.Settings.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.MonitorRefreshTime);
+            Program.Settings.Update.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+            if (Program.Settings.Update.MonitorUpdates)
+                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
             Program.SaveAppSettings();
         }
 

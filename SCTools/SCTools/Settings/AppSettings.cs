@@ -32,9 +32,7 @@ namespace NSW.StarCitizen.Tools.Settings
 
         public bool UseHttpProxy { get; set; } = false;
 
-        public bool MonitorUpdates { get; set; } = false;
-
-        public int MonitorRefreshTime { get; set; } = 5;
+        public UpdateSettings Update { get; } = new UpdateSettings();
 
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
 
