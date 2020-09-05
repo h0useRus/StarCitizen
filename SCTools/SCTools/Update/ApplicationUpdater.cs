@@ -152,6 +152,8 @@ namespace NSW.StarCitizen.Tools.Update
                 using var archive = ZipFile.OpenRead(_schedInstallArchivePath);
                 extractTempDir.Create();
                 archive.ExtractToDirectory(extractTempDir.FullName);
+                if (!File.Exists(Path.Combine(extractTempDir.FullName, "SCTools.exe")))
+                    throw new NotSupportedException("Not supported upgrade package");
                 Directory.Move(extractTempDir.FullName, _installUnpackedDir);
             }
             catch
