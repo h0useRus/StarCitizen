@@ -54,7 +54,7 @@ namespace NSW.StarCitizen.Tools.Update
         {
             var latestUpdateInfo = await _updateRepository.GetLatestAsync(cancellationToken);
             if (latestUpdateInfo != null && string.Compare(latestUpdateInfo.GetVersion(),
-                _updateRepository.CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
+                Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) != 0)
             {
                 return latestUpdateInfo;
             }
