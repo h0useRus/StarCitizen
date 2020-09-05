@@ -10,6 +10,14 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Update
 {
+    public enum InstallUpdateStatus
+    {
+        Success = 0,                // update script: successfully apply update
+        CopyFilesError = 1,         // update script: unable copy update files
+        ExtractFilesError = 2,      // application: can't extract update package and script
+        LaunchScriptError = 3       // application: unable launch update install script
+    }
+
     public class ApplicationUpdater : IDisposable
     {
         private static readonly string _executablePath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -62,9 +70,9 @@ namespace NSW.StarCitizen.Tools.Update
             return await _updateRepository.DownloadAsync(version, _updatesStoragePath, cancellationToken, downloadProgress);
         }
 
-        public bool InstallScheduledUpdate()
+        public InstallUpdateStatus InstallScheduledUpdate()
         {
-            if (ExtractReadyInstallUpdate())
+            if (ExtractReadyInstallUpdate() && ExtractUpdateScript())
             {
                 using var updateProcess = new Process();
                 updateProcess.StartInfo.UseShellExecute = false;
@@ -75,13 +83,15 @@ namespace NSW.StarCitizen.Tools.Update
                 updateProcess.StartInfo.CreateNoWindow = true;
                 updateProcess.StartInfo.WorkingDirectory = _executablePath;
                 updateProcess.StartInfo.FileName = _updateScriptPath;
-                if (updateProcess.Start())
+                if (!updateProcess.Start())
                 {
-                    return true;
+                    RemoveUpdateScript();
+                    return InstallUpdateStatus.LaunchScriptError;
                 }
+                return InstallUpdateStatus.Success;
             }
             CancelScheduleInstallUpdate();
-            return false;
+            return InstallUpdateStatus.ExtractFilesError;
         }
 
         public UpdateInfo? GetScheduledUpdateInfo()
@@ -141,6 +151,27 @@ namespace NSW.StarCitizen.Tools.Update
                 FileUtils.DeleteFileNoThrow(_schedInstallArchivePath);
         }
 
+        public void RemoveUpdateScript()
+        {
+            if (File.Exists(_updateScriptPath))
+            {
+                FileUtils.DeleteFileNoThrow(_updateScriptPath);
+            }
+        }
+
+        private bool ExtractUpdateScript()
+        {
+            try
+            {
+                File.WriteAllText(_updateScriptPath, Resources.UpdateScript);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         private bool ExtractReadyInstallUpdate()
         {
             var installUnpackedDir = new DirectoryInfo(_installUnpackedDir);
@@ -166,6 +197,7 @@ namespace NSW.StarCitizen.Tools.Update
             }
             return true;
         }
+
         private void OnMonitorStarted(object sender, string e)
         {
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,

@@ -14,7 +14,7 @@ namespace NSW.StarCitizen.Tools
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             if (!SingleInstance.Start())
             {
@@ -23,7 +23,7 @@ namespace NSW.StarCitizen.Tools
             }
             try
             {
-                if (InstallUpdateOnLaunch())
+                if (InstallUpdateOnLaunch(args))
                     return;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

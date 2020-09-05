@@ -1,12 +1,12 @@
 @echo off
 
-SET workpath=%~dp0
-SET updatepath=%workpath%updates\
-SET latestpath=%updatepath%latest\
+set workpath=%~dp0
+set updatepath=%workpath%updates\
+set latestpath=%updatepath%latest\
 
 timeout 1
 xcopy "%latestpath%*.*" "%workpath%" /s /k /h /y
-if not errorlevel 0 goto contiunue
+if not errorlevel 0 goto update_error
 
 del "%updatepath%latest.json"
 del "%updatepath%latest.zip"
@@ -14,7 +14,10 @@ del /q "%latestpath%*"
 for /d %%p in ("%latestpath%*.*") do rmdir /s /q "%%p"
 rmdir /s /q "%latestpath%
 
-:contiunue
+start %workpath%SCTools.exe update_status 0
+exit
 
-start %workpath%SCTools.exe
+:update_error
+
+start %workpath%SCTools.exe update_status 1
 exit

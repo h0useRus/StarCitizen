@@ -8,8 +8,15 @@ namespace NSW.StarCitizen.Tools
     {
         public static ApplicationUpdater Updater { get; } = new ApplicationUpdater();
 
-        public static bool InstallUpdateOnLaunch()
+        public static bool InstallUpdateOnLaunch(string[] args)
         {
+            Updater.RemoveUpdateScript();
+            if ((args.Length >= 2) && (args[0] == "update_status") && (args[1] != InstallUpdateStatus.Success.ToString("d")))
+            {
+                MessageBox.Show(Resources.Localization_FailedInstallAppUpdate_Text + " - " + args[1], Name,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             var scheduledUpdateInfo = Updater.GetScheduledUpdateInfo();
             if (scheduledUpdateInfo != null)
             {
@@ -31,9 +38,10 @@ namespace NSW.StarCitizen.Tools
 
         public static bool InstallScheduledUpdate()
         {
-            if (!Updater.InstallScheduledUpdate())
+            var result = Updater.InstallScheduledUpdate();
+            if (result != InstallUpdateStatus.Success)
             {
-                MessageBox.Show(Resources.Localization_FailedInstallAppUpdate_Text, Name,
+                MessageBox.Show(Resources.Localization_FailedInstallAppUpdate_Text + " - " + result.ToString("d"), Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

@@ -783,5 +783,36 @@ namespace NSW.StarCitizen.Tools.Properties {
                 return ResourceManager.GetString("LocalizationButton_Text", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///
+        ///set workpath=%~dp0
+        ///set updatepath=%workpath%updates\
+        ///set latestpath=%updatepath%latest\
+        ///
+        ///timeout 1
+        ///xcopy &quot;%latestpath%*.*&quot; &quot;%workpath%&quot; /s /k /h /y
+        ///if not errorlevel 0 goto update_error
+        ///
+        ///del &quot;%updatepath%latest.json&quot;
+        ///del &quot;%updatepath%latest.zip&quot;
+        ///del /q &quot;%latestpath%*&quot;
+        ///for /d %%p in (&quot;%latestpath%*.*&quot;) do rmdir /s /q &quot;%%p&quot;
+        ///rmdir /s /q &quot;%latestpath%
+        ///
+        ///start %workpath%SCTools.exe update_status 0
+        ///exit
+        ///
+        ///:update_error
+        ///
+        ///start %workpath%SCTools.exe update_status 1
+        ///exit.
+        /// </summary>
+        internal static string UpdateScript {
+            get {
+                return ResourceManager.GetString("UpdateScript", resourceCulture);
+            }
+        }
     }
 }
