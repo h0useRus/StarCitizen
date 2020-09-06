@@ -71,29 +71,11 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Star Citizen : Utils.
+        ///   Looks up a localized string similar to Star Citizen : Utils - v{0}.
         /// </summary>
         internal static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Run minimized.
-        /// </summary>
-        internal static string AppOptions_RunMinimized {
-            get {
-                return ResourceManager.GetString("AppOptions_RunMinimized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Run on Windows startup.
-        /// </summary>
-        internal static string AppOptions_RunOnWindowsStartup {
-            get {
-                return ResourceManager.GetString("AppOptions_RunOnWindowsStartup", resourceCulture);
             }
         }
         
@@ -104,24 +86,6 @@ namespace NSW.StarCitizen.Tools.Properties {
             get {
                 object obj = ResourceManager.GetObject("CoreSigning", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game mode.
-        /// </summary>
-        internal static string Game_Mode {
-            get {
-                return ResourceManager.GetString("Game_Mode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game version.
-        /// </summary>
-        internal static string Game_Version {
-            get {
-                return ResourceManager.GetString("Game_Version", resourceCulture);
             }
         }
         
@@ -180,6 +144,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Localization_Add_Text {
+            get {
+                return ResourceManager.GetString("Localization_Add_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application update.
+        /// </summary>
+        internal static string Localization_ApplicationUpdate_Title {
+            get {
+                return ResourceManager.GetString("Localization_ApplicationUpdate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to minutes.
         /// </summary>
         internal static string Localization_AutomaticCheck_Measure {
@@ -189,11 +171,11 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically check every.
+        ///   Looks up a localized string similar to Available versions:.
         /// </summary>
-        internal static string Localization_AutomaticCheck_Text {
+        internal static string Localization_AvailableVersions_Text {
             get {
-                return ResourceManager.GetString("Localization_AutomaticCheck_Text", resourceCulture);
+                return ResourceManager.GetString("Localization_AvailableVersions_Text", resourceCulture);
             }
         }
         
@@ -212,6 +194,42 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Button_Enable_localization {
             get {
                 return ResourceManager.GetString("Localization_Button_Enable_localization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Localization_Cancel_Text {
+            get {
+                return ResourceManager.GetString("Localization_Cancel_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for update.
+        /// </summary>
+        internal static string Localization_CheckForUpdate_Title {
+            get {
+                return ResourceManager.GetString("Localization_CheckForUpdate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates....
+        /// </summary>
+        internal static string Localization_CheckForUpdates_Text {
+            get {
+                return ResourceManager.GetString("Localization_CheckForUpdates_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for new version every.
+        /// </summary>
+        internal static string Localization_CheckForVersionEvery_Text {
+            get {
+                return ResourceManager.GetString("Localization_CheckForVersionEvery_Text", resourceCulture);
             }
         }
         
@@ -243,6 +261,51 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading....
+        /// </summary>
+        internal static string Localization_Downloading_Text {
+            get {
+                return ResourceManager.GetString("Localization_Downloading_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository name &apos;{0}&apos; is already exist..
+        /// </summary>
+        internal static string Localization_DuplicateRepoName_Text {
+            get {
+                return ResourceManager.GetString("Localization_DuplicateRepoName_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository url &apos;{0}&apos; is already exist..
+        /// </summary>
+        internal static string Localization_DuplicateRepoUrl_Text {
+            get {
+                return ResourceManager.GetString("Localization_DuplicateRepoUrl_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Localization_Error_Title {
+            get {
+                return ResourceManager.GetString("Localization_Error_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed install application update.
+        /// </summary>
+        internal static string Localization_FailedInstallAppUpdate_Text {
+            get {
+                return ResourceManager.GetString("Localization_FailedInstallAppUpdate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions..
         /// </summary>
         internal static string Localization_File_ErrorText {
@@ -266,6 +329,33 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Found_New_Version {
             get {
                 return ResourceManager.GetString("Localization_Found_New_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game mode.
+        /// </summary>
+        internal static string Localization_Game_Mode {
+            get {
+                return ResourceManager.GetString("Localization_Game_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game version.
+        /// </summary>
+        internal static string Localization_Game_Version {
+            get {
+                return ResourceManager.GetString("Localization_Game_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GitHub URL.
+        /// </summary>
+        internal static string Localization_GitHubURL_Text {
+            get {
+                return ResourceManager.GetString("Localization_GitHubURL_Text", resourceCulture);
             }
         }
         
@@ -297,6 +387,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installing....
+        /// </summary>
+        internal static string Localization_Installing_Text {
+            get {
+                return ResourceManager.GetString("Localization_Installing_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install update: {0}.
+        /// </summary>
+        internal static string Localization_InstallUpdateVer_Text {
+            get {
+                return ResourceManager.GetString("Localization_InstallUpdateVer_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Install selected version.
         /// </summary>
         internal static string Localization_InstallVersion_Text {
@@ -306,11 +414,83 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install version:  {0}.
+        /// </summary>
+        internal static string Localization_InstallVersion_Title {
+            get {
+                return ResourceManager.GetString("Localization_InstallVersion_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository name is empty..
+        /// </summary>
+        internal static string Localization_InvalidRepoName_Text {
+            get {
+                return ResourceManager.GetString("Localization_InvalidRepoName_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository url is empty..
+        /// </summary>
+        internal static string Localization_InvalidRepoUrl_Text {
+            get {
+                return ResourceManager.GetString("Localization_InvalidRepoUrl_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string Localization_Language_Text {
+            get {
+                return ResourceManager.GetString("Localization_Language_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latest version:.
         /// </summary>
         internal static string Localization_Latest_Version {
             get {
                 return ResourceManager.GetString("Localization_Latest_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        internal static string Localization_Manage_Text {
+            get {
+                return ResourceManager.GetString("Localization_Manage_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string Localization_Name_Text {
+            get {
+                return ResourceManager.GetString("Localization_Name_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No access to repository &apos;{0}&apos;.
+        /// </summary>
+        internal static string Localization_NoRepoAccess_Text {
+            get {
+                return ResourceManager.GetString("Localization_NoRepoAccess_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No updates were found.
+        /// </summary>
+        internal static string Localization_NoUpdatesFound_Text {
+            get {
+                return ResourceManager.GetString("Localization_NoUpdatesFound_Text", resourceCulture);
             }
         }
         
@@ -333,6 +513,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        internal static string Localization_Path_Text {
+            get {
+                return ResourceManager.GetString("Localization_Path_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please press Refresh button.
         /// </summary>
         internal static string Localization_Press_Refresh_Button {
@@ -351,20 +540,65 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected Version:.
+        ///   Looks up a localized string similar to Refresh available versions.
         /// </summary>
-        internal static string Localization_SelectedVersion {
+        internal static string Localization_RefreshAvailableVersion_Title {
             get {
-                return ResourceManager.GetString("Localization_SelectedVersion", resourceCulture);
+                return ResourceManager.GetString("Localization_RefreshAvailableVersion_Title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Localization source:.
+        ///   Looks up a localized string similar to Remove.
         /// </summary>
-        internal static string Localization_Source {
+        internal static string Localization_Remove_Text {
             get {
-                return ResourceManager.GetString("Localization_Source", resourceCulture);
+                return ResourceManager.GetString("Localization_Remove_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository &apos;{0}&apos; used by &apos;{1}&apos;. Do you want remove it?.
+        /// </summary>
+        internal static string Localization_RemoveUsedRepoWarning_Text {
+            get {
+                return ResourceManager.GetString("Localization_RemoveUsedRepoWarning_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Citizen : Localization repositories.
+        /// </summary>
+        internal static string Localization_Repositories_Title {
+            get {
+                return ResourceManager.GetString("Localization_Repositories_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run minimized.
+        /// </summary>
+        internal static string Localization_RunMinimized_Text {
+            get {
+                return ResourceManager.GetString("Localization_RunMinimized_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run On Windows startup.
+        /// </summary>
+        internal static string Localization_RunOnStartup_Text {
+            get {
+                return ResourceManager.GetString("Localization_RunOnStartup_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source repository:.
+        /// </summary>
+        internal static string Localization_SourceRepository_Text {
+            get {
+                return ResourceManager.GetString("Localization_SourceRepository_Text", resourceCulture);
             }
         }
         
@@ -378,6 +612,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standard.
+        /// </summary>
+        internal static string Localization_StdRepos_Title {
+            get {
+                return ResourceManager.GetString("Localization_StdRepos_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop monitoring..
         /// </summary>
         internal static string Localization_Stop_Monitoring {
@@ -387,11 +630,121 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string Localization_Stop_Text {
+            get {
+                return ResourceManager.GetString("Localization_Stop_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Citizen : Localization.
         /// </summary>
         internal static string Localization_Title {
             get {
                 return ResourceManager.GetString("Localization_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to uninstall localzation. Please ensure install folder and files is not open in other applicaitions..
+        /// </summary>
+        internal static string Localization_Uninstall_ErrorText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall error.
+        /// </summary>
+        internal static string Localization_Uninstall_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure your are want uninstall localization and remove all files?.
+        /// </summary>
+        internal static string Localization_Uninstall_QuestionText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_QuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall confirmation.
+        /// </summary>
+        internal static string Localization_Uninstall_QuestionTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_QuestionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localization removed not fully. Some files can&apos;t be removed..
+        /// </summary>
+        internal static string Localization_Uninstall_WarningText {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_WarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall warning.
+        /// </summary>
+        internal static string Localization_Uninstall_WarningTitle {
+            get {
+                return ResourceManager.GetString("Localization_Uninstall_WarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstalling....
+        /// </summary>
+        internal static string Localization_Uninstalling_Text {
+            get {
+                return ResourceManager.GetString("Localization_Uninstalling_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall localization.
+        /// </summary>
+        internal static string Localization_UninstallLocalization_Text {
+            get {
+                return ResourceManager.GetString("Localization_UninstallLocalization_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want download it now?.
+        /// </summary>
+        internal static string Localization_UpdateAvailableDownloadAsk_Text {
+            get {
+                return ResourceManager.GetString("Localization_UpdateAvailableDownloadAsk_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want install it now?.
+        /// </summary>
+        internal static string Localization_UpdateAvailableInstallAsk_Text {
+            get {
+                return ResourceManager.GetString("Localization_UpdateAvailableInstallAsk_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string Localization_UserRepos_Title {
+            get {
+                return ResourceManager.GetString("Localization_UserRepos_Title", resourceCulture);
             }
         }
         
@@ -414,11 +767,51 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Localization_Warning_Title {
+            get {
+                return ResourceManager.GetString("Localization_Warning_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Localization {0}.
         /// </summary>
         internal static string LocalizationButton_Text {
             get {
                 return ResourceManager.GetString("LocalizationButton_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///
+        ///set workpath=%~dp0
+        ///set updatepath=%workpath%updates\
+        ///set latestpath=%updatepath%latest\
+        ///
+        ///timeout 1
+        ///xcopy &quot;%latestpath%*.*&quot; &quot;%workpath%&quot; /s /k /h /y
+        ///if not errorlevel 0 goto update_error
+        ///
+        ///del &quot;%updatepath%latest.json&quot;
+        ///del &quot;%updatepath%latest.zip&quot;
+        ///del /q &quot;%latestpath%*&quot;
+        ///for /d %%p in (&quot;%latestpath%*.*&quot;) do rmdir /s /q &quot;%%p&quot;
+        ///rmdir /s /q &quot;%latestpath%
+        ///
+        ///start %workpath%SCTools.exe update_status 0
+        ///exit
+        ///
+        ///:update_error
+        ///
+        ///start %workpath%SCTools.exe update_status 1
+        ///exit.
+        /// </summary>
+        internal static string UpdateScript {
+            get {
+                return ResourceManager.GetString("UpdateScript", resourceCulture);
             }
         }
     }

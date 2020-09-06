@@ -1,8 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
@@ -12,12 +11,27 @@ namespace NSW.StarCitizen.Tools.Forms
     public partial class ManageRepositoriesForm : Form
     {
         private const string GitHubUrl = "https://github.com/";
+        private readonly RepositoriesListViewAdapter _repositoriesListAdapter;
+        private readonly RepositoriesListViewAdapter _stdRepositoriesListAdapter;
+
         public ManageRepositoriesForm()
         {
             InitializeComponent();
-            var item = lvRepositories.Columns.Add("chName", "Name");
-            item.Width = lvRepositories.Width / 2 - 5;
-            lvRepositories.Columns.Add("chPath", "Path", lvRepositories.Width - item.Width - 5);
+            InitializeLocalization();
+            _repositoriesListAdapter = new RepositoriesListViewAdapter(lvRepositories);
+            _stdRepositoriesListAdapter = new RepositoriesListViewAdapter(lvStdRepositories);
+            _stdRepositoriesListAdapter.SetRepositoriesList(LocalizationSource.StandardList);
+        }
+
+        private void InitializeLocalization()
+        {
+            Text = Resources.Localization_Repositories_Title;
+            tabPageUserRepositories.Text = Resources.Localization_UserRepos_Title;
+            tabPageStdRepositories.Text = Resources.Localization_StdRepos_Title;
+            lblName.Text = Resources.Localization_Name_Text;
+            lblPath.Text = Resources.Localization_GitHubURL_Text;
+            btnAdd.Text = Resources.Localization_Add_Text;
+            btnRemove.Text = Resources.Localization_Remove_Text;
         }
 
         private void ManageRepositoriesForm_Load(object sender, EventArgs e)
@@ -27,21 +41,14 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void DataBindList()
         {
-            lvRepositories.Items.Clear();
-            foreach (var repository in Program.LocalizationRepositories)
-            {
-                var item = lvRepositories.Items.Add(repository.Value.Name, repository.Value.Name);
-                item.Tag = repository.Value;
-                item.SubItems.Add(repository.Key);
-            }
-
-            btnRemove.Enabled = lvRepositories.Items.Count > 1;
+            _repositoriesListAdapter.SetRepositoriesList(Program.RepositoryManager.GetRepositoriesList());
+            UpdateButtons();
         }
 
         private void lvRepositories_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvRepositories.SelectedItems.Count > 0 &&
-                lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
             {
                 tbName.Text = repository.Name;
                 tbUrl.Text = GitHubUrl + repository.Repository ;
@@ -51,67 +58,78 @@ namespace NSW.StarCitizen.Tools.Forms
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             var name = tbName.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(name)
-                || Program.LocalizationRepositories.Values
-                    .Any(v => string.Compare(v.Name, name, StringComparison.OrdinalIgnoreCase) == 0))
+            if (name == null || string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show($"Name {name} is empty or already exist.",
-                    Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoName_Text, name),
+                    Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string repository = null;
+            Uri uri;
+            string repositoryUrl;
             var url = tbUrl.Text?.ToLower().Trim();
-            if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri) ||
+                string.IsNullOrWhiteSpace(repositoryUrl = uri.AbsolutePath.Trim('/')))
             {
-                repository = uri.AbsolutePath.Trim('/');
-            }
-
-            if (string.IsNullOrWhiteSpace(repository)
-                || Program.LocalizationRepositories.Values
-                    .Any(v=> string.Compare(v.Repository, repository, StringComparison.OrdinalIgnoreCase) == 0))
-            {
-                MessageBox.Show($"Repository {repository} is empty or already exist.",
-                    Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
+                       Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(20000);
-            var result = new GitHubLocalizationRepository(name, repository);
-            if (await result.CheckAsync(cancellationTokenSource.Token))
+            using var cancellationTokenSource = new CancellationTokenSource(20000);
+            switch (await Program.RepositoryManager.AddRepositoryAsync(name, repositoryUrl, cancellationTokenSource.Token))
             {
-                Program.LocalizationRepositories[result.Repository] = result;
-                Program.Settings.Localization.Repositories.Add(new LocalizationSource
-                {
-                    Name = result.Name,
-                    Repository = result.Repository,
-                    Type = result.Type.ToString()
-                });
-                Program.SaveAppSettings();
-                DataBindList();
+                case RepositoryManager.AddStatus.Success:
+                    DataBindList();
+                    break;
+                case RepositoryManager.AddStatus.DuplicateName:
+                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoName_Text, name),
+                        Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case RepositoryManager.AddStatus.DuplicateUrl:
+                    MessageBox.Show(string.Format(Resources.Localization_DuplicateRepoUrl_Text, repositoryUrl),
+                        Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case RepositoryManager.AddStatus.Unreachable:
+                    MessageBox.Show(string.Format(Resources.Localization_NoRepoAccess_Text, name),
+                        Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
-            else
-            {
-                MessageBox.Show($"No access to repository {repository}.",
-                    Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (lvRepositories.SelectedItems.Count > 0 && lvRepositories.SelectedItems[0]?.Tag is ILocalizationRepository repository)
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
             {
-                Program.LocalizationRepositories.Remove(repository.Repository);
-                var lr = Program.Settings.Localization.Repositories.FirstOrDefault(r=> string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
-                if (lr != null)
+                var usedByGameMode = Program.RepositoryManager.GetRepositoryUsedGameMode(repository);
+                if (usedByGameMode != null)
                 {
-                    Program.Settings.Localization.Repositories.Remove(lr);
-                    Program.SaveAppSettings();
+                    if (MessageBox.Show(string.Format(Resources.Localization_RemoveUsedRepoWarning_Text, repository.Name, usedByGameMode.ToString()),
+                        Resources.Localization_Warning_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                        return;
                 }
-                
-                lvRepositories.Items.Remove(lvRepositories.SelectedItems[0]);
+                Program.RepositoryManager.RemoveRepository(repository);
+                _repositoriesListAdapter.RemoveSelectedItem();
+                UpdateButtons();
             }
+        }
+
+        private void lvStdRepositories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var source = _stdRepositoriesListAdapter.GetSelectedSource();
+            if (source != null)
+            {
+                tbName.Text = source.Name;
+                tbUrl.Text = GitHubUrl + source.Repository;
+            }
+        }
+
+        private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e) => UpdateButtons();
+
+        private void UpdateButtons()
+        {
+            btnRemove.Enabled = _repositoriesListAdapter.RepositoriesCount > 1 && tabRepositories.SelectedIndex == 0;
         }
     }
 }

@@ -14,21 +14,27 @@ namespace NSW.StarCitizen.Tools
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             if (!SingleInstance.Start())
             {
                 SingleInstance.ShowFirstInstance();
                 return;
             }
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.ThreadException += Application_ThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Application.Run(new MainForm());
-
-            SingleInstance.Stop();
+            try
+            {
+                if (InstallUpdateOnLaunch(args))
+                    return;
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.ThreadException += Application_ThreadException;
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+                Application.Run(new MainForm());
+            }
+            finally
+            {
+                SingleInstance.Stop();
+            }
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

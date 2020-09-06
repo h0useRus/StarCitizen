@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Star Citizen : Utils - v{0}</value>
+  </data>
+  <data name="GameMode_LIVE" xml:space="preserve">
+    <value>Постійний Всесвіт</value>
+  </data>
+  <data name="GameMode_PTU" xml:space="preserve">
+    <value>Постійний Всесвіт (Тест)</value>
+  </data>
+  <data name="GamePath_Description" xml:space="preserve">
+    <value>Будь ласка, вкажіть кореневу папку Star Citizen.</value>
+  </data>
+  <data name="GamePath_Error_Text" xml:space="preserve">
+    <value>Будь ласка, переконайтесь що ви вказали такий самий шлях до Star Citizen як при встановленні гри.</value>
+  </data>
+  <data name="GamePath_Error_Title" xml:space="preserve">
+    <value>Не правильний шлях до гри Star Citizen</value>
+  </data>
+  <data name="GamePath_Hint" xml:space="preserve">
+    <value>Нажміть сюди щоб вказати директорію гри Star Citizen</value>
+  </data>
+  <data name="LocalizationButton_Text" xml:space="preserve">
+    <value>Локалізація {0}</value>
+  </data>
+  <data name="Localization_Add_Text" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+    <value>Оновлення додатку</value>
+  </data>
+  <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
+    <value>хвилин</value>
+  </data>
+  <data name="Localization_AvailableVersions_Text" xml:space="preserve">
+    <value>Доступні версії:</value>
+  </data>
+  <data name="Localization_Button_Disable_localization" xml:space="preserve">
+    <value>Виключити локалізацію</value>
+  </data>
+  <data name="Localization_Button_Enable_localization" xml:space="preserve">
+    <value>Включити локалізацію</value>
+  </data>
+  <data name="Localization_Cancel_Text" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Перевірити оновлення...</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Перевірка оновлень</value>
+  </data>
+  <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
+    <value>Перевіряти оновлення кожні</value>
+  </data>
+  <data name="Localization_CurrentLanguage" xml:space="preserve">
+    <value>Обрана мова:</value>
+  </data>
+  <data name="Localization_Downloading_Text" xml:space="preserve">
+    <value>Завантаження...</value>
+  </data>
+  <data name="Localization_Download_ErrorText" xml:space="preserve">
+    <value>На жаль виникла помилка під час завантаження. Будь ласка, спробуйте ще раз.</value>
+  </data>
+  <data name="Localization_Download_ErrorTitle" xml:space="preserve">
+    <value>Помилка завантаження</value>
+  </data>
+  <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
+    <value>Імя репозиторію '{0}' вже використовується.</value>
+  </data>
+  <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
+    <value>Посилання на репозиторій '{0}' вже використовується.</value>
+  </data>
+  <data name="Localization_Error_Title" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+    <value>Помилка встановлення оновлення додатку</value>
+  </data>
+  <data name="Localization_File_ErrorText" xml:space="preserve">
+    <value>На жаль виникла помилка копіювання файлів під час встановлення. Будь ласка, переконайтесь що директорія встановлення або файли в ній не відкриті в інших програмах.</value>
+  </data>
+  <data name="Localization_File_ErrorTitle" xml:space="preserve">
+    <value>Помилка копіювання файлів</value>
+  </data>
+  <data name="Localization_Found_New_Version" xml:space="preserve">
+    <value>Знайдена нова версія {0}.</value>
+  </data>
+  <data name="Localization_Game_Mode" xml:space="preserve">
+    <value>Режим гри</value>
+  </data>
+  <data name="Localization_Game_Version" xml:space="preserve">
+    <value>Версія гри</value>
+  </data>
+  <data name="Localization_GitHubURL_Text" xml:space="preserve">
+    <value>Посилання на GitHub </value>
+  </data>
+  <data name="Localization_Installed_Version" xml:space="preserve">
+    <value>Встановлена версія:</value>
+  </data>
+  <data name="Localization_Installing_Text" xml:space="preserve">
+    <value>Встановлення...</value>
+  </data>
+  <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
+    <value>Встановити оновлення: {0}</value>
+  </data>
+  <data name="Localization_InstallVersion_Text" xml:space="preserve">
+    <value>Встановити обрану версію</value>
+  </data>
+  <data name="Localization_InstallVersion_Title" xml:space="preserve">
+    <value>Встановлення версії: {0}</value>
+  </data>
+  <data name="Localization_Install_ErrorText" xml:space="preserve">
+    <value>На жаль виникла помилка підчас встановлення. Будь ласка, спробуйте ще раз.</value>
+  </data>
+  <data name="Localization_Install_ErrorTitle" xml:space="preserve">
+    <value>Помилка встановлення</value>
+  </data>
+  <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
+    <value>Імя репозиторію '{0}' відсутнє.</value>
+  </data>
+  <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
+    <value>Посилання репозиторію '{0}' не вірне або відсутнє.</value>
+  </data>
+  <data name="Localization_Language_Text" xml:space="preserve">
+    <value>Мова</value>
+  </data>
+  <data name="Localization_Latest_Version" xml:space="preserve">
+    <value>Остання версія:</value>
+  </data>
+  <data name="Localization_Manage_Text" xml:space="preserve">
+    <value>Керув.</value>
+  </data>
+  <data name="Localization_Name_Text" xml:space="preserve">
+    <value>Імя</value>
+  </data>
+  <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
+    <value>Доступ до репозиторію '{0}' відсутній. Перевірте посилання репозиторію.</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>Оновлень не знайдено</value>
+  </data>
+  <data name="Localization_Package_ErrorText" xml:space="preserve">
+    <value>Завантажений пакет пошкоджений або не підтримується. Будь ласка, спробуйте завантажити інший або повідомте власника репозиторія.</value>
+  </data>
+  <data name="Localization_Package_ErrorTitle" xml:space="preserve">
+    <value>Помилка пакету</value>
+  </data>
+  <data name="Localization_Path_Text" xml:space="preserve">
+    <value>Шлях</value>
+  </data>
+  <data name="Localization_Press_Refresh_Button" xml:space="preserve">
+    <value>Будь-ласка нажміть кнопку оновити</value>
+  </data>
+  <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
+    <value>Оновлення доступних версій</value>
+  </data>
+  <data name="Localization_Refresh_Text" xml:space="preserve">
+    <value>Оновити</value>
+  </data>
+  <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
+    <value>Репозиторій '{0}' використовується '{1}'. Ви впевненні що бажаєте видалити його?</value>
+  </data>
+  <data name="Localization_Remove_Text" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Localization_Repositories_Title" xml:space="preserve">
+    <value>Star Citizen : Репозиторії локалізації</value>
+  </data>
+  <data name="Localization_RunMinimized_Text" xml:space="preserve">
+    <value>Запускати згорнутим</value>
+  </data>
+  <data name="Localization_RunOnStartup_Text" xml:space="preserve">
+    <value>Автозапуск на старті системи</value>
+  </data>
+  <data name="Localization_SourceRepository_Text" xml:space="preserve">
+    <value>Джерело:</value>
+  </data>
+  <data name="Localization_Start_Monitoring" xml:space="preserve">
+    <value>Моніторинг запущений.</value>
+  </data>
+  <data name="Localization_StdRepos_Title" xml:space="preserve">
+    <value>Стандартні</value>
+  </data>
+  <data name="Localization_Stop_Monitoring" xml:space="preserve">
+    <value>Моніторинг зупинений.</value>
+  </data>
+  <data name="Localization_Stop_Text" xml:space="preserve">
+    <value>Зупинити</value>
+  </data>
+  <data name="Localization_Title" xml:space="preserve">
+    <value>Star Citizen : Локалізація</value>
+  </data>
+  <data name="Localization_Uninstalling_Text" xml:space="preserve">
+    <value>Видалення...</value>
+  </data>
+  <data name="Localization_UninstallLocalization_Text" xml:space="preserve">
+    <value>Повне видалення локалізації</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
+    <value>Не можливо видалити локалізацю. Будь ласка, переконайтесь що директорія встановлення або файли в ній не відкриті в інших програмах.</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
+    <value>Помилка видалення локалізації</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionText" xml:space="preserve">
+    <value>Ви впевнені що хочете видалити локалізацію і всі її файли?</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionTitle" xml:space="preserve">
+    <value>Підтвердження видалення</value>
+  </data>
+  <data name="Localization_Uninstall_WarningText" xml:space="preserve">
+    <value>Локалізація видалена не повністю. Деякі файли неможливо видалити.</value>
+  </data>
+  <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
+    <value>Видалення локалізації</value>
+  </data>
+  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+    <value>Доступна нова версія додатку {0}.
+Бажаєте завантажити?</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>Доступна нова версія додатку {0}.
+Бажаєте встановити?</value>
+  </data>
+  <data name="Localization_UserRepos_Title" xml:space="preserve">
+    <value>Користувача</value>
+  </data>
+  <data name="Localization_Verify_ErrorText" xml:space="preserve">
+    <value>Пакет не пройшов перевірку безпеки. Будь ласка, спробуйте завантажити інший або повідомте власника репозиторія.</value>
+  </data>
+  <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
+    <value>Помилка перевірки</value>
+  </data>
+  <data name="Localization_Warning_Title" xml:space="preserve">
+    <value>Увага</value>
+  </data>
+</root>

@@ -1,5 +1,6 @@
 using NSW.StarCitizen.Tools.Forms;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {
@@ -12,11 +13,11 @@ namespace NSW.StarCitizen.Tools.Adapters
         public DownloadProgressDialogAdapter(IProgressDialog progressDialog)
         {
             _progressDialog = progressDialog;
-            _progressDialog.CurrentTaskName = "Downloading...";
-            _progressDialog.CurrentTaskInfo = "";
+            _progressDialog.CurrentTaskName = Resources.Localization_Downloading_Text;
+            _progressDialog.CurrentTaskInfo = string.Empty;
             _progressDialog.CurrentTaskProgress = 0;
             _progressDialog.UserCancellable = true;
-            _progressDialog.UserCancelText = "Cancel";
+            _progressDialog.UserCancelText = Resources.Localization_Cancel_Text;
         }
 
         public void ReportContentSize(long value)

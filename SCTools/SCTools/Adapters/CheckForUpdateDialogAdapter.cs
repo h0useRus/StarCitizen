@@ -3,17 +3,17 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {
-    public class InstallProgressDialogAdapter
+    public class CheckForUpdateDialogAdapter
     {
         private readonly IProgressDialog _progressDialog;
 
-        public InstallProgressDialogAdapter(IProgressDialog progressDialog)
+        public CheckForUpdateDialogAdapter(IProgressDialog progressDialog)
         {
             _progressDialog = progressDialog;
-            _progressDialog.CurrentTaskName = Resources.Localization_Installing_Text;
+            _progressDialog.CurrentTaskName = Resources.Localization_CheckForUpdates_Text;
             _progressDialog.CurrentTaskInfo = string.Empty;
             _progressDialog.CurrentTaskProgress = 0;
-            _progressDialog.UserCancellable = false;
+            _progressDialog.UserCancellable = true;
         }
     }
 }

@@ -14,10 +14,14 @@ namespace NSW.StarCitizen.Tools.Helpers
             settings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
             return settings;
         }
-        public static T Read<T>(string json) => JsonConvert.DeserializeObject<T>(json, _jsonSettings);
+        public static T? Read<T>(string json) where T : class
+        {
+            return JsonConvert.DeserializeObject<T>(json, _jsonSettings);
+        }
+
         public static string Write(object obj, Formatting formatting = Formatting.Indented) => JsonConvert.SerializeObject(obj, formatting, _jsonSettings);
 
-        public static T ReadFile<T>(string filePath)
+        public static T? ReadFile<T>(string filePath) where T : class
         {
             if (File.Exists(filePath))
                 try

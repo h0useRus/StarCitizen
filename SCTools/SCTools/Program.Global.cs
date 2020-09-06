@@ -2,15 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using NSW.StarCitizen.Tools.Global;
 
 namespace NSW.StarCitizen.Tools
 {
     public static partial class Program
     {
-        public static GameInfo CurrentGame { get; set; }
+        public static GameInfo? CurrentGame { get; set; }
 
-        public static bool SetGameFolder(string path)
+        public static string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name;
+
+        public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
+
+        public static bool SetGameFolder(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return false;
@@ -28,10 +33,10 @@ namespace NSW.StarCitizen.Tools
             return true;
         }
 
-        public static IEnumerable<GameInfo> GetGameModes(string gameFolder)
+        public static IEnumerable<GameInfo> GetGameModes(string? gameFolder)
         {
             var result = new List<GameInfo>();
-            if (Directory.Exists(gameFolder))
+            if (gameFolder != null && Directory.Exists(gameFolder))
             {
                 foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
                 {

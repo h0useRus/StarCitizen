@@ -8,9 +8,9 @@ namespace NSW.StarCitizen.Tools.Helpers
     /// <summary>
     /// Provides methods to verify file certificate and signature
     /// </summary>
-    public class FileCertVerifier
+    public class FileCertVerifier : IDisposable
     {
-        private readonly X509Certificate2 rootCertificate;
+        private readonly X509Certificate2? rootCertificate;
         private readonly X509Certificate2 fileSignCertificate;
 
         /// <summary>
@@ -79,6 +79,12 @@ namespace NSW.StarCitizen.Tools.Helpers
             fileSignCertificate = new X509Certificate2(signCertRawData);
         }
 
+        public void Dispose()
+        {
+            DisposableUtils.Dispose(rootCertificate);
+            DisposableUtils.Dispose(fileSignCertificate);
+        }
+
         /// <summary>
         /// Verify file is signed only with one self-signed certificate and verify this certificate chain.
         /// </summary>
@@ -90,22 +96,22 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
-            X509Certificate2Collection fileCertificateCollection = new X509Certificate2Collection();
-            fileCertificateCollection.Import(filename);
-            if (fileCertificateCollection.Count == 1)
+            using var fileCertificateCollection = DynamicDisposable<X509Certificate2Collection>.CreateNonNull(new X509Certificate2Collection());
+            fileCertificateCollection.Object.Import(filename);
+            if (fileCertificateCollection.Object.Count == 1)
             {
-                X509Certificate2 fileCertificate = fileCertificateCollection[0];
+                X509Certificate2 fileCertificate = fileCertificateCollection.Object[0];
                 if (fileCertificate.RawData.SequenceEqual(fileSignCertificate.RawData))
                 {
-                    X509Chain chain = X509Chain.Create();
+                    using var chain = DynamicDisposable<X509Chain>.CreateNonNull(X509Chain.Create());
                     if (rootCertificate != null)
                     {
-                        chain.ChainPolicy.ExtraStore.Add(rootCertificate); // add CA cert for verification
+                        chain.Object.ChainPolicy.ExtraStore.Add(rootCertificate); // add CA cert for verification
                     }
-                    chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // no revocation checking
-                    chain.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
-                    chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-                    return chain.Build(fileCertificate) && VerifyChain(chain);
+                    chain.Object.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // no revocation checking
+                    chain.Object.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+                    chain.Object.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+                    return chain.Object.Build(fileCertificate) && VerifyChain(chain.Object);
                 }
             }
             return false;

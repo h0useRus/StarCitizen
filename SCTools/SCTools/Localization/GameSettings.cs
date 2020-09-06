@@ -51,12 +51,25 @@ namespace NSW.StarCitizen.Tools.Localization
             return false;
         }
 
+        public bool RemoveCurrentLanguage()
+        {
+            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolder.FullName));
+            var userConfigData = userConfigFile.Read();
+            if (userConfigData.RemoveRow(GameConstants.CurrentLanguageKey) != null &&
+                userConfigFile.Save(userConfigData))
+            {
+                LanguageInfo.Current = null;
+                return true;
+            }
+            return false;
+        }
+
         private static bool FixUserConfigLanguageInfo(CfgData cfgData, LanguageInfo languageInfo)
         {
             if (cfgData.Any())
             {
                 bool anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
-                if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value))
+                if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value) && (value != null))
                 {
                     if (languageInfo.Languages.Contains(value))
                     {
@@ -75,7 +88,7 @@ namespace NSW.StarCitizen.Tools.Localization
 
         private static void LoadLanguageInfo(CfgData cfgData, LanguageInfo languageInfo)
         {
-            if (cfgData.TryGetValue(GameConstants.SystemLanguagesKey, out var value))
+            if (cfgData.TryGetValue(GameConstants.SystemLanguagesKey, out var value) && (value != null))
             {
                 languageInfo.Languages.Clear();
                 var languages = value.Split(',');
@@ -84,7 +97,7 @@ namespace NSW.StarCitizen.Tools.Localization
                     languageInfo.Languages.Add(language.Trim());
                 }
             }
-            if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out value))
+            if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out value) && (value != null))
             {
                 languageInfo.Current = value;
             }

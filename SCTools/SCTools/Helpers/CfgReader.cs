@@ -10,8 +10,8 @@ namespace NSW.StarCitizen.Tools.Helpers
     public class CfgRow
     {
         public string Original { get; private set; }
-        public string Key { get; }
-        public string Value { get; private set; }
+        public string? Key { get; }
+        public string? Value { get; private set; }
         public bool HasData => !string.IsNullOrWhiteSpace(Key);
         public bool IsChanged { get; private set; }
 
@@ -60,7 +60,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         private readonly List<CfgRow> _rows = new List<CfgRow>();
         private readonly CfgFile _reader;
 
-        public string this[string key] => GetRowByKey(key)?.Value;
+        public string? this[string key] => GetRowByKey(key)?.Value;
         public IEnumerator<CfgRow> GetEnumerator() => _rows.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -95,7 +95,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             return row;
         }
 
-        public CfgRow RemoveRow(string key)
+        public CfgRow? RemoveRow(string key)
         {
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 
@@ -108,7 +108,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             return null;
         }
 
-        public bool TryGetValue(string key, out string value)
+        public bool TryGetValue(string key, out string? value)
         {
             var row = GetRowByKey(key);
             if (row != null)
@@ -185,9 +185,6 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public async Task<bool> SaveAsync(CfgData data)
         {
-            if (!File.Exists(_fileName))
-                return false;
-
             try
             {
                 using var writer = File.CreateText(_fileName);
@@ -206,9 +203,6 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public bool Save(CfgData data)
         {
-            if (!File.Exists(_fileName))
-                return false;
-
             try
             {
                 using var writer = File.CreateText(_fileName);

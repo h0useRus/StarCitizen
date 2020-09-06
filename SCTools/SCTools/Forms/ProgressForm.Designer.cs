@@ -7,19 +7,6 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -86,6 +73,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.lblTaskInfo);
             this.Controls.Add(this.prTaskProgress);
             this.Controls.Add(this.btnStop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressForm";

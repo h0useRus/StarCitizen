@@ -17,6 +17,9 @@
     <LangVersion>8</LangVersion>
     <ApplicationIcon>app-icon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
+    <StartupObject>NSW.StarCitizen.Tools.Program</StartupObject>
+    <Nullable>enable</Nullable>
+    <Version>0.5.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
