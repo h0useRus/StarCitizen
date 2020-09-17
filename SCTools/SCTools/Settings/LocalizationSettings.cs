@@ -40,6 +40,13 @@ namespace NSW.StarCitizen.Tools.Settings
             Type = "GitHub"
         };
 
+        public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource
+        {
+            Name = "Ukrainian Community",
+            Repository = "slyf0x-ua/sc_uk",
+            Type = "GitHub"
+        };
+
         public static LocalizationSource DefaultChinese { get; } = new LocalizationSource
         {
             Name = "Chinese Community",
@@ -49,11 +56,13 @@ namespace NSW.StarCitizen.Tools.Settings
 
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
+            DefaultUkrainian,
             DefaultChinese,
         };
 
         public static IReadOnlyList<LocalizationSource> StandardList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
+            DefaultUkrainian,
             DefaultChinese,
             DefaultBaseModding
         };
