@@ -36,6 +36,7 @@ namespace NSW.StarCitizen.Tools.Forms
             lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
             lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
             lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
+            cbAllowPreReleaseVersions.Text = Resources.Localization_DisplayPreReleases_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
         }
@@ -226,6 +227,16 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void cbAllowPreReleaseVersions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbAllowPreReleaseVersions.Checked != _currentInstallation.AllowPreRelease)
+            {
+                _currentRepository.AllowPreReleases = cbAllowPreReleaseVersions.Checked;
+                _currentInstallation.AllowPreRelease = cbAllowPreReleaseVersions.Checked;
+                Program.SaveAppSettings();
+            }
+        }
+
         private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
         {
             if (cbCheckNewVersions.Checked != _currentInstallation.MonitorForUpdates)
@@ -264,14 +275,33 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbRepository_DrawItem(object sender, DrawItemEventArgs e)
         {
-            ILocalizationRepository repository = (ILocalizationRepository)cbRepository.Items[e.Index];
-            var localizationInstallation = Program.RepositoryManager.GetRepositoryInstallation(_currentGame.Mode, repository);
-            bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
-            using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
-            using var font = new Font(cbRepository.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
-            e.DrawBackground();
-            e.Graphics.DrawString(repository.Name, font, brush, e.Bounds);
-            e.DrawFocusRectangle();
+            if (e.Index >= 0 && cbRepository.Items[e.Index] is ILocalizationRepository drawRepository)
+            {
+                var localizationInstallation = Program.RepositoryManager.GetRepositoryInstallation(_currentGame.Mode, drawRepository);
+                bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
+                using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
+                using var font = new Font(e.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
+                e.DrawBackground();
+                e.Graphics.DrawString(drawRepository.Name, font, brush, e.Bounds);
+                e.DrawFocusRectangle();
+            }
+        }
+
+        private void cbVersions_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index >= 0)
+            {
+                var fontStyle = FontStyle.Italic;
+                if (cbVersions.Items[e.Index] is UpdateInfo drawUpdateInfo)
+                {
+                    fontStyle = drawUpdateInfo.PreRelease ? FontStyle.Regular : FontStyle.Bold;
+                }
+                using var brush = new SolidBrush(e.ForeColor);
+                using var font = new Font(e.Font, fontStyle);
+                e.DrawBackground();
+                e.Graphics.DrawString(cbVersions.Items[e.Index].ToString(), font, brush, e.Bounds);
+                e.DrawFocusRectangle();
+            }
         }
 
         private void SetCurrentLocalizationRepository(ILocalizationRepository localizationRepository)
@@ -353,6 +383,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
                     break;
             }
+            cbAllowPreReleaseVersions.Checked = _currentInstallation.AllowPreRelease;
             // monitoring
             cbCheckNewVersions.Checked = _currentInstallation.MonitorForUpdates;
             cbRefreshTime.SelectedItem = _currentInstallation.MonitorRefreshTime.ToString();

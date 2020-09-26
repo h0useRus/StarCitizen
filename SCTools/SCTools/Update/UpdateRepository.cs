@@ -16,7 +16,8 @@ namespace NSW.StarCitizen.Tools.Update
         public UpdateRepositoryType Type { get; }
         public string? CurrentVersion { get; private set; }
         public IEnumerable<UpdateInfo>? UpdateReleases { get; private set; }
-        public UpdateInfo? LatestUpdateInfo => UpdateReleases?.OrderByDescending(r => r.Released)?.FirstOrDefault();
+        public UpdateInfo? LatestUpdateInfo => UpdateReleases?.FirstOrDefault();
+        public bool AllowPreReleases { get; set; } = true;
 
         protected UpdateRepository(UpdateRepositoryType type, string name, string repository)
         {
@@ -43,7 +44,7 @@ namespace NSW.StarCitizen.Tools.Update
         public async Task<IEnumerable<UpdateInfo>> RefreshUpdatesAsync(CancellationToken cancellationToken)
         {
             var releases = await GetAllAsync(cancellationToken);
-            UpdateReleases = releases.OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released).ToList();
+            UpdateReleases = SortAndFilterReleases(releases).ToList();
             return UpdateReleases;
         }
 
@@ -52,8 +53,8 @@ namespace NSW.StarCitizen.Tools.Update
             var releases = await GetAllAsync(cancellationToken);
             if (releases.Any())
             {
-                UpdateReleases = releases.OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released).ToList();
-                return releases.OrderByDescending(r => r.Released).First();
+                UpdateReleases = SortAndFilterReleases(releases).ToList();
+                return UpdateReleases.FirstOrDefault();
             }
             return null;
         }
@@ -128,6 +129,13 @@ namespace NSW.StarCitizen.Tools.Update
                 }
             }
             catch { }
+        }
+
+        private IEnumerable<UpdateInfo> SortAndFilterReleases(IEnumerable<UpdateInfo> releases)
+        {
+            if (AllowPreReleases)
+                return releases.OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released);
+            return releases.Where(v => !v.PreRelease).OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released);
         }
 
         public override string ToString() => Name;

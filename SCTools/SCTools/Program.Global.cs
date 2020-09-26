@@ -15,7 +15,7 @@ namespace NSW.StarCitizen.Tools
 
         public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
-        public static bool SetGameFolder(string? path)
+        public static bool SetGameFolder(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return false;

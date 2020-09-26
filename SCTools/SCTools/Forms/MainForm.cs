@@ -260,7 +260,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private bool SetGameFolder(string? path)
         {
-            if (Program.SetGameFolder(path))
+            if (path != null && Program.SetGameFolder(path))
             {
                 _isGameFolderSet = true;
                 gbGameInfo.Visible = true;

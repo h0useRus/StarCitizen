@@ -243,6 +243,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display alpha versions.
+        /// </summary>
+        internal static string Localization_DisplayPreReleases_Text {
+            get {
+                return ResourceManager.GetString("Localization_DisplayPreReleases_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unfortunately, it was an error during download. Please try again..
         /// </summary>
         internal static string Localization_Download_ErrorText {

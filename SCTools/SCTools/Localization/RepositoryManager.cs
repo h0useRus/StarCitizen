@@ -61,12 +61,8 @@ namespace NSW.StarCitizen.Tools.Localization
             if (await repository.CheckAsync(cancellationToken))
             {
                 AddRepository(repository);
-                Program.Settings.Localization.Repositories.Add(new LocalizationSource
-                {
-                    Name = repository.Name,
-                    Repository = repository.Repository,
-                    Type = repository.Type.ToString()
-                });
+                Program.Settings.Localization.Repositories.Add(
+                    new LocalizationSource(repository.Name, repository.Repository, repository.Type.ToString()));
                 Program.SaveAppSettings();
                 return AddStatus.Success;
             }
@@ -159,6 +155,7 @@ namespace NSW.StarCitizen.Tools.Localization
                     var repository = GetRepository(installation.Repository);
                     if (repository != null)
                     {
+                        repository.AllowPreReleases = installation.AllowPreRelease;
                         if (repository.IsMonitorStarted != installation.MonitorForUpdates
                             || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
                         {
@@ -187,10 +184,8 @@ namespace NSW.StarCitizen.Tools.Localization
 
         private LocalizationInstallation AddRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
         {
-            var installation = new LocalizationInstallation
+            var installation = new LocalizationInstallation(gameMode, repository.Repository)
             {
-                Mode = gameMode,
-                Repository = repository.Repository,
                 MonitorRefreshTime = Program.Settings.Localization.MonitorRefreshTime
             };
             Program.Settings.Localization.Installations.Add(installation);

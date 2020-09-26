@@ -10,12 +10,15 @@ namespace NSW.StarCitizen.Tools.Settings
         private const string AppName = "Star Citizen Tools";
         private static readonly RegistryKey _startupKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
 
+        [JsonProperty]
         public string? GameFolder { get; set; }
+        [JsonProperty]
         public string Language
         {
             get => GetLanguage();
             set => SetLanguage(value);
         }
+        [JsonProperty]
         public bool RunMinimized { get; set; } = false;
         [JsonIgnore]
         public bool RunWithWindows
@@ -29,11 +32,11 @@ namespace NSW.StarCitizen.Tools.Settings
                     _startupKey.DeleteValue(AppName, false);
             }
         }
-
+        [JsonProperty]
         public bool UseHttpProxy { get; set; } = false;
-
+        [JsonProperty]
         public UpdateSettings Update { get; } = new UpdateSettings();
-
+        [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
 
         private string GetLanguage()

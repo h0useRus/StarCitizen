@@ -1,4 +1,5 @@
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace NSW.StarCitizen.Tools.Update
 {
@@ -8,11 +9,15 @@ namespace NSW.StarCitizen.Tools.Update
 
         public override string GetVersion() => _namedVersion ? Name : TagName;
 
-        public GitHubUpdateInfo()
+        [JsonConstructor]
+        public GitHubUpdateInfo(string name, string tagName, string downloadUrl)
+            : base(name, tagName, downloadUrl)
         {
+
         }
 
-        private GitHubUpdateInfo(bool namedVersion)
+        private GitHubUpdateInfo(string name, string tagName, string downloadUrl, bool namedVersion)
+            : base(name, tagName, downloadUrl)
         {
             _namedVersion = namedVersion;
         }
@@ -29,23 +34,34 @@ namespace NSW.StarCitizen.Tools.Update
                 _namedVersion = namedVersion;
             }
 
-            public UpdateInfo CreateWithDownloadSourceCode(GitHubUpdateRepository.GitRelease release) => new GitHubUpdateInfo(_namedVersion)
+            public UpdateInfo? CreateWithDownloadSourceCode(GitHubUpdateRepository.GitRelease release)
             {
-                Name = release.Name,
-                TagName = release.TagName,
-                PreRelease = release.PreRelease,
-                Released = release.Published,
-                DownloadUrl = release.ZipUrl
-            };
+                if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
+                    string.IsNullOrEmpty(release.ZipUrl))
+                {
+                    return null;
+                }
+                return new GitHubUpdateInfo(release.Name, release.TagName, release.ZipUrl, _namedVersion)
+                {
+                    PreRelease = release.PreRelease,
+                    Released = release.Published
+                };
+            }
 
-            public UpdateInfo CreateWithDownloadAsset(GitHubUpdateRepository.GitRelease release) => new GitHubUpdateInfo(_namedVersion)
+            public UpdateInfo? CreateWithDownloadAsset(GitHubUpdateRepository.GitRelease release)
             {
-                Name = release.Name,
-                TagName = release.TagName,
-                PreRelease = release.PreRelease,
-                Released = release.Published,
-                DownloadUrl = release.Assets?.FirstOrDefault()?.ZipUrl
-            };
+                var downloadUrl = release.Assets?.FirstOrDefault()?.ZipUrl;
+                if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
+                    (downloadUrl == null) || string.IsNullOrEmpty(downloadUrl))
+                {
+                    return null;
+                }
+                return new GitHubUpdateInfo(release.Name, release.TagName, downloadUrl, _namedVersion)
+                {
+                    PreRelease = release.PreRelease,
+                    Released = release.Published
+                };
+            }
         }
     }
 }
