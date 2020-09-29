@@ -95,6 +95,16 @@ namespace NSW.StarCitizen.Tools.Localization
             return info != null ? GetRepository(info.Repository) : null;
         }
 
+        public ILocalizationRepository GetCurrentRepository(GameMode gameMode) => GetCurrentRepository(gameMode, GetRepositoriesList());
+
+        public ILocalizationRepository GetCurrentRepository(GameMode gameMode, List<ILocalizationRepository> repositories)
+        {
+            var installedRepository = GetInstalledRepository(gameMode);
+            if (installedRepository != null && repositories.Contains(installedRepository))
+                return installedRepository;
+            return repositories.First();
+        }
+
         public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
         {
             var installation = GetRepositoryInstallation(gameMode, repository);

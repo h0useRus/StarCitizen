@@ -22,6 +22,8 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             _currentGame = currentGame;
             _gameSettings = new GameSettings(currentGame);
+            _currentRepository = Program.RepositoryManager.GetCurrentRepository(currentGame.Mode);
+            _currentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(currentGame.Mode, _currentRepository);
             InitializeComponent();
             InitializeLocalization();
         }
@@ -46,10 +48,12 @@ namespace NSW.StarCitizen.Tools.Forms
             _gameSettings.Load();
             // Repositories
             var repositories = Program.RepositoryManager.GetRepositoriesList();
-            var currentRepository = Program.RepositoryManager.GetInstalledRepository(_currentGame.Mode) ?? repositories.First();
             cbRepository.DataSource = repositories;
-            cbRepository.SelectedItem = currentRepository;
-            SetCurrentLocalizationRepository(currentRepository);
+            _currentRepository = Program.RepositoryManager.GetCurrentRepository(_currentGame.Mode, repositories);
+            _currentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(_currentGame.Mode, _currentRepository);
+            cbRepository.SelectedItem = _currentRepository;
+            UpdateAvailableVersions();
+            UpdateControls();
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)

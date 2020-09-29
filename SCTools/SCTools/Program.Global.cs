@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using NSW.StarCitizen.Tools.Global;
 
@@ -14,24 +13,6 @@ namespace NSW.StarCitizen.Tools
         public static string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name;
 
         public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
-
-        public static bool SetGameFolder(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                return false;
-
-            var gameInfos = GetGameModes(path);
-            if (!gameInfos.Any())
-                return false;
-
-            if (string.Compare(Settings.GameFolder, path, StringComparison.OrdinalIgnoreCase) != 0)
-            {
-                Settings.GameFolder = path;
-                SaveAppSettings(Settings);
-            }
-
-            return true;
-        }
 
         public static IEnumerable<GameInfo> GetGameModes(string? gameFolder)
         {
@@ -50,11 +31,6 @@ namespace NSW.StarCitizen.Tools
                 }
             }
             return result;
-        }
-
-        public static IEnumerable<GameInfo> GetGameModes()
-        {
-            return GetGameModes(Settings.GameFolder);
         }
     }
 }
