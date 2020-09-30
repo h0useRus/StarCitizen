@@ -14,20 +14,16 @@ namespace NSW.StarCitizen.Tools
 
         public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
-        public static IEnumerable<GameInfo> GetGameModes(string? gameFolder)
+        public static IEnumerable<GameInfo> GetGameModes(string gameFolder)
         {
             var result = new List<GameInfo>();
-            if (gameFolder != null && Directory.Exists(gameFolder))
+            if (Directory.Exists(gameFolder))
             {
                 foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
                 {
-                    var gameModeDir = new DirectoryInfo(GameConstants.GetGameModePath(gameFolder, mode));
-                    if (gameModeDir.Exists)
-                    {
-                        var exeFileInfo = new FileInfo(GameConstants.GetGameExePath(gameModeDir.FullName));
-                        if (exeFileInfo.Exists)
-                            result.Add(new GameInfo(gameModeDir, mode, exeFileInfo));
-                    }
+                    GameInfo? gameInfo = GameInfo.Create(mode, gameFolder);
+                    if (gameInfo != null)
+                        result.Add(gameInfo);
                 }
             }
             return result;

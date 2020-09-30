@@ -19,11 +19,11 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             var languageInfo = new LanguageInfo();
             // system.cfg
-            var systemConfigFile = new CfgFile(GameConstants.GetSystemConfigPath(_currentGame.RootFolder.FullName));
+            var systemConfigFile = new CfgFile(GameConstants.GetSystemConfigPath(_currentGame.RootFolderPath));
             var systemConfigData = systemConfigFile.Read();
             LoadLanguageInfo(systemConfigData, languageInfo);
             // user.cfg
-            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolder.FullName));
+            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
             var userConfigData = userConfigFile.Read();
             if (FixUserConfigLanguageInfo(userConfigData, languageInfo))
             {
@@ -38,7 +38,7 @@ namespace NSW.StarCitizen.Tools.Localization
             {
                 if (string.Compare(LanguageInfo.Current, languageName, StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
-                var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolder.FullName));
+                var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
                 var userConfigData = userConfigFile.Read();
                 userConfigData.AddOrUpdateRow(GameConstants.CurrentLanguageKey, languageName);
                 if (userConfigFile.Save(userConfigData))
@@ -53,7 +53,7 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public bool RemoveCurrentLanguage()
         {
-            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolder.FullName));
+            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
             var userConfigData = userConfigFile.Read();
             if (userConfigData.RemoveRow(GameConstants.CurrentLanguageKey) != null &&
                 userConfigFile.Save(userConfigData))
