@@ -8,7 +8,7 @@ namespace NSW.StarCitizen.Tools.Settings
     public class AppSettings
     {
         private const string AppName = "Star Citizen Tools";
-        private static readonly RegistryKey _startupKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        private const string RegKeyAutoRun = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
         [JsonProperty]
         public string? GameFolder { get; set; }
@@ -23,14 +23,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonIgnore]
         public bool RunWithWindows
         {
-            get => _startupKey.GetValue(AppName) != null;
-            set
-            {
-                if (value)
-                    _startupKey.SetValue(AppName, Application.ExecutablePath);
-                else
-                    _startupKey.DeleteValue(AppName, false);
-            }
+            get => IsRunWithWindows();
+            set => SetRunWithWindows(value);
         }
         [JsonProperty]
         public bool UseHttpProxy { get; set; } = false;
@@ -63,6 +57,24 @@ namespace NSW.StarCitizen.Tools.Settings
                     CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InstalledUICulture;
                     CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InstalledUICulture;
                 }
+            }
+        }
+
+        private bool IsRunWithWindows()
+        {
+            using var startupKey = Registry.CurrentUser.OpenSubKey(RegKeyAutoRun);
+            return startupKey != null && startupKey.GetValue(AppName) != null;
+        }
+
+        private void SetRunWithWindows(bool value)
+        {
+            using var startupKey = Registry.CurrentUser.OpenSubKey(RegKeyAutoRun, true);
+            if (startupKey != null)
+            {
+                if (value)
+                    startupKey.SetValue(AppName, Application.ExecutablePath);
+                else
+                    startupKey.DeleteValue(AppName, false);
             }
         }
     }
