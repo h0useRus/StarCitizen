@@ -68,7 +68,7 @@ namespace NSW.StarCitizen.Tools.Localization
         {
             if (cfgData.Any())
             {
-                bool anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
+                var anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
                 if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value) && (value != null))
                 {
                     if (languageInfo.Languages.Contains(value))

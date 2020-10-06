@@ -136,11 +136,11 @@ namespace NSW.StarCitizen.Tools.Helpers
         // constructor for silent WinTrustDataChoice.File check
         public WinTrustData(WinTrustFileInfo fileInfo)
         {
-            WinTrustFileInfo wtfiData = fileInfo;
+            var wtfiData = fileInfo;
             FileInfoPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustFileInfo)));
             Marshal.StructureToPtr(wtfiData, FileInfoPtr, false);
 
-            using (WinTrustSignatureSettings signatureSettings = new WinTrustSignatureSettings())
+            using (var signatureSettings = new WinTrustSignatureSettings())
             {
                 SignatureSettings = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustSignatureSettings)));
                 Marshal.StructureToPtr(signatureSettings, SignatureSettings, false);
@@ -193,8 +193,8 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public static bool VerifyEmbeddedSignature(string fileName)
         {
-            using WinTrustFileInfo wtfi = new WinTrustFileInfo(fileName);
-            using WinTrustData wtd = new WinTrustData(wtfi);
+            using var wtfi = new WinTrustFileInfo(fileName);
+            using var wtd = new WinTrustData(wtfi);
             var guidAction = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
             var result = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd);
             return result == WinVerifyTrustResult.Success ||

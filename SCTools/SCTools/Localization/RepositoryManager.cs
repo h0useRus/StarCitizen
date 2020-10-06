@@ -76,7 +76,7 @@ namespace NSW.StarCitizen.Tools.Localization
             repository.MonitorStopped -= OnMonitorStopped;
             repository.MonitorNewVersion -= OnMonitorNewVersion;
             repository.MonitorStop();
-            bool result = _localizationRepositories.Remove(repository.Repository);
+            var result = _localizationRepositories.Remove(repository.Repository);
             var localizationSource = Program.Settings.Localization.Repositories
                 .FirstOrDefault(r => string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
             if (localizationSource != null)
