@@ -29,7 +29,7 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool MonitorForUpdates { get; set; }
         [JsonProperty]
-        public bool AllowPreRelease { get; set; } = true;
+        public bool AllowPreRelease { get; set; } = false;
 
         [JsonConstructor]
         public LocalizationInstallation(GameMode mode, string repository)
