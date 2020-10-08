@@ -22,6 +22,8 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             _currentGame = currentGame;
             _gameSettings = new GameSettings(currentGame);
+            _currentRepository = Program.RepositoryManager.GetCurrentRepository(currentGame.Mode);
+            _currentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(currentGame.Mode, _currentRepository);
             InitializeComponent();
             InitializeLocalization();
         }
@@ -36,6 +38,7 @@ namespace NSW.StarCitizen.Tools.Forms
             lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
             lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
             lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
+            cbAllowPreReleaseVersions.Text = Resources.Localization_DisplayPreReleases_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
         }
@@ -45,10 +48,12 @@ namespace NSW.StarCitizen.Tools.Forms
             _gameSettings.Load();
             // Repositories
             var repositories = Program.RepositoryManager.GetRepositoriesList();
-            var currentRepository = Program.RepositoryManager.GetInstalledRepository(_currentGame.Mode) ?? repositories.First();
             cbRepository.DataSource = repositories;
-            cbRepository.SelectedItem = currentRepository;
-            SetCurrentLocalizationRepository(currentRepository);
+            _currentRepository = Program.RepositoryManager.GetCurrentRepository(_currentGame.Mode, repositories);
+            _currentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(_currentGame.Mode, _currentRepository);
+            cbRepository.SelectedItem = _currentRepository;
+            UpdateAvailableVersions();
+            UpdateControls();
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)
@@ -103,6 +108,13 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbVersions.SelectedItem is UpdateInfo selectedUpdateInfo)
             {
+                if (!_currentGame.IsAvailable())
+                {
+                    MessageBox.Show(Resources.Localization_File_ErrorText,
+                        Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateControls();
+                    return;
+                }
                 using var progressDlg = new ProgressForm();
                 try
                 {
@@ -114,7 +126,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     var filePath = await _currentRepository.DownloadAsync(selectedUpdateInfo, null,
                         progressDlg.CancelToken, downloadDialogAdapter);
                     var installDialogAdapter = new InstallProgressDialogAdapter(progressDlg);
-                    var result = _currentRepository.Installer.Install(filePath, _currentGame.RootFolder.FullName);
+                    var result = _currentRepository.Installer.Install(filePath, _currentGame.RootFolderPath);
                     switch (result)
                     {
                         case InstallStatus.Success:
@@ -163,6 +175,13 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (_currentInstallation.InstalledVersion != null)
             {
+                if (!_currentGame.IsAvailable())
+                {
+                    MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
+                        Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UpdateControls();
+                    return;
+                }
                 var dialogResult = MessageBox.Show(Resources.Localization_Uninstall_QuestionText,
                     Resources.Localization_Uninstall_QuestionTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.No)
@@ -173,7 +192,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     progressDlg.Text = Resources.Localization_UninstallLocalization_Text;
                     var uninstallDialogAdapter = new UninstallProgressDialogAdapter(progressDlg);
                     progressDlg.Show(this);
-                    switch (_currentRepository.Installer.Uninstall(_currentGame.RootFolder.FullName))
+                    switch (_currentRepository.Installer.Uninstall(_currentGame.RootFolderPath))
                     {
                         case UninstallStatus.Success:
                             _gameSettings.RemoveCurrentLanguage();
@@ -216,13 +235,23 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                _currentRepository.Installer.RevertLocalization(_currentGame.RootFolder.FullName);
+                _currentRepository.Installer.RevertLocalization(_currentGame.RootFolderPath);
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
                 Enabled = true;
                 UpdateControls();
+            }
+        }
+
+        private void cbAllowPreReleaseVersions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbAllowPreReleaseVersions.Checked != _currentInstallation.AllowPreRelease)
+            {
+                _currentRepository.AllowPreReleases = cbAllowPreReleaseVersions.Checked;
+                _currentInstallation.AllowPreRelease = cbAllowPreReleaseVersions.Checked;
+                Program.SaveAppSettings();
             }
         }
 
@@ -264,14 +293,33 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbRepository_DrawItem(object sender, DrawItemEventArgs e)
         {
-            ILocalizationRepository repository = (ILocalizationRepository)cbRepository.Items[e.Index];
-            var localizationInstallation = Program.RepositoryManager.GetRepositoryInstallation(_currentGame.Mode, repository);
-            bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
-            using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
-            using var font = new Font(cbRepository.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
-            e.DrawBackground();
-            e.Graphics.DrawString(repository.Name, font, brush, e.Bounds);
-            e.DrawFocusRectangle();
+            if (e.Index >= 0 && cbRepository.Items[e.Index] is ILocalizationRepository drawRepository)
+            {
+                var localizationInstallation = Program.RepositoryManager.GetRepositoryInstallation(_currentGame.Mode, drawRepository);
+                bool isInstalled = localizationInstallation != null && !string.IsNullOrEmpty(localizationInstallation.InstalledVersion);
+                using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
+                using var font = new Font(e.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
+                e.DrawBackground();
+                e.Graphics.DrawString(drawRepository.Name, font, brush, e.Bounds);
+                e.DrawFocusRectangle();
+            }
+        }
+
+        private void cbVersions_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index >= 0)
+            {
+                var fontStyle = FontStyle.Italic;
+                if (cbVersions.Items[e.Index] is UpdateInfo drawUpdateInfo)
+                {
+                    fontStyle = drawUpdateInfo.PreRelease ? FontStyle.Regular : FontStyle.Bold;
+                }
+                using var brush = new SolidBrush(e.ForeColor);
+                using var font = new Font(e.Font, fontStyle);
+                e.DrawBackground();
+                e.Graphics.DrawString(cbVersions.Items[e.Index].ToString(), font, brush, e.Bounds);
+                e.DrawFocusRectangle();
+            }
         }
 
         private void SetCurrentLocalizationRepository(ILocalizationRepository localizationRepository)
@@ -303,6 +351,41 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateControls()
         {
+            switch (_currentRepository.Installer.GetInstallationType(_currentGame.RootFolderPath))
+            {
+                case LocalizationInstallationType.None:
+                    btnLocalizationDisable.Visible = false;
+                    UpdateMissingLocalizationInfo();
+                    break;
+                case LocalizationInstallationType.Enabled:
+                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_currentInstallation.InstalledVersion);
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
+                    UpdatePresentLocalizationInfo();
+                    break;
+                case LocalizationInstallationType.Disabled:
+                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_currentInstallation.InstalledVersion);
+                    btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
+                    UpdatePresentLocalizationInfo();
+                    break;
+            }
+            cbAllowPreReleaseVersions.Checked = _currentInstallation.AllowPreRelease;
+            // monitoring
+            cbCheckNewVersions.Checked = _currentInstallation.MonitorForUpdates;
+            cbRefreshTime.SelectedItem = _currentInstallation.MonitorRefreshTime.ToString();
+            UpdateButtonsVisibility();
+        }
+
+        private void UpdateMissingLocalizationInfo()
+        {
+            var lastVersion = _currentInstallation.LastVersion;
+            lblSelectedVersion.Text = Resources.Localization_Latest_Version;
+            tbCurrentVersion.Text = string.IsNullOrEmpty(lastVersion) ? "N/A" : lastVersion;            
+            lblCurrentLanguage.Visible = false;
+            cbLanguages.Visible = false;
+        }
+
+        private void UpdatePresentLocalizationInfo()
+        {
             //Languages
             var installedVersion = _currentInstallation.InstalledVersion;
             if (!string.IsNullOrEmpty(installedVersion))
@@ -324,39 +407,8 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             else
             {
-                var lastVersion = _currentInstallation.LastVersion;
-                if (!string.IsNullOrEmpty(lastVersion))
-                {
-                    lblSelectedVersion.Text = Resources.Localization_Latest_Version;
-                    tbCurrentVersion.Text = lastVersion;
-                }
-                else
-                {
-                    lblSelectedVersion.Text = Resources.Localization_Installed_Version;
-                    tbCurrentVersion.Text = "N/A";
-                }
-                lblCurrentLanguage.Visible = false;
-                cbLanguages.Visible = false;
+                UpdateMissingLocalizationInfo();
             }
-            // enable disable
-            switch (_currentRepository.Installer.GetInstallationType(_currentGame.RootFolder.FullName))
-            {
-                case LocalizationInstallationType.None:
-                    btnLocalizationDisable.Visible = false;
-                    break;
-                case LocalizationInstallationType.Enabled:
-                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(installedVersion);
-                    btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
-                    break;
-                case LocalizationInstallationType.Disabled:
-                    btnLocalizationDisable.Visible = !string.IsNullOrEmpty(installedVersion);
-                    btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
-                    break;
-            }
-            // monitoring
-            cbCheckNewVersions.Checked = _currentInstallation.MonitorForUpdates;
-            cbRefreshTime.SelectedItem = _currentInstallation.MonitorRefreshTime.ToString();
-            UpdateButtonsVisibility();
         }
 
         private void UpdateButtonsVisibility()

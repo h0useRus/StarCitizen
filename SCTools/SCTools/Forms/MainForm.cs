@@ -128,9 +128,15 @@ namespace NSW.StarCitizen.Tools.Forms
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
-                if (!SetGameFolder(dlg.SelectedPath))
+                if (!SetGameFolder(_lastBrowsePath))
                 {
                     MessageBox.Show(Resources.GamePath_Error_Text, Resources.GamePath_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (string.Compare(Program.Settings.GameFolder, _lastBrowsePath, StringComparison.OrdinalIgnoreCase) != 0)
+                {
+                    Program.Settings.GameFolder = _lastBrowsePath;
+                    Program.SaveAppSettings();
                 }
             }
         }
@@ -260,18 +266,21 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private bool SetGameFolder(string? path)
         {
-            if (Program.SetGameFolder(path))
+            if (path != null)
             {
-                _isGameFolderSet = true;
-                gbGameInfo.Visible = true;
-                gbButtonMenu.Visible = true;
-                cbGameModes.Visible = true;
-                tbGamePath.Text = path.ToUpper();
-                tbGamePath.TextAlign = HorizontalAlignment.Left;
-                var gameModes = Program.GetGameModes();
-                cbGameModes.DataSource = gameModes;
-                SetGameModeInfo(gameModes.FirstOrDefault());
-                return true;
+                var gameModes = Program.GetGameModes(path);
+                if (gameModes.Any())
+                {
+                    _isGameFolderSet = true;
+                    gbGameInfo.Visible = true;
+                    gbButtonMenu.Visible = true;
+                    cbGameModes.Visible = true;
+                    tbGamePath.Text = path.ToUpper();
+                    tbGamePath.TextAlign = HorizontalAlignment.Left;
+                    cbGameModes.DataSource = gameModes;
+                    SetGameModeInfo(gameModes.First());
+                    return true;
+                }
             }
             _isGameFolderSet = false;
             gbGameInfo.Visible = false;

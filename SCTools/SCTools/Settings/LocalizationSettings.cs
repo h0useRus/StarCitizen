@@ -1,59 +1,78 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using NSW.StarCitizen.Tools.Global;
 
 namespace NSW.StarCitizen.Tools.Settings
 {
     public class LocalizationSettings
     {
-        public List<LocalizationSource> Repositories { get; set; } = new List<LocalizationSource>();
-        public List<LocalizationInstallation> Installations { get; set; } = new List<LocalizationInstallation>();
+        [JsonProperty]
+        public List<LocalizationSource> Repositories { get; } = new List<LocalizationSource>();
+        [JsonProperty]
+        public List<LocalizationInstallation> Installations { get; } = new List<LocalizationInstallation>();
+        [JsonProperty]
         public int MonitorRefreshTime { get; set; } = 5;
     }
 
     public class LocalizationInstallation
     {
-        public GameMode Mode { get; set; }
+        [JsonProperty]
+        public GameMode Mode { get; }
+        [JsonProperty]
+        public string Repository { get; }
+        [JsonProperty]
         public string? InstalledVersion { get; set; }
+        [JsonProperty]
         public string? LastVersion { get; set; }
-        public string Repository { get; set; }
-        public bool MonitorForUpdates { get; set; }
+        [JsonProperty]
         public int MonitorRefreshTime { get; set; }
+        [JsonProperty]
+        public bool MonitorForUpdates { get; set; }
+        [JsonProperty]
+        public bool AllowPreRelease { get; set; } = false;
+
+        [JsonConstructor]
+        public LocalizationInstallation(GameMode mode, string repository)
+        {
+            Mode = mode;
+            Repository = repository;
+        }
     }
 
     public class LocalizationSource
     {
-        public string Name { get; set; }
-        public string Repository { get; set; }
-        public string Type { get; set; }
+        [JsonProperty]
+        public string Name { get; }
+        [JsonProperty]
+        public string Repository { get; }
+        [JsonProperty]
+        public string Type { get; }
 
-        public static LocalizationSource DefaultBaseModding { get; } = new LocalizationSource
+        [JsonConstructor]
+        public LocalizationSource(string name, string repository, string type)
         {
-            Name = "Base Modding Package",
-            Repository = "defterai/starcitizenmodding",
-            Type = "GitHub"
-        };
+            Name = name;
+            Repository = repository;
+            Type = type;
+        }
 
-        public static LocalizationSource DefaultRussian { get; } = new LocalizationSource
-        {
-            Name = "Russian Community",
-            Repository = "n1ghter/sc_ru",
-            Type = "GitHub"
-        };
-
-        public static LocalizationSource DefaultChinese { get; } = new LocalizationSource
-        {
-            Name = "Chinese Community",
-            Repository = "terrencetodd/sc_cn_zh",
-            Type = "GitHub"
-        };
+        public static LocalizationSource DefaultBaseModding { get; } = new LocalizationSource("Base Modding Package", "defterai/starcitizenmodding", "GitHub");
+        public static LocalizationSource DefaultRussian { get; } = new LocalizationSource("Russian Community", "n1ghter/sc_ru", "GitHub");
+        public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource("Ukrainian Community", "slyf0x-ua/sc_uk", "GitHub");
+        public static LocalizationSource DefaultKorean { get; } = new LocalizationSource("Korean Community", "xhatagon/sc_ko", "GitHub");
+        public static LocalizationSource DefaultChinese { get; } = new LocalizationSource("Chinese Community", "terrencetodd/sc_cn_zh", "GitHub");
 
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
+            DefaultUkrainian,
+            DefaultKorean,
             DefaultChinese,
         };
 
         public static IReadOnlyList<LocalizationSource> StandardList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
+            DefaultUkrainian,
+            DefaultKorean,
             DefaultChinese,
             DefaultBaseModding
         };

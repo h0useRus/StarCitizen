@@ -3,102 +3,146 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
-    public class CfgRow
-    {
-        public string Original { get; private set; }
-        public string? Key { get; }
-        public string? Value { get; private set; }
-        public bool HasData => !string.IsNullOrWhiteSpace(Key);
-        public bool IsChanged { get; private set; }
+    public abstract class CfgRow {}
 
-        public CfgRow(string original)
+    public sealed class CfgDataRow : CfgRow
+    {
+        public string Key { get; }
+        public string Value { get; private set; }
+
+        public static CfgDataRow? Create(string key, string value)
         {
-            Original = original;
-            if (IsDataString(original))
-            {
-                var pos = original.IndexOf('=');
-                Key = original.Substring(0, pos).Trim();
-                Value = original.Substring(pos + 1).Trim();
-            }
+            if (!string.IsNullOrWhiteSpace(key) && value != null)
+                return new CfgDataRow(key, value);
+            return null;
         }
 
-        public CfgRow(string key, string value)
+        private CfgDataRow(string key, string value)
         {
-            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-
             Key = key;
             Value = value;
-            Original = key + "=" + value;
         }
 
-        private static bool IsDataString(string original)
-            => !string.IsNullOrEmpty(original)
-               && !original.StartsWith("--")
-               && !original.StartsWith("//")
-               && original.Contains("=");
-
-        public void UpdateValue(string newValue)
+        public bool UpdateValue(string value)
         {
-            if (HasData && string.CompareOrdinal(Original, newValue) != 0)
+            if (value != null)
             {
-                Original = Original.Replace(Value, newValue);
-                Value = newValue;
-                IsChanged = true;
+                Value = value;
+                return true;
             }
+            return false;
         }
 
-        public override string ToString() => Original;
+        public override string ToString() => Key + "=" + Value;
+
+        public override bool Equals(object value) => !(value is null) &&
+            (ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
+            string.CompareOrdinal(Key, dataRow.Key) == 0 && Value == dataRow.Value));
+
+        public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Key);
+    }
+
+    public sealed class CfgTextRow : CfgRow
+    {
+        public static readonly CfgTextRow Empty = new CfgTextRow(string.Empty);
+
+        public static CfgTextRow Create(string content) => string.IsNullOrWhiteSpace(content) ? Empty : new CfgTextRow(content);
+
+        public string Content { get; private set; }
+
+        private CfgTextRow(string content)
+        {
+            Content = content;
+        }
+
+        public override string ToString() => Content;
+
+        public override bool Equals(object value) => !(value is null) &&
+            (ReferenceEquals(this, value) || (value is CfgTextRow textRow && Content == textRow.Content));
+
+        public override int GetHashCode() => Content.GetHashCode();
     }
 
     public class CfgData : IEnumerable<CfgRow>
     {
         private readonly List<CfgRow> _rows = new List<CfgRow>();
-        private readonly CfgFile _reader;
 
         public string? this[string key] => GetRowByKey(key)?.Value;
         public IEnumerator<CfgRow> GetEnumerator() => _rows.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public CfgData(CfgFile reader)
+        public CfgData() {}
+
+        public CfgData(int capacity)
         {
-            _reader = reader;
+            _rows = new List<CfgRow>(capacity);
         }
+
+        public CfgData(IEnumerable<CfgRow> collection)
+        {
+            _rows = new List<CfgRow>(collection);
+        }
+
+        public CfgData(string content)
+        {
+            string line;
+            using var reader = new StringReader(content);
+            while ((line = reader.ReadLine()) != null)
+            {
+                AddRow(line);
+            }
+        }
+
+        public void Clear() => _rows.Clear();
 
         public bool AddRow(string original)
         {
-            var row = new CfgRow(original);
-            if (row.HasData && ContainsKey(row.Key))
+            if (IsTextString(original))
+            {
+                _rows.Add(CfgTextRow.Create(original));
+                return true;
+            }
+            int pos = original.IndexOf('=');
+            if (pos < 0)
+            {
+                _rows.Add(CfgTextRow.Create(original));
+                return true;
+            }
+            string key = original.Substring(0, pos).Trim();
+            string value = original.Substring(pos + 1).Trim();
+            var row = CfgDataRow.Create(key, value);
+            if (row == null)
+            {
+                _rows.Add(CfgTextRow.Create(original));
+                return true;
+            }
+            if (ContainsKey(key))
                 return false;
             _rows.Add(row);
             return true;
         }
 
-        public CfgRow AddOrUpdateRow(string key, string value)
+        public CfgDataRow? AddOrUpdateRow(string key, string value)
         {
-            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-
             var row = GetRowByKey(key);
-            if (row == null)
+            if (row != null)
+                return row.UpdateValue(value) ? row : null;
+            var addRow = CfgDataRow.Create(key, value);
+            if (addRow != null)
             {
-                row = new CfgRow(key, value);
-                _rows.Add(row);
-                return row;
+                _rows.Add(addRow);
+                return addRow;
             }
-
-            row.UpdateValue(value);
-            return row;
+            return null;
         }
 
-        public CfgRow? RemoveRow(string key)
+        public CfgDataRow? RemoveRow(string key)
         {
-            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
-
             var row = GetRowByKey(key);
             if (row != null)
             {
@@ -121,23 +165,43 @@ namespace NSW.StarCitizen.Tools.Helpers
             return false;
         }
 
-        public Task<bool> SaveAsync() => _reader.SaveAsync(this);
-        public bool Save() => _reader.Save(this);
-
         public IReadOnlyDictionary<string, string> ToDictionary()
-            => _rows.Where(r => r.HasData).ToDictionary(row => row.Key, row => row.Value);
+            => _rows.OfType<CfgDataRow>().ToDictionary(row => row.Key, row => row.Value, StringComparer.OrdinalIgnoreCase);
 
-        private CfgRow GetRowByKey(string key)
-            => _rows.SingleOrDefault(r => r.HasData && string.CompareOrdinal(key, r.Key) == 0);
+        public IReadOnlyDictionary<string, CfgDataRow> ToRowDictionary()
+            => _rows.OfType<CfgDataRow>().ToDictionary(row => row.Key, row => row, StringComparer.OrdinalIgnoreCase);
 
-        private bool ContainsKey(string key)
-            => _rows.Any(r => string.CompareOrdinal(key, r.Key) == 0);
+        private CfgDataRow? GetRowByKey(string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+                return _rows.OfType<CfgDataRow>().SingleOrDefault(r => string.CompareOrdinal(key, r.Key) == 0);
+            return null;
+        }
+
+        private bool ContainsKey(string key) =>
+            !string.IsNullOrWhiteSpace(key) &&
+            _rows.OfType<CfgDataRow>().Any(r => string.CompareOrdinal(key, r.Key) == 0);
+
+        private static bool IsTextString(string original) =>
+            string.IsNullOrWhiteSpace(original) ||
+            original.StartsWith("--") ||
+            original.StartsWith("//");
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (var row in this)
+            {
+                builder.AppendLine(row.ToString());
+            }
+            return builder.ToString();
+        }
     }
-
 
     public class CfgFile
     {
         private readonly string _fileName;
+
         public CfgFile(string fileName)
         {
             _fileName = fileName;
@@ -145,7 +209,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public async Task<CfgData> ReadAsync()
         {
-            var data = new CfgData(this);
+            var data = new CfgData();
             if (!File.Exists(_fileName))
                 return data;
 
@@ -153,7 +217,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             {
                 using var reader = File.OpenText(_fileName);
                 string line;
-                while ((line = await reader.ReadLineAsync()) != null)
+                while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
                 {
                     data.AddRow(line);
                 }
@@ -165,7 +229,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public CfgData Read()
         {
-            var data = new CfgData(this);
+            var data = new CfgData();
             if (!File.Exists(_fileName))
                 return data;
 
@@ -190,9 +254,9 @@ namespace NSW.StarCitizen.Tools.Helpers
                 using var writer = File.CreateText(_fileName);
                 foreach (var row in data)
                 {
-                    await writer.WriteLineAsync(row.Original);
+                    await writer.WriteLineAsync(row.ToString()).ConfigureAwait(false);
                 }
-                await writer.FlushAsync();
+                await writer.FlushAsync().ConfigureAwait(false);
                 return true;
             }
             catch
@@ -208,7 +272,7 @@ namespace NSW.StarCitizen.Tools.Helpers
                 using var writer = File.CreateText(_fileName);
                 foreach (var row in data)
                 {
-                    writer.WriteLine(row.Original);
+                    writer.WriteLine(row.ToString());
                 }
                 writer.Flush();
                 return true;

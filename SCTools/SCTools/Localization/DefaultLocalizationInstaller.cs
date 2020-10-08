@@ -13,6 +13,8 @@ namespace NSW.StarCitizen.Tools.Localization
     {
         public InstallStatus Install(string zipFileName, string destinationFolder)
         {
+            if (!Directory.Exists(destinationFolder))
+                return InstallStatus.FileError;
             DirectoryInfo? unpackDataDir = null;
             DirectoryInfo? backupDataDir = null;
             var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
@@ -86,7 +88,9 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public UninstallStatus Uninstall(string destinationFolder)
         {
-            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            if (!Directory.Exists(destinationFolder))
+                return UninstallStatus.Failed;
+            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
             if (File.Exists(enabledLibraryPath) && !FileUtils.DeleteFileNoThrow(enabledLibraryPath))
                 return UninstallStatus.Failed;
             var result = UninstallStatus.Success;
@@ -101,6 +105,8 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public LocalizationInstallationType GetInstallationType(string destinationFolder)
         {
+            if (!Directory.Exists(destinationFolder))
+                return LocalizationInstallationType.None;
             if (File.Exists(GameConstants.GetEnabledPatcherPath(destinationFolder)))
                 return LocalizationInstallationType.Enabled;
             if (File.Exists(GameConstants.GetDisabledPatcherPath(destinationFolder)))
@@ -110,17 +116,23 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public LocalizationInstallationType RevertLocalization(string destinationFolder)
         {
-            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+            if (!Directory.Exists(destinationFolder))
+                return LocalizationInstallationType.None;
+            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
 
             if (File.Exists(enabledLibraryPath))
             {
+                if (File.Exists(disabledLibraryPath))
+                    FileUtils.DeleteFileNoThrow(disabledLibraryPath);
                 File.Move(enabledLibraryPath, disabledLibraryPath);
                 return LocalizationInstallationType.Disabled;
             }
 
             if (File.Exists(disabledLibraryPath))
             {
+                if (File.Exists(enabledLibraryPath))
+                    FileUtils.DeleteFileNoThrow(enabledLibraryPath);
                 File.Move(disabledLibraryPath, enabledLibraryPath);
                 return LocalizationInstallationType.Enabled;
             }

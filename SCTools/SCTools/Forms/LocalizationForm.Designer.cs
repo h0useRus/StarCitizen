@@ -44,12 +44,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.btnManage = new System.Windows.Forms.Button();
             this.btnUninstall = new System.Windows.Forms.Button();
+            this.cbAllowPreReleaseVersions = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblMinutes
             // 
             this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(270, 178);
+            this.lblMinutes.Location = new System.Drawing.Point(270, 207);
             this.lblMinutes.Name = "lblMinutes";
             this.lblMinutes.Size = new System.Drawing.Size(43, 13);
             this.lblMinutes.TabIndex = 9;
@@ -67,7 +68,7 @@ namespace NSW.StarCitizen.Tools.Forms
             "15",
             "30",
             "60"});
-            this.cbRefreshTime.Location = new System.Drawing.Point(218, 175);
+            this.cbRefreshTime.Location = new System.Drawing.Point(218, 202);
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
             this.cbRefreshTime.TabIndex = 10;
@@ -77,7 +78,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.cbCheckNewVersions.AutoSize = true;
             this.cbCheckNewVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 177);
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 203);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
             this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
             this.cbCheckNewVersions.TabIndex = 9;
@@ -150,6 +151,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // cbVersions
             // 
             this.cbVersions.BackColor = System.Drawing.SystemColors.Info;
+            this.cbVersions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbVersions.FormattingEnabled = true;
@@ -157,6 +159,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions.Name = "cbVersions";
             this.cbVersions.Size = new System.Drawing.Size(283, 21);
             this.cbVersions.TabIndex = 4;
+            this.cbVersions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbVersions_DrawItem);
             this.cbVersions.SelectionChangeCommitted += new System.EventHandler(this.cbVersions_SelectionChangeCommitted);
             // 
             // cbRepository
@@ -226,11 +229,24 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnUninstall.Visible = false;
             this.btnUninstall.Click += new System.EventHandler(this.btnUninstall_Click);
             // 
+            // cbAllowPreReleaseVersions
+            // 
+            this.cbAllowPreReleaseVersions.AutoSize = true;
+            this.cbAllowPreReleaseVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbAllowPreReleaseVersions.Location = new System.Drawing.Point(9, 177);
+            this.cbAllowPreReleaseVersions.Name = "cbAllowPreReleaseVersions";
+            this.cbAllowPreReleaseVersions.Size = new System.Drawing.Size(154, 17);
+            this.cbAllowPreReleaseVersions.TabIndex = 14;
+            this.cbAllowPreReleaseVersions.Text = "Display pre release versions";
+            this.cbAllowPreReleaseVersions.UseVisualStyleBackColor = true;
+            this.cbAllowPreReleaseVersions.CheckedChanged += new System.EventHandler(this.cbAllowPreReleaseVersions_CheckedChanged);
+            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 203);
+            this.ClientSize = new System.Drawing.Size(484, 228);
+            this.Controls.Add(this.cbAllowPreReleaseVersions);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
             this.Controls.Add(this.lblSelectedVersion);
@@ -279,5 +295,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.TextBox tbCurrentVersion;
         private System.Windows.Forms.Button btnManage;
         private System.Windows.Forms.Button btnUninstall;
+        private System.Windows.Forms.CheckBox cbAllowPreReleaseVersions;
     }
 }

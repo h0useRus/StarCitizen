@@ -88,41 +88,58 @@ namespace NSW.StarCitizen.Tools.Update
         }
         private IEnumerable<UpdateInfo> GetSourceCodeUpdates(GitRelease[] releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r))
-                .Where(u => !string.IsNullOrWhiteSpace(u.DownloadUrl));
+            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r)).OfType<UpdateInfo>();
         }
 
         private IEnumerable<UpdateInfo> GetAssetUpdates(GitRelease[] releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r))
-                .Where(u => !string.IsNullOrWhiteSpace(u.DownloadUrl));
+            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r)).OfType<UpdateInfo>();
         }
 
         #region Git objects
         public class GitRelease
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Url { get; set; }
+            [JsonProperty("id")]
+            public int Id { get; private set; }
+            [JsonProperty("name")]
+            public string Name { get; }
+            [JsonProperty("url")]
+            public string Url { get; }
             [JsonProperty("tag_name")]
-            public string TagName { get; set; }
-            public bool Draft { get; set; }
+            public string TagName { get; }
+            [JsonProperty("draft")]
+            public bool Draft { get; private set; }
             [JsonProperty("prerelease")]
-            public bool PreRelease { get; set; }
+            public bool PreRelease { get; private set; }
             [JsonProperty("zipball_url")]
-            public string ZipUrl { get; set; }
+            public string ZipUrl { get; }
             [JsonProperty("published_at")]
-            public DateTimeOffset Published { get; set; }
+            public DateTimeOffset Published { get; private set; }
             [JsonProperty("created_at")]
-            public DateTimeOffset Created { get; set; }
+            public DateTimeOffset Created { get; private set; }
             [JsonProperty("assets")]
-            public GitAsset[] Assets { get; set; }
+            public GitAsset[] Assets { get; private set; } = new GitAsset[0];
+
+            [JsonConstructor]
+            public GitRelease(string name, string url, string tagName, string zipUrl)
+            {
+                Name = name;
+                Url = url;
+                TagName = tagName;
+                ZipUrl = zipUrl;
+            }
         }
 
         public class GitAsset
         {
             [JsonProperty("browser_download_url")]
-            public string ZipUrl { get; set; }
+            public string ZipUrl { get; }
+
+            [JsonConstructor]
+            public GitAsset(string zipUrl)
+            {
+                ZipUrl = zipUrl;
+            }
         }
         #endregion
     }

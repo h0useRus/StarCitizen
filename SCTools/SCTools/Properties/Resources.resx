@@ -363,4 +363,7 @@ Do you want install it now?</value>
   <data name="UpdateScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\update.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="Localization_DisplayPreReleases_Text" xml:space="preserve">
+    <value>Display alpha versions</value>
+  </data>
 </root>
