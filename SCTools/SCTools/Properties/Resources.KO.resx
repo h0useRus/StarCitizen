@@ -187,10 +187,10 @@
     <value>다운로드 오류</value>
   </data>
   <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
-    <value>'{0}'은/는 이미 사용 중인 레포지토리 이름입니다. </value>
+    <value>'{0}'은/는 이미 사용 중인 리포지토리 이름입니다. </value>
   </data>
   <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
-    <value>'{0}' 은/는 이미 사용 중인 레포지토리 주소입니다.</value>
+    <value>'{0}' 은/는 이미 사용 중인 리포지토리 주소입니다.</value>
   </data>
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>오류</value>
@@ -238,10 +238,10 @@
     <value>설치 오류</value>
   </data>
   <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>레포지토리 이름이 비어있습니다.</value>
+    <value>리포지토리 이름이 비어있습니다.</value>
   </data>
   <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>레포지토리 주소가 비어있습니다.</value>
+    <value>리포지토리 주소가 비어있습니다.</value>
   </data>
   <data name="Localization_Language_Text" xml:space="preserve">
     <value>언어</value>
@@ -256,7 +256,7 @@
     <value>이름</value>
   </data>
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
-    <value>'{0}' 레포지토리에 액세스 할 수 없습니다.</value>
+    <value>'{0}' 리포지토리에 액세스 할 수 없습니다.</value>
   </data>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
     <value>업데이트가 없습니다.</value>
@@ -280,13 +280,13 @@
     <value>새로고침</value>
   </data>
   <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
-    <value>'{1}'에서 사용하는 레포지토리는 '{0}'입니다. 삭제하겠습니까?</value>
+    <value>'{1}'에서 사용하는 리포지토리는 '{0}'입니다. 삭제하겠습니까?</value>
   </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
     <value>제거</value>
   </data>
   <data name="Localization_Repositories_Title" xml:space="preserve">
-    <value>스타 시티즌 : 언어팩 레포지토리</value>
+    <value>스타 시티즌 : 언어팩 리포지토리</value>
   </data>
   <data name="Localization_RunMinimized_Text" xml:space="preserve">
     <value>최소화 상태로 실행</value>
@@ -337,11 +337,11 @@
     <value>제거 경고</value>
   </data>
   <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
-    <value>새로운 버전 {AAA} 을/를 사용할 수 있습니다.
+    <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
 지금 다운로드 하시겠습니까?</value>
   </data>
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>새로운 버전 {AAA} 을/를 사용할 수 있습니다.
+    <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
 지금 다운로드 하시겠습니까?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
