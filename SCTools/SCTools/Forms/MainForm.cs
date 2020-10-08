@@ -321,7 +321,12 @@ namespace NSW.StarCitizen.Tools.Forms
             foreach (var neutralCulture in neutralCultures)
             {
                 var culture = CultureInfo.CreateSpecificCulture(neutralCulture.Name);
-                languages.Add(culture.Name, neutralCulture.NativeName);
+
+                if (!languages.ContainsKey(culture.Name))
+                {
+                    languages.Add(culture.Name, neutralCulture.NativeName);
+                }
+                
             }
             return languages;
         }
