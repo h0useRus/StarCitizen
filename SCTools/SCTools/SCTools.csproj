@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.5.0</VersionPrefix>
+    <VersionPrefix>0.5.1</VersionPrefix>
     <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
     <Description>Star Citizen : Tools</Description>
     <Authors>Denis Ibragimov</Authors>
