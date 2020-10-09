@@ -177,6 +177,9 @@
   <data name="Localization_CurrentLanguage" xml:space="preserve">
     <value>현재 언어:</value>
   </data>
+  <data name="Localization_DisplayPreReleases_Text" xml:space="preserve">
+    <value>알파 버전 표시</value>
+  </data>
   <data name="Localization_Downloading_Text" xml:space="preserve">
     <value>다운로드 중...</value>
   </data>
