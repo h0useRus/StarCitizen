@@ -657,7 +657,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to uninstall localzation. Please ensure install folder and files is not open in other applicaitions..
+        ///   Looks up a localized string similar to Unable to uninstall localization. Please ensure install folder and files is not open in other applicaitions..
         /// </summary>
         internal static string Localization_Uninstall_ErrorText {
             get {
@@ -808,14 +808,14 @@ namespace NSW.StarCitizen.Tools.Properties {
         ///del &quot;%updatepath%latest.zip&quot;
         ///del /q &quot;%latestpath%*&quot;
         ///for /d %%p in (&quot;%latestpath%*.*&quot;) do rmdir /s /q &quot;%%p&quot;
-        ///rmdir /s /q &quot;%latestpath%
+        ///rmdir /s /q &quot;%latestpath%&quot;
         ///
-        ///start %workpath%SCTools.exe update_status 0
+        ///start &quot;&quot; &quot;%workpath%SCTools.exe&quot; update_status 0
         ///exit
         ///
         ///:update_error
         ///
-        ///start %workpath%SCTools.exe update_status 1
+        ///start &quot;&quot; &quot;%workpath%SCTools.exe&quot; update_status 1&quot;
         ///exit.
         /// </summary>
         internal static string UpdateScript {

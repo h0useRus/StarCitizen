@@ -60,12 +60,14 @@ namespace NSW.StarCitizen.Tools.Settings
         public static LocalizationSource DefaultRussian { get; } = new LocalizationSource("Russian Community", "n1ghter/sc_ru", "GitHub");
         public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource("Ukrainian Community", "slyf0x-ua/sc_uk", "GitHub");
         public static LocalizationSource DefaultKorean { get; } = new LocalizationSource("Korean Community", "xhatagon/sc_ko", "GitHub");
+        public static LocalizationSource DefaultPolish { get; } = new LocalizationSource("Polish Community", "frosty-el-banana/sc_pl", "GitHub");
         public static LocalizationSource DefaultChinese { get; } = new LocalizationSource("Chinese Community", "terrencetodd/sc_cn_zh", "GitHub");
 
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
             DefaultUkrainian,
             DefaultKorean,
+            DefaultPolish,
             DefaultChinese,
         };
 
@@ -73,6 +75,7 @@ namespace NSW.StarCitizen.Tools.Settings
             DefaultRussian,
             DefaultUkrainian,
             DefaultKorean,
+            DefaultPolish,
             DefaultChinese,
             DefaultBaseModding
         };

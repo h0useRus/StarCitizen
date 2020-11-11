@@ -311,7 +311,7 @@
     <value>Uninstall localization</value>
   </data>
   <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
-    <value>Unable to uninstall localzation. Please ensure install folder and files is not open in other applicaitions.</value>
+    <value>Unable to uninstall localization. Please ensure install folder and files is not open in other applicaitions.</value>
   </data>
   <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
     <value>Uninstall error</value>
