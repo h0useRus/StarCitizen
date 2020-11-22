@@ -28,5 +28,42 @@ namespace NSW.StarCitizen.Tools
             }
             return result;
         }
+
+        public static string? SearchGameFolder(string searchPath)
+        {
+            var directory = new DirectoryInfo(searchPath);
+            if (directory.Exists)
+            {
+                if (IsContainGameModes(searchPath))
+                    return searchPath;
+                if (string.CompareOrdinal(directory.Name, GameConstants.BinFolderName) == 0)
+                    return directory.Parent?.Parent?.FullName;
+                if (IsGameModeFolderName(directory.Name))
+                    return directory.Parent?.FullName;
+                var searchFolder = Path.Combine(searchPath, GameConstants.GameFolderName);
+                return Directory.Exists(searchFolder) ? searchFolder : searchPath;
+            }
+            return null;
+        }
+
+        private static bool IsContainGameModes(string gameFolder)
+        {
+            foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+            {
+                if (GameInfo.Create(mode, gameFolder) != null)
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsGameModeFolderName(string folderName)
+        {
+            foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+            {
+                if (string.CompareOrdinal(folderName, mode.ToString()) == 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }

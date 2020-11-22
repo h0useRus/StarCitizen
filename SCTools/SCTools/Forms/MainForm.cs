@@ -128,14 +128,15 @@ namespace NSW.StarCitizen.Tools.Forms
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
-                if (!SetGameFolder(_lastBrowsePath))
+                string? gamePath = Program.SearchGameFolder(_lastBrowsePath);
+                if (!SetGameFolder(gamePath))
                 {
                     MessageBox.Show(Resources.GamePath_Error_Text, Resources.GamePath_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (string.Compare(Program.Settings.GameFolder, _lastBrowsePath, StringComparison.OrdinalIgnoreCase) != 0)
+                if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
                 {
-                    Program.Settings.GameFolder = _lastBrowsePath;
+                    Program.Settings.GameFolder = gamePath;
                     Program.SaveAppSettings();
                 }
             }
