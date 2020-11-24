@@ -101,6 +101,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Enabled = true;
                 progressDlg.Hide();
                 UpdateAvailableVersions();
+                UpdateButtonsVisibility();
             }
         }
 
