@@ -207,7 +207,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for update.
+        ///   Looks up a localized string similar to Check for application update.
         /// </summary>
         internal static string Localization_CheckForUpdate_Title {
             get {
@@ -216,7 +216,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for updates....
+        ///   Looks up a localized string similar to Check for application updates....
         /// </summary>
         internal static string Localization_CheckForUpdates_Text {
             get {
@@ -495,7 +495,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No updates were found.
+        ///   Looks up a localized string similar to No application updates were found.
         /// </summary>
         internal static string Localization_NoUpdatesFound_Text {
             get {

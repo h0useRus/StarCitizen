@@ -338,10 +338,10 @@
     <value>Application update</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Check for updates...</value>
+    <value>Check for application updates...</value>
   </data>
   <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
-    <value>Check for update</value>
+    <value>Check for application update</value>
   </data>
   <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
     <value>Failed install application update</value>
@@ -350,7 +350,7 @@
     <value>Install update: {0}</value>
   </data>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
-    <value>No updates were found</value>
+    <value>No application updates were found</value>
   </data>
   <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
     <value>New application version {0} is available.

@@ -163,10 +163,10 @@
     <value>Скасувати</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Перевірити оновлення...</value>
+    <value>Перевірити оновлення додатку...</value>
   </data>
   <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
-    <value>Перевірка оновлень</value>
+    <value>Перевірка оновлень додатку</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
     <value>Перевіряти оновлення кожні</value>
@@ -259,7 +259,7 @@
     <value>Доступ до репозиторію '{0}' відсутній. Перевірте посилання репозиторію.</value>
   </data>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
-    <value>Оновлень не знайдено</value>
+    <value>Оновлень додатку не знайдено</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Завантажений пакет пошкоджений або не підтримується. Будь ласка, спробуйте завантажити інший або повідомте власника репозиторія.</value>

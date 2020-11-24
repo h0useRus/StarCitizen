@@ -163,10 +163,10 @@
     <value>Отмена</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Проверка обновлений...</value>
+    <value>Проверка обновлений приложения...</value>
   </data>
   <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
-    <value>Проверка обновлений</value>
+    <value>Проверка обновлений приложения</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
     <value>Проверять на обновление каждые</value>
@@ -259,7 +259,7 @@
     <value>Нет доступа к репозиторию '{0}'</value>
   </data>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
-    <value>Обновлений не обнаружено</value>
+    <value>Обновлений приложения не обнаружено</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Загруженный пакет поврежден или не верный. Пожалуйста попытайсь загрузить другой или свяжитесь с владельцем репозитория.</value>
