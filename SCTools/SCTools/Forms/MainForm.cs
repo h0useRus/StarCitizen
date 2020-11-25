@@ -71,16 +71,11 @@ namespace NSW.StarCitizen.Tools.Forms
             ShowInTaskbar = false;
         }
 
-        private void Maximize()
+        private void Restore()
         {
             Show();
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
-        }
-
-        private void Restore()
-        {
-            Maximize();
             WinApi.ShowToFront(Handle);
         }
 
@@ -103,17 +98,20 @@ namespace NSW.StarCitizen.Tools.Forms
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
-                Maximize();
-            else
+            {
                 Minimize();
+            }
         }
 
         private void niTray_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Visible)
-                Minimize();
+            if (ShowInTaskbar)
+            {
+                if (CanFocus)
+                    Minimize();
+            }
             else
-                Maximize();
+                Restore();
         }
 
         private void btnGamePath_Click(object sender, EventArgs e)

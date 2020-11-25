@@ -71,7 +71,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime.Location = new System.Drawing.Point(218, 202);
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbRefreshTime.TabIndex = 10;
+            this.cbRefreshTime.TabIndex = 11;
             this.cbRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbRefreshTime_SelectedIndexChanged);
             // 
             // cbCheckNewVersions
@@ -81,7 +81,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 203);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
             this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
-            this.cbCheckNewVersions.TabIndex = 9;
+            this.cbCheckNewVersions.TabIndex = 10;
             this.cbCheckNewVersions.Text = "Check for new version every";
             this.cbCheckNewVersions.UseVisualStyleBackColor = true;
             this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
@@ -236,7 +236,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbAllowPreReleaseVersions.Location = new System.Drawing.Point(9, 177);
             this.cbAllowPreReleaseVersions.Name = "cbAllowPreReleaseVersions";
             this.cbAllowPreReleaseVersions.Size = new System.Drawing.Size(154, 17);
-            this.cbAllowPreReleaseVersions.TabIndex = 14;
+            this.cbAllowPreReleaseVersions.TabIndex = 9;
             this.cbAllowPreReleaseVersions.Text = "Display pre release versions";
             this.cbAllowPreReleaseVersions.UseVisualStyleBackColor = true;
             this.cbAllowPreReleaseVersions.CheckedChanged += new System.EventHandler(this.cbAllowPreReleaseVersions_CheckedChanged);

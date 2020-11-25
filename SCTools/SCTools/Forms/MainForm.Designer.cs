@@ -40,8 +40,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
-            this.btnAppUpdate = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
+            this.btnAppUpdate = new System.Windows.Forms.Button();
             this.lblLanguage = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
@@ -50,8 +50,10 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblMinutes = new System.Windows.Forms.Label();
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
+            this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
+            this.gbApplicationUpdate.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbGamePath
@@ -145,24 +147,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbButtonMenu.Controls.Add(this.btnAppUpdate);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
             this.gbButtonMenu.Size = new System.Drawing.Size(254, 108);
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
-            // 
-            // btnAppUpdate
-            // 
-            this.btnAppUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAppUpdate.Location = new System.Drawing.Point(6, 69);
-            this.btnAppUpdate.Name = "btnAppUpdate";
-            this.btnAppUpdate.Size = new System.Drawing.Size(242, 23);
-            this.btnAppUpdate.TabIndex = 4;
-            this.btnAppUpdate.Text = "Check for application updates";
-            this.btnAppUpdate.UseVisualStyleBackColor = true;
-            this.btnAppUpdate.Click += new System.EventHandler(this.btnAppUpdate_Click);
             // 
             // btnLocalization
             // 
@@ -177,10 +167,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
+            // btnAppUpdate
+            // 
+            this.btnAppUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAppUpdate.Location = new System.Drawing.Point(9, 19);
+            this.btnAppUpdate.Name = "btnAppUpdate";
+            this.btnAppUpdate.Size = new System.Drawing.Size(445, 23);
+            this.btnAppUpdate.TabIndex = 4;
+            this.btnAppUpdate.Text = "Check for application updates";
+            this.btnAppUpdate.UseVisualStyleBackColor = true;
+            this.btnAppUpdate.Click += new System.EventHandler(this.btnAppUpdate_Click);
+            // 
             // lblLanguage
             // 
             this.lblLanguage.AutoSize = true;
-            this.lblLanguage.Location = new System.Drawing.Point(215, 154);
+            this.lblLanguage.Location = new System.Drawing.Point(221, 246);
             this.lblLanguage.Name = "lblLanguage";
             this.lblLanguage.Size = new System.Drawing.Size(55, 13);
             this.lblLanguage.TabIndex = 3;
@@ -191,10 +192,10 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbLanguage.FormattingEnabled = true;
-            this.cbLanguage.Location = new System.Drawing.Point(218, 173);
+            this.cbLanguage.Location = new System.Drawing.Point(224, 265);
             this.cbLanguage.Name = "cbLanguage";
-            this.cbLanguage.Size = new System.Drawing.Size(254, 21);
-            this.cbLanguage.TabIndex = 7;
+            this.cbLanguage.Size = new System.Drawing.Size(248, 21);
+            this.cbLanguage.TabIndex = 9;
             this.cbLanguage.SelectionChangeCommitted += new System.EventHandler(this.cbLanguage_SelectionChangeCommitted);
             // 
             // niTray
@@ -207,10 +208,10 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.cbGeneralRunWithWindows.AutoSize = true;
             this.cbGeneralRunWithWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 152);
+            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 244);
             this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
             this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(142, 17);
-            this.cbGeneralRunWithWindows.TabIndex = 5;
+            this.cbGeneralRunWithWindows.TabIndex = 7;
             this.cbGeneralRunWithWindows.Text = "Run On Windows startup";
             this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
             this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
@@ -219,10 +220,10 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.cbGeneralRunMinimized.AutoSize = true;
             this.cbGeneralRunMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(12, 177);
+            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(12, 269);
             this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
             this.cbGeneralRunMinimized.Size = new System.Drawing.Size(91, 17);
-            this.cbGeneralRunMinimized.TabIndex = 6;
+            this.cbGeneralRunMinimized.TabIndex = 8;
             this.cbGeneralRunMinimized.Text = "Run minimized";
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
             this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
@@ -230,7 +231,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblMinutes
             // 
             this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(270, 207);
+            this.lblMinutes.Location = new System.Drawing.Point(264, 60);
             this.lblMinutes.Name = "lblMinutes";
             this.lblMinutes.Size = new System.Drawing.Size(43, 13);
             this.lblMinutes.TabIndex = 11;
@@ -248,32 +249,42 @@ namespace NSW.StarCitizen.Tools.Forms
             "15",
             "30",
             "60"});
-            this.cbRefreshTime.Location = new System.Drawing.Point(218, 202);
+            this.cbRefreshTime.Location = new System.Drawing.Point(212, 52);
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbRefreshTime.TabIndex = 13;
+            this.cbRefreshTime.TabIndex = 6;
             this.cbRefreshTime.SelectionChangeCommitted += new System.EventHandler(this.cbRefreshTime_SelectionChangeCommitted);
             // 
             // cbCheckNewVersions
             // 
             this.cbCheckNewVersions.AutoSize = true;
             this.cbCheckNewVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCheckNewVersions.Location = new System.Drawing.Point(12, 203);
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 56);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
             this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
-            this.cbCheckNewVersions.TabIndex = 12;
+            this.cbCheckNewVersions.TabIndex = 5;
             this.cbCheckNewVersions.Text = "Check for new version every";
             this.cbCheckNewVersions.UseVisualStyleBackColor = true;
             this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
+            // 
+            // gbApplicationUpdate
+            // 
+            this.gbApplicationUpdate.Controls.Add(this.btnAppUpdate);
+            this.gbApplicationUpdate.Controls.Add(this.lblMinutes);
+            this.gbApplicationUpdate.Controls.Add(this.cbCheckNewVersions);
+            this.gbApplicationUpdate.Controls.Add(this.cbRefreshTime);
+            this.gbApplicationUpdate.Location = new System.Drawing.Point(12, 153);
+            this.gbApplicationUpdate.Name = "gbApplicationUpdate";
+            this.gbApplicationUpdate.Size = new System.Drawing.Size(460, 85);
+            this.gbApplicationUpdate.TabIndex = 5;
+            this.gbApplicationUpdate.TabStop = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 228);
-            this.Controls.Add(this.lblMinutes);
-            this.Controls.Add(this.cbRefreshTime);
-            this.Controls.Add(this.cbCheckNewVersions);
+            this.ClientSize = new System.Drawing.Size(484, 298);
+            this.Controls.Add(this.gbApplicationUpdate);
             this.Controls.Add(this.lblLanguage);
             this.Controls.Add(this.cbGeneralRunMinimized);
             this.Controls.Add(this.cbLanguage);
@@ -289,12 +300,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Utils";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
+            this.gbApplicationUpdate.ResumeLayout(false);
+            this.gbApplicationUpdate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,5 +331,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.ComboBox cbRefreshTime;
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
+        private System.Windows.Forms.GroupBox gbApplicationUpdate;
     }
 }
