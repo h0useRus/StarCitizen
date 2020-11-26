@@ -144,6 +144,9 @@
   <data name="Localization_Add_Text" xml:space="preserve">
     <value>Додати</value>
   </data>
+  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
+    <value>Поверх усіх вікон</value>
+  </data>
   <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
     <value>Оновлення додатку</value>
   </data>
@@ -273,6 +276,9 @@
   <data name="Localization_Press_Refresh_Button" xml:space="preserve">
     <value>Будь-ласка нажміть кнопку оновити</value>
   </data>
+  <data name="Localization_QuitApp_Text" xml:space="preserve">
+    <value>Вихід</value>
+  </data>
   <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
     <value>Оновлення доступних версій</value>
   </data>
@@ -293,6 +299,9 @@
   </data>
   <data name="Localization_RunOnStartup_Text" xml:space="preserve">
     <value>Автозапуск на старті системи</value>
+  </data>
+  <data name="Localization_Settings_Text" xml:space="preserve">
+    <value>Налаштування</value>
   </data>
   <data name="Localization_SourceRepository_Text" xml:space="preserve">
     <value>Джерело:</value>
@@ -343,6 +352,9 @@
   <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
     <value>Доступна нова версія додатку {0}.
 Бажаєте встановити?</value>
+  </data>
+  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
+    <value>Використовувати Http проксі</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>Користувача</value>

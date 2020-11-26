@@ -366,4 +366,16 @@ Do you want install it now?</value>
   <data name="Localization_DisplayPreReleases_Text" xml:space="preserve">
     <value>Display alpha versions</value>
   </data>
+  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
+    <value>Always On Top</value>
+  </data>
+  <data name="Localization_QuitApp_Text" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Localization_Settings_Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
+    <value>Use Http Proxy</value>
+  </data>
 </root>

@@ -153,6 +153,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always On Top.
+        /// </summary>
+        internal static string Localization_AlwaysOnTop_Text {
+            get {
+                return ResourceManager.GetString("Localization_AlwaysOnTop_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application update.
         /// </summary>
         internal static string Localization_ApplicationUpdate_Title {
@@ -540,6 +549,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        internal static string Localization_QuitApp_Text {
+            get {
+                return ResourceManager.GetString("Localization_QuitApp_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         internal static string Localization_Refresh_Text {
@@ -599,6 +617,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_RunOnStartup_Text {
             get {
                 return ResourceManager.GetString("Localization_RunOnStartup_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Localization_Settings_Text {
+            get {
+                return ResourceManager.GetString("Localization_Settings_Text", resourceCulture);
             }
         }
         
@@ -745,6 +772,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_UpdateAvailableInstallAsk_Text {
             get {
                 return ResourceManager.GetString("Localization_UpdateAvailableInstallAsk_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Http Proxy.
+        /// </summary>
+        internal static string Localization_UseHttpProxy_Text {
+            get {
+                return ResourceManager.GetString("Localization_UseHttpProxy_Text", resourceCulture);
             }
         }
         

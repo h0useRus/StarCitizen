@@ -29,6 +29,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool UseHttpProxy { get; set; } = false;
         [JsonProperty]
+        public bool TopMostWindow { get; set; } = true;
+        [JsonProperty]
         public UpdateSettings Update { get; } = new UpdateSettings();
         [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();

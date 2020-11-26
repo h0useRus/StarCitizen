@@ -43,6 +43,16 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateInstallButton();
         }
 
+        private void InitializeMenuLocalization()
+        {
+            miExitApp.Text = Resources.Localization_QuitApp_Text;
+            miSettings.Text = Resources.Localization_Settings_Text;
+            miRunMininized.Text = Resources.Localization_RunMinimized_Text;
+            miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
+            miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
+            miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
+        }
+
         private void InitializeGeneral()
         {
             Program.Updater.Notification += (sender, s) =>
@@ -53,10 +63,8 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
             };
-            cbLanguage.DataSource = new BindingSource(GetSupportedLanguages(), null);
-            cbLanguage.DisplayMember = "Value";
-            cbLanguage.ValueMember = "Key";
-            cbLanguage.SelectedValue = Program.Settings.Language;
+            TopMost = Program.Settings.TopMostWindow;
+            InitLanguageCombobox(cbLanguage);
             cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
@@ -105,13 +113,16 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void niTray_MouseClick(object sender, MouseEventArgs e)
         {
-            if (ShowInTaskbar)
+            if (e.Button.HasFlag(MouseButtons.Left))
             {
-                if (CanFocus)
-                    Minimize();
+                if (ShowInTaskbar)
+                {
+                    if (CanFocus)
+                        Minimize();
+                }
+                else
+                    Restore();
             }
-            else
-                Restore();
         }
 
         private void btnGamePath_Click(object sender, EventArgs e)
@@ -174,9 +185,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbLanguage.SelectedValue is string language)
             {
-                Program.Settings.Language = language;
-                Program.SaveAppSettings();
-                InitializeLocalization();
+                SetLanguage(language);
             }
         }
 
@@ -252,6 +261,61 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.SaveAppSettings();
         }
 
+        private void cmTrayMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            miRunMininized.Checked = Program.Settings.RunMinimized;
+            miRunOnStartup.Checked = Program.Settings.RunWithWindows;
+            miRunTopMost.Checked = Program.Settings.TopMostWindow;
+            miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
+            InitLanguageCombobox(cbMenuLanguage.ComboBox);
+            InitializeMenuLocalization();
+        }
+
+        private void miExitApp_Click(object sender, EventArgs e)
+        {
+            if (CanFocus || !ShowInTaskbar)
+                Close();
+            else
+                Restore();
+        }
+
+        private void miRunMininized_Click(object sender, EventArgs e) => cbGeneralRunMinimized.Checked = miRunMininized.Checked;
+
+        private void miRunOnStartup_Click(object sender, EventArgs e) => cbGeneralRunWithWindows.Checked = miRunOnStartup.Checked;
+
+        private void miRunTopMost_Click(object sender, EventArgs e)
+        {
+            TopMost = miRunTopMost.Checked;
+            Program.Settings.TopMostWindow = miRunTopMost.Checked;
+            Program.SaveAppSettings();
+        }
+
+        private void miUseHttpProxy_Click(object sender, EventArgs e)
+        {
+            Program.Settings.UseHttpProxy = miUseHttpProxy.Checked;
+            Program.SaveAppSettings();
+            if (CanFocus || !ShowInTaskbar)
+            {
+                niTray.Visible = false;
+                Application.Restart();
+                Environment.Exit(0);
+            }
+            else
+            {
+                Restore();
+            }
+        }
+
+        private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbMenuLanguage.ComboBox.SelectedValue is string language)
+            {
+                cbLanguage.SelectedValue = language;
+                SetLanguage(language);
+                InitializeMenuLocalization();
+            }
+        }
+
         #endregion
 
         protected override void WndProc(ref Message message)
@@ -319,6 +383,22 @@ namespace NSW.StarCitizen.Tools.Forms
                 btnAppUpdate.Text = Resources.Localization_CheckForUpdates_Text;
         }
 
+        private void InitLanguageCombobox(ComboBox combobox)
+        {
+            combobox.BindingContext = BindingContext;
+            combobox.DataSource = new BindingSource(GetSupportedLanguages(), null);
+            combobox.DisplayMember = "Value";
+            combobox.ValueMember = "Key";
+            combobox.SelectedValue = Program.Settings.Language;
+        }
+
+        private void SetLanguage(string language)
+        {
+            Program.Settings.Language = language;
+            Program.SaveAppSettings();
+            InitializeLocalization();
+        }
+
         private static Dictionary<string, string> GetSupportedLanguages()
         {
             var languages = new Dictionary<string, string> {
@@ -329,12 +409,10 @@ namespace NSW.StarCitizen.Tools.Forms
             foreach (var neutralCulture in neutralCultures)
             {
                 var culture = CultureInfo.CreateSpecificCulture(neutralCulture.Name);
-
                 if (!languages.ContainsKey(culture.Name))
                 {
                     languages.Add(culture.Name, neutralCulture.NativeName);
                 }
-                
             }
             return languages;
         }

@@ -45,14 +45,26 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblLanguage = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmTrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miAppName = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunMininized = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
+            this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
             this.cbGeneralRunMinimized = new System.Windows.Forms.CheckBox();
             this.lblMinutes = new System.Windows.Forms.Label();
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
+            this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
+            this.cmTrayMenu.SuspendLayout();
             this.gbApplicationUpdate.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -200,9 +212,90 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // niTray
             // 
+            this.niTray.ContextMenuStrip = this.cmTrayMenu;
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
+            // 
+            // cmTrayMenu
+            // 
+            this.cmTrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miAppName,
+            this.tsSeparator2,
+            this.miSettings,
+            this.tsSeparator1,
+            this.miExitApp});
+            this.cmTrayMenu.Name = "cmTrayMenu";
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 104);
+            this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
+            // 
+            // miAppName
+            // 
+            this.miAppName.Enabled = false;
+            this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
+            this.miAppName.Name = "miAppName";
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
+            this.miAppName.Text = "SCTools";
+            // 
+            // tsSeparator2
+            // 
+            this.tsSeparator2.Name = "tsSeparator2";
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // miSettings
+            // 
+            this.miSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRunOnStartup,
+            this.miRunMininized,
+            this.miRunTopMost,
+            this.miUseHttpProxy,
+            this.cbMenuLanguage});
+            this.miSettings.Name = "miSettings";
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
+            this.miSettings.Text = "Settings";
+            // 
+            // miRunOnStartup
+            // 
+            this.miRunOnStartup.CheckOnClick = true;
+            this.miRunOnStartup.Name = "miRunOnStartup";
+            this.miRunOnStartup.Size = new System.Drawing.Size(194, 22);
+            this.miRunOnStartup.Text = "Run On Windows startup";
+            this.miRunOnStartup.Click += new System.EventHandler(this.miRunOnStartup_Click);
+            // 
+            // miRunMininized
+            // 
+            this.miRunMininized.CheckOnClick = true;
+            this.miRunMininized.Name = "miRunMininized";
+            this.miRunMininized.Size = new System.Drawing.Size(194, 22);
+            this.miRunMininized.Text = "Run minimized";
+            this.miRunMininized.Click += new System.EventHandler(this.miRunMininized_Click);
+            // 
+            // miRunTopMost
+            // 
+            this.miRunTopMost.CheckOnClick = true;
+            this.miRunTopMost.Name = "miRunTopMost";
+            this.miRunTopMost.Size = new System.Drawing.Size(194, 22);
+            this.miRunTopMost.Text = "Always on top";
+            this.miRunTopMost.Click += new System.EventHandler(this.miRunTopMost_Click);
+            // 
+            // cbMenuLanguage
+            // 
+            this.cbMenuLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMenuLanguage.Name = "cbMenuLanguage";
+            this.cbMenuLanguage.Size = new System.Drawing.Size(121, 21);
+            this.cbMenuLanguage.SelectedIndexChanged += new System.EventHandler(this.cbMenuLanguage_SelectedIndexChanged);
+            // 
+            // tsSeparator1
+            // 
+            this.tsSeparator1.Name = "tsSeparator1";
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // miExitApp
+            // 
+            this.miExitApp.Name = "miExitApp";
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
+            this.miExitApp.Text = "Quit";
+            this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
             // cbGeneralRunWithWindows
             // 
@@ -279,6 +372,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbApplicationUpdate.TabIndex = 5;
             this.gbApplicationUpdate.TabStop = false;
             // 
+            // miUseHttpProxy
+            // 
+            this.miUseHttpProxy.CheckOnClick = true;
+            this.miUseHttpProxy.Name = "miUseHttpProxy";
+            this.miUseHttpProxy.Size = new System.Drawing.Size(194, 22);
+            this.miUseHttpProxy.Text = "Use Http Proxy";
+            this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,6 +406,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
+            this.cmTrayMenu.ResumeLayout(false);
             this.gbApplicationUpdate.ResumeLayout(false);
             this.gbApplicationUpdate.PerformLayout();
             this.ResumeLayout(false);
@@ -332,5 +434,16 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ComboBox cbRefreshTime;
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
         private System.Windows.Forms.GroupBox gbApplicationUpdate;
+        private System.Windows.Forms.ContextMenuStrip cmTrayMenu;
+        private System.Windows.Forms.ToolStripMenuItem miExitApp;
+        private System.Windows.Forms.ToolStripSeparator tsSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miSettings;
+        private System.Windows.Forms.ToolStripMenuItem miRunMininized;
+        private System.Windows.Forms.ToolStripMenuItem miRunOnStartup;
+        private System.Windows.Forms.ToolStripSeparator tsSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem miAppName;
+        private System.Windows.Forms.ToolStripComboBox cbMenuLanguage;
+        private System.Windows.Forms.ToolStripMenuItem miRunTopMost;
+        private System.Windows.Forms.ToolStripMenuItem miUseHttpProxy;
     }
 }
