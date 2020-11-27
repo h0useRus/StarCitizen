@@ -146,7 +146,7 @@
   <data name="Localization_Add_Text" xml:space="preserve">
     <value>추가</value>
   </data>
-  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+  <data name="Application_Update_Title" xml:space="preserve">
     <value>프로그램 업데이트</value>
   </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
@@ -165,10 +165,10 @@
   <data name="Localization_Cancel_Text" xml:space="preserve">
     <value>취소</value>
   </data>
-  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+  <data name="Application_CheckForUpdates_Text" xml:space="preserve">
     <value>업데이트 확인하기...</value>
   </data>
-  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+  <data name="Application_CheckForUpdate_Title" xml:space="preserve">
     <value>업데이트 확인</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
@@ -198,7 +198,7 @@
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>오류</value>
   </data>
-  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+  <data name="Application_FailedInstallUpdate_Text" xml:space="preserve">
     <value>프로그램 업데이트 설치 실패</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
     <value>'{0}' 리포지토리에 액세스 할 수 없습니다.</value>
   </data>
-  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+  <data name="Application_NoUpdatesFound_Text" xml:space="preserve">
     <value>업데이트가 없습니다.</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
@@ -339,11 +339,11 @@
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>제거 경고</value>
   </data>
-  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
     <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
 지금 다운로드 하시겠습니까?</value>
   </data>
-  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
     <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
 지금 다운로드 하시겠습니까?</value>
   </data>

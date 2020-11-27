@@ -334,29 +334,29 @@
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>User</value>
   </data>
-  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+  <data name="Application_Update_Title" xml:space="preserve">
     <value>Application update</value>
   </data>
-  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+  <data name="Application_CheckForUpdates_Text" xml:space="preserve">
     <value>Check for application updates...</value>
   </data>
-  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+  <data name="Application_CheckForUpdate_Title" xml:space="preserve">
     <value>Check for application update</value>
   </data>
-  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+  <data name="Application_FailedInstallUpdate_Text" xml:space="preserve">
     <value>Failed install application update</value>
   </data>
   <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
     <value>Install update: {0}</value>
   </data>
-  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+  <data name="Application_NoUpdatesFound_Text" xml:space="preserve">
     <value>No application updates were found</value>
   </data>
-  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
     <value>New application version {0} is available.
 Do you want download it now?</value>
   </data>
-  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
     <value>New application version {0} is available.
 Do you want install it now?</value>
   </data>
@@ -377,5 +377,15 @@ Do you want install it now?</value>
   </data>
   <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
     <value>Use Http Proxy</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>New localization version {0} is available.
+Do you want download and install it now?</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Check for localization update</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>No localization updates were found</value>
   </data>
 </root>

@@ -166,28 +166,31 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnUpdateLocalization_Click(object sender, EventArgs e)
         {
-            if (_localizationController != null)
+            if (_localizationController == null) return;
+            _localizationController.Load();
+            var installedVersion = _localizationController.CurrentInstallation.InstalledVersion;
+            if (installedVersion != null && await _localizationController.RefreshVersionsAsync(this))
             {
-                _localizationController.Load();
-                var installedVersion = _localizationController.CurrentInstallation.InstalledVersion;
-                if (installedVersion != null && await _localizationController.RefreshVersionsAsync(this))
+                var availableUpdate = _localizationController.CurrentRepository.LatestUpdateInfo;
+                if (availableUpdate != null &&
+                    string.Compare(installedVersion, availableUpdate.GetVersion(),
+                        StringComparison.OrdinalIgnoreCase) != 0)
                 {
-                    var availableUpdate = _localizationController.CurrentRepository.LatestUpdateInfo;
-                    if (availableUpdate != null &&
-                        string.Compare(installedVersion, availableUpdate.GetVersion(), StringComparison.OrdinalIgnoreCase) != 0)
+                    var dialogResult = MessageBox.Show(
+                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
+                            availableUpdate.GetVersion()),
+                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes &&
+                        await _localizationController.InstallVersionAsync(this, availableUpdate))
                     {
-                        var dialogResult = MessageBox.Show(string.Format(Resources.Localization_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
-                            Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dialogResult == DialogResult.Yes && await _localizationController.InstallVersionAsync(this, availableUpdate))
-                        {
-                            _localizationController.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
-                        }
+                        _localizationController.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
                     }
-                    else
-                    {
-                        MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text, Resources.Localization_CheckForUpdate_Title,
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
+                        Resources.Localization_CheckForUpdate_Title,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -235,7 +238,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                progressDlg.Text = Resources.Localization_ApplicationUpdate_Title;
+                progressDlg.Text = Resources.Application_Update_Title;
                 var checkForUpdateDialogAdapter = new CheckForUpdateDialogAdapter(progressDlg);
                 progressDlg.Show(this);
                 var availableUpdate = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
@@ -243,12 +246,12 @@ namespace NSW.StarCitizen.Tools.Forms
                 if (availableUpdate == null)
                 {
                     progressDlg.Hide();
-                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text, Resources.Localization_CheckForUpdate_Title,
+                    MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text, Resources.Application_CheckForUpdate_Title,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                var dialogResult = MessageBox.Show(string.Format(Resources.Localization_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
-                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var dialogResult = MessageBox.Show(string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                        Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
@@ -343,7 +346,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_holdUpdates) return;
-            if (cbMenuLanguage.ComboBox.SelectedValue is string language)
+            if (cbMenuLanguage.ComboBox != null && cbMenuLanguage.ComboBox.SelectedValue is string language)
             {
                 cbLanguage.SelectedValue = language;
                 SetLanguage(language);
@@ -419,7 +422,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (scheduledUpdateInfo != null)
                 btnAppUpdate.Text = string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion());
             else
-                btnAppUpdate.Text = Resources.Localization_CheckForUpdates_Text;
+                btnAppUpdate.Text = Resources.Application_CheckForUpdates_Text;
         }
 
         private void InitLanguageCombobox(ComboBox combobox)

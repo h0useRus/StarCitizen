@@ -71,6 +71,71 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for application update.
+        /// </summary>
+        internal static string Application_CheckForUpdate_Title {
+            get {
+                return ResourceManager.GetString("Application_CheckForUpdate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for application updates....
+        /// </summary>
+        internal static string Application_CheckForUpdates_Text {
+            get {
+                return ResourceManager.GetString("Application_CheckForUpdates_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed install application update.
+        /// </summary>
+        internal static string Application_FailedInstallUpdate_Text {
+            get {
+                return ResourceManager.GetString("Application_FailedInstallUpdate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No application updates were found.
+        /// </summary>
+        internal static string Application_NoUpdatesFound_Text {
+            get {
+                return ResourceManager.GetString("Application_NoUpdatesFound_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application update.
+        /// </summary>
+        internal static string Application_Update_Title {
+            get {
+                return ResourceManager.GetString("Application_Update_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want download it now?.
+        /// </summary>
+        internal static string Application_UpdateAvailableDownloadAsk_Text {
+            get {
+                return ResourceManager.GetString("Application_UpdateAvailableDownloadAsk_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New application version {0} is available.
+        ///Do you want install it now?.
+        /// </summary>
+        internal static string Application_UpdateAvailableInstallAsk_Text {
+            get {
+                return ResourceManager.GetString("Application_UpdateAvailableInstallAsk_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Citizen : Utils - v{0}.
         /// </summary>
         internal static string AppName {
@@ -162,15 +227,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application update.
-        /// </summary>
-        internal static string Localization_ApplicationUpdate_Title {
-            get {
-                return ResourceManager.GetString("Localization_ApplicationUpdate_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to minutes.
         /// </summary>
         internal static string Localization_AutomaticCheck_Measure {
@@ -216,20 +272,11 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for application update.
+        ///   Looks up a localized string similar to Check for localization update.
         /// </summary>
         internal static string Localization_CheckForUpdate_Title {
             get {
                 return ResourceManager.GetString("Localization_CheckForUpdate_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check for application updates....
-        /// </summary>
-        internal static string Localization_CheckForUpdates_Text {
-            get {
-                return ResourceManager.GetString("Localization_CheckForUpdates_Text", resourceCulture);
             }
         }
         
@@ -311,15 +358,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_Error_Title {
             get {
                 return ResourceManager.GetString("Localization_Error_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed install application update.
-        /// </summary>
-        internal static string Localization_FailedInstallAppUpdate_Text {
-            get {
-                return ResourceManager.GetString("Localization_FailedInstallAppUpdate_Text", resourceCulture);
             }
         }
         
@@ -504,7 +542,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No application updates were found.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string Localization_NoUpdatesFound_Text {
             get {
@@ -756,18 +794,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New application version {0} is available.
-        ///Do you want download it now?.
-        /// </summary>
-        internal static string Localization_UpdateAvailableDownloadAsk_Text {
-            get {
-                return ResourceManager.GetString("Localization_UpdateAvailableDownloadAsk_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New application version {0} is available.
-        ///Do you want install it now?.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string Localization_UpdateAvailableInstallAsk_Text {
             get {

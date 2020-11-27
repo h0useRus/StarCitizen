@@ -147,7 +147,7 @@
   <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
     <value>Поверх остальных окон</value>
   </data>
-  <data name="Localization_ApplicationUpdate_Title" xml:space="preserve">
+  <data name="Application_Update_Title" xml:space="preserve">
     <value>Обновление приложения</value>
   </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
@@ -165,10 +165,10 @@
   <data name="Localization_Cancel_Text" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+  <data name="Application_CheckForUpdates_Text" xml:space="preserve">
     <value>Проверка обновлений приложения...</value>
   </data>
-  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+  <data name="Application_CheckForUpdate_Title" xml:space="preserve">
     <value>Проверка обновлений приложения</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
@@ -198,7 +198,7 @@
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>Ошибка</value>
   </data>
-  <data name="Localization_FailedInstallAppUpdate_Text" xml:space="preserve">
+  <data name="Application_FailedInstallUpdate_Text" xml:space="preserve">
     <value>Ошибка установки обновления приложения</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
     <value>Нет доступа к репозиторию '{0}'</value>
   </data>
-  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+  <data name="Application_NoUpdatesFound_Text" xml:space="preserve">
     <value>Обновлений приложения не обнаружено</value>
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
@@ -345,11 +345,11 @@
   <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
     <value>Удаление локализации</value>
   </data>
-  <data name="Localization_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
     <value>Доступная новая версия приложения {0}.
 Желаете загрузить?</value>
   </data>
-  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+  <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
     <value>Доступная новая версия приложения {0}.
 Желаете установить?</value>
   </data>
@@ -367,5 +367,15 @@
   </data>
   <data name="Localization_Warning_Title" xml:space="preserve">
     <value>Внимание</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Проверка обновлений локализации</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>Обновлений локализации не обнаружено</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>Доступная новая версия локализации {0}.
+Желаете загрузить и установить?</value>
   </data>
 </root>
