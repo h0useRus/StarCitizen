@@ -40,6 +40,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
+            this.btnUpdateLocalization = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.btnAppUpdate = new System.Windows.Forms.Button();
             this.lblLanguage = new System.Windows.Forms.Label();
@@ -50,7 +51,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
-            this.miRunMininized = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunMinimized = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
             this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -62,7 +63,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
-            this.btnUpdateLocalization = new System.Windows.Forms.Button();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -168,6 +168,19 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
             // 
+            // btnUpdateLocalization
+            // 
+            this.btnUpdateLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 72);
+            this.btnUpdateLocalization.Name = "btnUpdateLocalization";
+            this.btnUpdateLocalization.Size = new System.Drawing.Size(242, 23);
+            this.btnUpdateLocalization.TabIndex = 4;
+            this.btnUpdateLocalization.Text = "Check for update...";
+            this.btnUpdateLocalization.UseVisualStyleBackColor = true;
+            this.btnUpdateLocalization.Click += new System.EventHandler(this.btnUpdateLocalization_Click);
+            // 
             // btnLocalization
             // 
             this.btnLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -228,7 +241,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(114, 82);
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 104);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
@@ -236,24 +249,24 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miAppName.Enabled = false;
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(113, 22);
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
             this.miAppName.Text = "SCTools";
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // miSettings
             // 
             this.miSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miRunOnStartup,
-            this.miRunMininized,
+            this.miRunMinimized,
             this.miRunTopMost,
             this.miUseHttpProxy,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(113, 22);
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -264,13 +277,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunOnStartup.Text = "Run On Windows startup";
             this.miRunOnStartup.Click += new System.EventHandler(this.miRunOnStartup_Click);
             // 
-            // miRunMininized
+            // miRunMinimized
             // 
-            this.miRunMininized.CheckOnClick = true;
-            this.miRunMininized.Name = "miRunMininized";
-            this.miRunMininized.Size = new System.Drawing.Size(194, 22);
-            this.miRunMininized.Text = "Run minimized";
-            this.miRunMininized.Click += new System.EventHandler(this.miRunMininized_Click);
+            this.miRunMinimized.CheckOnClick = true;
+            this.miRunMinimized.Name = "miRunMinimized";
+            this.miRunMinimized.Size = new System.Drawing.Size(194, 22);
+            this.miRunMinimized.Text = "Run minimized";
+            this.miRunMinimized.Click += new System.EventHandler(this.miRunMinimized_Click);
             // 
             // miRunTopMost
             // 
@@ -298,12 +311,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(113, 22);
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -382,19 +395,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbApplicationUpdate.TabIndex = 5;
             this.gbApplicationUpdate.TabStop = false;
             // 
-            // btnUpdateLocalization
-            // 
-            this.btnUpdateLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdateLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 72);
-            this.btnUpdateLocalization.Name = "btnUpdateLocalization";
-            this.btnUpdateLocalization.Size = new System.Drawing.Size(242, 23);
-            this.btnUpdateLocalization.TabIndex = 4;
-            this.btnUpdateLocalization.Text = "Check for update...";
-            this.btnUpdateLocalization.UseVisualStyleBackColor = true;
-            this.btnUpdateLocalization.Click += new System.EventHandler(this.btnUpdateLocalization_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,7 +453,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miExitApp;
         private System.Windows.Forms.ToolStripSeparator tsSeparator1;
         private System.Windows.Forms.ToolStripMenuItem miSettings;
-        private System.Windows.Forms.ToolStripMenuItem miRunMininized;
+        private System.Windows.Forms.ToolStripMenuItem miRunMinimized;
         private System.Windows.Forms.ToolStripMenuItem miRunOnStartup;
         private System.Windows.Forms.ToolStripSeparator tsSeparator2;
         private System.Windows.Forms.ToolStripMenuItem miAppName;

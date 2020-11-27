@@ -15,12 +15,8 @@ namespace NSW.StarCitizen.Tools.Helpers
         public string Key { get; }
         public string Value { get; private set; }
 
-        public static CfgDataRow? Create(string key, string value)
-        {
-            if (!string.IsNullOrWhiteSpace(key) && value != null)
-                return new CfgDataRow(key, value);
-            return null;
-        }
+        public static CfgDataRow? Create(string key, string value) =>
+            !string.IsNullOrWhiteSpace(key) ? new CfgDataRow(key, value) : null;
 
         private CfgDataRow(string key, string value)
         {
@@ -28,32 +24,24 @@ namespace NSW.StarCitizen.Tools.Helpers
             Value = value;
         }
 
-        public bool UpdateValue(string value)
-        {
-            if (value != null)
-            {
-                Value = value;
-                return true;
-            }
-            return false;
-        }
+        public void UpdateValue(string value) => Value = value;
 
         public override string ToString() => Key + "=" + Value;
 
-        public override bool Equals(object value) => !(value is null) &&
-            (ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
-            string.CompareOrdinal(Key, dataRow.Key) == 0 && Value == dataRow.Value));
+        public override bool Equals(object value) =>
+            ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
+            string.CompareOrdinal(Key, dataRow.Key) == 0 && Value == dataRow.Value);
 
         public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Key);
     }
 
     public sealed class CfgTextRow : CfgRow
     {
-        public static readonly CfgTextRow Empty = new CfgTextRow(string.Empty);
+        public static CfgTextRow Empty { get; } = new CfgTextRow(string.Empty);
 
         public static CfgTextRow Create(string content) => string.IsNullOrWhiteSpace(content) ? Empty : new CfgTextRow(content);
 
-        public string Content { get; private set; }
+        public string Content { get; }
 
         private CfgTextRow(string content)
         {
@@ -62,8 +50,8 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public override string ToString() => Content;
 
-        public override bool Equals(object value) => !(value is null) &&
-            (ReferenceEquals(this, value) || (value is CfgTextRow textRow && Content == textRow.Content));
+        public override bool Equals(object value) =>
+            ReferenceEquals(this, value) || (value is CfgTextRow textRow && Content == textRow.Content);
 
         public override int GetHashCode() => Content.GetHashCode();
     }
@@ -90,7 +78,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public CfgData(string content)
         {
-            string line;
+            string? line;
             using var reader = new StringReader(content);
             while ((line = reader.ReadLine()) != null)
             {
@@ -131,7 +119,10 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             var row = GetRowByKey(key);
             if (row != null)
-                return row.UpdateValue(value) ? row : null;
+            {
+                row.UpdateValue(value);
+                return row;
+            }
             var addRow = CfgDataRow.Create(key, value);
             if (addRow != null)
             {
@@ -235,8 +226,8 @@ namespace NSW.StarCitizen.Tools.Helpers
 
             try
             {
+                string? line;
                 using var reader = File.OpenText(_fileName);
-                string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     data.AddRow(line);

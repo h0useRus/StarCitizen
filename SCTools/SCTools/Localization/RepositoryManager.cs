@@ -107,9 +107,7 @@ namespace NSW.StarCitizen.Tools.Localization
 
         public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository, string version)
         {
-            var installation = GetRepositoryInstallation(gameMode, repository);
-            if (installation == null)
-                installation = AddRepositoryInstallation(gameMode, repository);
+            var installation = GetRepositoryInstallation(gameMode, repository) ?? AddRepositoryInstallation(gameMode, repository);
             installation.LastVersion = version;
             installation.InstalledVersion = version;
             var otherInstallations = Program.Settings.Localization.Installations.Where(i => (i.Mode == gameMode) &&
@@ -124,7 +122,7 @@ namespace NSW.StarCitizen.Tools.Localization
         public void RemoveInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
         {
             var installation = GetRepositoryInstallation(gameMode, repository);
-            if (installation != null && installation.InstalledVersion != null)
+            if (installation?.InstalledVersion != null)
             {
                 installation.LastVersion = installation.InstalledVersion;
                 installation.InstalledVersion = null;
@@ -150,10 +148,9 @@ namespace NSW.StarCitizen.Tools.Localization
         }
 
         public GameMode? GetRepositoryUsedGameMode(ILocalizationRepository repository)
-        {
-            return Program.Settings.Localization.Installations.Where(i => !string.IsNullOrEmpty(i.InstalledVersion) &&
-                (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0))?
-                .FirstOrDefault()?.Mode;
+        { 
+            return Program.Settings.Localization.Installations.FirstOrDefault(i => !string.IsNullOrEmpty(i.InstalledVersion) &&
+                (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0))?.Mode;
         }
 
         public void RunMonitors()

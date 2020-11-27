@@ -58,18 +58,18 @@ namespace NSW.StarCitizen.Tools.Update
                 if (downloadProgress != null)
                 {
                     await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken,
-                        new Progress<long>(value => downloadProgress.ReportDownloadedSize(value)));
+                        new Progress<long>(downloadProgress.ReportDownloadedSize));
                 }
                 else
                 {
                     await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken);
                 }
             }
-            catch (Exception e)
+            catch
             {
                 if (File.Exists(tempFileName))
                     File.Delete(tempFileName);
-                throw e;
+                throw;
             }
             return tempFileName;
         }

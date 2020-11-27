@@ -14,10 +14,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             settings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
             return settings;
         }
-        public static T? Read<T>(string json) where T : class
-        {
-            return JsonConvert.DeserializeObject<T>(json, _jsonSettings);
-        }
+        public static T? Read<T>(string json) where T : class => JsonConvert.DeserializeObject<T>(json, _jsonSettings);
 
         public static string Write(object obj, Formatting formatting = Formatting.Indented) => JsonConvert.SerializeObject(obj, formatting, _jsonSettings);
 

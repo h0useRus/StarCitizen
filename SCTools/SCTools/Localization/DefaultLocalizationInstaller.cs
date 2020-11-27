@@ -140,7 +140,7 @@ namespace NSW.StarCitizen.Tools.Localization
             return LocalizationInstallationType.None;
         }
 
-        private bool Unpack(string zipFileName, string destinationFolder)
+        private static bool Unpack(string zipFileName, string destinationFolder)
         {
             using var archive = ZipFile.OpenRead(zipFileName);
             if (archive.Entries.Count == 0)

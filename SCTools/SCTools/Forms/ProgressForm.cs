@@ -29,7 +29,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public CancellationToken CancelToken => _cancellationTokenSource.Token;
 
-        public bool IsCanceledByUser { get; private set; } = false;
+        public bool IsCanceledByUser { get; private set; }
 
         public string CurrentTaskName
         {

@@ -37,7 +37,7 @@ namespace NSW.StarCitizen.Tools.Controllers
 
         public bool SetCurrentRepository(ILocalizationRepository localizationRepository)
         {
-            if (localizationRepository.Repository == CurrentRepository?.Repository)
+            if (localizationRepository.Repository == CurrentRepository.Repository)
                 return false;
             CurrentRepository = localizationRepository;
             CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(CurrentGame.Mode, localizationRepository);
@@ -105,7 +105,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 progressDlg.Show(window);
                 var filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, null,
                     progressDlg.CancelToken, downloadDialogAdapter);
-                var installDialogAdapter = new InstallProgressDialogAdapter(progressDlg);
+                var _ = new InstallProgressDialogAdapter(progressDlg);
                 var result = CurrentRepository.Installer.Install(filePath, CurrentGame.RootFolderPath);
                 switch (result)
                 {
@@ -127,7 +127,6 @@ namespace NSW.StarCitizen.Tools.Controllers
                         MessageBox.Show(Resources.Localization_File_ErrorText,
                             Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
-                    case InstallStatus.UnknownError:
                     default:
                         MessageBox.Show(Resources.Localization_Install_ErrorText,
                             Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -170,7 +169,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 try
                 {
                     progressDlg.Text = Resources.Localization_UninstallLocalization_Text;
-                    var uninstallDialogAdapter = new UninstallProgressDialogAdapter(progressDlg);
+                    var _ = new UninstallProgressDialogAdapter(progressDlg);
                     progressDlg.Show(window);
                     switch (CurrentRepository.Installer.Uninstall(CurrentGame.RootFolderPath))
                     {
@@ -190,7 +189,6 @@ namespace NSW.StarCitizen.Tools.Controllers
                             MessageBox.Show(Resources.Localization_Uninstall_WarningText,
                                     Resources.Localization_Uninstall_WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             break;
-                        case UninstallStatus.Failed:
                         default:
                             MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
                                 Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);

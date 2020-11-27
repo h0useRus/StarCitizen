@@ -50,7 +50,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             miExitApp.Text = Resources.Localization_QuitApp_Text;
             miSettings.Text = Resources.Localization_Settings_Text;
-            miRunMininized.Text = Resources.Localization_RunMinimized_Text;
+            miRunMinimized.Text = Resources.Localization_RunMinimized_Text;
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
@@ -239,7 +239,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
                 progressDlg.Text = Resources.Application_Update_Title;
-                var checkForUpdateDialogAdapter = new CheckForUpdateDialogAdapter(progressDlg);
+                var _ = new CheckForUpdateDialogAdapter(progressDlg);
                 progressDlg.Show(this);
                 var availableUpdate = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
                 progressDlg.CurrentTaskProgress = 1.0f;
@@ -298,13 +298,16 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cmTrayMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            miRunMininized.Checked = Program.Settings.RunMinimized;
+            miRunMinimized.Checked = Program.Settings.RunMinimized;
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
-            _holdUpdates = true;
-            InitLanguageCombobox(cbMenuLanguage.ComboBox);
-            _holdUpdates = false;
+            if (cbMenuLanguage.ComboBox != null)
+            {
+                _holdUpdates = true;
+                InitLanguageCombobox(cbMenuLanguage.ComboBox);
+                _holdUpdates = false;
+            }
             InitializeMenuLocalization();
         }
 
@@ -316,7 +319,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Restore();
         }
 
-        private void miRunMininized_Click(object sender, EventArgs e) => cbGeneralRunMinimized.Checked = miRunMininized.Checked;
+        private void miRunMinimized_Click(object sender, EventArgs e) => cbGeneralRunMinimized.Checked = miRunMinimized.Checked;
 
         private void miRunOnStartup_Click(object sender, EventArgs e) => cbGeneralRunWithWindows.Checked = miRunOnStartup.Checked;
 
@@ -370,7 +373,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (path != null)
             {
                 var gameModes = Program.GetGameModes(path);
-                if (gameModes.Any())
+                foreach (var gameMode in gameModes)
                 {
                     _isGameFolderSet = true;
                     gbGameInfo.Visible = true;
@@ -379,7 +382,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     tbGamePath.Text = path.ToUpper();
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = gameModes;
-                    SetGameModeInfo(gameModes.First());
+                    SetGameModeInfo(gameMode);
                     return true;
                 }
             }
@@ -419,10 +422,9 @@ namespace NSW.StarCitizen.Tools.Forms
         private void UpdateAppInstallButton()
         {
             var scheduledUpdateInfo = Program.Updater.GetScheduledUpdateInfo();
-            if (scheduledUpdateInfo != null)
-                btnAppUpdate.Text = string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion());
-            else
-                btnAppUpdate.Text = Resources.Application_CheckForUpdates_Text;
+            btnAppUpdate.Text = scheduledUpdateInfo != null
+                ? string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
+                : Resources.Application_CheckForUpdates_Text;
         }
 
         private void InitLanguageCombobox(ComboBox combobox)

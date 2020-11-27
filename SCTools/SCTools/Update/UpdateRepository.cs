@@ -34,10 +34,7 @@ namespace NSW.StarCitizen.Tools.Update
             _monitorTimer.Elapsed += MonitorTimerOnElapsedAsync;
         }
 
-        public void Dispose()
-        {
-            _monitorTimer.Dispose();
-        }
+        public void Dispose() => _monitorTimer.Dispose();
 
         public abstract Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
 

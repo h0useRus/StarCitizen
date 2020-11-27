@@ -19,7 +19,7 @@ namespace NSW.StarCitizen.Tools.Settings
             set => SetLanguage(value);
         }
         [JsonProperty]
-        public bool RunMinimized { get; set; } = false;
+        public bool RunMinimized { get; set; }
         [JsonIgnore]
         public bool RunWithWindows
         {
@@ -27,7 +27,7 @@ namespace NSW.StarCitizen.Tools.Settings
             set => SetRunWithWindows(value);
         }
         [JsonProperty]
-        public bool UseHttpProxy { get; set; } = false;
+        public bool UseHttpProxy { get; set; }
         [JsonProperty]
         public bool TopMostWindow { get; set; } = true;
         [JsonProperty]
@@ -35,7 +35,7 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
 
-        private string GetLanguage()
+        private static string GetLanguage()
         {
             if (CultureInfo.DefaultThreadCurrentCulture != null)
                 return CultureInfo.DefaultThreadCurrentCulture.Name;
@@ -44,7 +44,7 @@ namespace NSW.StarCitizen.Tools.Settings
             return CultureInfo.InstalledUICulture.Name;
         }
 
-        private void SetLanguage(string cultureName)
+        private static void SetLanguage(string? cultureName)
         {
             if (cultureName != null)
             {
@@ -62,13 +62,13 @@ namespace NSW.StarCitizen.Tools.Settings
             }
         }
 
-        private bool IsRunWithWindows()
+        private static bool IsRunWithWindows()
         {
             using var startupKey = Registry.CurrentUser.OpenSubKey(RegKeyAutoRun);
-            return startupKey != null && startupKey.GetValue(AppName) != null;
+            return startupKey?.GetValue(AppName) != null;
         }
 
-        private void SetRunWithWindows(bool value)
+        private static void SetRunWithWindows(bool value)
         {
             using var startupKey = Registry.CurrentUser.OpenSubKey(RegKeyAutoRun, true);
             if (startupKey != null)

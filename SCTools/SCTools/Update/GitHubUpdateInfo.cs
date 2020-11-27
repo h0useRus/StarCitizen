@@ -5,7 +5,7 @@ namespace NSW.StarCitizen.Tools.Update
 {
     public class GitHubUpdateInfo : UpdateInfo
     {
-        private readonly bool _namedVersion = false;
+        private readonly bool _namedVersion;
 
         public override string GetVersion() => _namedVersion ? Name : TagName;
 
@@ -50,7 +50,7 @@ namespace NSW.StarCitizen.Tools.Update
 
             public UpdateInfo? CreateWithDownloadAsset(GitHubUpdateRepository.GitRelease release)
             {
-                var downloadUrl = release.Assets?.FirstOrDefault()?.ZipUrl;
+                var downloadUrl = release.Assets.FirstOrDefault()?.ZipUrl;
                 if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
                     (downloadUrl == null) || string.IsNullOrEmpty(downloadUrl))
                 {

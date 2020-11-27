@@ -34,10 +34,7 @@ namespace NSW.StarCitizen.Tools.Forms
             btnRemove.Text = Resources.Localization_Remove_Text;
         }
 
-        private void ManageRepositoriesForm_Load(object sender, EventArgs e)
-        {
-            DataBindList();
-        }
+        private void ManageRepositoriesForm_Load(object sender, EventArgs e) => DataBindList();
 
         private void DataBindList()
         {
@@ -65,10 +62,9 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
 
-            Uri uri;
             string repositoryUrl;
             var url = tbUrl.Text?.ToLower().Trim();
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri) ||
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri) ||
                 string.IsNullOrWhiteSpace(repositoryUrl = uri.AbsolutePath.Trim('/')))
             {
                 MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
@@ -127,9 +123,6 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e) => UpdateButtons();
 
-        private void UpdateButtons()
-        {
-            btnRemove.Enabled = _repositoriesListAdapter.RepositoriesCount > 1 && tabRepositories.SelectedIndex == 0;
-        }
+        private void UpdateButtons() => btnRemove.Enabled = _repositoriesListAdapter.RepositoriesCount > 1 && tabRepositories.SelectedIndex == 0;
     }
 }

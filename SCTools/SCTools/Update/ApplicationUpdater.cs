@@ -41,10 +41,7 @@ namespace NSW.StarCitizen.Tools.Update
             _updateRepository.MonitorNewVersion += OnMonitorNewVersion;
         }
 
-        public void Dispose()
-        {
-            _updateRepository.Dispose();
-        }
+        public void Dispose() => _updateRepository.Dispose();
 
         public void MonitorStart(int refreshTime) => _updateRepository.MonitorStart(refreshTime);
 
@@ -94,22 +91,12 @@ namespace NSW.StarCitizen.Tools.Update
             return InstallUpdateStatus.ExtractFilesError;
         }
 
-        public UpdateInfo? GetScheduledUpdateInfo()
-        {
-            if (File.Exists(_schedInstallArchivePath))
-                return JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath);
-            return null;
-        }
+        public UpdateInfo? GetScheduledUpdateInfo() => File.Exists(_schedInstallArchivePath) ? JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath) : null;
 
-        public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo)
-        {
-            return string.Compare(updateInfo.GetVersion(), Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) == 0;
-        }
+        public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo) =>
+            string.Compare(updateInfo.GetVersion(), Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) == 0;
 
-        public void ApplyScheduledUpdateProps(UpdateInfo updateInfo)
-        {
-            _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
-        }
+        public void ApplyScheduledUpdateProps(UpdateInfo updateInfo) => _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
 
         public bool ScheduleInstallUpdate(UpdateInfo updateInfo, string filePath)
         {
@@ -159,7 +146,7 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
-        private bool ExtractUpdateScript()
+        private static bool ExtractUpdateScript()
         {
             try
             {
@@ -172,7 +159,7 @@ namespace NSW.StarCitizen.Tools.Update
             return true;
         }
 
-        private bool ExtractReadyInstallUpdate()
+        private static bool ExtractReadyInstallUpdate()
         {
             var installUnpackedDir = new DirectoryInfo(_installUnpackedDir);
             var extractTempDir = new DirectoryInfo(Path.Combine(_updatesStoragePath, "temp_" + Path.GetRandomFileName()));
@@ -198,22 +185,16 @@ namespace NSW.StarCitizen.Tools.Update
             return true;
         }
 
-        private void OnMonitorStarted(object sender, string e)
-        {
+        private void OnMonitorStarted(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 Resources.Localization_Start_Monitoring));
-        }
 
-        private void OnMonitorStopped(object sender, string e)
-        {
+        private void OnMonitorStopped(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 Resources.Localization_Stop_Monitoring));
-        }
 
-        private void OnMonitorNewVersion(object sender, string e)
-        {
+        private void OnMonitorNewVersion(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 string.Format(Resources.Localization_Found_New_Version, e)));
-        }
     }
 }

@@ -7,8 +7,8 @@ namespace NSW.StarCitizen.Tools.Adapters
     public class DownloadProgressDialogAdapter : IDownloadProgress
     {
         private readonly IProgressDialog _progressDialog;
-        private long _totalContentSize = 0;
-        private long _downloadedSize = 0;
+        private long _totalContentSize;
+        private long _downloadedSize;
 
         public DownloadProgressDialogAdapter(IProgressDialog progressDialog)
         {
@@ -39,11 +39,11 @@ namespace NSW.StarCitizen.Tools.Adapters
             {
                 _progressDialog.CurrentTaskProgress = (float)_downloadedSize / _totalContentSize;
                 float contentSizeMBytes = (float)_totalContentSize / (1024 * 1024);
-                _progressDialog.CurrentTaskInfo = string.Format("{0:0.00} MB/{1:0.00} MB", downloadSizeMBytes, contentSizeMBytes);
+                _progressDialog.CurrentTaskInfo = $"{downloadSizeMBytes:0.00} MB/{contentSizeMBytes:0.00} MB";
             }
             else
             {
-                _progressDialog.CurrentTaskInfo = string.Format("{0:0.00} MB", downloadSizeMBytes);
+                _progressDialog.CurrentTaskInfo = $"{downloadSizeMBytes:0.00} MB";
             }
         }
     }

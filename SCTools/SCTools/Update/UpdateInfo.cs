@@ -18,7 +18,7 @@ namespace NSW.StarCitizen.Tools.Update
         public override string ToString() => Name;
 
         [JsonConstructor]
-        public UpdateInfo(string name, string tagName, string downloadUrl)
+        protected UpdateInfo(string name, string tagName, string downloadUrl)
         {
             Name = name;
             TagName = tagName;
