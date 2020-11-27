@@ -52,6 +52,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunMininized = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
+            this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +62,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
-            this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnUpdateLocalization = new System.Windows.Forms.Button();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -159,6 +160,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbButtonMenu.Controls.Add(this.btnUpdateLocalization);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
@@ -226,7 +228,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(181, 104);
+            this.cmTrayMenu.Size = new System.Drawing.Size(114, 82);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
@@ -234,13 +236,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miAppName.Enabled = false;
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(180, 22);
+            this.miAppName.Size = new System.Drawing.Size(113, 22);
             this.miAppName.Text = "SCTools";
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
             // 
             // miSettings
             // 
@@ -251,7 +253,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUseHttpProxy,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(180, 22);
+            this.miSettings.Size = new System.Drawing.Size(113, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -278,6 +280,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunTopMost.Text = "Always on top";
             this.miRunTopMost.Click += new System.EventHandler(this.miRunTopMost_Click);
             // 
+            // miUseHttpProxy
+            // 
+            this.miUseHttpProxy.CheckOnClick = true;
+            this.miUseHttpProxy.Name = "miUseHttpProxy";
+            this.miUseHttpProxy.Size = new System.Drawing.Size(194, 22);
+            this.miUseHttpProxy.Text = "Use Http Proxy";
+            this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
+            // 
             // cbMenuLanguage
             // 
             this.cbMenuLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -288,12 +298,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(180, 22);
+            this.miExitApp.Size = new System.Drawing.Size(113, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -372,13 +382,18 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbApplicationUpdate.TabIndex = 5;
             this.gbApplicationUpdate.TabStop = false;
             // 
-            // miUseHttpProxy
+            // btnUpdateLocalization
             // 
-            this.miUseHttpProxy.CheckOnClick = true;
-            this.miUseHttpProxy.Name = "miUseHttpProxy";
-            this.miUseHttpProxy.Size = new System.Drawing.Size(194, 22);
-            this.miUseHttpProxy.Text = "Use Http Proxy";
-            this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
+            this.btnUpdateLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 72);
+            this.btnUpdateLocalization.Name = "btnUpdateLocalization";
+            this.btnUpdateLocalization.Size = new System.Drawing.Size(242, 23);
+            this.btnUpdateLocalization.TabIndex = 4;
+            this.btnUpdateLocalization.Text = "Check for update...";
+            this.btnUpdateLocalization.UseVisualStyleBackColor = true;
+            this.btnUpdateLocalization.Click += new System.EventHandler(this.btnUpdateLocalization_Click);
             // 
             // MainForm
             // 
@@ -445,5 +460,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripComboBox cbMenuLanguage;
         private System.Windows.Forms.ToolStripMenuItem miRunTopMost;
         private System.Windows.Forms.ToolStripMenuItem miUseHttpProxy;
+        private System.Windows.Forms.Button btnUpdateLocalization;
     }
 }

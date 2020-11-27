@@ -5,14 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
+using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class MainForm : Form
     {
+        private LocalizationController? _localizationController;
         private bool _isGameFolderSet;
         private bool _holdUpdates;
         private string? _lastBrowsePath;
@@ -40,7 +43,7 @@ namespace NSW.StarCitizen.Tools.Forms
             cbGeneralRunWithWindows.Text = Resources.Localization_RunOnStartup_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
-            UpdateInstallButton();
+            UpdateAppInstallButton();
         }
 
         private void InitializeMenuLocalization()
@@ -153,11 +156,40 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnLocalization_Click(object sender, EventArgs e)
         {
-            if (Program.CurrentGame == null)
-                return;
+            if (Program.CurrentGame != null)
+            {
+                using var dlg = new LocalizationForm(Program.CurrentGame);
+                dlg.ShowDialog(this);
+                SetGameFolder(Program.Settings.GameFolder);
+            }
+        }
 
-            using var dlg = new LocalizationForm(Program.CurrentGame);
-            dlg.ShowDialog(this);
+        private async void btnUpdateLocalization_Click(object sender, EventArgs e)
+        {
+            if (_localizationController != null)
+            {
+                _localizationController.Load();
+                var installedVersion = _localizationController.CurrentInstallation.InstalledVersion;
+                if (installedVersion != null && await _localizationController.RefreshVersionsAsync(this))
+                {
+                    var availableUpdate = _localizationController.CurrentRepository.LatestUpdateInfo;
+                    if (availableUpdate != null &&
+                        string.Compare(installedVersion, availableUpdate.GetVersion(), StringComparison.OrdinalIgnoreCase) != 0)
+                    {
+                        var dialogResult = MessageBox.Show(string.Format(Resources.Localization_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                            Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes && await _localizationController.InstallVersionAsync(this, availableUpdate))
+                        {
+                            _localizationController.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text, Resources.Localization_CheckForUpdate_Title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         private void cbGameModes_SelectionChangeCommitted(object sender, EventArgs e)
@@ -195,7 +227,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 if (Program.InstallScheduledUpdate())
                     Close();
-                UpdateInstallButton();
+                UpdateAppInstallButton();
                 return;
             }
             using var progressDlg = new ProgressForm();
@@ -238,7 +270,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Cursor.Current = Cursors.Default;
                 Enabled = true;
                 progressDlg.Hide();
-                UpdateInstallButton();
+                UpdateAppInstallButton();
             }
         }
 
@@ -267,7 +299,9 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
+            _holdUpdates = true;
             InitLanguageCombobox(cbMenuLanguage.ComboBox);
+            _holdUpdates = false;
             InitializeMenuLocalization();
         }
 
@@ -308,6 +342,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_holdUpdates) return;
             if (cbMenuLanguage.ComboBox.SelectedValue is string language)
             {
                 cbLanguage.SelectedValue = language;
@@ -367,14 +402,18 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateGameModeInfo(GameInfo gameInfo)
         {
+            _localizationController = new LocalizationController(gameInfo);
+            _localizationController.Load();
             tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
+            btnUpdateLocalization.Visible = _localizationController.CurrentInstallation.InstalledVersion != null &&
+                _localizationController.GetInstallationType() != LocalizationInstallationType.None;
         }
 
-        private void UpdateInstallButton()
+        private void UpdateAppInstallButton()
         {
             var scheduledUpdateInfo = Program.Updater.GetScheduledUpdateInfo();
             if (scheduledUpdateInfo != null)

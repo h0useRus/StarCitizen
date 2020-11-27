@@ -105,13 +105,13 @@ namespace NSW.StarCitizen.Tools.Localization
             return repositories.First();
         }
 
-        public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
+        public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository, string version)
         {
             var installation = GetRepositoryInstallation(gameMode, repository);
             if (installation == null)
                 installation = AddRepositoryInstallation(gameMode, repository);
-            installation.LastVersion = repository.CurrentVersion;
-            installation.InstalledVersion = repository.CurrentVersion;
+            installation.LastVersion = version;
+            installation.InstalledVersion = version;
             var otherInstallations = Program.Settings.Localization.Installations.Where(i => (i.Mode == gameMode) &&
                 (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) != 0));
             foreach (var otherInstallation in otherInstallations)
