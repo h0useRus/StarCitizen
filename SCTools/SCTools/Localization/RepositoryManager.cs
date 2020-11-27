@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
+using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Localization
 {
@@ -30,8 +31,10 @@ namespace NSW.StarCitizen.Tools.Localization
             {
                 if (!_localizationRepositories.ContainsKey(localizationSource.Repository))
                 {
-                    // Only git supported
-                    AddRepository(new GitHubLocalizationRepository(localizationSource.Name, localizationSource.Repository));
+                    if (localizationSource.Type == UpdateRepositoryType.GitHub)
+                    {
+                        AddRepository(new GitHubLocalizationRepository(localizationSource.Name, localizationSource.Repository));
+                    }
                 }
             }
         }
@@ -62,7 +65,7 @@ namespace NSW.StarCitizen.Tools.Localization
             {
                 AddRepository(repository);
                 Program.Settings.Localization.Repositories.Add(
-                    new LocalizationSource(repository.Name, repository.Repository, repository.Type.ToString()));
+                    new LocalizationSource(repository.Name, repository.Repository, repository.Type));
                 Program.SaveAppSettings();
                 return AddStatus.Success;
             }
