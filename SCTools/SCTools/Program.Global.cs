@@ -36,7 +36,7 @@ namespace NSW.StarCitizen.Tools
             {
                 if (IsContainGameModes(searchPath))
                     return searchPath;
-                if (string.CompareOrdinal(directory.Name, GameConstants.BinFolderName) == 0)
+                if (string.Compare(directory.Name, GameConstants.BinFolderName, StringComparison.OrdinalIgnoreCase) == 0)
                     return directory.Parent?.Parent?.FullName;
                 if (IsGameModeFolderName(directory.Name))
                     return directory.Parent?.FullName;
@@ -60,7 +60,7 @@ namespace NSW.StarCitizen.Tools
         {
             foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
             {
-                if (string.CompareOrdinal(folderName, mode.ToString()) == 0)
+                if (string.Compare(folderName, mode.ToString(), StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
             }
             return false;

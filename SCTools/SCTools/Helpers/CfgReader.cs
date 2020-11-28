@@ -30,7 +30,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public override bool Equals(object value) =>
             ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
-            string.CompareOrdinal(Key, dataRow.Key) == 0 && Value == dataRow.Value);
+            string.Compare(Key, dataRow.Key, StringComparison.OrdinalIgnoreCase) == 0 && Value == dataRow.Value);
 
         public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Key);
     }
@@ -165,13 +165,13 @@ namespace NSW.StarCitizen.Tools.Helpers
         private CfgDataRow? GetRowByKey(string key)
         {
             if (!string.IsNullOrWhiteSpace(key))
-                return _rows.OfType<CfgDataRow>().SingleOrDefault(r => string.CompareOrdinal(key, r.Key) == 0);
+                return _rows.OfType<CfgDataRow>().SingleOrDefault(r => string.Compare(key, r.Key, StringComparison.OrdinalIgnoreCase) == 0);
             return null;
         }
 
         private bool ContainsKey(string key) =>
             !string.IsNullOrWhiteSpace(key) &&
-            _rows.OfType<CfgDataRow>().Any(r => string.CompareOrdinal(key, r.Key) == 0);
+            _rows.OfType<CfgDataRow>().Any(r => string.Compare(key, r.Key, StringComparison.OrdinalIgnoreCase) == 0);
 
         private static bool IsTextString(string original) =>
             string.IsNullOrWhiteSpace(original) ||
