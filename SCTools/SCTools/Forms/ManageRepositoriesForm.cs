@@ -17,10 +17,10 @@ namespace NSW.StarCitizen.Tools.Forms
         public ManageRepositoriesForm()
         {
             InitializeComponent();
-            UpdateLocalizedControls();
             _repositoriesListAdapter = new RepositoriesListViewAdapter(lvRepositories);
             _stdRepositoriesListAdapter = new RepositoriesListViewAdapter(lvStdRepositories);
             _stdRepositoriesListAdapter.SetRepositoriesList(LocalizationSource.StandardList);
+            UpdateLocalizedControls();
         }
 
         public void UpdateLocalizedControls()
@@ -32,6 +32,8 @@ namespace NSW.StarCitizen.Tools.Forms
             lblPath.Text = Resources.Localization_GitHubURL_Text;
             btnAdd.Text = Resources.Localization_Add_Text;
             btnRemove.Text = Resources.Localization_Remove_Text;
+            _repositoriesListAdapter.UpdateLocalization();
+            _stdRepositoriesListAdapter.UpdateLocalization();
         }
 
         private void ManageRepositoriesForm_Load(object sender, EventArgs e) => DataBindList();

@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -43,17 +39,14 @@ namespace NSW.StarCitizen.Tools.Forms
             cbGeneralRunWithWindows.Text = Resources.Localization_RunOnStartup_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
-            UpdateAppInstallButton();
-        }
-
-        private void InitializeMenuLocalization()
-        {
+            // menu localization
             miExitApp.Text = Resources.Localization_QuitApp_Text;
             miSettings.Text = Resources.Localization_Settings_Text;
             miRunMinimized.Text = Resources.Localization_RunMinimized_Text;
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
+            UpdateAppInstallButton();
         }
 
         private void InitializeGeneral()
@@ -221,7 +214,9 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbLanguage.SelectedValue is string language)
             {
-                SetLanguage(language);
+                Program.Settings.Language = language;
+                Program.SaveAppSettings();
+                Program.UpdateUiLanguage();
             }
         }
 
@@ -309,7 +304,6 @@ namespace NSW.StarCitizen.Tools.Forms
                 InitLanguageCombobox(cbMenuLanguage.ComboBox);
                 _holdUpdates = false;
             }
-            InitializeMenuLocalization();
         }
 
         private void miExitApp_Click(object sender, EventArgs e)
@@ -353,8 +347,9 @@ namespace NSW.StarCitizen.Tools.Forms
             if (cbMenuLanguage.ComboBox != null && cbMenuLanguage.ComboBox.SelectedValue is string language)
             {
                 cbLanguage.SelectedValue = language;
-                SetLanguage(language);
-                InitializeMenuLocalization();
+                Program.Settings.Language = language;
+                Program.SaveAppSettings();
+                Program.UpdateUiLanguage();
             }
         }
 
@@ -432,41 +427,10 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitLanguageCombobox(ComboBox combobox)
         {
             combobox.BindingContext = BindingContext;
-            combobox.DataSource = new BindingSource(GetSupportedLanguages(), null);
+            combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             combobox.DisplayMember = "Value";
             combobox.ValueMember = "Key";
             combobox.SelectedValue = Program.Settings.Language;
-        }
-
-        private void SetLanguage(string language)
-        {
-            Program.Settings.Language = language;
-            Program.SaveAppSettings();
-            foreach (var form in Application.OpenForms)
-            {
-                if (form is ILocalizedForm localizedForm)
-                {
-                    localizedForm.UpdateLocalizedControls();
-                }
-            }
-        }
-
-        private static Dictionary<string, string> GetSupportedLanguages()
-        {
-            var languages = new Dictionary<string, string> {
-                { "en-US", "english" }
-            };
-            var neutralCultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures)
-                .Where(c => Directory.Exists(c.TwoLetterISOLanguageName));
-            foreach (var neutralCulture in neutralCultures)
-            {
-                var culture = CultureInfo.CreateSpecificCulture(neutralCulture.Name);
-                if (!languages.ContainsKey(culture.Name))
-                {
-                    languages.Add(culture.Name, neutralCulture.NativeName);
-                }
-            }
-            return languages;
         }
     }
 }

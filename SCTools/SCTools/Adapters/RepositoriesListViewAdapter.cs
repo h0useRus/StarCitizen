@@ -8,6 +8,8 @@ namespace NSW.StarCitizen.Tools.Adapters
 {
     public class RepositoriesListViewAdapter
     {
+        private const string COLUMN_KEY_NAME = "chName";
+        private const string COLUMN_KEY_PATH = "chPath";
         private readonly ListView _listView;
 
         public int RepositoriesCount => _listView.Items.Count;
@@ -17,6 +19,25 @@ namespace NSW.StarCitizen.Tools.Adapters
             _listView = listView;
             Initialize();
         }
+
+        public void UpdateLocalization()
+        {
+            foreach (var column in _listView.Columns)
+            {
+                if (column is ColumnHeader columnHeader)
+                {
+                    switch (columnHeader.Name)
+                    {
+                        case COLUMN_KEY_NAME:
+                            columnHeader.Text = Resources.Localization_Name_Text;
+                            break;
+                        case COLUMN_KEY_PATH:
+                            columnHeader.Text = Resources.Localization_Path_Text;
+                            break;
+                    }
+                }
+            }
+        } 
 
         public void SetRepositoriesList(IEnumerable<ILocalizationRepository> repositories)
         {
@@ -70,9 +91,9 @@ namespace NSW.StarCitizen.Tools.Adapters
 
         private void Initialize()
         {
-            var item = _listView.Columns.Add("chName", Resources.Localization_Name_Text);
+            var item = _listView.Columns.Add(COLUMN_KEY_NAME, Resources.Localization_Name_Text);
             item.Width = _listView.Width / 2 - 5;
-            _listView.Columns.Add("chPath", Resources.Localization_Path_Text, _listView.Width - item.Width - 5);
+            _listView.Columns.Add(COLUMN_KEY_PATH, Resources.Localization_Path_Text, _listView.Width - item.Width - 5);
         }
     }
 }
