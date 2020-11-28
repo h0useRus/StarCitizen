@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,6 +19,7 @@ namespace NSW.StarCitizen.Tools.Controllers
         public List<ILocalizationRepository> Repositories { get; private set; } = new List<ILocalizationRepository>();
         public LocalizationInstallation CurrentInstallation { get; private set; }
         public ILocalizationRepository CurrentRepository { get; private set; }
+        public bool IsLoaded { get; private set; }
 
         public LocalizationController(GameInfo currentGame)
         {
@@ -33,6 +35,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             Repositories = Program.RepositoryManager.GetRepositoriesList();
             CurrentRepository = Program.RepositoryManager.GetCurrentRepository(CurrentGame.Mode, Repositories);
             CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(CurrentGame.Mode, CurrentRepository);
+            IsLoaded = true;
         }
 
         public bool SetCurrentRepository(ILocalizationRepository localizationRepository)
@@ -100,12 +103,12 @@ namespace NSW.StarCitizen.Tools.Controllers
             {
                 window.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                progressDlg.Text = string.Format(Resources.Localization_InstallVersion_Title, selectedUpdateInfo.GetVersion());
-                var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
+                var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
+                progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
                 var filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, null,
                     progressDlg.CancelToken, downloadDialogAdapter);
-                var _ = new InstallProgressDialogAdapter(progressDlg);
+                progressDlg.BindAdapter(new InstallProgressDialogAdapter());
                 var result = CurrentRepository.Installer.Install(filePath, CurrentGame.RootFolderPath);
                 switch (result)
                 {
@@ -168,8 +171,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 using var progressDlg = new ProgressForm();
                 try
                 {
-                    progressDlg.Text = Resources.Localization_UninstallLocalization_Text;
-                    var _ = new UninstallProgressDialogAdapter(progressDlg);
+                    progressDlg.BindAdapter(new UninstallProgressDialogAdapter());
                     progressDlg.Show(window);
                     switch (CurrentRepository.Installer.Uninstall(CurrentGame.RootFolderPath))
                     {

@@ -241,7 +241,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(181, 104);
+            this.cmTrayMenu.Size = new System.Drawing.Size(114, 82);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
@@ -249,13 +249,13 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miAppName.Enabled = false;
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(180, 22);
+            this.miAppName.Size = new System.Drawing.Size(113, 22);
             this.miAppName.Text = "SCTools";
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
             // 
             // miSettings
             // 
@@ -266,7 +266,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUseHttpProxy,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(180, 22);
+            this.miSettings.Size = new System.Drawing.Size(113, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -311,12 +311,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(180, 22);
+            this.miExitApp.Size = new System.Drawing.Size(113, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 

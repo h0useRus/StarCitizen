@@ -3,17 +3,22 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {
-    public class UninstallProgressDialogAdapter
+    public sealed class UninstallProgressDialogAdapter : IProgressDialog.IAdapter
     {
-        private readonly IProgressDialog _progressDialog;
-
-        public UninstallProgressDialogAdapter(IProgressDialog progressDialog)
+        public void Bind(IProgressDialog dialog)
         {
-            _progressDialog = progressDialog;
-            _progressDialog.CurrentTaskName = Resources.Localization_Uninstalling_Text;
-            _progressDialog.CurrentTaskInfo = string.Empty;
-            _progressDialog.CurrentTaskProgress = 0;
-            _progressDialog.UserCancellable = false;
+            dialog.CurrentTaskInfo = string.Empty;
+            dialog.CurrentTaskProgress = 0;
+            dialog.UserCancellable = false;
+            UpdateLocalization(dialog);
+        }
+
+        public void Unbind(IProgressDialog dialog) { }
+
+        public void UpdateLocalization(IProgressDialog dialog)
+        {
+            dialog.Text = Resources.Localization_UninstallLocalization_Text;
+            dialog.CurrentTaskName = Resources.Localization_Uninstalling_Text;
         }
     }
 }

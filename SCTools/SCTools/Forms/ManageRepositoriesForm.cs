@@ -8,7 +8,7 @@ using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class ManageRepositoriesForm : Form
+    public partial class ManageRepositoriesForm : Form, ILocalizedForm
     {
         private const string GitHubUrl = "https://github.com/";
         private readonly RepositoriesListViewAdapter _repositoriesListAdapter;
@@ -17,13 +17,13 @@ namespace NSW.StarCitizen.Tools.Forms
         public ManageRepositoriesForm()
         {
             InitializeComponent();
-            InitializeLocalization();
+            UpdateLocalizedControls();
             _repositoriesListAdapter = new RepositoriesListViewAdapter(lvRepositories);
             _stdRepositoriesListAdapter = new RepositoriesListViewAdapter(lvStdRepositories);
             _stdRepositoriesListAdapter.SetRepositoriesList(LocalizationSource.StandardList);
         }
 
-        private void InitializeLocalization()
+        public void UpdateLocalizedControls()
         {
             Text = Resources.Localization_Repositories_Title;
             tabPageUserRepositories.Text = Resources.Localization_UserRepos_Title;

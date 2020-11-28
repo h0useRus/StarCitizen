@@ -378,4 +378,7 @@
     <value>Доступна нова версія локалізації {0}.
 Бажаєте завантажити і встановити?</value>
   </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Перевірити оновлення...</value>
+  </data>
 </root>

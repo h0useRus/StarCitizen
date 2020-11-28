@@ -281,6 +281,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Localization_CheckForUpdates_Text {
+            get {
+                return ResourceManager.GetString("Localization_CheckForUpdates_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for new version every.
         /// </summary>
         internal static string Localization_CheckForVersionEvery_Text {
@@ -542,7 +551,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to No localization updates were found.
         /// </summary>
         internal static string Localization_NoUpdatesFound_Text {
             get {
@@ -794,7 +803,8 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to New localization version {0} is available.
+        ///Do you want download and install it now?.
         /// </summary>
         internal static string Localization_UpdateAvailableInstallAsk_Text {
             get {

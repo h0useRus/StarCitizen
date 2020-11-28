@@ -13,7 +13,7 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ILocalizedForm
     {
         private LocalizationController? _localizationController;
         private bool _isGameFolderSet;
@@ -24,12 +24,12 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             InitializeComponent();
             InitializeGeneral();
-            InitializeLocalization();
+            UpdateLocalizedControls();
         }
 
         #region Methods
 
-        private void InitializeLocalization()
+        public void UpdateLocalizedControls()
         {
             Text = niTray.Text = string.Format(Resources.AppName, Program.Version.ToString(3));
             if (!_isGameFolderSet)
@@ -238,8 +238,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
-                progressDlg.Text = Resources.Application_Update_Title;
-                var _ = new CheckForUpdateDialogAdapter(progressDlg);
+                progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
                 progressDlg.Show(this);
                 var availableUpdate = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
                 progressDlg.CurrentTaskProgress = 1.0f;
@@ -254,7 +253,8 @@ namespace NSW.StarCitizen.Tools.Forms
                         Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(progressDlg);
+                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(null);
+                    progressDlg.BindAdapter(downloadDialogAdapter);
                     var filePath = await Program.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken, downloadDialogAdapter);
                     Program.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
                 }
@@ -415,6 +415,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
+            btnUpdateLocalization.Text = Resources.Localization_CheckForUpdates_Text;
             btnUpdateLocalization.Visible = _localizationController.CurrentInstallation.InstalledVersion != null &&
                 _localizationController.GetInstallationType() != LocalizationInstallationType.None;
         }
@@ -440,7 +441,13 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             Program.Settings.Language = language;
             Program.SaveAppSettings();
-            InitializeLocalization();
+            foreach (var form in Application.OpenForms)
+            {
+                if (form is ILocalizedForm localizedForm)
+                {
+                    localizedForm.UpdateLocalizedControls();
+                }
+            }
         }
 
         private static Dictionary<string, string> GetSupportedLanguages()

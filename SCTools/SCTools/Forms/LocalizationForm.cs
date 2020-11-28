@@ -10,7 +10,7 @@ using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class LocalizationForm : Form
+    public partial class LocalizationForm : Form, ILocalizedForm
     {
         private readonly LocalizationController _controller;
 
@@ -18,10 +18,10 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             _controller = new LocalizationController(currentGame);
             InitializeComponent();
-            InitializeLocalization();
+            UpdateLocalizedControls();
         }
 
-        private void InitializeLocalization()
+        public void UpdateLocalizedControls()
         {
             Text = Resources.Localization_Title;
             btnManage.Text = Resources.Localization_Manage_Text;
@@ -34,6 +34,11 @@ namespace NSW.StarCitizen.Tools.Forms
             cbAllowPreReleaseVersions.Text = Resources.Localization_DisplayPreReleases_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
+            if (_controller.IsLoaded)
+            {
+                UpdateAvailableVersions();
+                UpdateControls();
+            }
         }
 
         private void LocalizationForm_Load(object sender, EventArgs e)

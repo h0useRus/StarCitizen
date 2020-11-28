@@ -388,4 +388,7 @@ Do you want download and install it now?</value>
   <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
     <value>No localization updates were found</value>
   </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Check for updates...</value>
+  </data>
 </root>
