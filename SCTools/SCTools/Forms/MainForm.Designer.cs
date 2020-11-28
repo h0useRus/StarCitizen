@@ -216,6 +216,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // cbLanguage
             // 
+            this.cbLanguage.BackColor = System.Drawing.SystemColors.Info;
             this.cbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbLanguage.FormattingEnabled = true;
@@ -246,11 +247,11 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // miAppName
             // 
-            this.miAppName.Enabled = false;
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
             this.miAppName.Size = new System.Drawing.Size(113, 22);
             this.miAppName.Text = "SCTools";
+            this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 

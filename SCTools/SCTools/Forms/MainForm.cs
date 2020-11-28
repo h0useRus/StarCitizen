@@ -306,6 +306,8 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void miAppName_Click(object sender, EventArgs e) => Restore();
+
         private void miExitApp_Click(object sender, EventArgs e)
         {
             if (CanFocus || !ShowInTaskbar)
