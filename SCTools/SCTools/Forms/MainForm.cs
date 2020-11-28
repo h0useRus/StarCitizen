@@ -166,12 +166,13 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnUpdateLocalization_Click(object sender, EventArgs e)
         {
-            if (_localizationController == null) return;
-            _localizationController.Load();
-            var installedVersion = _localizationController.CurrentInstallation.InstalledVersion;
-            if (installedVersion != null && await _localizationController.RefreshVersionsAsync(this))
+            var controller = _localizationController;
+            if (controller == null) return;
+            controller.Load();
+            var installedVersion = controller.CurrentInstallation.InstalledVersion;
+            if (installedVersion != null && await controller.RefreshVersionsAsync(this))
             {
-                var availableUpdate = _localizationController.CurrentRepository.LatestUpdateInfo;
+                var availableUpdate = controller.CurrentRepository.LatestUpdateInfo;
                 if (availableUpdate != null &&
                     string.Compare(installedVersion, availableUpdate.GetVersion(),
                         StringComparison.OrdinalIgnoreCase) != 0)
@@ -181,9 +182,9 @@ namespace NSW.StarCitizen.Tools.Forms
                             availableUpdate.GetVersion()),
                         Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dialogResult == DialogResult.Yes &&
-                        await _localizationController.InstallVersionAsync(this, availableUpdate))
+                        await controller.InstallVersionAsync(this, availableUpdate))
                     {
-                        _localizationController.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
+                        controller.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
                     }
                 }
                 else
