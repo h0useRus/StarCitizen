@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <variable name="logDirectory" value="${basedir}/logs"/>
+  <targets>
+    <target xsi:type="ColoredConsole"
+            name="console"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}" />
+    <target xsi:type="File"
+            name="file"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}"
+            fileName="${logDirectory}/log.txt"
+            archiveFileName="${logDirectory}/log.{#}.txt"
+            archiveNumbering="Date"
+            archiveEvery="Day"
+            archiveDateFormat="yyyy-MM-dd"
+            maxArchiveDays="7"/>
+  </targets>
+  <rules>
+    <logger name="*" minlevel="Trace" writeTo="console" />
+    <logger name="*" minlevel="Info" writeTo="file" />
+  </rules>
+</nlog>

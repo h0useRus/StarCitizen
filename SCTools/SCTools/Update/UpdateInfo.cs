@@ -26,5 +26,7 @@ namespace NSW.StarCitizen.Tools.Update
         }
 
         public abstract string GetVersion();
+
+        public string Dump() => $"(Name={Name}, TagName={TagName}, DownloadUrl={DownloadUrl}, Released={Released}, PreRelease={PreRelease})";
     }
 }

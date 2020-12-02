@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Forms;
 using NSW.StarCitizen.Tools.Global;
@@ -13,6 +15,7 @@ namespace NSW.StarCitizen.Tools.Controllers
 {
     public sealed class LocalizationController
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public readonly GameInfo CurrentGame;
         public readonly GameSettings GameSettings;
         public List<ILocalizationRepository> Repositories { get; private set; } = new List<ILocalizationRepository>();
@@ -71,10 +74,11 @@ namespace NSW.StarCitizen.Tools.Controllers
                 progressDlg.CurrentTaskProgress = 1.0f;
                 status = true;
             }
-            catch
+            catch (Exception e)
             {
                 if (!progressDlg.IsCanceledByUser)
                 {
+                    _logger.Error(e, "Error during refresh localization versions");
                     MessageBox.Show(Resources.Localization_Download_ErrorText,
                         Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -92,6 +96,7 @@ namespace NSW.StarCitizen.Tools.Controllers
         {
             if (!CurrentGame.IsAvailable())
             {
+                _logger.Error($"Install localization mode path unavailable: {CurrentGame.RootFolderPath}");
                 MessageBox.Show(Resources.Localization_File_ErrorText,
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -118,27 +123,32 @@ namespace NSW.StarCitizen.Tools.Controllers
                         status = true;
                         break;
                     case InstallStatus.PackageError:
+                        _logger.Error($"Failed install localization due to package error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(Resources.Localization_Package_ErrorText,
                             Resources.Localization_Package_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case InstallStatus.VerifyError:
+                        _logger.Error($"Failed install localization due to core verify error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(Resources.Localization_Verify_ErrorText,
                             Resources.Localization_Verify_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case InstallStatus.FileError:
+                        _logger.Error($"Failed install localization due to file error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(Resources.Localization_File_ErrorText,
                             Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     default:
+                        _logger.Error($"Failed install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(Resources.Localization_Install_ErrorText,
                             Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 if (!progressDlg.IsCanceledByUser)
                 {
+                    _logger.Error(e, $"Error during install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                     MessageBox.Show(Resources.Localization_Download_ErrorText,
                         Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -158,6 +168,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             {
                 if (!CurrentGame.IsAvailable())
                 {
+                    _logger.Error($"Uninstall localization mode path unavailable: {CurrentGame.RootFolderPath}");
                     MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
                         Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -187,17 +198,20 @@ namespace NSW.StarCitizen.Tools.Controllers
                             progressDlg.CurrentTaskProgress = 1.0f;
                             Program.RepositoryManager.RemoveInstalledRepository(CurrentGame.Mode, CurrentRepository);
                             status = true;
+                            _logger.Warn($"Localization uninstalled partially: {CurrentGame.Mode}");
                             MessageBox.Show(Resources.Localization_Uninstall_WarningText,
                                     Resources.Localization_Uninstall_WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             break;
                         default:
+                            _logger.Error($"Failed uninstall localization: {CurrentGame.Mode}");
                             MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
                                 Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
+                    _logger.Error(e, $"Error during uninstall localization: {CurrentGame.Mode}");
                     MessageBox.Show(Resources.Localization_Uninstall_ErrorText,
                         Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -217,6 +231,10 @@ namespace NSW.StarCitizen.Tools.Controllers
                 window.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
                 CurrentRepository.Installer.RevertLocalization(CurrentGame.RootFolderPath);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Error during toggle localization: {CurrentGame.Mode}");
             }
             finally
             {

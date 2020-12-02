@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Settings
 {
@@ -9,6 +10,7 @@ namespace NSW.StarCitizen.Tools.Settings
     {
         private const string AppName = "Star Citizen Tools";
         private const string RegKeyAutoRun = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         [JsonProperty]
         public string? GameFolder { get; set; }
@@ -54,8 +56,9 @@ namespace NSW.StarCitizen.Tools.Settings
                     CultureInfo.DefaultThreadCurrentCulture = culture;
                     CultureInfo.DefaultThreadCurrentUICulture = culture;
                 }
-                catch (CultureNotFoundException)
+                catch (CultureNotFoundException e)
                 {
+                    _logger.Warn(e, $"Culture not found: {cultureName}. Using default");
                     CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InstalledUICulture;
                     CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InstalledUICulture;
                 }

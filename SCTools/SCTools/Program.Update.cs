@@ -13,7 +13,8 @@ namespace NSW.StarCitizen.Tools
             Updater.RemoveUpdateScript();
             if ((args.Length >= 2) && (args[0] == "update_status") && (args[1] != InstallUpdateStatus.Success.ToString("d")))
             {
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + " - " + args[1], Name,
+                _logger.Error($"Failed install update: {args[1]}");
+                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + args[1], Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -41,7 +42,8 @@ namespace NSW.StarCitizen.Tools
             var result = Updater.InstallScheduledUpdate();
             if (result != InstallUpdateStatus.Success)
             {
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + " - " + result.ToString("d"), Name,
+                _logger.Error($"Failed launch install update: {result}");
+                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + result.ToString("d"), Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

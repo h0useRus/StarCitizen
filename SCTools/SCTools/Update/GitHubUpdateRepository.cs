@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NLog;
 using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools.Update
@@ -12,6 +13,7 @@ namespace NSW.StarCitizen.Tools.Update
     public class GitHubUpdateRepository : UpdateRepository
     {
         private const string BaseUrl = "https://api.github.com/repos";
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _repoReleasesUrl;
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
         public GitHubDownloadType DownloadType { get; }
@@ -67,8 +69,8 @@ namespace NSW.StarCitizen.Tools.Update
             }
             catch
             {
-                if (File.Exists(tempFileName))
-                    File.Delete(tempFileName);
+                if (File.Exists(tempFileName) && !FileUtils.DeleteFileNoThrow(tempFileName))
+                    _logger.Warn($"Failed remove temporary file: {tempFileName}");
                 throw;
             }
             return tempFileName;
@@ -81,8 +83,9 @@ namespace NSW.StarCitizen.Tools.Update
                 using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
                 return response.IsSuccessStatusCode;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Warn(e, $"Failed check repository url: {_repoReleasesUrl}");
                 return false;
             }
         }

@@ -281,7 +281,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Check for updates....
         /// </summary>
         internal static string Localization_CheckForUpdates_Text {
             get {
@@ -863,6 +863,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string LocalizationButton_Text {
             get {
                 return ResourceManager.GetString("LocalizationButton_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt; 
+        ///.
+        /// </summary>
+        internal static string LoggingConfig {
+            get {
+                return ResourceManager.GetString("LoggingConfig", resourceCulture);
             }
         }
         

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
@@ -191,6 +192,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
     public class CfgFile
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _fileName;
 
         public CfgFile(string fileName)
@@ -213,8 +215,10 @@ namespace NSW.StarCitizen.Tools.Helpers
                     data.AddRow(line);
                 }
             }
-            catch { }
-
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Failed read file: {_fileName}");
+            }
             return data;
         }
 
@@ -233,8 +237,10 @@ namespace NSW.StarCitizen.Tools.Helpers
                     data.AddRow(line);
                 }
             }
-            catch { }
-
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Failed read file: {_fileName}");
+            }
             return data;
         }
 
@@ -250,8 +256,9 @@ namespace NSW.StarCitizen.Tools.Helpers
                 await writer.FlushAsync().ConfigureAwait(false);
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed save file: {_fileName}");
                 return false;
             }
         }
@@ -268,8 +275,9 @@ namespace NSW.StarCitizen.Tools.Helpers
                 writer.Flush();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed save file: {_fileName}");
                 return false;
             }
         }

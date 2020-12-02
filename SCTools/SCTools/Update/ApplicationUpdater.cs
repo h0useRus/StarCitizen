@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -20,6 +21,7 @@ namespace NSW.StarCitizen.Tools.Update
 
     public class ApplicationUpdater : IDisposable
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly string _executablePath = Path.GetDirectoryName(Application.ExecutablePath);
         private static readonly string _updateScriptPath = Path.Combine(_executablePath, "update.bat");
         private static readonly string _updatesStoragePath = Path.Combine(_executablePath, "updates");
@@ -120,8 +122,9 @@ namespace NSW.StarCitizen.Tools.Update
                         return true;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
+                    _logger.Error(e, $"Exception during schedule install update at: {filePath}");
                     CancelScheduleInstallUpdate();
                     return false;
                 }
@@ -152,8 +155,9 @@ namespace NSW.StarCitizen.Tools.Update
             {
                 File.WriteAllText(_updateScriptPath, Resources.UpdateScript);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed extract update script to: {_updateScriptPath}");
                 return false;
             }
             return true;
@@ -166,7 +170,10 @@ namespace NSW.StarCitizen.Tools.Update
             try
             {
                 if (installUnpackedDir.Exists && !FileUtils.DeleteDirectoryNoThrow(installUnpackedDir, true))
+                {
+                    _logger.Error($"Already exist extract directory can't be removed: {_installUnpackedDir}");
                     return false;
+                }
                 using var archive = ZipFile.OpenRead(_schedInstallArchivePath);
                 extractTempDir.Create();
                 archive.ExtractToDirectory(extractTempDir.FullName);
@@ -174,8 +181,9 @@ namespace NSW.StarCitizen.Tools.Update
                     throw new NotSupportedException("Not supported upgrade package");
                 Directory.Move(extractTempDir.FullName, _installUnpackedDir);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed extract update package to: {_installUnpackedDir}");
                 if (extractTempDir.Exists)
                     FileUtils.DeleteDirectoryNoThrow(extractTempDir, true);
                 if (installUnpackedDir.Exists)

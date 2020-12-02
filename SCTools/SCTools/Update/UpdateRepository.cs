@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Update
 {
     public abstract class UpdateRepository : IUpdateRepository
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly System.Timers.Timer _monitorTimer;
 
         public string Name { get; }
@@ -120,12 +122,16 @@ namespace NSW.StarCitizen.Tools.Update
             {
                 using var cancellationTokenSource = new CancellationTokenSource();
                 var result = await GetLatestAsync(cancellationTokenSource.Token);
-                if (result != null && string.Compare(result.GetVersion(), CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
+                if (result != null &&
+                    string.Compare(result.GetVersion(), CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     MonitorNewVersion?.Invoke(this, result.GetVersion());
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Failed auto check for update repository: {Repository}");
+            }
         }
 
         private IEnumerable<UpdateInfo> SortAndFilterReleases(IEnumerable<UpdateInfo> releases)

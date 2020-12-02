@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
+using NLog;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
@@ -11,10 +12,15 @@ namespace NSW.StarCitizen.Tools.Localization
 {
     public class DefaultLocalizationInstaller : ILocalizationInstaller
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         public InstallStatus Install(string zipFileName, string destinationFolder)
         {
             if (!Directory.Exists(destinationFolder))
+            {
+                _logger.Error($"Install directory is not exist: {destinationFolder}");
                 return InstallStatus.FileError;
+            }
             DirectoryInfo? unpackDataDir = null;
             DirectoryInfo? backupDataDir = null;
             var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
@@ -24,12 +30,14 @@ namespace NSW.StarCitizen.Tools.Localization
                 unpackDataDir = Directory.CreateDirectory(unpackDataDirPath);
                 if (!Unpack(zipFileName, unpackDataDir.FullName))
                 {
+                    _logger.Error($"Failed unpack install package to: {unpackDataDirPath}");
                     return InstallStatus.PackageError;
                 }
                 var newLibraryPath = Path.Combine(unpackDataDir.FullName, GameConstants.PatcherOriginalName);
                 using var libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
                 if (!libraryCertVerifier.VerifyFile(newLibraryPath))
                 {
+                    _logger.Error("Core certificate is invalid. Abort installation");
                     return InstallStatus.VerifyError;
                 }
                 if (dataPathDir.Exists)
@@ -60,16 +68,19 @@ namespace NSW.StarCitizen.Tools.Localization
                     File.Move(newLibraryPath, disabledLibraryPath);
                 }
             }
-            catch (CryptographicException)
+            catch (CryptographicException e)
             {
+                _logger.Error(e, "Exception during verify core");
                 return InstallStatus.VerifyError;
             }
-            catch (IOException)
+            catch (IOException e)
             {
+                _logger.Error(e, "I/O exception during install");
                 return InstallStatus.FileError;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Error(e, "Unexpected exception during install");
                 return InstallStatus.UnknownError;
             }
             finally
@@ -145,6 +156,7 @@ namespace NSW.StarCitizen.Tools.Localization
             using var archive = ZipFile.OpenRead(zipFileName);
             if (archive.Entries.Count == 0)
             {
+                _logger.Error($"Failed unpack archive. No entries found: {zipFileName}");
                 return false;
             }
             var dataExtracted = false;
@@ -175,7 +187,12 @@ namespace NSW.StarCitizen.Tools.Localization
                     }
                 }
             }
-            return dataExtracted && coreExtracted;
+            if (!dataExtracted || !coreExtracted)
+            {
+                _logger.Error($"Wrong localization archive: hasData={dataExtracted}, hasCore={coreExtracted}");
+                return false;
+            }
+            return true;
         }
 
         private static void RestoreDirectory(DirectoryInfo dir, DirectoryInfo destDir)
@@ -187,8 +204,9 @@ namespace NSW.StarCitizen.Tools.Localization
                     FileUtils.DeleteDirectoryNoThrow(destDir, true);
                     Directory.Move(dir.FullName, destDir.FullName);
                 }
-                catch
+                catch (Exception e)
                 {
+                    _logger.Error(e, $"Unable restore data from directory: {dir.FullName}");
                     FileUtils.DeleteDirectoryNoThrow(dir, true);
                 }
             }

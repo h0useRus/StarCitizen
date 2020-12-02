@@ -189,15 +189,12 @@ namespace NSW.StarCitizen.Tools.Helpers
             [In] WinTrustData pWVTData
         );
 
-        public static bool VerifyEmbeddedSignature(string fileName)
+        public static WinVerifyTrustResult VerifyEmbeddedSignature(string fileName)
         {
             using var wtfi = new WinTrustFileInfo(fileName);
             using var wtd = new WinTrustData(wtfi);
             var guidAction = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
-            var result = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd);
-            return result == WinVerifyTrustResult.Success ||
-                   result == WinVerifyTrustResult.UntrustedRoot ||
-                   result == WinVerifyTrustResult.CertChaining;
+            return WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd);
         }
     }
 }

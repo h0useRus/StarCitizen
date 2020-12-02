@@ -136,7 +136,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 string? gamePath = Program.SearchGameFolder(_lastBrowsePath);
                 if (!SetGameFolder(gamePath))
                 {
-                    MessageBox.Show(Resources.GamePath_Error_Text, Resources.GamePath_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
@@ -170,7 +171,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     string.Compare(installedVersion, availableUpdate.GetVersion(),
                         StringComparison.OrdinalIgnoreCase) != 0)
                 {
-                    var dialogResult = MessageBox.Show(
+                    var dialogResult = MessageBox.Show(this,
                         string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
                             availableUpdate.GetVersion()),
                         Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -241,17 +242,20 @@ namespace NSW.StarCitizen.Tools.Forms
                 if (availableUpdate == null)
                 {
                     progressDlg.Hide();
-                    MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text, Resources.Application_CheckForUpdate_Title,
+                    MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text,
+                        Resources.Application_CheckForUpdate_Title,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                var dialogResult = MessageBox.Show(string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
-                        Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var dialogResult = MessageBox.Show(this,
+                    string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                    Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     var downloadDialogAdapter = new DownloadProgressDialogAdapter(null);
                     progressDlg.BindAdapter(downloadDialogAdapter);
-                    var filePath = await Program.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken, downloadDialogAdapter);
+                    var filePath = await Program.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken,
+                        downloadDialogAdapter);
                     Program.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
                 }
             }
