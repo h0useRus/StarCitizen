@@ -71,6 +71,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public InstallUpdateStatus InstallScheduledUpdate()
         {
+            _logger.Info("Install scheduled update");
             if (ExtractReadyInstallUpdate() && ExtractUpdateScript())
             {
                 using var updateProcess = new Process();
@@ -85,6 +86,7 @@ namespace NSW.StarCitizen.Tools.Update
                 if (!updateProcess.Start())
                 {
                     RemoveUpdateScript();
+                    _logger.Info($"Failed launch updater script: {_updateScriptPath}");
                     return InstallUpdateStatus.LaunchScriptError;
                 }
                 return InstallUpdateStatus.Success;
@@ -102,6 +104,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public bool ScheduleInstallUpdate(UpdateInfo updateInfo, string filePath)
         {
+            _logger.Info($"Shedule install update with version: {updateInfo.GetVersion()}");
             if (File.Exists(filePath))
             {
                 _updateRepository.SetCurrentVersion(Program.Version.ToString(3));
@@ -121,6 +124,8 @@ namespace NSW.StarCitizen.Tools.Update
                         _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
                         return true;
                     }
+                    _logger.Error($"Failed write schedule json: {_schedInstallJsonPath}");
+                    return false;
                 }
                 catch (Exception e)
                 {
@@ -129,6 +134,7 @@ namespace NSW.StarCitizen.Tools.Update
                     return false;
                 }
             }
+            _logger.Error($"No schedule update package: {filePath}");
             return false;
         }
 

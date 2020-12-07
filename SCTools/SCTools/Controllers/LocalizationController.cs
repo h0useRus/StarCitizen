@@ -63,6 +63,7 @@ namespace NSW.StarCitizen.Tools.Controllers
 
         public async Task<bool> RefreshVersionsAsync(Control window)
         {
+            _logger.Info($"Refresh localization versions: {CurrentRepository.RepositoryUrl}");
             bool status = false;
             using var progressDlg = new ProgressForm(10000);
             try
@@ -103,6 +104,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            _logger.Info($"Install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
             bool status = false;
             using var progressDlg = new ProgressForm();
             try
@@ -179,6 +181,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                     Resources.Localization_Uninstall_QuestionTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.No)
                     return false;
+                _logger.Info($"Uninstall localization: {CurrentGame.Mode}, {CurrentInstallation.Repository} {CurrentInstallation.InstalledVersion}");
                 bool status = false;
                 using var progressDlg = new ProgressForm();
                 try

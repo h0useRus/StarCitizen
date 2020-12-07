@@ -5,10 +5,10 @@
   <targets>
     <target xsi:type="ColoredConsole"
             name="console"
-            layout="${longdate}|${level:uppercase=true}|${logger}|${message}" />
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}|${exception:format=@}" />
     <target xsi:type="File"
             name="file"
-            layout="${longdate}|${level:uppercase=true}|${logger}|${message}"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}|${exception:format=@}"
             fileName="${logDirectory}/log.txt"
             archiveFileName="${logDirectory}/log.{#}.txt"
             archiveNumbering="Date"

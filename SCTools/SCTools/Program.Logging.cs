@@ -23,7 +23,7 @@ namespace NSW.StarCitizen.Tools
             LogManager.GlobalThreshold = LogLevel.Info;
 #endif
             LogManager.Configuration = XmlLoggingConfiguration.CreateFromXmlString(Resources.LoggingConfig);
-            _logger.Info("Logging initialized");
+            _logger.Info($"Logging initialized: {Name} {Version.ToString(3)}");
         }
 
         public static void FreeLogging()
