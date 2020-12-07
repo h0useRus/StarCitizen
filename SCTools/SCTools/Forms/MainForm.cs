@@ -11,7 +11,6 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class MainForm : Form, ILocalizedForm
     {
-        private LocalizationController? _localizationController;
         private bool _isGameFolderSet;
         private bool _holdUpdates;
         private string? _lastBrowsePath;
@@ -160,8 +159,8 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnUpdateLocalization_Click(object sender, EventArgs e)
         {
-            var controller = _localizationController;
-            if (controller == null) return;
+            if (Program.CurrentGame == null) return;
+            var controller = new LocalizationController(Program.CurrentGame);
             controller.Load();
             var installedVersion = controller.CurrentInstallation.InstalledVersion;
             if (installedVersion != null && await controller.RefreshVersionsAsync(this))
@@ -410,16 +409,15 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateGameModeInfo(GameInfo gameInfo)
         {
-            _localizationController = new LocalizationController(gameInfo);
-            _localizationController.Load();
             tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
             btnUpdateLocalization.Text = Resources.Localization_CheckForUpdates_Text;
-            btnUpdateLocalization.Visible = _localizationController.CurrentInstallation.InstalledVersion != null &&
-                _localizationController.GetInstallationType() != LocalizationInstallationType.None;
+            var controller = new LocalizationController(gameInfo);
+            btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null &&
+                                            controller.GetInstallationType() != LocalizationInstallationType.None;
         }
 
         private void UpdateAppInstallButton()

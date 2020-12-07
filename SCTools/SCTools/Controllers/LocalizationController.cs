@@ -18,7 +18,7 @@ namespace NSW.StarCitizen.Tools.Controllers
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public readonly GameInfo CurrentGame;
         public readonly GameSettings GameSettings;
-        public List<ILocalizationRepository> Repositories { get; private set; } = new List<ILocalizationRepository>();
+        public List<ILocalizationRepository> Repositories { get; private set; }
         public LocalizationInstallation CurrentInstallation { get; private set; }
         public ILocalizationRepository CurrentRepository { get; private set; }
         public bool IsLoaded { get; private set; }
@@ -27,7 +27,8 @@ namespace NSW.StarCitizen.Tools.Controllers
         {
             CurrentGame = currentGame;
             GameSettings = new GameSettings(currentGame);
-            CurrentRepository = Program.RepositoryManager.GetCurrentRepository(currentGame.Mode);
+            Repositories = Program.RepositoryManager.GetRepositoriesList();
+            CurrentRepository = Program.RepositoryManager.GetCurrentRepository(currentGame.Mode, Repositories);
             CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(currentGame.Mode, CurrentRepository);
         }
 
