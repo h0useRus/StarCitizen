@@ -22,6 +22,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public string Repository { get; }
         [JsonProperty]
+        public UpdateRepositoryType Type { get; }
+        [JsonProperty]
         public string? InstalledVersion { get; set; }
         [JsonProperty]
         public string? LastVersion { get; set; }
@@ -33,10 +35,11 @@ namespace NSW.StarCitizen.Tools.Settings
         public bool AllowPreRelease { get; set; }
 
         [JsonConstructor]
-        public LocalizationInstallation(GameMode mode, string repository)
+        public LocalizationInstallation(GameMode mode, string repository, UpdateRepositoryType? type)
         {
             Mode = mode;
             Repository = repository;
+            Type = type ?? UpdateRepositoryType.GitHub;
         }
     }
 

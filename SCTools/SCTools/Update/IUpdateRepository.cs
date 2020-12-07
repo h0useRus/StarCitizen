@@ -9,6 +9,7 @@ namespace NSW.StarCitizen.Tools.Update
     {
         string Name { get; }
         string Repository { get; }
+        string RepositoryUrl { get; }
         UpdateRepositoryType Type { get; }
         string? CurrentVersion { get; }
         IEnumerable<UpdateInfo>? UpdateReleases { get; }

@@ -12,16 +12,16 @@ namespace NSW.StarCitizen.Tools.Update
 {
     public class GitHubUpdateRepository : UpdateRepository
     {
-        private const string BaseUrl = "https://api.github.com/repos";
+        private const string GitHubApiUrl = "https://api.github.com/repos";
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _repoReleasesUrl;
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
         public GitHubDownloadType DownloadType { get; }
         public GitHubUpdateRepository(GitHubDownloadType downloadType, GitHubUpdateInfo.Factory gitHubUpdateInfoFactory, string name, string repository) :
-            base(UpdateRepositoryType.GitHub, name, repository)
+            base(UpdateRepositoryType.GitHub, name, repository, GitHubRepositoryUrl.Build(repository))
         {
             DownloadType = downloadType;
-            _repoReleasesUrl = $"{BaseUrl}/{repository}/releases";
+            _repoReleasesUrl = $"{GitHubApiUrl}/{repository}/releases";
             _gitHubUpdateInfoFactory = gitHubUpdateInfoFactory;
         }
 

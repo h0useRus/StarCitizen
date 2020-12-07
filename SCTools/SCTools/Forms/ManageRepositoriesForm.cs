@@ -5,12 +5,12 @@ using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Localization;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
+using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class ManageRepositoriesForm : Form, ILocalizedForm
     {
-        private const string GitHubUrl = "https://github.com/";
         private readonly RepositoriesListViewAdapter _repositoriesListAdapter;
         private readonly RepositoriesListViewAdapter _stdRepositoriesListAdapter;
 
@@ -50,32 +50,32 @@ namespace NSW.StarCitizen.Tools.Forms
             if (repository != null)
             {
                 tbName.Text = repository.Name;
-                tbUrl.Text = GitHubUrl + repository.Repository ;
+                tbUrl.Text = repository.RepositoryUrl;
             }
         }
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            var name = tbName.Text?.Trim();
-            if (name == null || string.IsNullOrWhiteSpace(name))
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show(string.Format(Resources.Localization_InvalidRepoName_Text, name),
                     Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            string repositoryUrl;
-            var url = tbUrl.Text?.ToLower().Trim();
-            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri) ||
-                string.IsNullOrWhiteSpace(repositoryUrl = uri.AbsolutePath.Trim('/')))
+            var url = tbUrl.Text.ToLower().Trim();
+            string? repositoryUrl = GitHubRepositoryUrl.Parse(url);
+            if (repositoryUrl == null)
             {
                 MessageBox.Show(string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
-                       Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             using var cancellationTokenSource = new CancellationTokenSource(20000);
-            switch (await Program.RepositoryManager.AddRepositoryAsync(name, repositoryUrl, cancellationTokenSource.Token))
+            var localizationSource = new LocalizationSource(name, repositoryUrl, UpdateRepositoryType.GitHub);
+            switch (await Program.RepositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
             {
                 case RepositoryManager.AddStatus.Success:
                     DataBindList();
@@ -119,7 +119,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (source != null)
             {
                 tbName.Text = source.Name;
-                tbUrl.Text = GitHubUrl + source.Repository;
+                tbUrl.Text = GitHubRepositoryUrl.Build(source.Repository);
             }
         }
 

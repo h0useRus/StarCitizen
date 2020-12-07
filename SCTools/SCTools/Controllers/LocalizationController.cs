@@ -42,7 +42,8 @@ namespace NSW.StarCitizen.Tools.Controllers
 
         public bool SetCurrentRepository(ILocalizationRepository localizationRepository)
         {
-            if (localizationRepository.Repository == CurrentRepository.Repository)
+            if (localizationRepository.Type == CurrentRepository.Type &&
+                localizationRepository.Repository == CurrentRepository.Repository)
                 return false;
             CurrentRepository = localizationRepository;
             CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(CurrentGame.Mode, localizationRepository);

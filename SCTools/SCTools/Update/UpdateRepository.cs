@@ -15,13 +15,14 @@ namespace NSW.StarCitizen.Tools.Update
 
         public string Name { get; }
         public string Repository { get; }
+        public string RepositoryUrl { get; }
         public UpdateRepositoryType Type { get; }
         public string? CurrentVersion { get; private set; }
         public IEnumerable<UpdateInfo>? UpdateReleases { get; private set; }
         public UpdateInfo? LatestUpdateInfo => UpdateReleases?.FirstOrDefault();
         public bool AllowPreReleases { get; set; } = true;
 
-        protected UpdateRepository(UpdateRepositoryType type, string name, string repository)
+        protected UpdateRepository(UpdateRepositoryType type, string name, string repository, string repositoryUrl)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -30,7 +31,8 @@ namespace NSW.StarCitizen.Tools.Update
 
             Type = type;
             Name = name;
-            Repository = repository.Trim('/');
+            Repository = repository;
+            RepositoryUrl = repositoryUrl;
 
             _monitorTimer = new System.Timers.Timer();
             _monitorTimer.Elapsed += MonitorTimerOnElapsedAsync;
