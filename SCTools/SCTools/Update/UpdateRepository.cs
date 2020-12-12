@@ -60,7 +60,7 @@ namespace NSW.StarCitizen.Tools.Update
             return null;
         }
 
-        public abstract Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
+        public abstract Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
         public abstract Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         public bool IsMonitorStarted { get; private set; }

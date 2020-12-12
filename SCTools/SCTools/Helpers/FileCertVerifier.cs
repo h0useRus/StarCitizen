@@ -98,7 +98,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
-            _logger.Info($"Verify file certificate");
+            _logger.Info("Verify file certificate");
             using var fileCertificateCollection = DynamicDisposable<X509Certificate2Collection>.CreateNonNull(new X509Certificate2Collection());
             fileCertificateCollection.Object.Import(filename);
             if (fileCertificateCollection.Object.Count != 1)
@@ -139,7 +139,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
-            _logger.Info($"Verify file signature");
+            _logger.Info("Verify file signature");
             var result = WinTrust.VerifyEmbeddedSignature(filename);
             _logger.Info($"Verify file signature result: {result}");
             return result == WinVerifyTrustResult.Success ||

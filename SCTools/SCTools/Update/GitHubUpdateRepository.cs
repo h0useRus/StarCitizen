@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -43,28 +44,29 @@ namespace NSW.StarCitizen.Tools.Update
             return Enumerable.Empty<UpdateInfo>();
         }
 
-        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath,
+        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl, cancellationToken);
+            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl,
+                HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();
+            using var contentStream = await response.Content.ReadAsStreamAsync();
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
             {
                 downloadProgress.ReportContentSize(response.Content.Headers.ContentLength.Value);
             }
-            using var contentStream = await response.Content.ReadAsStreamAsync();
-            var tempFileName = Path.Combine(downloadPath ?? Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
+            var tempFileName = Path.Combine(downloadPath, response.Content.Headers.ContentDisposition.FileName);
             try
             {
                 using var fileStream = File.Create(tempFileName);
                 if (downloadProgress != null)
                 {
-                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken,
+                    await contentStream.CopyToAsync(fileStream, 0x4000, cancellationToken,
                         new Progress<long>(downloadProgress.ReportDownloadedSize));
                 }
                 else
                 {
-                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken);
+                    await contentStream.CopyToAsync(fileStream, 0x4000, cancellationToken);
                 }
             }
             catch
@@ -89,14 +91,22 @@ namespace NSW.StarCitizen.Tools.Update
                 return false;
             }
         }
-        private IEnumerable<UpdateInfo> GetSourceCodeUpdates(GitRelease[] releases)
+        private IEnumerable<UpdateInfo> GetSourceCodeUpdates(IEnumerable<GitRelease> releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r)).OfType<UpdateInfo>();
+            foreach (var r in releases)
+            {
+                var info = _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r);
+                if (info != null) yield return info;
+            }
         }
 
-        private IEnumerable<UpdateInfo> GetAssetUpdates(GitRelease[] releases)
+        private IEnumerable<UpdateInfo> GetAssetUpdates(IEnumerable<GitRelease> releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r)).OfType<UpdateInfo>();
+            foreach (var r in releases)
+            {
+                var info = _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r);
+                if (info != null) yield return info;
+            }
         }
 
         #region Git objects

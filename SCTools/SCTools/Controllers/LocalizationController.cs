@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NLog;
@@ -114,7 +115,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
-                var filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, null,
+                var filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, Path.GetTempPath(),
                     progressDlg.CancelToken, downloadDialogAdapter);
                 progressDlg.BindAdapter(new InstallProgressDialogAdapter());
                 var result = CurrentRepository.Installer.Install(filePath, CurrentGame.RootFolderPath);

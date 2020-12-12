@@ -13,9 +13,11 @@ namespace NSW.StarCitizen.Tools.Helpers
             var buffer = new byte[bufferSize];
             int bytesRead;
             long totalRead = 0;
-            while ((bytesRead = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+            while ((bytesRead = await source.ReadAsync(buffer, 0, bufferSize, cancellationToken)
+                .ConfigureAwait(false)) > 0)
             {
-                await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken);
+                await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken)
+                    .ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
                 totalRead += bytesRead;
                 progress.Report(totalRead);

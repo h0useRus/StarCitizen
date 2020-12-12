@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Helpers;
