@@ -17,16 +17,26 @@ namespace NSW.StarCitizen.Tools
             ValidateAppSettings(appSettings);
             return appSettings;
         }
+
         private static void ValidateAppSettings(AppSettings appSettings)
         {
-            if (appSettings.Localization.Repositories.Count == 0)
+            if (FixLocalizationSettings(appSettings.Localization) | FixLocalizationSettings(appSettings.LocalizationPu))
             {
-                appSettings.Localization.Repositories.AddRange(LocalizationSource.DefaultList);
                 SaveAppSettings(appSettings);
             }
         }
 
         public static bool SaveAppSettings() => SaveAppSettings(Settings);
         private static bool SaveAppSettings(AppSettings appSettings) => JsonHelper.WriteFile(_appSettingsFileName, appSettings);
+
+        private static bool FixLocalizationSettings(LocalizationSettings settings)
+        {
+            if (settings.Repositories.Count == 0)
+            {
+                settings.Repositories.AddRange(LocalizationSource.DefaultList);
+                return true;
+            }
+            return false;
+        }
     }
 }

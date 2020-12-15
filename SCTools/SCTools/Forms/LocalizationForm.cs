@@ -113,7 +113,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 _controller.CurrentInstallation.MonitorForUpdates = cbCheckNewVersions.Checked;
                 Program.SaveAppSettings();
-                Program.RepositoryManager.RunMonitors();
+                _controller.RepositoryManager.RunMonitors();
             }
         }
 
@@ -123,13 +123,13 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 _controller.CurrentInstallation.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
                 Program.SaveAppSettings();
-                Program.RepositoryManager.RunMonitors();
+                _controller.RepositoryManager.RunMonitors();
             }
         }
 
         private void btnManage_Click(object sender, EventArgs e)
         {
-            using var dialog = new ManageRepositoriesForm();
+            using var dialog = new ManageRepositoriesForm(_controller.RepositoryManager);
             dialog.ShowDialog(this);
             LocalizationForm_Load(sender, e);
         }

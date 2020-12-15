@@ -19,6 +19,7 @@ namespace NSW.StarCitizen.Tools.Controllers
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         public readonly GameInfo CurrentGame;
         public readonly GameSettings GameSettings;
+        public RepositoryManager RepositoryManager { get; }
         public List<ILocalizationRepository> Repositories { get; private set; }
         public LocalizationInstallation CurrentInstallation { get; private set; }
         public ILocalizationRepository CurrentRepository { get; private set; }
@@ -28,17 +29,18 @@ namespace NSW.StarCitizen.Tools.Controllers
         {
             CurrentGame = currentGame;
             GameSettings = new GameSettings(currentGame);
-            Repositories = Program.RepositoryManager.GetRepositoriesList();
-            CurrentRepository = Program.RepositoryManager.GetCurrentRepository(currentGame.Mode, Repositories);
-            CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(currentGame.Mode, CurrentRepository);
+            RepositoryManager = Program.RepositoryManagers[currentGame.Mode];
+            Repositories = RepositoryManager.GetRepositoriesList();
+            CurrentRepository = RepositoryManager.GetCurrentRepository(Repositories);
+            CurrentInstallation = RepositoryManager.CreateRepositoryInstallation(CurrentRepository);
         }
 
         public void Load()
         {
             GameSettings.Load();
-            Repositories = Program.RepositoryManager.GetRepositoriesList();
-            CurrentRepository = Program.RepositoryManager.GetCurrentRepository(CurrentGame.Mode, Repositories);
-            CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(CurrentGame.Mode, CurrentRepository);
+            Repositories = RepositoryManager.GetRepositoriesList();
+            CurrentRepository = RepositoryManager.GetCurrentRepository(Repositories);
+            CurrentInstallation = RepositoryManager.CreateRepositoryInstallation(CurrentRepository);
             IsLoaded = true;
         }
 
@@ -48,13 +50,13 @@ namespace NSW.StarCitizen.Tools.Controllers
                 localizationRepository.Repository == CurrentRepository.Repository)
                 return false;
             CurrentRepository = localizationRepository;
-            CurrentInstallation = Program.RepositoryManager.CreateRepositoryInstallation(CurrentGame.Mode, localizationRepository);
+            CurrentInstallation = RepositoryManager.CreateRepositoryInstallation(localizationRepository);
             return true;
         }
 
         public bool IsRepositoryInstalled(ILocalizationRepository localizationRepository)
         {
-            var installation = Program.RepositoryManager.GetRepositoryInstallation(CurrentGame.Mode, localizationRepository);
+            var installation = RepositoryManager.GetRepositoryInstallation(localizationRepository);
             return installation != null && !string.IsNullOrEmpty(installation.InstalledVersion);
         }
 
@@ -124,7 +126,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                     case InstallStatus.Success:
                         GameSettings.Load();
                         progressDlg.CurrentTaskProgress = 1.0f;
-                        Program.RepositoryManager.SetInstalledRepository(CurrentGame.Mode, CurrentRepository, selectedUpdateInfo.GetVersion());
+                        RepositoryManager.SetInstalledRepository(CurrentRepository, selectedUpdateInfo.GetVersion());
                         status = true;
                         break;
                     case InstallStatus.PackageError:
@@ -195,14 +197,14 @@ namespace NSW.StarCitizen.Tools.Controllers
                             GameSettings.RemoveCurrentLanguage();
                             GameSettings.Load();
                             progressDlg.CurrentTaskProgress = 1.0f;
-                            Program.RepositoryManager.RemoveInstalledRepository(CurrentGame.Mode, CurrentRepository);
+                            RepositoryManager.RemoveInstalledRepository(CurrentRepository);
                             status = true;
                             break;
                         case UninstallStatus.Partial:
                             GameSettings.RemoveCurrentLanguage();
                             GameSettings.Load();
                             progressDlg.CurrentTaskProgress = 1.0f;
-                            Program.RepositoryManager.RemoveInstalledRepository(CurrentGame.Mode, CurrentRepository);
+                            RepositoryManager.RemoveInstalledRepository(CurrentRepository);
                             status = true;
                             _logger.Warn($"Localization uninstalled partially: {CurrentGame.Mode}");
                             MessageBox.Show(Resources.Localization_Uninstall_WarningText,

@@ -54,10 +54,13 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
             };
-            Program.RepositoryManager.Notification += (sender, s) =>
+            foreach (var manager in Program.RepositoryManagers.Values)
             {
-                niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
-            };
+                manager.Notification += (sender, s) =>
+                {
+                    niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
+                };
+            }
             TopMost = Program.Settings.TopMostWindow;
             InitLanguageCombobox(cbLanguage);
             cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
@@ -93,7 +96,6 @@ namespace NSW.StarCitizen.Tools.Forms
             if (Program.Settings.RunMinimized)
                 Minimize();
 
-            Program.RepositoryManager.RunMonitors();
             if (Program.Settings.Update.MonitorUpdates)
                 Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
         }
@@ -384,6 +386,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = gameModes;
                     SetGameModeInfo(gameMode);
+                    Program.RunRepositoryMonitors(gameModes);
                     return true;
                 }
             }
@@ -395,6 +398,7 @@ namespace NSW.StarCitizen.Tools.Forms
             tbGamePath.TextAlign = HorizontalAlignment.Center;
             cbGameModes.DataSource = null;
             Program.CurrentGame = null;
+            Program.StopRepositoryMonitors();
             return false;
         }
 

@@ -1,8 +1,10 @@
+using System;
 using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
+using NSW.StarCitizen.Tools.Global;
 
 namespace NSW.StarCitizen.Tools.Settings
 {
@@ -36,6 +38,16 @@ namespace NSW.StarCitizen.Tools.Settings
         public UpdateSettings Update { get; } = new UpdateSettings();
         [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
+        [JsonProperty]
+        public LocalizationSettings LocalizationPu { get; } = new LocalizationSettings();
+
+        public LocalizationSettings GetGameModeSettings(GameMode gameMode) =>
+            gameMode switch
+            {
+                GameMode.LIVE => Localization,
+                GameMode.PTU => LocalizationPu,
+                _ => throw new NotSupportedException("Not supported game mode: " + gameMode)
+            };
 
         private static string GetLanguage()
         {

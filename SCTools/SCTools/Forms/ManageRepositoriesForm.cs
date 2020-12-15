@@ -11,11 +11,13 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class ManageRepositoriesForm : Form, ILocalizedForm
     {
+        private readonly RepositoryManager _repositoryManager;
         private readonly RepositoriesListViewAdapter _repositoriesListAdapter;
         private readonly RepositoriesListViewAdapter _stdRepositoriesListAdapter;
 
-        public ManageRepositoriesForm()
+        public ManageRepositoriesForm(RepositoryManager repositoryManager)
         {
+            _repositoryManager = repositoryManager;
             InitializeComponent();
             _repositoriesListAdapter = new RepositoriesListViewAdapter(lvRepositories);
             _stdRepositoriesListAdapter = new RepositoriesListViewAdapter(lvStdRepositories);
@@ -40,7 +42,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void DataBindList()
         {
-            _repositoriesListAdapter.SetRepositoriesList(Program.RepositoryManager.GetRepositoriesList());
+            _repositoriesListAdapter.SetRepositoriesList(_repositoryManager.GetRepositoriesList());
             UpdateButtons();
         }
 
@@ -75,7 +77,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
             using var cancellationTokenSource = new CancellationTokenSource(20000);
             var localizationSource = new LocalizationSource(name, repositoryUrl, UpdateRepositoryType.GitHub);
-            switch (await Program.RepositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
+            switch (await _repositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
             {
                 case RepositoryManager.AddStatus.Success:
                     DataBindList();
@@ -100,14 +102,14 @@ namespace NSW.StarCitizen.Tools.Forms
             var repository = _repositoriesListAdapter.GetSelectedRepository();
             if (repository != null)
             {
-                var usedByGameMode = Program.RepositoryManager.GetRepositoryUsedGameMode(repository);
+                var usedByGameMode = _repositoryManager.GetRepositoryUsedGameMode(repository);
                 if (usedByGameMode != null)
                 {
                     if (MessageBox.Show(string.Format(Resources.Localization_RemoveUsedRepoWarning_Text, repository.Name, usedByGameMode.ToString()),
                         Resources.Localization_Warning_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                         return;
                 }
-                Program.RepositoryManager.RemoveRepository(repository);
+                _repositoryManager.RemoveRepository(repository);
                 _repositoriesListAdapter.RemoveSelectedItem();
                 UpdateButtons();
             }

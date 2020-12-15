@@ -14,7 +14,7 @@ namespace NSW.StarCitizen.Tools
 
         public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
-        public static IEnumerable<GameInfo> GetGameModes(string gameFolder)
+        public static List<GameInfo> GetGameModes(string gameFolder)
         {
             var result = new List<GameInfo>();
             if (Directory.Exists(gameFolder))
