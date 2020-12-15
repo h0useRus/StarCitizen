@@ -26,7 +26,7 @@ namespace NSW.StarCitizen.Tools.Update
             _gitHubUpdateInfoFactory = gitHubUpdateInfoFactory;
         }
 
-        public override async Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
+        public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
@@ -36,12 +36,12 @@ namespace NSW.StarCitizen.Tools.Update
             {
                 return DownloadType switch
                 {
-                    GitHubDownloadType.Assets => GetAssetUpdates(releases),
-                    GitHubDownloadType.Sources => GetSourceCodeUpdates(releases),
+                    GitHubDownloadType.Assets => GetAssetUpdates(releases).ToList(),
+                    GitHubDownloadType.Sources => GetSourceCodeUpdates(releases).ToList(),
                     _ => throw new NotSupportedException("Not supported download type"),
                 };
             }
-            return Enumerable.Empty<UpdateInfo>();
+            return Enumerable.Empty<UpdateInfo>().ToList();
         }
 
         public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,

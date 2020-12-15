@@ -39,13 +39,13 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
         [JsonProperty]
-        public LocalizationSettings LocalizationPu { get; } = new LocalizationSettings();
+        public LocalizationSettings LocalizationPtu { get; } = new LocalizationSettings();
 
         public LocalizationSettings GetGameModeSettings(GameMode gameMode) =>
             gameMode switch
             {
                 GameMode.LIVE => Localization,
-                GameMode.PTU => LocalizationPu,
+                GameMode.PTU => LocalizationPtu,
                 _ => throw new NotSupportedException("Not supported game mode: " + gameMode)
             };
 

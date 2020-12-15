@@ -35,12 +35,12 @@ namespace NSW.StarCitizen.Tools.Update
             RepositoryUrl = repositoryUrl;
 
             _monitorTimer = new System.Timers.Timer();
-            _monitorTimer.Elapsed += MonitorTimerOnElapsedAsync;
+            _monitorTimer.Elapsed += MonitorTimerOnElapsed;
         }
 
         public void Dispose() => _monitorTimer.Dispose();
 
-        public abstract Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
+        public abstract Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
 
         public async Task<IEnumerable<UpdateInfo>> RefreshUpdatesAsync(CancellationToken cancellationToken)
         {
@@ -66,11 +66,7 @@ namespace NSW.StarCitizen.Tools.Update
         public bool IsMonitorStarted { get; private set; }
         public int MonitorRefreshTime { get; private set; }
 
-        public void SetCurrentVersion(string version)
-        {
-            if (version != null)
-                CurrentVersion = version;
-        }
+        public void SetCurrentVersion(string version) => CurrentVersion = version;
 
         public UpdateInfo? UpdateCurrentVersion(string? fallbackVersion)
         {
@@ -104,9 +100,10 @@ namespace NSW.StarCitizen.Tools.Update
                 _monitorTimer.Interval = TimeSpan.FromMinutes(refreshTime).TotalMilliseconds;
                 _monitorTimer.Start();
                 IsMonitorStarted = true;
+                MonitorRefreshTime = refreshTime;
                 MonitorStarted?.Invoke(this, Name);
+                CheckForNewVersionAsync();
             }
-            MonitorTimerOnElapsedAsync(_monitorTimer, null);
         }
 
         public void MonitorStop()
@@ -118,13 +115,16 @@ namespace NSW.StarCitizen.Tools.Update
             MonitorStopped?.Invoke(this, Name);
         }
 
-        private async void MonitorTimerOnElapsedAsync(object sender, ElapsedEventArgs? e)
+        private void MonitorTimerOnElapsed(object sender, ElapsedEventArgs e) => CheckForNewVersionAsync();
+
+        private async void CheckForNewVersionAsync()
         {
+            if (CurrentVersion == null) return;
             try
             {
                 using var cancellationTokenSource = new CancellationTokenSource();
                 var result = await GetLatestAsync(cancellationTokenSource.Token);
-                if (result != null &&
+                if (result != null && CurrentVersion != null &&
                     string.Compare(result.GetVersion(), CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     MonitorNewVersion?.Invoke(this, result.GetVersion());
