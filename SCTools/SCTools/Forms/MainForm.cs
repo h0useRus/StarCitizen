@@ -336,16 +336,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             Program.Settings.UseHttpProxy = miUseHttpProxy.Checked;
             Program.SaveAppSettings();
-            if (CanFocus || !ShowInTaskbar)
-            {
-                niTray.Visible = false;
-                Application.Restart();
-                Environment.Exit(0);
-            }
-            else
-            {
-                Restore();
-            }
+            // TODO: need some dialog about need restart to apply this setting
         }
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
