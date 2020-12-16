@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -20,6 +21,7 @@ namespace NSW.StarCitizen.Tools.Update
 
     public class ApplicationUpdater : IDisposable
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly string _executablePath = Path.GetDirectoryName(Application.ExecutablePath);
         private static readonly string _updateScriptPath = Path.Combine(_executablePath, "update.bat");
         private static readonly string _updatesStoragePath = Path.Combine(_executablePath, "updates");
@@ -41,10 +43,7 @@ namespace NSW.StarCitizen.Tools.Update
             _updateRepository.MonitorNewVersion += OnMonitorNewVersion;
         }
 
-        public void Dispose()
-        {
-            _updateRepository.Dispose();
-        }
+        public void Dispose() => _updateRepository.Dispose();
 
         public void MonitorStart(int refreshTime) => _updateRepository.MonitorStart(refreshTime);
 
@@ -72,6 +71,7 @@ namespace NSW.StarCitizen.Tools.Update
 
         public InstallUpdateStatus InstallScheduledUpdate()
         {
+            _logger.Info("Install scheduled update");
             if (ExtractReadyInstallUpdate() && ExtractUpdateScript())
             {
                 using var updateProcess = new Process();
@@ -86,6 +86,7 @@ namespace NSW.StarCitizen.Tools.Update
                 if (!updateProcess.Start())
                 {
                     RemoveUpdateScript();
+                    _logger.Info($"Failed launch updater script: {_updateScriptPath}");
                     return InstallUpdateStatus.LaunchScriptError;
                 }
                 return InstallUpdateStatus.Success;
@@ -94,25 +95,16 @@ namespace NSW.StarCitizen.Tools.Update
             return InstallUpdateStatus.ExtractFilesError;
         }
 
-        public UpdateInfo? GetScheduledUpdateInfo()
-        {
-            if (File.Exists(_schedInstallArchivePath))
-                return JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath);
-            return null;
-        }
+        public UpdateInfo? GetScheduledUpdateInfo() => File.Exists(_schedInstallArchivePath) ? JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath) : null;
 
-        public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo)
-        {
-            return string.Compare(updateInfo.GetVersion(), Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) == 0;
-        }
+        public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo) =>
+            string.Compare(updateInfo.GetVersion(), Program.Version.ToString(3), StringComparison.OrdinalIgnoreCase) == 0;
 
-        public void ApplyScheduledUpdateProps(UpdateInfo updateInfo)
-        {
-            _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
-        }
+        public void ApplyScheduledUpdateProps(UpdateInfo updateInfo) => _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
 
         public bool ScheduleInstallUpdate(UpdateInfo updateInfo, string filePath)
         {
+            _logger.Info($"Shedule install update with version: {updateInfo.GetVersion()}");
             if (File.Exists(filePath))
             {
                 _updateRepository.SetCurrentVersion(Program.Version.ToString(3));
@@ -132,13 +124,17 @@ namespace NSW.StarCitizen.Tools.Update
                         _updateRepository.SetCurrentVersion(updateInfo.GetVersion());
                         return true;
                     }
+                    _logger.Error($"Failed write schedule json: {_schedInstallJsonPath}");
+                    return false;
                 }
-                catch
+                catch (Exception e)
                 {
+                    _logger.Error(e, $"Exception during schedule install update at: {filePath}");
                     CancelScheduleInstallUpdate();
                     return false;
                 }
             }
+            _logger.Error($"No schedule update package: {filePath}");
             return false;
         }
 
@@ -159,27 +155,31 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
-        private bool ExtractUpdateScript()
+        private static bool ExtractUpdateScript()
         {
             try
             {
                 File.WriteAllText(_updateScriptPath, Resources.UpdateScript);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed extract update script to: {_updateScriptPath}");
                 return false;
             }
             return true;
         }
 
-        private bool ExtractReadyInstallUpdate()
+        private static bool ExtractReadyInstallUpdate()
         {
             var installUnpackedDir = new DirectoryInfo(_installUnpackedDir);
             var extractTempDir = new DirectoryInfo(Path.Combine(_updatesStoragePath, "temp_" + Path.GetRandomFileName()));
             try
             {
                 if (installUnpackedDir.Exists && !FileUtils.DeleteDirectoryNoThrow(installUnpackedDir, true))
+                {
+                    _logger.Error($"Already exist extract directory can't be removed: {_installUnpackedDir}");
                     return false;
+                }
                 using var archive = ZipFile.OpenRead(_schedInstallArchivePath);
                 extractTempDir.Create();
                 archive.ExtractToDirectory(extractTempDir.FullName);
@@ -187,8 +187,9 @@ namespace NSW.StarCitizen.Tools.Update
                     throw new NotSupportedException("Not supported upgrade package");
                 Directory.Move(extractTempDir.FullName, _installUnpackedDir);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed extract update package to: {_installUnpackedDir}");
                 if (extractTempDir.Exists)
                     FileUtils.DeleteDirectoryNoThrow(extractTempDir, true);
                 if (installUnpackedDir.Exists)
@@ -198,22 +199,16 @@ namespace NSW.StarCitizen.Tools.Update
             return true;
         }
 
-        private void OnMonitorStarted(object sender, string e)
-        {
+        private void OnMonitorStarted(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 Resources.Localization_Start_Monitoring));
-        }
 
-        private void OnMonitorStopped(object sender, string e)
-        {
+        private void OnMonitorStopped(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 Resources.Localization_Stop_Monitoring));
-        }
 
-        private void OnMonitorNewVersion(object sender, string e)
-        {
+        private void OnMonitorNewVersion(object sender, string e) =>
             Notification?.Invoke(sender, new Tuple<string, string>(_updateRepository.Name,
                 string.Format(Resources.Localization_Found_New_Version, e)));
-        }
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
@@ -15,12 +16,8 @@ namespace NSW.StarCitizen.Tools.Helpers
         public string Key { get; }
         public string Value { get; private set; }
 
-        public static CfgDataRow? Create(string key, string value)
-        {
-            if (!string.IsNullOrWhiteSpace(key) && value != null)
-                return new CfgDataRow(key, value);
-            return null;
-        }
+        public static CfgDataRow? Create(string key, string value) =>
+            !string.IsNullOrWhiteSpace(key) ? new CfgDataRow(key, value) : null;
 
         private CfgDataRow(string key, string value)
         {
@@ -28,32 +25,24 @@ namespace NSW.StarCitizen.Tools.Helpers
             Value = value;
         }
 
-        public bool UpdateValue(string value)
-        {
-            if (value != null)
-            {
-                Value = value;
-                return true;
-            }
-            return false;
-        }
+        public void UpdateValue(string value) => Value = value;
 
         public override string ToString() => Key + "=" + Value;
 
-        public override bool Equals(object value) => !(value is null) &&
-            (ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
-            string.CompareOrdinal(Key, dataRow.Key) == 0 && Value == dataRow.Value));
+        public override bool Equals(object value) =>
+            ReferenceEquals(this, value) || (value is CfgDataRow dataRow &&
+            string.Compare(Key, dataRow.Key, StringComparison.OrdinalIgnoreCase) == 0 && Value == dataRow.Value);
 
         public override int GetHashCode() => StringComparer.OrdinalIgnoreCase.GetHashCode(Key);
     }
 
     public sealed class CfgTextRow : CfgRow
     {
-        public static readonly CfgTextRow Empty = new CfgTextRow(string.Empty);
+        public static CfgTextRow Empty { get; } = new CfgTextRow(string.Empty);
 
         public static CfgTextRow Create(string content) => string.IsNullOrWhiteSpace(content) ? Empty : new CfgTextRow(content);
 
-        public string Content { get; private set; }
+        public string Content { get; }
 
         private CfgTextRow(string content)
         {
@@ -62,8 +51,8 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public override string ToString() => Content;
 
-        public override bool Equals(object value) => !(value is null) &&
-            (ReferenceEquals(this, value) || (value is CfgTextRow textRow && Content == textRow.Content));
+        public override bool Equals(object value) =>
+            ReferenceEquals(this, value) || (value is CfgTextRow textRow && Content == textRow.Content);
 
         public override int GetHashCode() => Content.GetHashCode();
     }
@@ -90,7 +79,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public CfgData(string content)
         {
-            string line;
+            string? line;
             using var reader = new StringReader(content);
             while ((line = reader.ReadLine()) != null)
             {
@@ -131,7 +120,10 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             var row = GetRowByKey(key);
             if (row != null)
-                return row.UpdateValue(value) ? row : null;
+            {
+                row.UpdateValue(value);
+                return row;
+            }
             var addRow = CfgDataRow.Create(key, value);
             if (addRow != null)
             {
@@ -174,13 +166,13 @@ namespace NSW.StarCitizen.Tools.Helpers
         private CfgDataRow? GetRowByKey(string key)
         {
             if (!string.IsNullOrWhiteSpace(key))
-                return _rows.OfType<CfgDataRow>().SingleOrDefault(r => string.CompareOrdinal(key, r.Key) == 0);
+                return _rows.OfType<CfgDataRow>().SingleOrDefault(r => string.Compare(key, r.Key, StringComparison.OrdinalIgnoreCase) == 0);
             return null;
         }
 
         private bool ContainsKey(string key) =>
             !string.IsNullOrWhiteSpace(key) &&
-            _rows.OfType<CfgDataRow>().Any(r => string.CompareOrdinal(key, r.Key) == 0);
+            _rows.OfType<CfgDataRow>().Any(r => string.Compare(key, r.Key, StringComparison.OrdinalIgnoreCase) == 0);
 
         private static bool IsTextString(string original) =>
             string.IsNullOrWhiteSpace(original) ||
@@ -200,6 +192,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
     public class CfgFile
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _fileName;
 
         public CfgFile(string fileName)
@@ -222,8 +215,10 @@ namespace NSW.StarCitizen.Tools.Helpers
                     data.AddRow(line);
                 }
             }
-            catch { }
-
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Failed read file: {_fileName}");
+            }
             return data;
         }
 
@@ -235,15 +230,17 @@ namespace NSW.StarCitizen.Tools.Helpers
 
             try
             {
+                string? line;
                 using var reader = File.OpenText(_fileName);
-                string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     data.AddRow(line);
                 }
             }
-            catch { }
-
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Failed read file: {_fileName}");
+            }
             return data;
         }
 
@@ -259,8 +256,9 @@ namespace NSW.StarCitizen.Tools.Helpers
                 await writer.FlushAsync().ConfigureAwait(false);
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed save file: {_fileName}");
                 return false;
             }
         }
@@ -277,8 +275,9 @@ namespace NSW.StarCitizen.Tools.Helpers
                 writer.Flush();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Failed save file: {_fileName}");
                 return false;
             }
         }

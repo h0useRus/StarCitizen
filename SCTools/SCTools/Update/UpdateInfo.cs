@@ -18,7 +18,7 @@ namespace NSW.StarCitizen.Tools.Update
         public override string ToString() => Name;
 
         [JsonConstructor]
-        public UpdateInfo(string name, string tagName, string downloadUrl)
+        protected UpdateInfo(string name, string tagName, string downloadUrl)
         {
             Name = name;
             TagName = tagName;
@@ -26,5 +26,7 @@ namespace NSW.StarCitizen.Tools.Update
         }
 
         public abstract string GetVersion();
+
+        public string Dump() => $"(Name={Name}, TagName={TagName}, DownloadUrl={DownloadUrl}, Released={Released}, PreRelease={PreRelease})";
     }
 }

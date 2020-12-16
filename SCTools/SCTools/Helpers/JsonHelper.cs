@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -7,6 +8,8 @@ namespace NSW.StarCitizen.Tools.Helpers
 {
     public static class JsonHelper
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static readonly JsonSerializerSettings _jsonSettings = GetJsonSettings();
         private static JsonSerializerSettings GetJsonSettings()
         {
@@ -14,22 +17,23 @@ namespace NSW.StarCitizen.Tools.Helpers
             settings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
             return settings;
         }
-        public static T? Read<T>(string json) where T : class
-        {
-            return JsonConvert.DeserializeObject<T>(json, _jsonSettings);
-        }
+        public static T? Read<T>(string json) where T : class => JsonConvert.DeserializeObject<T>(json, _jsonSettings);
 
         public static string Write(object obj, Formatting formatting = Formatting.Indented) => JsonConvert.SerializeObject(obj, formatting, _jsonSettings);
 
         public static T? ReadFile<T>(string filePath) where T : class
         {
             if (File.Exists(filePath))
+            {
                 try
                 {
-                    return JsonHelper.Read<T>(File.ReadAllText(filePath));
+                    return Read<T>(File.ReadAllText(filePath));
                 }
-                catch { }
-
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Error read json file: {filePath}");
+                }
+            }
             return default;
         }
 
@@ -37,11 +41,12 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             try
             {
-                File.WriteAllText(filePath, JsonHelper.Write(obj));
+                File.WriteAllText(filePath, Write(obj));
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error(e, $"Error write json file: {filePath}");
                 return false;
             }
         }

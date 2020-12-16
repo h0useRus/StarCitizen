@@ -9,16 +9,17 @@ namespace NSW.StarCitizen.Tools.Update
     {
         string Name { get; }
         string Repository { get; }
+        string RepositoryUrl { get; }
         UpdateRepositoryType Type { get; }
         string? CurrentVersion { get; }
         IEnumerable<UpdateInfo>? UpdateReleases { get; }
         UpdateInfo? LatestUpdateInfo { get; }
         bool AllowPreReleases { get; set; }
 
-        Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
         Task<IEnumerable<UpdateInfo>> RefreshUpdatesAsync(CancellationToken cancellationToken);
         Task<UpdateInfo?> GetLatestAsync(CancellationToken cancellationToken);
-        Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
+        Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress downloadProgress);
         Task<bool> CheckAsync(CancellationToken cancellationToken);
         void SetCurrentVersion(string version);
         UpdateInfo? UpdateCurrentVersion(string? fallbackVersionName);

@@ -40,18 +40,33 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
-            this.btnAppUpdate = new System.Windows.Forms.Button();
+            this.btnUpdateLocalization = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
+            this.btnAppUpdate = new System.Windows.Forms.Button();
             this.lblLanguage = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.cmTrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miAppName = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunMinimized = new System.Windows.Forms.ToolStripMenuItem();
+            this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
+            this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
+            this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
             this.cbGeneralRunMinimized = new System.Windows.Forms.CheckBox();
             this.lblMinutes = new System.Windows.Forms.Label();
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
+            this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
+            this.cmTrayMenu.SuspendLayout();
+            this.gbApplicationUpdate.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbGamePath
@@ -145,7 +160,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbButtonMenu.Controls.Add(this.btnAppUpdate);
+            this.gbButtonMenu.Controls.Add(this.btnUpdateLocalization);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
             this.gbButtonMenu.Name = "gbButtonMenu";
@@ -153,16 +168,18 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
             // 
-            // btnAppUpdate
+            // btnUpdateLocalization
             // 
-            this.btnAppUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAppUpdate.Location = new System.Drawing.Point(6, 69);
-            this.btnAppUpdate.Name = "btnAppUpdate";
-            this.btnAppUpdate.Size = new System.Drawing.Size(242, 23);
-            this.btnAppUpdate.TabIndex = 4;
-            this.btnAppUpdate.Text = "Check for application updates";
-            this.btnAppUpdate.UseVisualStyleBackColor = true;
-            this.btnAppUpdate.Click += new System.EventHandler(this.btnAppUpdate_Click);
+            this.btnUpdateLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 72);
+            this.btnUpdateLocalization.Name = "btnUpdateLocalization";
+            this.btnUpdateLocalization.Size = new System.Drawing.Size(242, 23);
+            this.btnUpdateLocalization.TabIndex = 4;
+            this.btnUpdateLocalization.Text = "Check for update...";
+            this.btnUpdateLocalization.UseVisualStyleBackColor = true;
+            this.btnUpdateLocalization.Click += new System.EventHandler(this.btnUpdateLocalization_Click);
             // 
             // btnLocalization
             // 
@@ -177,10 +194,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.UseVisualStyleBackColor = true;
             this.btnLocalization.Click += new System.EventHandler(this.btnLocalization_Click);
             // 
+            // btnAppUpdate
+            // 
+            this.btnAppUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAppUpdate.Location = new System.Drawing.Point(9, 19);
+            this.btnAppUpdate.Name = "btnAppUpdate";
+            this.btnAppUpdate.Size = new System.Drawing.Size(445, 23);
+            this.btnAppUpdate.TabIndex = 4;
+            this.btnAppUpdate.Text = "Check for application updates";
+            this.btnAppUpdate.UseVisualStyleBackColor = true;
+            this.btnAppUpdate.Click += new System.EventHandler(this.btnAppUpdate_Click);
+            // 
             // lblLanguage
             // 
             this.lblLanguage.AutoSize = true;
-            this.lblLanguage.Location = new System.Drawing.Point(215, 154);
+            this.lblLanguage.Location = new System.Drawing.Point(221, 246);
             this.lblLanguage.Name = "lblLanguage";
             this.lblLanguage.Size = new System.Drawing.Size(55, 13);
             this.lblLanguage.TabIndex = 3;
@@ -188,29 +216,119 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // cbLanguage
             // 
+            this.cbLanguage.BackColor = System.Drawing.SystemColors.Info;
             this.cbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbLanguage.FormattingEnabled = true;
-            this.cbLanguage.Location = new System.Drawing.Point(218, 173);
+            this.cbLanguage.Location = new System.Drawing.Point(224, 265);
             this.cbLanguage.Name = "cbLanguage";
-            this.cbLanguage.Size = new System.Drawing.Size(254, 21);
-            this.cbLanguage.TabIndex = 7;
+            this.cbLanguage.Size = new System.Drawing.Size(248, 21);
+            this.cbLanguage.TabIndex = 9;
             this.cbLanguage.SelectionChangeCommitted += new System.EventHandler(this.cbLanguage_SelectionChangeCommitted);
             // 
             // niTray
             // 
+            this.niTray.ContextMenuStrip = this.cmTrayMenu;
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
+            // 
+            // cmTrayMenu
+            // 
+            this.cmTrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miAppName,
+            this.tsSeparator2,
+            this.miSettings,
+            this.tsSeparator1,
+            this.miExitApp});
+            this.cmTrayMenu.Name = "cmTrayMenu";
+            this.cmTrayMenu.Size = new System.Drawing.Size(114, 82);
+            this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
+            // 
+            // miAppName
+            // 
+            this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
+            this.miAppName.Name = "miAppName";
+            this.miAppName.Size = new System.Drawing.Size(113, 22);
+            this.miAppName.Text = "SCTools";
+            this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
+            // 
+            // tsSeparator2
+            // 
+            this.tsSeparator2.Name = "tsSeparator2";
+            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            // 
+            // miSettings
+            // 
+            this.miSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRunOnStartup,
+            this.miRunMinimized,
+            this.miRunTopMost,
+            this.miUseHttpProxy,
+            this.cbMenuLanguage});
+            this.miSettings.Name = "miSettings";
+            this.miSettings.Size = new System.Drawing.Size(113, 22);
+            this.miSettings.Text = "Settings";
+            // 
+            // miRunOnStartup
+            // 
+            this.miRunOnStartup.CheckOnClick = true;
+            this.miRunOnStartup.Name = "miRunOnStartup";
+            this.miRunOnStartup.Size = new System.Drawing.Size(194, 22);
+            this.miRunOnStartup.Text = "Run On Windows startup";
+            this.miRunOnStartup.Click += new System.EventHandler(this.miRunOnStartup_Click);
+            // 
+            // miRunMinimized
+            // 
+            this.miRunMinimized.CheckOnClick = true;
+            this.miRunMinimized.Name = "miRunMinimized";
+            this.miRunMinimized.Size = new System.Drawing.Size(194, 22);
+            this.miRunMinimized.Text = "Run minimized";
+            this.miRunMinimized.Click += new System.EventHandler(this.miRunMinimized_Click);
+            // 
+            // miRunTopMost
+            // 
+            this.miRunTopMost.CheckOnClick = true;
+            this.miRunTopMost.Name = "miRunTopMost";
+            this.miRunTopMost.Size = new System.Drawing.Size(194, 22);
+            this.miRunTopMost.Text = "Always on top";
+            this.miRunTopMost.Click += new System.EventHandler(this.miRunTopMost_Click);
+            // 
+            // miUseHttpProxy
+            // 
+            this.miUseHttpProxy.CheckOnClick = true;
+            this.miUseHttpProxy.Name = "miUseHttpProxy";
+            this.miUseHttpProxy.Size = new System.Drawing.Size(194, 22);
+            this.miUseHttpProxy.Text = "Use Http Proxy";
+            this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
+            // 
+            // cbMenuLanguage
+            // 
+            this.cbMenuLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMenuLanguage.Name = "cbMenuLanguage";
+            this.cbMenuLanguage.Size = new System.Drawing.Size(121, 21);
+            this.cbMenuLanguage.SelectedIndexChanged += new System.EventHandler(this.cbMenuLanguage_SelectedIndexChanged);
+            // 
+            // tsSeparator1
+            // 
+            this.tsSeparator1.Name = "tsSeparator1";
+            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
+            // 
+            // miExitApp
+            // 
+            this.miExitApp.Name = "miExitApp";
+            this.miExitApp.Size = new System.Drawing.Size(113, 22);
+            this.miExitApp.Text = "Quit";
+            this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
             // cbGeneralRunWithWindows
             // 
             this.cbGeneralRunWithWindows.AutoSize = true;
             this.cbGeneralRunWithWindows.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 152);
+            this.cbGeneralRunWithWindows.Location = new System.Drawing.Point(12, 244);
             this.cbGeneralRunWithWindows.Name = "cbGeneralRunWithWindows";
             this.cbGeneralRunWithWindows.Size = new System.Drawing.Size(142, 17);
-            this.cbGeneralRunWithWindows.TabIndex = 5;
+            this.cbGeneralRunWithWindows.TabIndex = 7;
             this.cbGeneralRunWithWindows.Text = "Run On Windows startup";
             this.cbGeneralRunWithWindows.UseVisualStyleBackColor = true;
             this.cbGeneralRunWithWindows.CheckedChanged += new System.EventHandler(this.cbGeneralRunWithWindows_CheckedChanged);
@@ -219,10 +337,10 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.cbGeneralRunMinimized.AutoSize = true;
             this.cbGeneralRunMinimized.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(12, 177);
+            this.cbGeneralRunMinimized.Location = new System.Drawing.Point(12, 269);
             this.cbGeneralRunMinimized.Name = "cbGeneralRunMinimized";
             this.cbGeneralRunMinimized.Size = new System.Drawing.Size(91, 17);
-            this.cbGeneralRunMinimized.TabIndex = 6;
+            this.cbGeneralRunMinimized.TabIndex = 8;
             this.cbGeneralRunMinimized.Text = "Run minimized";
             this.cbGeneralRunMinimized.UseVisualStyleBackColor = true;
             this.cbGeneralRunMinimized.CheckedChanged += new System.EventHandler(this.cbGeneralRunMinimized_CheckedChanged);
@@ -230,7 +348,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblMinutes
             // 
             this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(270, 207);
+            this.lblMinutes.Location = new System.Drawing.Point(264, 60);
             this.lblMinutes.Name = "lblMinutes";
             this.lblMinutes.Size = new System.Drawing.Size(43, 13);
             this.lblMinutes.TabIndex = 11;
@@ -248,32 +366,42 @@ namespace NSW.StarCitizen.Tools.Forms
             "15",
             "30",
             "60"});
-            this.cbRefreshTime.Location = new System.Drawing.Point(218, 202);
+            this.cbRefreshTime.Location = new System.Drawing.Point(212, 52);
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
-            this.cbRefreshTime.TabIndex = 13;
+            this.cbRefreshTime.TabIndex = 6;
             this.cbRefreshTime.SelectionChangeCommitted += new System.EventHandler(this.cbRefreshTime_SelectionChangeCommitted);
             // 
             // cbCheckNewVersions
             // 
             this.cbCheckNewVersions.AutoSize = true;
             this.cbCheckNewVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cbCheckNewVersions.Location = new System.Drawing.Point(12, 203);
+            this.cbCheckNewVersions.Location = new System.Drawing.Point(9, 56);
             this.cbCheckNewVersions.Name = "cbCheckNewVersions";
             this.cbCheckNewVersions.Size = new System.Drawing.Size(158, 17);
-            this.cbCheckNewVersions.TabIndex = 12;
+            this.cbCheckNewVersions.TabIndex = 5;
             this.cbCheckNewVersions.Text = "Check for new version every";
             this.cbCheckNewVersions.UseVisualStyleBackColor = true;
             this.cbCheckNewVersions.CheckedChanged += new System.EventHandler(this.cbCheckNewVersions_CheckedChanged);
+            // 
+            // gbApplicationUpdate
+            // 
+            this.gbApplicationUpdate.Controls.Add(this.btnAppUpdate);
+            this.gbApplicationUpdate.Controls.Add(this.lblMinutes);
+            this.gbApplicationUpdate.Controls.Add(this.cbCheckNewVersions);
+            this.gbApplicationUpdate.Controls.Add(this.cbRefreshTime);
+            this.gbApplicationUpdate.Location = new System.Drawing.Point(12, 153);
+            this.gbApplicationUpdate.Name = "gbApplicationUpdate";
+            this.gbApplicationUpdate.Size = new System.Drawing.Size(460, 85);
+            this.gbApplicationUpdate.TabIndex = 5;
+            this.gbApplicationUpdate.TabStop = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 228);
-            this.Controls.Add(this.lblMinutes);
-            this.Controls.Add(this.cbRefreshTime);
-            this.Controls.Add(this.cbCheckNewVersions);
+            this.ClientSize = new System.Drawing.Size(484, 298);
+            this.Controls.Add(this.gbApplicationUpdate);
             this.Controls.Add(this.lblLanguage);
             this.Controls.Add(this.cbGeneralRunMinimized);
             this.Controls.Add(this.cbLanguage);
@@ -289,12 +417,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Utils";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
             this.gbButtonMenu.ResumeLayout(false);
+            this.cmTrayMenu.ResumeLayout(false);
+            this.gbApplicationUpdate.ResumeLayout(false);
+            this.gbApplicationUpdate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,5 +449,18 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.ComboBox cbRefreshTime;
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
+        private System.Windows.Forms.GroupBox gbApplicationUpdate;
+        private System.Windows.Forms.ContextMenuStrip cmTrayMenu;
+        private System.Windows.Forms.ToolStripMenuItem miExitApp;
+        private System.Windows.Forms.ToolStripSeparator tsSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem miSettings;
+        private System.Windows.Forms.ToolStripMenuItem miRunMinimized;
+        private System.Windows.Forms.ToolStripMenuItem miRunOnStartup;
+        private System.Windows.Forms.ToolStripSeparator tsSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem miAppName;
+        private System.Windows.Forms.ToolStripComboBox cbMenuLanguage;
+        private System.Windows.Forms.ToolStripMenuItem miRunTopMost;
+        private System.Windows.Forms.ToolStripMenuItem miUseHttpProxy;
+        private System.Windows.Forms.Button btnUpdateLocalization;
     }
 }

@@ -2,28 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NLog;
 using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools.Update
 {
     public class GitHubUpdateRepository : UpdateRepository
     {
-        private const string BaseUrl = "https://api.github.com/repos";
+        private const string GitHubApiUrl = "https://api.github.com/repos";
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _repoReleasesUrl;
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
         public GitHubDownloadType DownloadType { get; }
         public GitHubUpdateRepository(GitHubDownloadType downloadType, GitHubUpdateInfo.Factory gitHubUpdateInfoFactory, string name, string repository) :
-            base(UpdateRepositoryType.GitHub, name, repository)
+            base(UpdateRepositoryType.GitHub, name, repository, GitHubRepositoryUrl.Build(repository))
         {
             DownloadType = downloadType;
-            _repoReleasesUrl = $"{BaseUrl}/{repository}/releases";
+            _repoReleasesUrl = $"{GitHubApiUrl}/{repository}/releases";
             _gitHubUpdateInfoFactory = gitHubUpdateInfoFactory;
         }
 
-        public override async Task<IEnumerable<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
+        public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
@@ -33,43 +36,44 @@ namespace NSW.StarCitizen.Tools.Update
             {
                 return DownloadType switch
                 {
-                    GitHubDownloadType.Assets => GetAssetUpdates(releases),
-                    GitHubDownloadType.Sources => GetSourceCodeUpdates(releases),
+                    GitHubDownloadType.Assets => GetAssetUpdates(releases).ToList(),
+                    GitHubDownloadType.Sources => GetSourceCodeUpdates(releases).ToList(),
                     _ => throw new NotSupportedException("Not supported download type"),
                 };
             }
-            return Enumerable.Empty<UpdateInfo>();
+            return Enumerable.Empty<UpdateInfo>().ToList();
         }
 
-        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string? downloadPath,
+        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl, cancellationToken);
+            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl,
+                HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();
+            using var contentStream = await response.Content.ReadAsStreamAsync();
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
             {
                 downloadProgress.ReportContentSize(response.Content.Headers.ContentLength.Value);
             }
-            using var contentStream = await response.Content.ReadAsStreamAsync();
-            var tempFileName = Path.Combine(downloadPath ?? Path.GetTempPath(), response.Content.Headers.ContentDisposition.FileName);
+            var tempFileName = Path.Combine(downloadPath, response.Content.Headers.ContentDisposition.FileName);
             try
             {
                 using var fileStream = File.Create(tempFileName);
                 if (downloadProgress != null)
                 {
-                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken,
-                        new Progress<long>(value => downloadProgress.ReportDownloadedSize(value)));
+                    await contentStream.CopyToAsync(fileStream, 0x4000, cancellationToken,
+                        new Progress<long>(downloadProgress.ReportDownloadedSize));
                 }
                 else
                 {
-                    await contentStream.CopyToAsync(fileStream, 0x1000, cancellationToken);
+                    await contentStream.CopyToAsync(fileStream, 0x4000, cancellationToken);
                 }
             }
-            catch (Exception e)
+            catch
             {
-                if (File.Exists(tempFileName))
-                    File.Delete(tempFileName);
-                throw e;
+                if (File.Exists(tempFileName) && !FileUtils.DeleteFileNoThrow(tempFileName))
+                    _logger.Warn($"Failed remove temporary file: {tempFileName}");
+                throw;
             }
             return tempFileName;
         }
@@ -81,19 +85,28 @@ namespace NSW.StarCitizen.Tools.Update
                 using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
                 return response.IsSuccessStatusCode;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Warn(e, $"Failed check repository url: {_repoReleasesUrl}");
                 return false;
             }
         }
-        private IEnumerable<UpdateInfo> GetSourceCodeUpdates(GitRelease[] releases)
+        private IEnumerable<UpdateInfo> GetSourceCodeUpdates(IEnumerable<GitRelease> releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r)).OfType<UpdateInfo>();
+            foreach (var r in releases)
+            {
+                var info = _gitHubUpdateInfoFactory.CreateWithDownloadSourceCode(r);
+                if (info != null) yield return info;
+            }
         }
 
-        private IEnumerable<UpdateInfo> GetAssetUpdates(GitRelease[] releases)
+        private IEnumerable<UpdateInfo> GetAssetUpdates(IEnumerable<GitRelease> releases)
         {
-            return releases.Select(r => _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r)).OfType<UpdateInfo>();
+            foreach (var r in releases)
+            {
+                var info = _gitHubUpdateInfoFactory.CreateWithDownloadAsset(r);
+                if (info != null) yield return info;
+            }
         }
 
         #region Git objects

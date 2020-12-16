@@ -4,20 +4,35 @@ using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {
-    public class DownloadProgressDialogAdapter : IDownloadProgress
+    public class DownloadProgressDialogAdapter : IProgressDialog.IAdapter, IDownloadProgress
     {
-        private readonly IProgressDialog _progressDialog;
-        private long _totalContentSize = 0;
-        private long _downloadedSize = 0;
+        private readonly string? _localizationVersion;
+        private IProgressDialog? _progressDialog;
+        private long _totalContentSize;
+        private long _downloadedSize;
 
-        public DownloadProgressDialogAdapter(IProgressDialog progressDialog)
+        public DownloadProgressDialogAdapter(string? localizationVersion)
         {
-            _progressDialog = progressDialog;
-            _progressDialog.CurrentTaskName = Resources.Localization_Downloading_Text;
-            _progressDialog.CurrentTaskInfo = string.Empty;
-            _progressDialog.CurrentTaskProgress = 0;
-            _progressDialog.UserCancellable = true;
-            _progressDialog.UserCancelText = Resources.Localization_Cancel_Text;
+            _localizationVersion = localizationVersion;
+        }
+
+        public void Bind(IProgressDialog dialog)
+        {
+            _progressDialog = dialog;
+            dialog.CurrentTaskInfo = string.Empty;
+            dialog.CurrentTaskProgress = 0;
+            dialog.UserCancellable = true;
+            UpdateLocalization(dialog);
+        }
+
+        public void Unbind(IProgressDialog dialog) => _progressDialog = null;
+
+        public void UpdateLocalization(IProgressDialog dialog)
+        {
+            if (_localizationVersion != null)
+                dialog.Text = string.Format(Resources.Localization_InstallVersion_Title, _localizationVersion);
+            dialog.CurrentTaskName = Resources.Localization_Downloading_Text;
+            dialog.UserCancelText = Resources.Localization_Cancel_Text;
         }
 
         public void ReportContentSize(long value)
@@ -34,16 +49,17 @@ namespace NSW.StarCitizen.Tools.Adapters
 
         private void UpdateDialogTaskInfo()
         {
+            if (_progressDialog == null) return;
             float downloadSizeMBytes = (float)_downloadedSize / (1024 * 1024);
             if (_totalContentSize > 0)
             {
                 _progressDialog.CurrentTaskProgress = (float)_downloadedSize / _totalContentSize;
                 float contentSizeMBytes = (float)_totalContentSize / (1024 * 1024);
-                _progressDialog.CurrentTaskInfo = string.Format("{0:0.00} MB/{1:0.00} MB", downloadSizeMBytes, contentSizeMBytes);
+                _progressDialog.CurrentTaskInfo = $"{downloadSizeMBytes:0.00} MB/{contentSizeMBytes:0.00} MB";
             }
             else
             {
-                _progressDialog.CurrentTaskInfo = string.Format("{0:0.00} MB", downloadSizeMBytes);
+                _progressDialog.CurrentTaskInfo = $"{downloadSizeMBytes:0.00} MB";
             }
         }
     }

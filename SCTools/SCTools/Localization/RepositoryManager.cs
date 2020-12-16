@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using NSW.StarCitizen.Tools.Global;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
+using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Localization
 {
     public class RepositoryManager
     {
-        private readonly Dictionary<string, ILocalizationRepository> _localizationRepositories
-            = new Dictionary<string, ILocalizationRepository>(StringComparer.OrdinalIgnoreCase);
+        private readonly List<ILocalizationRepository> _localizationRepositories = new List<ILocalizationRepository>();
+        private readonly LocalizationSettings _localizationSettings;
+
+        public GameMode GameMode { get; }
 
         public event EventHandler<Tuple<string, string>>? Notification;
 
@@ -24,49 +27,51 @@ namespace NSW.StarCitizen.Tools.Localization
             Unreachable
         }
 
-        public RepositoryManager()
+        public RepositoryManager(GameMode gameMode)
         {
-            foreach (var localizationSource in Program.Settings.Localization.Repositories)
+            GameMode = gameMode;
+            _localizationSettings = Program.Settings.GetGameModeSettings(gameMode);
+            foreach (var source in _localizationSettings.Repositories)
             {
-                if (!_localizationRepositories.ContainsKey(localizationSource.Repository))
+                if (!ContainsRepository(source.Type, source.Repository))
                 {
-                    // Only git supported
-                    AddRepository(new GitHubLocalizationRepository(localizationSource.Name, localizationSource.Repository));
+                    var repository = BuildRepository(source);
+                    if (repository != null)
+                        AddRepository(repository);
                 }
             }
         }
 
-        public List<ILocalizationRepository> GetRepositoriesList() => _localizationRepositories.Values.ToList();
+        public List<ILocalizationRepository> GetRepositoriesList() => _localizationRepositories.ToList();
 
-        public bool ContainsRepositoryName(string name) => _localizationRepositories.Values.Any(v => string.Compare(v.Name, name, StringComparison.OrdinalIgnoreCase) == 0);
+        public bool ContainsRepositoryName(string name) => _localizationRepositories.Any(v => string.Compare(v.Name, name, StringComparison.OrdinalIgnoreCase) == 0);
 
-        public bool ContainsRepositoryUrl(string url) => _localizationRepositories.Values.Any(v => string.Compare(v.Repository, url, StringComparison.OrdinalIgnoreCase) == 0);
+        public bool ContainsRepository(UpdateRepositoryType type, string repository) =>
+            _localizationRepositories.Any(v => v.Type == type && string.Compare(v.Repository, repository, StringComparison.OrdinalIgnoreCase) == 0);
 
-        public ILocalizationRepository? GetRepository(string url)
+        public ILocalizationRepository? GetRepository(UpdateRepositoryType type, string repository) =>
+            _localizationRepositories.FirstOrDefault(v => v.Type == type && string.Compare(v.Repository, repository, StringComparison.OrdinalIgnoreCase) == 0);
+
+        public async Task<AddStatus> AddRepositoryAsync(LocalizationSource source, CancellationToken cancellationToken)
         {
-            if (_localizationRepositories.ContainsKey(url))
-                return _localizationRepositories[url];
-            return null;
-        }
-
-        public async Task<AddStatus> AddRepositoryAsync(string name, string url, CancellationToken cancellationToken)
-        {
-            if (ContainsRepositoryName(name))
+            if (ContainsRepositoryName(source.Name))
                 return AddStatus.DuplicateName;
 
-            if (ContainsRepositoryUrl(url))
+            if (ContainsRepository(source.Type, source.Repository))
                 return AddStatus.DuplicateUrl;
 
-            ILocalizationRepository repository = new GitHubLocalizationRepository(name, url);
-            if (await repository.CheckAsync(cancellationToken))
+            var repository = BuildRepository(source);
+            if (repository != null)
             {
-                AddRepository(repository);
-                Program.Settings.Localization.Repositories.Add(
-                    new LocalizationSource(repository.Name, repository.Repository, repository.Type.ToString()));
-                Program.SaveAppSettings();
-                return AddStatus.Success;
+                if (await repository.CheckAsync(cancellationToken))
+                {
+                    AddRepository(repository);
+                    _localizationSettings.Repositories.Add(source);
+                    Program.SaveAppSettings();
+                    return AddStatus.Success;
+                }
+                repository.Dispose();
             }
-            repository.Dispose();
             return AddStatus.Unreachable;
         }
 
@@ -76,44 +81,42 @@ namespace NSW.StarCitizen.Tools.Localization
             repository.MonitorStopped -= OnMonitorStopped;
             repository.MonitorNewVersion -= OnMonitorNewVersion;
             repository.MonitorStop();
-            var result = _localizationRepositories.Remove(repository.Repository);
-            var localizationSource = Program.Settings.Localization.Repositories
-                .FirstOrDefault(r => string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+            var result = _localizationRepositories.Remove(repository);
+            var localizationSource = _localizationSettings.Repositories.FirstOrDefault(r => r.Type == repository.Type &&
+                string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
             if (localizationSource != null)
             {
-                Program.Settings.Localization.Repositories.Remove(localizationSource);
+                _localizationSettings.Repositories.Remove(localizationSource);
                 Program.SaveAppSettings();
             }
             repository.Dispose();
             return result;
         }
 
-        public ILocalizationRepository? GetInstalledRepository(GameMode gameMode)
+        public ILocalizationRepository? GetInstalledRepository()
         {
-            var info = Program.Settings.Localization.Installations.FirstOrDefault(i => (i.Mode == gameMode) &&
-                !string.IsNullOrEmpty(i.InstalledVersion));
-            return info != null ? GetRepository(info.Repository) : null;
+            var info = _localizationSettings.Installations
+                .FirstOrDefault(i => i.Mode == GameMode && !string.IsNullOrEmpty(i.InstalledVersion));
+            return info != null ? GetRepository(info.Type, info.Repository) : null;
         }
 
-        public ILocalizationRepository GetCurrentRepository(GameMode gameMode) => GetCurrentRepository(gameMode, GetRepositoriesList());
+        public ILocalizationRepository GetCurrentRepository() => GetCurrentRepository(GetRepositoriesList());
 
-        public ILocalizationRepository GetCurrentRepository(GameMode gameMode, List<ILocalizationRepository> repositories)
+        public ILocalizationRepository GetCurrentRepository(List<ILocalizationRepository> repositories)
         {
-            var installedRepository = GetInstalledRepository(gameMode);
+            var installedRepository = GetInstalledRepository();
             if (installedRepository != null && repositories.Contains(installedRepository))
                 return installedRepository;
             return repositories.First();
         }
 
-        public void SetInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
+        public void SetInstalledRepository(ILocalizationRepository repository, string version)
         {
-            var installation = GetRepositoryInstallation(gameMode, repository);
-            if (installation == null)
-                installation = AddRepositoryInstallation(gameMode, repository);
-            installation.LastVersion = repository.CurrentVersion;
-            installation.InstalledVersion = repository.CurrentVersion;
-            var otherInstallations = Program.Settings.Localization.Installations.Where(i => (i.Mode == gameMode) &&
-                (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) != 0));
+            var installation = GetRepositoryInstallation(repository) ?? AddRepositoryInstallation(repository);
+            installation.LastVersion = version;
+            installation.InstalledVersion = version;
+            var otherInstallations = _localizationSettings.Installations.Where(i => i.Mode == GameMode &&
+                (i.Type != repository.Type || string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) != 0));
             foreach (var otherInstallation in otherInstallations)
             {
                 otherInstallation.InstalledVersion = null;
@@ -121,10 +124,10 @@ namespace NSW.StarCitizen.Tools.Localization
             Program.SaveAppSettings();
         }
 
-        public void RemoveInstalledRepository(GameMode gameMode, ILocalizationRepository repository)
+        public void RemoveInstalledRepository(ILocalizationRepository repository)
         {
-            var installation = GetRepositoryInstallation(gameMode, repository);
-            if (installation != null && installation.InstalledVersion != null)
+            var installation = GetRepositoryInstallation(repository);
+            if (installation?.InstalledVersion != null)
             {
                 installation.LastVersion = installation.InstalledVersion;
                 installation.InstalledVersion = null;
@@ -132,55 +135,60 @@ namespace NSW.StarCitizen.Tools.Localization
             }
         }
 
-        public LocalizationInstallation? GetRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
+        public LocalizationInstallation? GetRepositoryInstallation(ILocalizationRepository repository)
         {
-            return Program.Settings.Localization.Installations.FirstOrDefault(i => i.Mode == gameMode &&
-                string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+            return _localizationSettings.Installations.FirstOrDefault(i => i.Mode == GameMode &&
+                                                                           i.Type == repository.Type && string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
         }
 
-        public LocalizationInstallation CreateRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
+        public LocalizationInstallation CreateRepositoryInstallation(ILocalizationRepository repository)
         {
-            var currentInstallation = GetRepositoryInstallation(gameMode, repository);
+            var currentInstallation = GetRepositoryInstallation(repository);
             if (currentInstallation == null)
             {
-                currentInstallation = AddRepositoryInstallation(gameMode, repository);
+                currentInstallation = AddRepositoryInstallation(repository);
                 Program.SaveAppSettings();
             }
             return currentInstallation;
         }
 
         public GameMode? GetRepositoryUsedGameMode(ILocalizationRepository repository)
-        {
-            return Program.Settings.Localization.Installations.Where(i => !string.IsNullOrEmpty(i.InstalledVersion) &&
-                (string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0))?
-                .FirstOrDefault()?.Mode;
+        { 
+            return _localizationSettings.Installations.FirstOrDefault(i => !string.IsNullOrEmpty(i.InstalledVersion) &&
+                                                                           i.Type == repository.Type && string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0)?.Mode;
         }
 
         public void RunMonitors()
         {
-            foreach (var installation in Program.Settings.Localization.Installations)
+            foreach (var installation in _localizationSettings.Installations)
             {
-                if (!string.IsNullOrWhiteSpace(installation.Repository))
+                var repository = GetRepository(installation.Type, installation.Repository);
+                if (repository != null)
                 {
-                    var repository = GetRepository(installation.Repository);
-                    if (repository != null)
+                    repository.AllowPreReleases = installation.AllowPreRelease;
+                    if (repository.IsMonitorStarted != installation.MonitorForUpdates
+                        || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
                     {
-                        repository.AllowPreReleases = installation.AllowPreRelease;
-                        if (repository.IsMonitorStarted != installation.MonitorForUpdates
-                            || repository.MonitorRefreshTime != installation.MonitorRefreshTime)
+                        if (installation.MonitorForUpdates)
                         {
-                            if (installation.MonitorForUpdates)
-                            {
-                                repository.UpdateCurrentVersion(installation.LastVersion ?? installation.InstalledVersion);
-                                repository.MonitorStart(installation.MonitorRefreshTime);
-                            }
-                            else
-                            {
-                                repository.MonitorStop();
-                            }
+                            repository.UpdateCurrentVersion(installation.LastVersion ?? installation.InstalledVersion);
+                            repository.MonitorStart(installation.MonitorRefreshTime);
+                        }
+                        else
+                        {
+                            repository.MonitorStop();
                         }
                     }
                 }
+            }
+        }
+
+        public void StopMonitors()
+        {
+            foreach (var installation in _localizationSettings.Installations)
+            {
+                var repository = GetRepository(installation.Type, installation.Repository);
+                repository?.MonitorStop();
             }
         }
 
@@ -189,35 +197,38 @@ namespace NSW.StarCitizen.Tools.Localization
             repository.MonitorStarted += OnMonitorStarted;
             repository.MonitorStopped += OnMonitorStopped;
             repository.MonitorNewVersion += OnMonitorNewVersion;
-            _localizationRepositories[repository.Repository] = repository;
+            _localizationRepositories.Add(repository);
         }
 
-        private LocalizationInstallation AddRepositoryInstallation(GameMode gameMode, ILocalizationRepository repository)
+        private ILocalizationRepository? BuildRepository(LocalizationSource source) =>
+            source.Type == UpdateRepositoryType.GitHub ? new GitHubLocalizationRepository(GameMode, source.Name, source.Repository) : null;
+
+        private LocalizationInstallation AddRepositoryInstallation(ILocalizationRepository repository)
         {
-            var installation = new LocalizationInstallation(gameMode, repository.Repository)
+            var installation = new LocalizationInstallation(GameMode, repository.Repository, repository.Type)
             {
-                MonitorRefreshTime = Program.Settings.Localization.MonitorRefreshTime
+                MonitorRefreshTime = _localizationSettings.MonitorRefreshTime
             };
-            Program.Settings.Localization.Installations.Add(installation);
+            _localizationSettings.Installations.Add(installation);
             return installation;
         }
 
         private void OnMonitorNewVersion(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, string.Format(Resources.Localization_Found_New_Version, e)));
+            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}", string.Format(Resources.Localization_Found_New_Version, e)));
         }
 
         private void OnMonitorStopped(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, Resources.Localization_Stop_Monitoring));
+            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}", Resources.Localization_Stop_Monitoring));
         }
 
         private void OnMonitorStarted(object sender, string e)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>(r.Name, Resources.Localization_Start_Monitoring));
+            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}", Resources.Localization_Start_Monitoring));
         }
     }
 }

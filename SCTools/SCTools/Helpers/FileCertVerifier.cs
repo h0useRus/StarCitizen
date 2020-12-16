@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
@@ -10,6 +11,7 @@ namespace NSW.StarCitizen.Tools.Helpers
     /// </summary>
     public class FileCertVerifier : IDisposable
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly X509Certificate2? _rootCertificate;
         private readonly X509Certificate2 _fileSignCertificate;
 
@@ -96,24 +98,28 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
+            _logger.Info("Verify file certificate");
             using var fileCertificateCollection = DynamicDisposable<X509Certificate2Collection>.CreateNonNull(new X509Certificate2Collection());
             fileCertificateCollection.Object.Import(filename);
-            if (fileCertificateCollection.Object.Count == 1)
+            if (fileCertificateCollection.Object.Count != 1)
             {
-                var fileCertificate = fileCertificateCollection.Object[0];
-                if (fileCertificate.RawData.SequenceEqual(_fileSignCertificate.RawData))
-                {
-                    using var chain = DynamicDisposable<X509Chain>.CreateNonNull(X509Chain.Create());
-                    if (_rootCertificate != null)
-                    {
-                        chain.Object.ChainPolicy.ExtraStore.Add(_rootCertificate); // add CA cert for verification
-                    }
-                    chain.Object.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // no revocation checking
-                    chain.Object.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
-                    chain.Object.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-                    return chain.Object.Build(fileCertificate) && VerifyChain(chain.Object);
-                }
+                _logger.Error($"Invalid certificates count: {fileCertificateCollection.Object.Count}");
+                return false;
             }
+            var fileCertificate = fileCertificateCollection.Object[0];
+            if (fileCertificate.RawData.SequenceEqual(_fileSignCertificate.RawData))
+            {
+                using var chain = DynamicDisposable<X509Chain>.CreateNonNull(X509Chain.Create());
+                if (_rootCertificate != null)
+                {
+                    chain.Object.ChainPolicy.ExtraStore.Add(_rootCertificate); // add CA cert for verification
+                }
+                chain.Object.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // no revocation checking
+                chain.Object.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
+                chain.Object.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+                return chain.Object.Build(fileCertificate) && VerifyChain(chain.Object);
+            }
+            _logger.Error("Invalid certificate data");
             return false;
         }
 
@@ -133,7 +139,12 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
-            return WinTrust.VerifyEmbeddedSignature(filename);
+            _logger.Info("Verify file signature");
+            var result = WinTrust.VerifyEmbeddedSignature(filename);
+            _logger.Info($"Verify file signature result: {result}");
+            return result == WinVerifyTrustResult.Success ||
+                   result == WinVerifyTrustResult.UntrustedRoot ||
+                   result == WinVerifyTrustResult.CertChaining;
         }
 
         /// <summary>
@@ -147,6 +158,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         private bool VerifyChain(X509Chain chain)
         {
+            _logger.Info("Verify certificate chain");
             if (VerifyChainStatus(chain.ChainStatus) && (chain.ChainElements.Count > 0))
             {
                 if (_rootCertificate != null)
@@ -155,6 +167,7 @@ namespace NSW.StarCitizen.Tools.Helpers
                 }
                 return true;
             }
+            _logger.Error("Invalid certificate chain");
             return false;
         }
 
@@ -163,9 +176,15 @@ namespace NSW.StarCitizen.Tools.Helpers
             if (chainStatusArray.Length == 1)
             {
                 var chainStatus = chainStatusArray.First().Status;
-                return chainStatus == X509ChainStatusFlags.NoError || chainStatus == X509ChainStatusFlags.UntrustedRoot ||
-                    (_rootCertificate == null && chainStatus == X509ChainStatusFlags.PartialChain);
+                if (chainStatus == X509ChainStatusFlags.NoError || chainStatus == X509ChainStatusFlags.UntrustedRoot ||
+                    (_rootCertificate == null && chainStatus == X509ChainStatusFlags.PartialChain))
+                {
+                    return true;
+                }
+                _logger.Error($"Invalid certificate chain status: {chainStatus}");
+                return false;
             }
+            _logger.Error($"Invalid certificate chain length: {chainStatusArray.Length}");
             return false;
         }
     }

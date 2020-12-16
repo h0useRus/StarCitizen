@@ -18,18 +18,22 @@ namespace NSW.StarCitizen.Tools.Global
                 var exeFilePath = GameConstants.GetGameExePath(rootFolderPath);
                 if (File.Exists(exeFilePath))
                 {
-                    return new GameInfo(mode, rootFolderPath, exeFilePath);
+                    var exeVersionInfo = FileVersionInfo.GetVersionInfo(exeFilePath);
+                    if (exeVersionInfo.FileVersion != null)
+                    {
+                        return new GameInfo(mode, rootFolderPath, exeFilePath, exeVersionInfo.FileVersion);
+                    }
                 }
             }
             return null;
         }
 
-        private GameInfo(GameMode mode, string rootFolderPath, string exeFilePath)
+        private GameInfo(GameMode mode, string rootFolderPath, string exeFilePath, string exeFileVersion)
         {
             Mode = mode;
             RootFolderPath = rootFolderPath;
             ExeFilePath = exeFilePath;
-            ExeVersion = FileVersionInfo.GetVersionInfo(exeFilePath).FileVersion.Replace(',', '.');
+            ExeVersion = exeFileVersion.Replace(',', '.');
         }
 
         public bool IsAvailable() => File.Exists(ExeFilePath);

@@ -23,16 +23,16 @@ namespace NSW.StarCitizen.Tools.Helpers
         [DllImport("user32")]
         public static extern bool SendMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
 
-        [DllImportAttribute("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32")]
+        public static extern bool BringWindowToTop(IntPtr hWnd);
 
         public static void ShowToFront(IntPtr window)
         {
-            ShowWindow(window, SW_SHOWNORMAL);
             SetForegroundWindow(window);
+            BringWindowToTop(window);
         }
     }
 }

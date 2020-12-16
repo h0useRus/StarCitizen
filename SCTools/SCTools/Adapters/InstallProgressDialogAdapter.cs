@@ -3,17 +3,18 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {
-    public class InstallProgressDialogAdapter
+    public sealed class InstallProgressDialogAdapter : IProgressDialog.IAdapter
     {
-        private readonly IProgressDialog _progressDialog;
-
-        public InstallProgressDialogAdapter(IProgressDialog progressDialog)
+        public void Bind(IProgressDialog dialog)
         {
-            _progressDialog = progressDialog;
-            _progressDialog.CurrentTaskName = Resources.Localization_Installing_Text;
-            _progressDialog.CurrentTaskInfo = string.Empty;
-            _progressDialog.CurrentTaskProgress = 0;
-            _progressDialog.UserCancellable = false;
+            dialog.CurrentTaskInfo = string.Empty;
+            dialog.CurrentTaskProgress = 0;
+            dialog.UserCancellable = false;
+            UpdateLocalization(dialog);
         }
+
+        public void Unbind(IProgressDialog dialog) { }
+
+        public void UpdateLocalization(IProgressDialog dialog) => dialog.CurrentTaskName = Resources.Localization_Installing_Text;
     }
 }

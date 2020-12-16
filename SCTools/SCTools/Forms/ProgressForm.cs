@@ -1,11 +1,21 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Localization;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
     public interface IProgressDialog
     {
+        public interface IAdapter
+        {
+            public void Bind(IProgressDialog dialog);
+
+            public void Unbind(IProgressDialog dialog);
+
+            public void UpdateLocalization(IProgressDialog dialog);
+        }
+
         public CancellationToken CancelToken { get; }
 
         public bool IsCanceledByUser { get; }
@@ -23,13 +33,14 @@ namespace NSW.StarCitizen.Tools.Forms
         public string UserCancelText { set; }
     }
 
-    public partial class ProgressForm : Form, IProgressDialog
+    public partial class ProgressForm : Form, IProgressDialog, ILocalizedForm
     {
         private readonly CancellationTokenSource _cancellationTokenSource;
+        private IProgressDialog.IAdapter? _adapter;
 
         public CancellationToken CancelToken => _cancellationTokenSource.Token;
 
-        public bool IsCanceledByUser { get; private set; } = false;
+        public bool IsCanceledByUser { get; private set; }
 
         public string CurrentTaskName
         {
@@ -86,6 +97,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (disposing)
             {
+                UnbindAdapter();
                 components?.Dispose();
                 _cancellationTokenSource.Dispose();
             }
@@ -100,6 +112,27 @@ namespace NSW.StarCitizen.Tools.Forms
                 CenterToParent();
             }
         }
+
+        public void UnbindAdapter()
+        {
+            if (_adapter != null)
+            {
+                _adapter.Unbind(this);
+                _adapter = null;
+            }
+        }
+
+        public void BindAdapter(IProgressDialog.IAdapter adapter)
+        {
+            if (!ReferenceEquals(_adapter, adapter))
+            {
+                UnbindAdapter();
+                _adapter = adapter;
+                _adapter.Bind(this);
+            }
+        }
+
+        public void UpdateLocalizedControls() => _adapter?.UpdateLocalization(this);
 
         private void ProgressForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !btnStop.Visible;
 

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace NSW.StarCitizen.Tools.Helpers
 {
     #region WinTrustData struct field enums
-    enum WinTrustDataUIChoice : uint
+    internal enum WinTrustDataUiChoice : uint
     {
         All = 1,
         None = 2,
@@ -12,13 +12,13 @@ namespace NSW.StarCitizen.Tools.Helpers
         NoGood = 4
     }
 
-    enum WinTrustDataRevocationChecks : uint
+    internal enum WinTrustDataRevocationChecks : uint
     {
         None = 0x00000000,
         WholeChain = 0x00000001
     }
 
-    enum WinTrustDataChoice : uint
+    internal enum WinTrustDataChoice : uint
     {
         File = 1,
         Catalog = 2,
@@ -27,7 +27,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         Certificate = 5
     }
 
-    enum WinTrustDataStateAction : uint
+    internal enum WinTrustDataStateAction : uint
     {
         Ignore = 0x00000000,
         Verify = 0x00000001,
@@ -48,20 +48,20 @@ namespace NSW.StarCitizen.Tools.Helpers
         RevocationCheckChainExcludeRoot = 0x00000080,
         SaferFlag = 0x00000100,                         // Used by software restriction policies. Should not be used.
         HashOnlyFlag = 0x00000200,
-        UseDefaultOsverCheck = 0x00000400,
+        UseDefaultOsVersionCheck = 0x00000400,
         LifetimeSigningFlag = 0x00000800,
         CacheOnlyUrlRetrieval = 0x00001000,             // affects CRL retrieval and AIA retrieval
-        DisableMD2andMD4 = 0x00002000                   // Win7 SP1+: Disallows use of MD2 or MD4 in the chain except for the root
+        DisableMd2AndMd4 = 0x00002000                   // Win7 SP1+: Disallows use of MD2 or MD4 in the chain except for the root
     }
 
-    enum WinTrustDataUIContext : uint
+    internal enum WinTrustDataUiContext : uint
     {
         Execute = 0,
         Install = 1
     }
 
     [Flags]
-    enum WinTrustSignatureSettingsFlags : uint
+    internal enum WinTrustSignatureSettingsFlags : uint
     {
         VerifySpecificFlag = 0x00000001,
         GetSecondarySigCountFlag = 0x00000002
@@ -71,9 +71,9 @@ namespace NSW.StarCitizen.Tools.Helpers
 
     #region WinTrust structures
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    class WinTrustFileInfo : IDisposable
+    internal class WinTrustFileInfo : IDisposable
     {
-        UInt32 StructSize = (uint)Marshal.SizeOf(typeof(WinTrustFileInfo));
+        uint StructSize = (uint)Marshal.SizeOf(typeof(WinTrustFileInfo));
         IntPtr pszFilePath;                     // required, file name to be verified
         IntPtr hFile = IntPtr.Zero;             // optional, open handle to FilePath
         IntPtr pgKnownSubject = IntPtr.Zero;    // optional, subject type if it is known
@@ -93,13 +93,13 @@ namespace NSW.StarCitizen.Tools.Helpers
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    class WinTrustSignatureSettings : IDisposable
+    internal class WinTrustSignatureSettings : IDisposable
     {
-        UInt32 StructSize = (uint)Marshal.SizeOf(typeof(WinTrustSignatureSettings));
-        UInt32 dwIndex = 0;
+        uint StructSize = (uint)Marshal.SizeOf(typeof(WinTrustSignatureSettings));
+        uint dwIndex = 0;
         WinTrustSignatureSettingsFlags dwFlags = WinTrustSignatureSettingsFlags.VerifySpecificFlag;
-        UInt32 cSecondarySigs = 0;
-        UInt32 dwVerifiedSigIndex = 0;
+        uint cSecondarySigs = 0;
+        uint dwVerifiedSigIndex = 0;
         IntPtr pCryptoPolicy = IntPtr.Zero;
 
         public void Dispose()
@@ -113,13 +113,13 @@ namespace NSW.StarCitizen.Tools.Helpers
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    class WinTrustData : IDisposable
+    internal class WinTrustData : IDisposable
     {
-        UInt32 StructSize = (uint)Marshal.SizeOf(typeof(WinTrustData));
+        uint StructSize = (uint)Marshal.SizeOf(typeof(WinTrustData));
         IntPtr PolicyCallbackData = IntPtr.Zero;
         IntPtr SIPClientData = IntPtr.Zero;
         // required: UI choice
-        WinTrustDataUIChoice UIChoice = WinTrustDataUIChoice.None;
+        WinTrustDataUiChoice UIChoice = WinTrustDataUiChoice.None;
         // required: certificate revocation check options
         WinTrustDataRevocationChecks RevocationChecks = WinTrustDataRevocationChecks.None;
         // required: which structure is being passed in?
@@ -129,8 +129,8 @@ namespace NSW.StarCitizen.Tools.Helpers
         WinTrustDataStateAction StateAction = WinTrustDataStateAction.Ignore;
         IntPtr StateData = IntPtr.Zero;
         string? URLReference = null;
-        WinTrustDataProvFlags ProvFlags = WinTrustDataProvFlags.RevocationCheckNone | WinTrustDataProvFlags.DisableMD2andMD4;
-        WinTrustDataUIContext UIContext = WinTrustDataUIContext.Execute;
+        WinTrustDataProvFlags ProvFlags = WinTrustDataProvFlags.RevocationCheckNone | WinTrustDataProvFlags.DisableMd2AndMd4;
+        WinTrustDataUiContext UIContext = WinTrustDataUiContext.Execute;
         IntPtr SignatureSettings = IntPtr.Zero;
 
         // constructor for silent WinTrustDataChoice.File check
@@ -140,11 +140,9 @@ namespace NSW.StarCitizen.Tools.Helpers
             FileInfoPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustFileInfo)));
             Marshal.StructureToPtr(wtfiData, FileInfoPtr, false);
 
-            using (var signatureSettings = new WinTrustSignatureSettings())
-            {
-                SignatureSettings = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustSignatureSettings)));
-                Marshal.StructureToPtr(signatureSettings, SignatureSettings, false);
-            }
+            using var signatureSettings = new WinTrustSignatureSettings();
+            SignatureSettings = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustSignatureSettings)));
+            Marshal.StructureToPtr(signatureSettings, SignatureSettings, false);
         }
         public void Dispose()
         {
@@ -162,7 +160,7 @@ namespace NSW.StarCitizen.Tools.Helpers
     }
     #endregion
 
-    enum WinVerifyTrustResult : uint
+    internal enum WinVerifyTrustResult : uint
     {
         Success = 0,
         ProviderUnknown = 0x800b0001,               // Trust provider is not recognized on this system
@@ -178,28 +176,25 @@ namespace NSW.StarCitizen.Tools.Helpers
         CertChaining = 0x800B010A,                  // CERT_E_CHAINING - A certificate chain could not be built to a trusted root authority.
     }
 
-    static class WinTrust
+    internal static class WinTrust
     {
         private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
         // GUID of the action to perform
-        private const string WINTRUST_ACTION_GENERIC_VERIFY_V2 = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}";
+        private static readonly string WINTRUST_ACTION_GENERIC_VERIFY_V2 = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}";
 
-        [DllImport("wintrust.dll", ExactSpelling = true, SetLastError = false, CharSet = CharSet.Unicode)]
-        static extern WinVerifyTrustResult WinVerifyTrust(
+        [DllImport("wintrust", ExactSpelling = true, SetLastError = false, CharSet = CharSet.Unicode)]
+        private static extern WinVerifyTrustResult WinVerifyTrust(
             [In] IntPtr hwnd,
             [In][MarshalAs(UnmanagedType.LPStruct)] Guid pgActionID,
             [In] WinTrustData pWVTData
         );
 
-        public static bool VerifyEmbeddedSignature(string fileName)
+        public static WinVerifyTrustResult VerifyEmbeddedSignature(string fileName)
         {
             using var wtfi = new WinTrustFileInfo(fileName);
             using var wtd = new WinTrustData(wtfi);
             var guidAction = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
-            var result = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd);
-            return result == WinVerifyTrustResult.Success ||
-                   result == WinVerifyTrustResult.UntrustedRoot ||
-                   result == WinVerifyTrustResult.CertChaining;
+            return WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd);
         }
     }
 }

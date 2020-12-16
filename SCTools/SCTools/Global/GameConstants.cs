@@ -6,6 +6,7 @@ namespace NSW.StarCitizen.Tools.Global
     {
         public const string BinFolderName = "Bin64";
         public const string DataFolderName = "data";
+        public const string GameFolderName = "StarCitizen";
         public const string GameExeName = "StarCitizen.exe";
         public const string PatcherOriginalName = "patcher.bin";
         public const string PatcherLibraryName = "CIGDevelopmentTools.dll";
