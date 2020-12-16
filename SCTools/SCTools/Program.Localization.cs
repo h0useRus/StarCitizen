@@ -14,15 +14,15 @@ namespace NSW.StarCitizen.Tools
 
         public static void RunRepositoryMonitors(List<GameInfo> gameInfos)
         {
-            foreach (GameMode mode in Enum.GetValues(typeof(GameMode)))
+            foreach (var entry in RepositoryManagers)
             {
-                if (gameInfos.Any(gi => gi.Mode == mode))
+                if (gameInfos.Any(gi => gi.Mode == entry.Key))
                 {
-                    RepositoryManagers[mode].RunMonitors();
+                    entry.Value.RunMonitors();
                 }
                 else
                 {
-                    RepositoryManagers[mode].StopMonitors();
+                    entry.Value.StopMonitors();
                 }
             }
         }

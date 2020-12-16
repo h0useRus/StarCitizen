@@ -23,7 +23,6 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public static T? ReadFile<T>(string filePath) where T : class
         {
-            _logger.Debug("test");
             if (File.Exists(filePath))
             {
                 try
