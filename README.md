@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.5.0
+# Star Citizen Tools v0.5.2
 
 
 ## Features
@@ -16,7 +16,7 @@
 ### General features
 
 - Download and install application updates
-- Supported UI languages: English, Russian, Ukrainian
+- Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
 - Configurable application auto start on system start
 - Configurable application launch minimized to system tray
