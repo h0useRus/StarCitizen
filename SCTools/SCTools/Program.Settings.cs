@@ -1,5 +1,5 @@
 using System.IO;
-using System.Windows.Forms;
+
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Settings;
 
@@ -7,13 +7,13 @@ namespace NSW.StarCitizen.Tools
 {
     public static partial class Program
     {
-        private static readonly string _appSettingsFileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "settings.json");
-       
+        private const string AppSettingsFileName = "settings.json";
+
         private static AppSettings? _appSettings;
         public static AppSettings Settings => _appSettings ??= GetAppSettings();
         private static AppSettings GetAppSettings()
         {
-            var appSettings = JsonHelper.ReadFile<AppSettings>(_appSettingsFileName) ?? new AppSettings();
+            var appSettings = JsonHelper.ReadFile<AppSettings>(Path.Combine(ExecutableDir, AppSettingsFileName)) ?? new AppSettings();
             ValidateAppSettings(appSettings);
             return appSettings;
         }
@@ -27,7 +27,8 @@ namespace NSW.StarCitizen.Tools
         }
 
         public static bool SaveAppSettings() => SaveAppSettings(Settings);
-        private static bool SaveAppSettings(AppSettings appSettings) => JsonHelper.WriteFile(_appSettingsFileName, appSettings);
+        private static bool SaveAppSettings(AppSettings appSettings) =>
+            JsonHelper.WriteFile(Path.Combine(ExecutableDir, AppSettingsFileName), appSettings);
 
         private static bool FixLocalizationSettings(LocalizationSettings settings)
         {

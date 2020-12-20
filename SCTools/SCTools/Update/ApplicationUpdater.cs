@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using NLog;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Properties;
@@ -22,9 +21,8 @@ namespace NSW.StarCitizen.Tools.Update
     public class ApplicationUpdater : IDisposable
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private static readonly string _executablePath = Path.GetDirectoryName(Application.ExecutablePath);
-        private static readonly string _updateScriptPath = Path.Combine(_executablePath, "update.bat");
-        private static readonly string _updatesStoragePath = Path.Combine(_executablePath, "updates");
+        private static readonly string _updateScriptPath = Path.Combine(Program.ExecutableDir, "update.bat");
+        private static readonly string _updatesStoragePath = Path.Combine(Program.ExecutableDir, "updates");
         private static readonly string _schedInstallArchivePath = Path.Combine(_updatesStoragePath, "latest.zip");
         private static readonly string _schedInstallJsonPath = Path.Combine(_updatesStoragePath, "latest.json");
         private static readonly string _installUnpackedDir = Path.Combine(_updatesStoragePath, "latest");
@@ -81,7 +79,7 @@ namespace NSW.StarCitizen.Tools.Update
                 updateProcess.StartInfo.RedirectStandardError = false;
                 updateProcess.StartInfo.ErrorDialog = false;
                 updateProcess.StartInfo.CreateNoWindow = true;
-                updateProcess.StartInfo.WorkingDirectory = _executablePath;
+                updateProcess.StartInfo.WorkingDirectory = Program.ExecutableDir;
                 updateProcess.StartInfo.FileName = _updateScriptPath;
                 if (!updateProcess.Start())
                 {
