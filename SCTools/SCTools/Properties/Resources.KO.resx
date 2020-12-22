@@ -166,7 +166,7 @@
     <value>취소</value>
   </data>
   <data name="Application_CheckForUpdates_Text" xml:space="preserve">
-    <value>업데이트 확인하기...</value>
+    <value>프로그램 업데이트 확인하기</value>
   </data>
   <data name="Application_CheckForUpdate_Title" xml:space="preserve">
     <value>업데이트 확인</value>
@@ -358,5 +358,17 @@
   </data>
   <data name="Localization_Warning_Title" xml:space="preserve">
     <value>경고</value>
+  </data>
+  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
+    <value>항상 위에 표시하기</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>업데이트 확인 중...</value>
+  </data>
+  <data name="Localization_QuitApp_Text" xml:space="preserve">
+    <value>나가기</value>
+  </data>
+  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
+    <value>프록시 사용</value>
   </data>
 </root>
