@@ -31,7 +31,7 @@ namespace NSW.StarCitizen.Tools.Update
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
-            await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
+            await CheckRequestLimitStatusCodeAsync(response, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var releases = JsonHelper.Read<GitRelease[]>(content);
@@ -52,7 +52,6 @@ namespace NSW.StarCitizen.Tools.Update
         {
             using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl,
                 HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
             response.EnsureSuccessStatusCode();
             using var contentStream = await response.Content.ReadAsStreamAsync();
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
