@@ -231,6 +231,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.niTray.ContextMenuStrip = this.cmTrayMenu;
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
+            this.niTray.BalloonTipClicked += new System.EventHandler(this.niTray_BalloonTipClicked);
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
             // cmTrayMenu
