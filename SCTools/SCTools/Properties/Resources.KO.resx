@@ -166,7 +166,7 @@
     <value>취소</value>
   </data>
   <data name="Application_CheckForUpdates_Text" xml:space="preserve">
-    <value>업데이트 확인하기...</value>
+    <value>프로그램 업데이트 확인하기</value>
   </data>
   <data name="Application_CheckForUpdate_Title" xml:space="preserve">
     <value>업데이트 확인</value>
@@ -340,12 +340,12 @@
     <value>제거 경고</value>
   </data>
   <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
-    <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
-지금 다운로드 하시겠습니까?</value>
+    <value>애플리케이션의 새 버전을 {0} 을/를 사용할 수 있습니다.
+지금 설치 하시겠습니까?</value>
   </data>
   <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>새로운 버전 {0} 을/를 사용할 수 있습니다.
-지금 다운로드 하시겠습니까?</value>
+    <value>애플리케이션의 새 버전을 {0} 을/를 사용할 수 있습니다.
+지금 설치 하시겠습니까?</value>
   </data>
   <data name="Localization_UserRepos_Title" xml:space="preserve">
     <value>유저</value>
@@ -358,5 +358,30 @@
   </data>
   <data name="Localization_Warning_Title" xml:space="preserve">
     <value>경고</value>
+  </data>
+  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
+    <value>항상 위에 표시하기</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>업데이트 확인 중...</value>
+  </data>
+  <data name="Localization_QuitApp_Text" xml:space="preserve">
+    <value>나가기</value>
+  </data>
+  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
+    <value>프록시 사용</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>언어팩의 새 버전이 있는지 확인하기</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>언어팩의 새 버전이 없습니다.</value>
+  </data>
+  <data name="Localization_Settings_Text" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>새로운 언어팩 버전 {0} 을/를 사용 가능합니다. 
+지금 새로운 버전을 다운로드 하고 설치하시겠습니까?</value>
   </data>
 </root>
