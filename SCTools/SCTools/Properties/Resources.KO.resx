@@ -380,4 +380,8 @@
   <data name="Localization_Settings_Text" xml:space="preserve">
     <value>설정</value>
   </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>새로운 언어팩 버전 {0} 을/를 사용 가능합니다. 
+지금 새로운 버전을 다운로드 하고 설치하시겠습니까?</value>
+  </data>
 </root>
