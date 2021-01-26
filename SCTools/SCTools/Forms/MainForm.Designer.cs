@@ -419,6 +419,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Utils";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();

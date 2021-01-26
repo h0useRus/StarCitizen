@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -74,15 +75,15 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void Minimize()
         {
-            Hide();
             ShowInTaskbar = false;
+            Hide();
         }
 
         private void Restore()
         {
+            ShowInTaskbar = true;
             Show();
             WindowState = FormWindowState.Normal;
-            ShowInTaskbar = true;
             WinApi.ShowToFront(Handle);
         }
 
@@ -94,11 +95,14 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             SetGameFolder(Program.Settings.GameFolder);
 
-            if (Program.Settings.RunMinimized)
-                Minimize();
-
             if (Program.Settings.Update.MonitorUpdates)
                 Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (Program.Settings.RunMinimized)
+                Minimize();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
