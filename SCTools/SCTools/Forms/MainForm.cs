@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -122,6 +123,8 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void niTray_BalloonTipClicked(object sender, EventArgs e) => Restore();
+
         private void btnGamePath_Click(object sender, EventArgs e)
         {
             using var dlg = new FolderBrowserDialog
@@ -174,7 +177,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     var dialogResult = MessageBox.Show(this,
                         string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
-                            availableUpdate.GetVersion()),
+                            $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
                         Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dialogResult == DialogResult.Yes &&
                         await controller.InstallVersionAsync(this, availableUpdate))
@@ -260,13 +263,21 @@ namespace NSW.StarCitizen.Tools.Forms
                     Program.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
                 }
             }
-            catch
+            catch (Exception exception)
             {
                 if (!progressDlg.IsCanceledByUser)
                 {
                     progressDlg.Hide();
-                    MessageBox.Show(this, Resources.Localization_Download_ErrorText,
-                        Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (exception is HttpRequestException)
+                    {
+                        MessageBox.Show(this, Resources.Localization_Download_ErrorText + '\n' + exception.Message,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, Resources.Localization_Download_ErrorText,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             finally

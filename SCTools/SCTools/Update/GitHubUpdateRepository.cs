@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace NSW.StarCitizen.Tools.Update
     public class GitHubUpdateRepository : UpdateRepository
     {
         private const string GitHubApiUrl = "https://api.github.com/repos";
+        private const string GitHubApiRateLimitUrl = "https://api.github.com/rate_limit";
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _repoReleasesUrl;
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
@@ -29,6 +31,7 @@ namespace NSW.StarCitizen.Tools.Update
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
+            await CheckRequestLimitStatusCodeAsync(response, cancellationToken).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var releases = JsonHelper.Read<GitRelease[]>(content);
@@ -109,6 +112,42 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
+        private static async Task<GitRateLimit?> GetRateLimitAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                using var response = await HttpNetClient.Client.GetAsync(GitHubApiRateLimitUrl, cancellationToken)
+                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                return JsonHelper.Read<GitRateLimit>(await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false));
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed get rate limit");
+                return null;
+            }
+        }
+
+        private static async Task CheckRequestLimitStatusCodeAsync(HttpResponseMessage message, CancellationToken cancellationToken)
+        {
+            if (message.StatusCode == HttpStatusCode.Forbidden)
+            {
+                _logger.Info("Check for rate limit exceed");
+                var gitRateLimit = await GetRateLimitAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                if (gitRateLimit != null && gitRateLimit.Rate.Remaining == 0)
+                {
+                    var resetDateTime = DateTimeUtils.FromUnixTimeSeconds(gitRateLimit.Rate.Reset).ToLocalTime();
+                    _logger.Warn(
+                        $"Request rate limit exceed: Limit={gitRateLimit.Rate.Limit}, Used={gitRateLimit.Rate.Used}, Reset={resetDateTime}");
+                    throw new GitHubRequestLimitExceedException(
+                        $"GitHub requests limit exceeded and will be reset after {resetDateTime.ToShortTimeString()}", resetDateTime);
+                }
+            }
+        }
+
+
         #region Git objects
         public class GitRelease
         {
@@ -153,6 +192,30 @@ namespace NSW.StarCitizen.Tools.Update
             {
                 ZipUrl = zipUrl;
             }
+        }
+
+        public class GitRateLimit
+        {
+            [JsonProperty("rate")]
+            public GitRate Rate { get; }
+
+            [JsonConstructor]
+            public GitRateLimit(GitRate rate)
+            {
+                Rate = rate;
+            }
+        }
+
+        public class GitRate
+        {
+            [JsonProperty("limit")]
+            public int Limit { get; private set; }
+            [JsonProperty("remaining")]
+            public int Remaining { get; private set; }
+            [JsonProperty("reset")]
+            public long Reset { get; private set; }
+            [JsonProperty("used")]
+            public int Used { get; private set; }
         }
         #endregion
     }
