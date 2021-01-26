@@ -71,7 +71,7 @@ namespace NSW.StarCitizen.Tools
         private static string GetExecutableDir()
         {
             var location = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase);
-            var dirInfo = new FileInfo(location.AbsolutePath).Directory;
+            var dirInfo = new FileInfo(location.LocalPath).Directory;
             if (dirInfo == null) throw new NullReferenceException("No assembly executable directory");
             return dirInfo.FullName;
         }
