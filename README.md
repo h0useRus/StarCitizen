@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.5.2
+# Star Citizen Tools v0.5.4
 
 
 ## Features
@@ -11,12 +11,16 @@
 - Full unininstall localization (with cleanup from all files)
 - Track and notify about available new versions of localization package
 - Manage localization repositories
-- Separate localization installation for PTU/LIVE 
+- Separate localization installation for PTU/LIVE
+- Hide localization pre-release versions by default
 
 ### General features
 
 - Download and install application updates
 - Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
-- Configurable application auto start on system start
-- Configurable application launch minimized to system tray
+- Configurable application settings:
+    - Auto run on system start
+    - Launch minimized to system tray
+    - Stay on top of other applications
+    - Enable use system proxy
