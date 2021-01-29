@@ -23,7 +23,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public void UpdateLocalizedControls()
         {
-            Text = Resources.Localization_Title;
+            Text = Resources.Localization_Title + " - " + _controller.CurrentGame.Mode;
             btnManage.Text = Resources.Localization_Manage_Text;
             btnRefresh.Text = Resources.Localization_Refresh_Text;
             btnInstall.Text = Resources.Localization_InstallVersion_Text;

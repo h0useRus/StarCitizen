@@ -27,7 +27,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public void UpdateLocalizedControls()
         {
-            Text = Resources.Localization_Repositories_Title;
+            Text = Resources.Localization_Repositories_Title + " - " + _repositoryManager.GameMode;
             tabPageUserRepositories.Text = Resources.Localization_UserRepos_Title;
             tabPageStdRepositories.Text = Resources.Localization_StdRepos_Title;
             lblName.Text = Resources.Localization_Name_Text;
