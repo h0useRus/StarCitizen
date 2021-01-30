@@ -488,6 +488,29 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dear friend,
+        ///We are happy to see the interest to our project.
+        ///
+        ///But before installation we want to be sure you will read following reminder:
+        ///1. Any modification of the game which may give or give any technical advantage over other players or methods provided by developers violate EULA and will be punished with full strength.
+        ///2. Changes provided by this modification won&apos;t give you advantage over other players or advantages in methods provided by developers in game or any other kind of advantage. Therefor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Localization_InstallWarning_Text {
+            get {
+                return ResourceManager.GetString("Localization_InstallWarning_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Localization_InstallWarning_Title {
+            get {
+                return ResourceManager.GetString("Localization_InstallWarning_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repository name is empty..
         /// </summary>
         internal static string Localization_InvalidRepoName_Text {
