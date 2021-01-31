@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.5.4
+# Star Citizen Tools v0.5.5
 
 
 ## Features
@@ -13,9 +13,11 @@
 - Manage localization repositories
 - Separate localization installation for PTU/LIVE
 - Hide localization pre-release versions by default
+- Specify GitHub auth token in settings json to access private repositories
 
 ### General features
 
+- Move LIVE to PTU or reverse
 - Download and install application updates
 - Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
