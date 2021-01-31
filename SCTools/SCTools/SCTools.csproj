@@ -18,7 +18,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>NSW.StarCitizen.Tools.Program</StartupObject>
     <Nullable>enable</Nullable>
-    <Version>0.5.2</Version>
+    <Version>0.5.4</Version>
   </PropertyGroup>
 
   <ItemGroup>

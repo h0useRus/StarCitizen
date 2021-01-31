@@ -55,6 +55,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
             this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
+            this.miTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.miMoveLiveToPtu = new System.Windows.Forms.ToolStripMenuItem();
+            this.miMovePtuToLive = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
@@ -231,6 +234,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.niTray.ContextMenuStrip = this.cmTrayMenu;
             this.niTray.Icon = ((System.Drawing.Icon)(resources.GetObject("niTray.Icon")));
             this.niTray.Visible = true;
+            this.niTray.BalloonTipClicked += new System.EventHandler(this.niTray_BalloonTipClicked);
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.niTray_MouseClick);
             // 
             // cmTrayMenu
@@ -238,25 +242,26 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cmTrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miAppName,
             this.tsSeparator2,
+            this.miTools,
             this.miSettings,
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(114, 82);
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 126);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
             // 
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(113, 22);
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
             this.miAppName.Text = "SCTools";
             this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // miSettings
             // 
@@ -267,7 +272,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUseHttpProxy,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(113, 22);
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -309,15 +314,38 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbMenuLanguage.Size = new System.Drawing.Size(121, 21);
             this.cbMenuLanguage.SelectedIndexChanged += new System.EventHandler(this.cbMenuLanguage_SelectedIndexChanged);
             // 
+            // miTools
+            // 
+            this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miMoveLiveToPtu,
+            this.miMovePtuToLive});
+            this.miTools.Name = "miTools";
+            this.miTools.Size = new System.Drawing.Size(180, 22);
+            this.miTools.Text = "Tools";
+            // 
+            // miMoveLiveToPtu
+            // 
+            this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
+            this.miMoveLiveToPtu.Size = new System.Drawing.Size(180, 22);
+            this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
+            this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
+            // 
+            // miMovePtuToLive
+            // 
+            this.miMovePtuToLive.Name = "miMovePtuToLive";
+            this.miMovePtuToLive.Size = new System.Drawing.Size(180, 22);
+            this.miMovePtuToLive.Text = "Move PTU to LIVE";
+            this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
+            // 
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(113, 22);
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -418,6 +446,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Utils";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.gbGameInfo.ResumeLayout(false);
             this.gbGameInfo.PerformLayout();
@@ -462,5 +491,8 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miRunTopMost;
         private System.Windows.Forms.ToolStripMenuItem miUseHttpProxy;
         private System.Windows.Forms.Button btnUpdateLocalization;
+        private System.Windows.Forms.ToolStripMenuItem miTools;
+        private System.Windows.Forms.ToolStripMenuItem miMoveLiveToPtu;
+        private System.Windows.Forms.ToolStripMenuItem miMovePtuToLive;
     }
 }

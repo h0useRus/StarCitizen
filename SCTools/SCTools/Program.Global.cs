@@ -14,6 +14,8 @@ namespace NSW.StarCitizen.Tools
 
         public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
+        public static string ExecutableDir { get; } = GetExecutableDir();
+
         public static List<GameInfo> GetGameModes(string gameFolder)
         {
             var result = new List<GameInfo>();
@@ -64,6 +66,14 @@ namespace NSW.StarCitizen.Tools
                     return true;
             }
             return false;
+        }
+
+        private static string GetExecutableDir()
+        {
+            var location = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase);
+            var dirInfo = new FileInfo(location.LocalPath).Directory;
+            if (dirInfo == null) throw new NullReferenceException("No assembly executable directory");
+            return dirInfo.FullName;
         }
     }
 }

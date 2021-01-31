@@ -381,4 +381,13 @@
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
     <value>Перевірити оновлення...</value>
   </data>
+  <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
+    <value>Перемістити LIVE в PTU</value>
+  </data>
+  <data name="Tools_Move_PTU_LIVE" xml:space="preserve">
+    <value>Перемістити PTU в LIVE</value>
+  </data>
+  <data name="Tools_Title" xml:space="preserve">
+    <value>Утиліти</value>
+  </data>
 </root>
