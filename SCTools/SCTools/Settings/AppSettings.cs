@@ -42,6 +42,8 @@ namespace NSW.StarCitizen.Tools.Settings
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
         [JsonProperty]
         public LocalizationSettings LocalizationPtu { get; } = new LocalizationSettings();
+        [JsonProperty]
+        public string? AuthToken { get; private set; }
 
         public LocalizationSettings GetGameModeSettings(GameMode gameMode) =>
             gameMode switch

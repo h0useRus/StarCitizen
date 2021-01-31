@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NLog;
 using NSW.StarCitizen.Tools.Helpers;
+using AuthenticationHeaderValue = System.Net.Http.Headers.AuthenticationHeaderValue;
 
 namespace NSW.StarCitizen.Tools.Update
 {
@@ -30,7 +31,8 @@ namespace NSW.StarCitizen.Tools.Update
 
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
-            using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
+            using var requestMessage = buildRequestMessage(_repoReleasesUrl);
+            using var response = await HttpNetClient.Client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
             await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -50,7 +52,8 @@ namespace NSW.StarCitizen.Tools.Update
         public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            using var response = await HttpNetClient.Client.GetAsync(updateInfo.DownloadUrl,
+            using var requestMessage = buildRequestMessage(updateInfo.DownloadUrl);
+            using var response = await HttpNetClient.Client.SendAsync(requestMessage,
                 HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
             response.EnsureSuccessStatusCode();
@@ -86,7 +89,8 @@ namespace NSW.StarCitizen.Tools.Update
         {
             try
             {
-                using var response = await HttpNetClient.Client.GetAsync(_repoReleasesUrl, cancellationToken).ConfigureAwait(false);
+                using var requestMessage = buildRequestMessage(_repoReleasesUrl);
+                using var response = await HttpNetClient.Client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
                 return response.IsSuccessStatusCode;
             }
             catch (Exception e)
@@ -113,11 +117,12 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
-        private static async Task<GitRateLimit?> GetRateLimitAsync(CancellationToken cancellationToken)
+        private async Task<GitRateLimit?> GetRateLimitAsync(CancellationToken cancellationToken)
         {
             try
             {
-                using var response = await HttpNetClient.Client.GetAsync(GitHubApiRateLimitUrl, cancellationToken)
+                using var requestMessage = buildRequestMessage(GitHubApiRateLimitUrl);
+                using var response = await HttpNetClient.Client.SendAsync(requestMessage, cancellationToken)
                     .ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
                 return JsonHelper.Read<GitRateLimit>(await response.Content.ReadAsStringAsync()
@@ -130,7 +135,7 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
-        private static async Task CheckRequestLimitStatusCodeAsync(HttpResponseMessage message, CancellationToken cancellationToken)
+        private async Task CheckRequestLimitStatusCodeAsync(HttpResponseMessage message, CancellationToken cancellationToken)
         {
             if (message.StatusCode == HttpStatusCode.Forbidden)
             {
@@ -148,6 +153,13 @@ namespace NSW.StarCitizen.Tools.Update
             }
         }
 
+        private HttpRequestMessage buildRequestMessage(string requestUri)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            if (Program.Settings.AuthToken != null)
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("token", Program.Settings.AuthToken);
+            return requestMessage;
+        }
 
         #region Git objects
         public class GitRelease
