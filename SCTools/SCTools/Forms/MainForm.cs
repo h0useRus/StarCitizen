@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -15,6 +17,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private bool _isGameFolderSet;
         private bool _holdUpdates;
         private string? _lastBrowsePath;
+        private List<GameMode>? _gameModes;
 
         public MainForm()
         {
@@ -46,6 +49,9 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
+            miTools.Text = Resources.Tools_Title;
+            miMoveLiveToPtu.Text = Resources.Tools_Move_LIVE_PTU;
+            miMovePtuToLive.Text = Resources.Tools_Move_PTU_LIVE;
             UpdateAppInstallButton();
         }
 
@@ -317,6 +323,16 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
+            if (Program.Settings.GameFolder != null && _gameModes != null)
+            {
+                miMoveLiveToPtu.Enabled = _gameModes.Contains(GameMode.LIVE) && !_gameModes.Contains(GameMode.PTU);
+                miMovePtuToLive.Enabled = _gameModes.Contains(GameMode.PTU) && !_gameModes.Contains(GameMode.LIVE);
+            }
+            else
+            {
+                miMoveLiveToPtu.Enabled = false;
+                miMovePtuToLive.Enabled = false;
+            }
             if (cbMenuLanguage.ComboBox != null)
             {
                 _holdUpdates = true;
@@ -365,6 +381,26 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void miMoveLiveToPtu_Click(object sender, EventArgs e)
+        {
+            if (Program.Settings.GameFolder == null) return;
+            var controller = new GameModesController(Program.Settings.GameFolder, Program.CurrentGame);
+            if (controller.MoveGameMode(this, GameMode.LIVE, GameMode.PTU))
+            {
+                SetGameFolder(Program.Settings.GameFolder);
+            }
+        }
+
+        private void miMovePtuToLive_Click(object sender, EventArgs e)
+        {
+            if (Program.Settings.GameFolder == null) return;
+            var controller = new GameModesController(Program.Settings.GameFolder, Program.CurrentGame);
+            if (controller.MoveGameMode(this, GameMode.PTU, GameMode.LIVE))
+            {
+                SetGameFolder(Program.Settings.GameFolder);
+            }
+        }
+
         #endregion
 
         protected override void WndProc(ref Message message)
@@ -390,6 +426,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     tbGamePath.Text = path.ToUpper();
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = gameModes;
+                    _gameModes = gameModes.Select(i => i.Mode).ToList();
                     SetGameModeInfo(gameMode);
                     Program.RunRepositoryMonitors(gameModes);
                     return true;
@@ -402,6 +439,7 @@ namespace NSW.StarCitizen.Tools.Forms
             tbGamePath.Text = Resources.GamePath_Hint;
             tbGamePath.TextAlign = HorizontalAlignment.Center;
             cbGameModes.DataSource = null;
+            _gameModes = null;
             Program.CurrentGame = null;
             Program.StopRepositoryMonitors();
             return false;
