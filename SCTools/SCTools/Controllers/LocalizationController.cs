@@ -116,6 +116,18 @@ namespace NSW.StarCitizen.Tools.Controllers
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            if (!Program.Settings.AcceptInstallWarning)
+            {
+                var dialogResult = MessageBox.Show(window, Resources.Localization_InstallWarning_Text,
+                    Resources.Localization_InstallWarning_Title, MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (dialogResult != DialogResult.Yes)
+                {
+                    return false;
+                }
+                Program.Settings.AcceptInstallWarning = true;
+                Program.SaveAppSettings();
+            }
             _logger.Info($"Install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
             bool status = false;
             using var progressDlg = new ProgressForm();

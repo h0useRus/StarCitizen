@@ -403,4 +403,18 @@ Do you want download and install it now?</value>
   <data name="Tools_Title" xml:space="preserve">
     <value>Tools</value>
   </data>
+  <data name="Localization_InstallWarning_Text" xml:space="preserve">
+    <value>Dear friend,
+We are happy to see the interest to our project.
+
+But before installation we want to be sure you will read following reminder:
+1. Any modification of the game which may give or give any technical advantage over other players or methods provided by developers violate EULA and will be punished with full strength.
+2. Changes provided by this modification won't give you advantage over other players or advantages in methods provided by developers in game or any other kind of advantage. Therefore, as long as the modification is used exclusively in the parameters provided by us, you can not be afraid of any sanctions from the developers.
+3. But still, only you are solely responsible for the use of this software, as well as for any installed modifications.
+
+By clicking "Yes", you confirm that you have read and understood the warning and ready to proceed with the installation.</value>
+  </data>
+  <data name="Localization_InstallWarning_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>
