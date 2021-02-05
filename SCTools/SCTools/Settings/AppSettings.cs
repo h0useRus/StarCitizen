@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
-using NSW.StarCitizen.Tools.Global;
+using NSW.StarCitizen.Tools.Lib.Global;
 
 namespace NSW.StarCitizen.Tools.Settings
 {

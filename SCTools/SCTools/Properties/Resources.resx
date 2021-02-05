@@ -178,9 +178,6 @@
   <data name="Localization_Button_Enable_localization" xml:space="preserve">
     <value>Enable localization</value>
   </data>
-  <data name="CoreSigning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\Defter.CoreSigning.cer;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Localization_Download_ErrorText" xml:space="preserve">
     <value>Unfortunately, it was an error during download. Please try again.</value>
   </data>

@@ -5,10 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
-using NSW.StarCitizen.Tools.Global;
-using NSW.StarCitizen.Tools.Helpers;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Lib.Helpers;
+using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Localization;
+using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -57,9 +59,20 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeGeneral()
         {
-            Program.Updater.Notification += (sender, s) =>
+            Program.Updater.MonitorStarted += (sender, s) =>
             {
-                niTray.ShowBalloonTip(5000, s.Item2, s.Item1, ToolTipIcon.Info);
+                IUpdateRepository repository = (IUpdateRepository)sender;
+                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
+            };
+            Program.Updater.MonitorStopped += (sender, s) =>
+            {
+                IUpdateRepository repository = (IUpdateRepository)sender;
+                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
+            };
+            Program.Updater.MonitorNewVersion += (sender, version) =>
+            {
+                IUpdateRepository repository = (IUpdateRepository)sender;
+                niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
             };
             foreach (var manager in Program.RepositoryManagers.Values)
             {
@@ -146,7 +159,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
-                string? gamePath = Program.SearchGameFolder(_lastBrowsePath);
+                string? gamePath = GameFolders.SearchGameFolder(_lastBrowsePath);
                 if (!SetGameFolder(gamePath))
                 {
                     MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
@@ -416,7 +429,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (path != null)
             {
-                var gameModes = Program.GetGameModes(path);
+                var gameModes = GameFolders.GetGameModes(path);
                 foreach (var gameMode in gameModes)
                 {
                     _isGameFolderSet = true;

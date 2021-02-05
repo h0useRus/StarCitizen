@@ -1,24 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net45</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
-    <Description>Star Citizen : Tools</Description>
+    <AssemblyTitle>Star Citizen : Tools Library</AssemblyTitle>
+    <Description>Star Citizen : Tools Library</Description>
     <Authors>Denis Ibragimov</Authors>
-    <Copyright>Copyright (с) 2019-2020 NewSoftWorld</Copyright>
-    <AssemblyName>SCTools</AssemblyName>
-    <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
+    <Copyright>Copyright (с) 2021 NewSoftWorld</Copyright>
+    <AssemblyName>SCToolsLib</AssemblyName>
+    <RootNamespace>NSW.StarCitizen.Tools.Lib</RootNamespace>
     <LangVersion>8</LangVersion>
-    <ApplicationIcon>app-icon.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
-    <StartupObject>NSW.StarCitizen.Tools.Program</StartupObject>
     <Nullable>enable</Nullable>
-    <Version>0.5.5</Version>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SCToolsLib\SCToolsLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -40,7 +33,7 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup>    
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

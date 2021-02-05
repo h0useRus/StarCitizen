@@ -7,11 +7,12 @@ using System.Windows.Forms;
 using NLog;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Forms;
-using NSW.StarCitizen.Tools.Global;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Localization;
+using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Repository;
 using NSW.StarCitizen.Tools.Settings;
-using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Controllers
 {

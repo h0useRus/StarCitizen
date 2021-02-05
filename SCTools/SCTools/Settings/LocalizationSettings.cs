@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NSW.StarCitizen.Tools.Global;
-using NSW.StarCitizen.Tools.Update;
+using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Settings
 {

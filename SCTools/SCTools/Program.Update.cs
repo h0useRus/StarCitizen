@@ -1,12 +1,13 @@
 using System.Windows.Forms;
+using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
-using NSW.StarCitizen.Tools.Update;
+using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools
 {
     public static partial class Program
     {
-        public static ApplicationUpdater Updater { get; } = new ApplicationUpdater();
+        public static ApplicationUpdater Updater { get; } = new ApplicationUpdater(GetUpdateRepository(), ExecutableDir, Resources.UpdateScript);
 
         public static bool InstallUpdateOnLaunch(string[] args)
         {
@@ -48,6 +49,15 @@ namespace NSW.StarCitizen.Tools
                 return false;
             }
             return true;
+        }
+
+        private static IUpdateRepository GetUpdateRepository()
+        {
+            var updateInfoFactory = GitHubUpdateInfo.Factory.NewWithVersionByTagName();
+            var updateRepository = new GitHubUpdateRepository(HttpNetClient.Client,
+                GitHubDownloadType.Assets, updateInfoFactory, Name, "h0useRus/StarCitizen");
+            updateRepository.SetCurrentVersion(Version.ToString(3));
+            return updateRepository;
         }
     }
 }
