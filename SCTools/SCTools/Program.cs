@@ -23,7 +23,7 @@ namespace NSW.StarCitizen.Tools
             try
             {
                 InitLogging();
-                if (InstallUpdateOnLaunch(args))
+                if (AppUpdate.InstallUpdateOnLaunch(args))
                     return;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

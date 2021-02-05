@@ -59,17 +59,17 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeGeneral()
         {
-            Program.Updater.MonitorStarted += (sender, s) =>
+            AppUpdate.Updater.MonitorStarted += (sender, s) =>
             {
                 IUpdateRepository repository = (IUpdateRepository)sender;
                 niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
             };
-            Program.Updater.MonitorStopped += (sender, s) =>
+            AppUpdate.Updater.MonitorStopped += (sender, s) =>
             {
                 IUpdateRepository repository = (IUpdateRepository)sender;
                 niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
             };
-            Program.Updater.MonitorNewVersion += (sender, version) =>
+            AppUpdate.Updater.MonitorNewVersion += (sender, version) =>
             {
                 IUpdateRepository repository = (IUpdateRepository)sender;
                 niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
@@ -114,7 +114,7 @@ namespace NSW.StarCitizen.Tools.Forms
             SetGameFolder(Program.Settings.GameFolder);
 
             if (Program.Settings.Update.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -249,9 +249,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnAppUpdate_Click(object sender, EventArgs e)
         {
-            if (Program.Updater.GetScheduledUpdateInfo() != null)
+            if (AppUpdate.Updater.GetScheduledUpdateInfo() != null)
             {
-                if (Program.InstallScheduledUpdate())
+                if (AppUpdate.InstallScheduledUpdate())
                     Close();
                 UpdateAppInstallButton();
                 return;
@@ -263,7 +263,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 Cursor.Current = Cursors.WaitCursor;
                 progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
                 progressDlg.Show(this);
-                var availableUpdate = await Program.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
+                var availableUpdate = await AppUpdate.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
                 progressDlg.CurrentTaskProgress = 1.0f;
                 if (availableUpdate == null)
                 {
@@ -280,9 +280,9 @@ namespace NSW.StarCitizen.Tools.Forms
                 {
                     var downloadDialogAdapter = new DownloadProgressDialogAdapter(null);
                     progressDlg.BindAdapter(downloadDialogAdapter);
-                    var filePath = await Program.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken,
+                    var filePath = await AppUpdate.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken,
                         downloadDialogAdapter);
-                    Program.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
+                    AppUpdate.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
                 }
             }
             catch (Exception exception)
@@ -316,9 +316,9 @@ namespace NSW.StarCitizen.Tools.Forms
             if (_holdUpdates) return;
             Program.Settings.Update.MonitorUpdates = cbCheckNewVersions.Checked;
             if (Program.Settings.Update.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
             else
-                Program.Updater.MonitorStop();
+                AppUpdate.Updater.MonitorStop();
             Program.SaveAppSettings();
         }
 
@@ -326,7 +326,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             Program.Settings.Update.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
             if (Program.Settings.Update.MonitorUpdates)
-                Program.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
             Program.SaveAppSettings();
         }
 
@@ -482,7 +482,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateAppInstallButton()
         {
-            var scheduledUpdateInfo = Program.Updater.GetScheduledUpdateInfo();
+            var scheduledUpdateInfo = AppUpdate.Updater.GetScheduledUpdateInfo();
             btnAppUpdate.Text = scheduledUpdateInfo != null
                 ? string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
                 : Resources.Application_CheckForUpdates_Text;

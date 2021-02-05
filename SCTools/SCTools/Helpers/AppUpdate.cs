@@ -1,13 +1,17 @@
 using System.Windows.Forms;
+using NLog;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Repository;
 
-namespace NSW.StarCitizen.Tools
+namespace NSW.StarCitizen.Tools.Helpers
 {
-    public static partial class Program
+    public static class AppUpdate
     {
-        public static ApplicationUpdater Updater { get; } = new ApplicationUpdater(GetUpdateRepository(), ExecutableDir, Resources.UpdateScript);
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+        public static ApplicationUpdater Updater { get; } = new ApplicationUpdater(GetUpdateRepository(),
+            Program.ExecutableDir, Resources.UpdateScript);
 
         public static bool InstallUpdateOnLaunch(string[] args)
         {
@@ -15,7 +19,7 @@ namespace NSW.StarCitizen.Tools
             if ((args.Length >= 2) && (args[0] == "update_status") && (args[1] != InstallUpdateStatus.Success.ToString("d")))
             {
                 _logger.Error($"Failed install update: {args[1]}");
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + args[1], Name,
+                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + args[1], Program.Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -29,7 +33,7 @@ namespace NSW.StarCitizen.Tools
                 }
                 Updater.ApplyScheduledUpdateProps(scheduledUpdateInfo);
                 var result = MessageBox.Show(string.Format(Resources.Application_UpdateAvailableInstallAsk_Text,
-                    scheduledUpdateInfo.GetVersion()), Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    scheduledUpdateInfo.GetVersion()), Program.Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     return InstallScheduledUpdate();
@@ -44,7 +48,7 @@ namespace NSW.StarCitizen.Tools
             if (result != InstallUpdateStatus.Success)
             {
                 _logger.Error($"Failed launch install update: {result}");
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + result.ToString("d"), Name,
+                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + result.ToString("d"), Program.Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -55,8 +59,8 @@ namespace NSW.StarCitizen.Tools
         {
             var updateInfoFactory = GitHubUpdateInfo.Factory.NewWithVersionByTagName();
             var updateRepository = new GitHubUpdateRepository(HttpNetClient.Client,
-                GitHubDownloadType.Assets, updateInfoFactory, Name, "h0useRus/StarCitizen");
-            updateRepository.SetCurrentVersion(Version.ToString(3));
+                GitHubDownloadType.Assets, updateInfoFactory, Program.Name, "h0useRus/StarCitizen");
+            updateRepository.SetCurrentVersion(Program.Version.ToString(3));
             return updateRepository;
         }
     }
