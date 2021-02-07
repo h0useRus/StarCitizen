@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Settings;
 

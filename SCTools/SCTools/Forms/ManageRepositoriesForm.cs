@@ -2,10 +2,11 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Repository;
 using NSW.StarCitizen.Tools.Settings;
-using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Forms
 {

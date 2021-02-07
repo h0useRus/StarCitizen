@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using NLog;
-using NSW.StarCitizen.Tools.Global;
+using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Controllers

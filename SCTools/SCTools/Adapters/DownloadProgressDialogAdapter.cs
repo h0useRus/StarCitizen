@@ -1,6 +1,6 @@
 using NSW.StarCitizen.Tools.Forms;
+using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
-using NSW.StarCitizen.Tools.Update;
 
 namespace NSW.StarCitizen.Tools.Adapters
 {

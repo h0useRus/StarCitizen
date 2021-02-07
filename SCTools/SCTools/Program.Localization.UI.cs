@@ -3,7 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Helpers;
 
 namespace NSW.StarCitizen.Tools
 {

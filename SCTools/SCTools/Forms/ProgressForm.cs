@@ -1,7 +1,8 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Lib.Localization;
 
 namespace NSW.StarCitizen.Tools.Forms
 {

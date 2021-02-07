@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NSW.StarCitizen.Tools.Global;
-using NSW.StarCitizen.Tools.Localization;
+using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools
 {

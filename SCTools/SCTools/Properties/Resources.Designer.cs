@@ -145,16 +145,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] CoreSigning {
-            get {
-                object obj = ResourceManager.GetObject("CoreSigning", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Persistent Universe.
         /// </summary>
         internal static string GameMode_LIVE {

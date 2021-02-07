@@ -1,6 +1,5 @@
 using System.IO;
-
-using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools
