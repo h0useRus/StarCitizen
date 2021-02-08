@@ -149,6 +149,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode.Size = new System.Drawing.Size(185, 20);
             this.tbGameMode.TabIndex = 1;
             this.tbGameMode.TabStop = false;
+            this.tbGameMode.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbGameMode_MouseDoubleClick);
             // 
             // lblGameMode
             // 

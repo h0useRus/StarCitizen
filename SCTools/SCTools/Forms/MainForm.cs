@@ -11,6 +11,7 @@ using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -495,6 +496,20 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DisplayMember = "Value";
             combobox.ValueMember = "Key";
             combobox.SelectedValue = Program.Settings.Language;
+        }
+
+        private async void tbGameMode_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (Program.CurrentGame != null)
+            {
+                var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
+                var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language);
+                if (configData != null)
+                {
+                    using var gameSettingsForm = new GameSettingsForm(Program.CurrentGame, configData);
+                    gameSettingsForm.ShowDialog(this);
+                }
+            }
         }
     }
 }
