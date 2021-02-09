@@ -49,7 +49,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabCategories.Name = "tabCategories";
             this.tabCategories.Padding = new System.Drawing.Point(3, 3);
             this.tabCategories.SelectedIndex = 0;
-            this.tabCategories.Size = new System.Drawing.Size(779, 574);
+            this.tabCategories.Size = new System.Drawing.Size(779, 497);
             this.tabCategories.TabIndex = 0;
             // 
             // btnSave
@@ -57,7 +57,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Enabled = false;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(660, 588);
+            this.btnSave.Location = new System.Drawing.Point(660, 511);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(115, 23);
             this.btnSave.TabIndex = 1;
@@ -70,7 +70,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnResetAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetAll.Enabled = false;
             this.btnResetAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnResetAll.Location = new System.Drawing.Point(4, 588);
+            this.btnResetAll.Location = new System.Drawing.Point(4, 511);
             this.btnResetAll.Name = "btnResetAll";
             this.btnResetAll.Size = new System.Drawing.Size(115, 23);
             this.btnResetAll.TabIndex = 2;
@@ -83,7 +83,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnResetPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnResetPage.Enabled = false;
             this.btnResetPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnResetPage.Location = new System.Drawing.Point(125, 588);
+            this.btnResetPage.Location = new System.Drawing.Point(125, 511);
             this.btnResetPage.Name = "btnResetPage";
             this.btnResetPage.Size = new System.Drawing.Size(115, 23);
             this.btnResetPage.TabIndex = 3;
@@ -100,7 +100,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 617);
+            this.ClientSize = new System.Drawing.Size(779, 540);
             this.Controls.Add(this.btnResetPage);
             this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnSave);

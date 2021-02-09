@@ -40,7 +40,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 else
                 {
                     _logger.Error("Failed parse settings database");
-                    MessageBox.Show(window, "Failed parse settings database",
+                    MessageBox.Show(window, Resources.GameSettings_FailedParseDb_Text,
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -49,7 +49,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                 if (!progressDlg.IsCanceledByUser)
                 {
                     _logger.Error(e, "Error load settings database");
-                    MessageBox.Show(window, "Failed load settings database",
+                    MessageBox.Show(window, Resources.GameSettings_FailedLoadDb_Text,
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

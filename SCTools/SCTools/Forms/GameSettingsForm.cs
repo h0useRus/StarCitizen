@@ -10,6 +10,7 @@ using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
+using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools.Forms
@@ -34,7 +35,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public async void UpdateLocalizedControls()
         {
-            Text = "Star Citizen : Settings" + " - " + _gameInfo.Mode;
+            Text = Resources.GameSettings_Title + " - " + _gameInfo.Mode;
+            btnResetAll.Text = Resources.GameSettings_Reset_All_Button;
+            btnResetPage.Text = Resources.GameSettings_Reset_Page_Button;
+            btnSave.Text = Resources.GameSettings_Save_Button;
 
             await LoadDatabaseAsync();
         }

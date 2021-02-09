@@ -199,6 +199,60 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed load settings database json.
+        /// </summary>
+        internal static string GameSettings_FailedLoadDb_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_FailedLoadDb_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed parse settings database json.
+        /// </summary>
+        internal static string GameSettings_FailedParseDb_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_FailedParseDb_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset All.
+        /// </summary>
+        internal static string GameSettings_Reset_All_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Reset_All_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset in Page.
+        /// </summary>
+        internal static string GameSettings_Reset_Page_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Reset_Page_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string GameSettings_Save_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Save_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Citizen : Settings.
+        /// </summary>
+        internal static string GameSettings_Title {
+            get {
+                return ResourceManager.GetString("GameSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Localization_Add_Text {
