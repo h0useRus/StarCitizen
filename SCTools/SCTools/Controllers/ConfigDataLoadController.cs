@@ -27,6 +27,10 @@ namespace NSW.StarCitizen.Tools.Controllers
             using var progressDlg = new ProgressForm();
             try
             {
+                if (IsDatabaseAlreadyLoaded(languageName))
+                {
+                    return _configDataLoader.BuildData(languageName);
+                }
                 progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
                 progressDlg.Show(window);
                 await _configDataLoader.LoadDatabaseAsync(progressDlg.CancelToken);
@@ -59,6 +63,11 @@ namespace NSW.StarCitizen.Tools.Controllers
             }
             return null;
         }
+
+        private bool IsDatabaseAlreadyLoaded(string languageName) =>
+            _configDataLoader.DatabaseLoaded &&
+            (!_configDataLoader.GetSupportedLanguages().Contains(languageName) ||
+            _configDataLoader.LoadedLanguages.Contains(languageName));
 
         private async Task<bool> LoadDatabaseLanguageAsync(string languageName, CancellationToken? cancellationToken = default)
         {

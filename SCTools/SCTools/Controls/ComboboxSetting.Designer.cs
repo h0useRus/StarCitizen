@@ -30,7 +30,7 @@ namespace NSW.StarCitizen.Tools.Controls
         private void InitializeComponent()
         {
             this.lblCaption = new System.Windows.Forms.Label();
-            this.cbValue = new NSW.StarCitizen.Tools.Controls.AutoWidthCombobox();
+            this.cbValue = new NSW.StarCitizen.Tools.Controls.ComboboxEx();
             this.SuspendLayout();
             // 
             // lblCaption
@@ -75,6 +75,6 @@ namespace NSW.StarCitizen.Tools.Controls
         #endregion
 
         private System.Windows.Forms.Label lblCaption;
-        private AutoWidthCombobox cbValue;
+        private ComboboxEx cbValue;
     }
 }

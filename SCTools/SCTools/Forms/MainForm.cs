@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
-using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;

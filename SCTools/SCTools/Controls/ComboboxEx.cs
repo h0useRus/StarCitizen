@@ -2,9 +2,9 @@ using System.Windows.Forms;
 
 namespace NSW.StarCitizen.Tools.Controls
 {
-    public class AutoWidthCombobox : ComboBox
+    public class ComboboxEx : ComboBox
     {
-        public AutoWidthCombobox() {}
+        public ComboboxEx() {}
 
         public new object DataSource
         {

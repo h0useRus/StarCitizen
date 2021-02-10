@@ -199,6 +199,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy All Settings.
+        /// </summary>
+        internal static string GameSettings_Copy_All_Settings_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Copy_All_Settings_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Setting.
+        /// </summary>
+        internal static string GameSettings_Copy_Setting_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Copy_Setting_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed load settings database json.
         /// </summary>
         internal static string GameSettings_FailedLoadDb_Text {
@@ -213,15 +231,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string GameSettings_FailedParseDb_Text {
             get {
                 return ResourceManager.GetString("GameSettings_FailedParseDb_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Only Changed.
-        /// </summary>
-        internal static string GameSettings_Only_Changed_Button {
-            get {
-                return ResourceManager.GetString("GameSettings_Only_Changed_Button", resourceCulture);
             }
         }
         
@@ -244,11 +253,11 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reset Selected.
+        ///   Looks up a localized string similar to Reset Setting.
         /// </summary>
-        internal static string GameSettings_Reset_Selected_Button {
+        internal static string GameSettings_Reset_Setting_Button {
             get {
-                return ResourceManager.GetString("GameSettings_Reset_Selected_Button", resourceCulture);
+                return ResourceManager.GetString("GameSettings_Reset_Setting_Button", resourceCulture);
             }
         }
         
@@ -258,6 +267,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string GameSettings_Save_Button {
             get {
                 return ResourceManager.GetString("GameSettings_Save_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Only Changed.
+        /// </summary>
+        internal static string GameSettings_Show_Only_Changed_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Show_Only_Changed_Button", resourceCulture);
             }
         }
         

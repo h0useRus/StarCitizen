@@ -31,82 +31,58 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameSettingsForm));
-            this.tabCategories = new System.Windows.Forms.TabControl();
             this.cmGameSetting = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miResetSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miCopySetting = new System.Windows.Forms.ToolStripMenuItem();
             this.miChangedOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.miResetSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this.miResetAtPage = new System.Windows.Forms.ToolStripMenuItem();
-            this.miResetAll = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnResetAll = new System.Windows.Forms.Button();
             this.btnResetPage = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miCopyAllSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabCategories = new NSW.StarCitizen.Tools.Controls.TabControlEx();
             this.cmGameSetting.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabCategories
-            // 
-            this.tabCategories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabCategories.ContextMenuStrip = this.cmGameSetting;
-            this.tabCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabCategories.ItemSize = new System.Drawing.Size(0, 20);
-            this.tabCategories.Location = new System.Drawing.Point(0, 8);
-            this.tabCategories.Name = "tabCategories";
-            this.tabCategories.Padding = new System.Drawing.Point(3, 3);
-            this.tabCategories.SelectedIndex = 0;
-            this.tabCategories.Size = new System.Drawing.Size(779, 497);
-            this.tabCategories.TabIndex = 0;
             // 
             // cmGameSetting
             // 
             this.cmGameSetting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miResetSelected,
+            this.miResetSetting,
+            this.miCopySetting,
+            this.miCopyAllSettings,
             this.toolStripSeparator2,
-            this.miResetAtPage,
-            this.miResetAll,
-            this.toolStripSeparator1,
             this.miChangedOnly});
             this.cmGameSetting.Name = "cmGameSetting";
-            this.cmGameSetting.Size = new System.Drawing.Size(181, 126);
+            this.cmGameSetting.Size = new System.Drawing.Size(156, 98);
             this.cmGameSetting.Opened += new System.EventHandler(this.cmGameSetting_Opened);
+            // 
+            // miResetSetting
+            // 
+            this.miResetSetting.Name = "miResetSetting";
+            this.miResetSetting.Size = new System.Drawing.Size(155, 22);
+            this.miResetSetting.Text = "Reset Setting";
+            this.miResetSetting.Click += new System.EventHandler(this.miResetSetting_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
+            // 
+            // miCopySetting
+            // 
+            this.miCopySetting.Name = "miCopySetting";
+            this.miCopySetting.Size = new System.Drawing.Size(155, 22);
+            this.miCopySetting.Text = "Copy Setting";
+            this.miCopySetting.Click += new System.EventHandler(this.miCopySetting_Click);
             // 
             // miChangedOnly
             // 
             this.miChangedOnly.CheckOnClick = true;
             this.miChangedOnly.Name = "miChangedOnly";
-            this.miChangedOnly.Size = new System.Drawing.Size(180, 22);
+            this.miChangedOnly.Size = new System.Drawing.Size(155, 22);
             this.miChangedOnly.Text = "Changed Only";
             this.miChangedOnly.CheckedChanged += new System.EventHandler(this.miChangedOnly_CheckedChanged);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // miResetSelected
-            // 
-            this.miResetSelected.Name = "miResetSelected";
-            this.miResetSelected.Size = new System.Drawing.Size(180, 22);
-            this.miResetSelected.Text = "Reset Selected";
-            this.miResetSelected.Click += new System.EventHandler(this.miResetSelected_Click);
-            // 
-            // miResetAtPage
-            // 
-            this.miResetAtPage.Name = "miResetAtPage";
-            this.miResetAtPage.Size = new System.Drawing.Size(180, 22);
-            this.miResetAtPage.Text = "Reset at Page";
-            this.miResetAtPage.Click += new System.EventHandler(this.miResetAtPage_Click);
-            // 
-            // miResetAll
-            // 
-            this.miResetAll.Name = "miResetAll";
-            this.miResetAll.Size = new System.Drawing.Size(180, 22);
-            this.miResetAll.Text = "Reset All";
-            this.miResetAll.Click += new System.EventHandler(this.miResetAll_Click);
             // 
             // btnSave
             // 
@@ -152,10 +128,27 @@ namespace NSW.StarCitizen.Tools.Forms
             this.toolTip.IsBalloon = true;
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // toolStripSeparator2
+            // miCopyAllSettings
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.miCopyAllSettings.Name = "miCopyAllSettings";
+            this.miCopyAllSettings.Size = new System.Drawing.Size(155, 22);
+            this.miCopyAllSettings.Text = "Copy All Settings";
+            this.miCopyAllSettings.Click += new System.EventHandler(this.miCopyAllSettings_Click);
+            // 
+            // tabCategories
+            // 
+            this.tabCategories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabCategories.ContextMenuStrip = this.cmGameSetting;
+            this.tabCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tabCategories.ItemSize = new System.Drawing.Size(0, 20);
+            this.tabCategories.Location = new System.Drawing.Point(0, 8);
+            this.tabCategories.Name = "tabCategories";
+            this.tabCategories.Padding = new System.Drawing.Point(3, 3);
+            this.tabCategories.SelectedIndex = 0;
+            this.tabCategories.Size = new System.Drawing.Size(779, 497);
+            this.tabCategories.TabIndex = 0;
             // 
             // GameSettingsForm
             // 
@@ -180,17 +173,16 @@ namespace NSW.StarCitizen.Tools.Forms
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabCategories;
+        private NSW.StarCitizen.Tools.Controls.TabControlEx tabCategories;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnResetAll;
         private System.Windows.Forms.Button btnResetPage;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ContextMenuStrip cmGameSetting;
         private System.Windows.Forms.ToolStripMenuItem miChangedOnly;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem miResetSelected;
-        private System.Windows.Forms.ToolStripMenuItem miResetAtPage;
-        private System.Windows.Forms.ToolStripMenuItem miResetAll;
+        private System.Windows.Forms.ToolStripMenuItem miResetSetting;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem miCopySetting;
+        private System.Windows.Forms.ToolStripMenuItem miCopyAllSettings;
     }
 }

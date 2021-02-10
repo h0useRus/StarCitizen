@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
@@ -28,19 +29,23 @@ namespace NSW.StarCitizen.Tools.Forms
             _configData = configData;
             _gameSettings = new GameSettings(gameInfo);
             InitializeComponent();
-            UpdateLocalizedControls();
+            UpdateLocalizedControlsOnly();
         }
 
         private void GameSettingsForm_Load(object sender, EventArgs e) => LoadSettingControls(_configData);
 
         public async void UpdateLocalizedControls()
         {
+            UpdateLocalizedControlsOnly();
+            await LoadDatabaseAsync();
+        }
+
+        private void UpdateLocalizedControlsOnly()
+        {
             Text = Resources.GameSettings_Title + " - " + _gameInfo.Mode;
             btnResetAll.Text = Resources.GameSettings_Reset_All_Button;
             btnResetPage.Text = Resources.GameSettings_Reset_Page_Button;
             btnSave.Text = Resources.GameSettings_Save_Button;
-
-            await LoadDatabaseAsync();
         }
 
         private void btnSave_Click(object sender, EventArgs e) => SaveGameSettings();
@@ -51,14 +56,15 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cmGameSetting_Opened(object sender, EventArgs e)
         {
-            miResetSelected.Enabled = cmGameSetting.SourceControl is ISettingControl setting && setting.HasValue;
-            miResetSelected.Text = Resources.GameSettings_Reset_Selected_Button;
-            miResetAll.Text = Resources.GameSettings_Reset_All_Button;
-            miResetAtPage.Text = Resources.GameSettings_Reset_Page_Button;
-            miChangedOnly.Text = Resources.GameSettings_Only_Changed_Button;
+            miResetSetting.Enabled = cmGameSetting.SourceControl is ISettingControl setting && setting.HasValue;
+            miResetSetting.Text = Resources.GameSettings_Reset_Setting_Button;
+            miCopySetting.Enabled = cmGameSetting.SourceControl is ISettingControl;
+            miCopySetting.Text = Resources.GameSettings_Copy_Setting_Button;
+            miCopyAllSettings.Text = Resources.GameSettings_Copy_All_Settings_Button;
+            miChangedOnly.Text = Resources.GameSettings_Show_Only_Changed_Button;
         }
 
-        private void miResetSelected_Click(object sender, EventArgs e)
+        private void miResetSetting_Click(object sender, EventArgs e)
         {
             if (cmGameSetting.SourceControl is ISettingControl setting)
             {
@@ -66,9 +72,26 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void miResetAtPage_Click(object sender, EventArgs e) => ResetAtPageSettings();
+        private void miCopySetting_Click(object sender, EventArgs e)
+        {
+            if (cmGameSetting.SourceControl is ISettingControl setting)
+            {
+                Clipboard.SetText($"{setting.Key}={setting.Value}");
+            }
+        }
 
-        private void miResetAll_Click(object sender, EventArgs e) => ResetGameSettings();
+        private void miCopyAllSettings_Click(object sender, EventArgs e)
+        {
+            StringBuilder content = new StringBuilder();
+            foreach (var setting in _settingControls)
+            {
+                if (setting.HasValue)
+                {
+                    content.AppendLine($"{setting.Key}={setting.Value}");
+                }
+            }
+            Clipboard.SetText(content.ToString());
+        }
 
         private void miChangedOnly_CheckedChanged(object sender, EventArgs e)
         {
