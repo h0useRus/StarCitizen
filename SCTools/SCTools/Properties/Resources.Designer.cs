@@ -217,6 +217,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only Changed.
+        /// </summary>
+        internal static string GameSettings_Only_Changed_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Only_Changed_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset All.
         /// </summary>
         internal static string GameSettings_Reset_All_Button {
@@ -231,6 +240,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string GameSettings_Reset_Page_Button {
             get {
                 return ResourceManager.GetString("GameSettings_Reset_Page_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Selected.
+        /// </summary>
+        internal static string GameSettings_Reset_Selected_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_Reset_Selected_Button", resourceCulture);
             }
         }
         

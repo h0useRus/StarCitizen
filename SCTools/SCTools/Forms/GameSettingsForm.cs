@@ -47,14 +47,34 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnResetAll_Click(object sender, EventArgs e) => ResetGameSettings();
 
-        private void btnResetPage_Click(object sender, EventArgs e)
+        private void btnResetPage_Click(object sender, EventArgs e) => ResetAtPageSettings();
+
+        private void cmGameSetting_Opened(object sender, EventArgs e)
         {
-            foreach (var layoutPanel in tabCategories.SelectedTab.Controls.OfType<TableLayoutPanel>())
+            miResetSelected.Enabled = cmGameSetting.SourceControl is ISettingControl setting && setting.HasValue;
+            miResetSelected.Text = Resources.GameSettings_Reset_Selected_Button;
+            miResetAll.Text = Resources.GameSettings_Reset_All_Button;
+            miResetAtPage.Text = Resources.GameSettings_Reset_Page_Button;
+            miChangedOnly.Text = Resources.GameSettings_Only_Changed_Button;
+        }
+
+        private void miResetSelected_Click(object sender, EventArgs e)
+        {
+            if (cmGameSetting.SourceControl is ISettingControl setting)
             {
-                foreach (var settingControl in layoutPanel.Controls.OfType<ISettingControl>())
-                {
-                    settingControl.ClearValue();
-                }
+                setting.ClearValue();
+            }
+        }
+
+        private void miResetAtPage_Click(object sender, EventArgs e) => ResetAtPageSettings();
+
+        private void miResetAll_Click(object sender, EventArgs e) => ResetGameSettings();
+
+        private void miChangedOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (var setting in _settingControls)
+            {
+                setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
             }
         }
 
@@ -92,6 +112,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     if (settingControl != null)
                     {
                         settingControl.Control.Dock = DockStyle.Fill;
+                        settingControl.Control.ContextMenuStrip = cmGameSetting;
                         settingControls.Add(settingControl);
                         layout.Controls.Add(settingControl.Control);
                     }
@@ -106,6 +127,17 @@ namespace NSW.StarCitizen.Tools.Forms
             btnResetAll.Enabled = anyDataAvailable;
             btnResetPage.Enabled = anyDataAvailable;
             LoadGameSettings();
+        }
+
+        private void ResetAtPageSettings()
+        {
+            foreach (var layoutPanel in tabCategories.SelectedTab.Controls.OfType<TableLayoutPanel>())
+            {
+                foreach (var settingControl in layoutPanel.Controls.OfType<ISettingControl>())
+                {
+                    settingControl.ClearValue();
+                }
+            }
         }
 
         private void ResetGameSettings()

@@ -31,7 +31,7 @@ namespace NSW.StarCitizen.Tools.Controls
         {
             this.lblCaption = new System.Windows.Forms.Label();
             this.lblValue = new System.Windows.Forms.Label();
-            this.numControl = new System.Windows.Forms.NumericUpDown();
+            this.numControl = new NSW.StarCitizen.Tools.Controls.NumericUpDownEx();
             ((System.ComponentModel.ISupportInitialize)(this.numControl)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,6 +64,7 @@ namespace NSW.StarCitizen.Tools.Controls
             this.numControl.DecimalPlaces = 1;
             this.numControl.Dock = System.Windows.Forms.DockStyle.Right;
             this.numControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.numControl.InterceptMouseWheel = NSW.StarCitizen.Tools.Controls.NumericUpDownEx.InterceptMouseWheelMode.WhenMouseOver;
             this.numControl.Location = new System.Drawing.Point(288, 9);
             this.numControl.Margin = new System.Windows.Forms.Padding(0);
             this.numControl.MinimumSize = new System.Drawing.Size(50, 0);
@@ -71,6 +72,7 @@ namespace NSW.StarCitizen.Tools.Controls
             this.numControl.Size = new System.Drawing.Size(52, 20);
             this.numControl.TabIndex = 3;
             this.numControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numControl.ValidateTextDuringEditing = false;
             this.numControl.TextChanged += new System.EventHandler(this.numControl_TextChanged);
             this.numControl.ValueChanged += new System.EventHandler(this.numControl_ValueChanged);
             // 
@@ -93,6 +95,6 @@ namespace NSW.StarCitizen.Tools.Controls
         #endregion
         private System.Windows.Forms.Label lblCaption;
         private System.Windows.Forms.Label lblValue;
-        private System.Windows.Forms.NumericUpDown numControl;
+        private NumericUpDownEx numControl;
     }
 }

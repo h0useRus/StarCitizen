@@ -422,4 +422,10 @@
   <data name="GameSettings_Title" xml:space="preserve">
     <value>Star Citizen : Налаштування</value>
   </data>
+  <data name="GameSettings_Only_Changed_Button" xml:space="preserve">
+    <value>Тільки змінені</value>
+  </data>
+  <data name="GameSettings_Reset_Selected_Button" xml:space="preserve">
+    <value>Скинути</value>
+  </data>
 </root>
