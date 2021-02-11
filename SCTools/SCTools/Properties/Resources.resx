@@ -444,4 +444,7 @@ By clicking "Yes", you confirm that you have read and understood the warning and
   <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
     <value>Copy Setting</value>
   </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Settings {0}</value>
+  </data>
 </root>

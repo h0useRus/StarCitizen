@@ -164,9 +164,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabCategories);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(375, 200);
             this.Name = "GameSettingsForm";
             this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GameSettingsForm";
             this.Load += new System.EventHandler(this.GameSettingsForm_Load);

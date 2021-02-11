@@ -40,6 +40,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode = new System.Windows.Forms.TextBox();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
+            this.btnGameSettings = new System.Windows.Forms.Button();
             this.btnUpdateLocalization = new System.Windows.Forms.Button();
             this.btnLocalization = new System.Windows.Forms.Button();
             this.btnAppUpdate = new System.Windows.Forms.Button();
@@ -49,15 +50,15 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cmTrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miAppName = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.miMoveLiveToPtu = new System.Windows.Forms.ToolStripMenuItem();
+            this.miMovePtuToLive = new System.Windows.Forms.ToolStripMenuItem();
             this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunMinimized = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
             this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
-            this.miTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.miMoveLiveToPtu = new System.Windows.Forms.ToolStripMenuItem();
-            this.miMovePtuToLive = new System.Windows.Forms.ToolStripMenuItem();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
@@ -149,7 +150,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode.Size = new System.Drawing.Size(185, 20);
             this.tbGameMode.TabIndex = 1;
             this.tbGameMode.TabStop = false;
-            this.tbGameMode.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tbGameMode_MouseDoubleClick);
             // 
             // lblGameMode
             // 
@@ -164,6 +164,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.gbButtonMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbButtonMenu.Controls.Add(this.btnGameSettings);
             this.gbButtonMenu.Controls.Add(this.btnUpdateLocalization);
             this.gbButtonMenu.Controls.Add(this.btnLocalization);
             this.gbButtonMenu.Location = new System.Drawing.Point(218, 39);
@@ -172,12 +173,25 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbButtonMenu.TabIndex = 4;
             this.gbButtonMenu.TabStop = false;
             // 
+            // btnGameSettings
+            // 
+            this.btnGameSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGameSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGameSettings.Location = new System.Drawing.Point(6, 75);
+            this.btnGameSettings.Name = "btnGameSettings";
+            this.btnGameSettings.Size = new System.Drawing.Size(242, 23);
+            this.btnGameSettings.TabIndex = 5;
+            this.btnGameSettings.Text = "Game settings";
+            this.btnGameSettings.UseVisualStyleBackColor = true;
+            this.btnGameSettings.Click += new System.EventHandler(this.btnGameSettings_Click);
+            // 
             // btnUpdateLocalization
             // 
             this.btnUpdateLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdateLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 72);
+            this.btnUpdateLocalization.Location = new System.Drawing.Point(6, 46);
             this.btnUpdateLocalization.Name = "btnUpdateLocalization";
             this.btnUpdateLocalization.Size = new System.Drawing.Size(242, 23);
             this.btnUpdateLocalization.TabIndex = 4;
@@ -190,7 +204,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnLocalization.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLocalization.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalization.Location = new System.Drawing.Point(6, 30);
+            this.btnLocalization.Location = new System.Drawing.Point(6, 17);
             this.btnLocalization.Name = "btnLocalization";
             this.btnLocalization.Size = new System.Drawing.Size(242, 23);
             this.btnLocalization.TabIndex = 3;
@@ -248,21 +262,44 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(181, 126);
+            this.cmTrayMenu.Size = new System.Drawing.Size(114, 104);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
             // 
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(180, 22);
+            this.miAppName.Size = new System.Drawing.Size(113, 22);
             this.miAppName.Text = "SCTools";
             this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            // 
+            // miTools
+            // 
+            this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miMoveLiveToPtu,
+            this.miMovePtuToLive});
+            this.miTools.Name = "miTools";
+            this.miTools.Size = new System.Drawing.Size(113, 22);
+            this.miTools.Text = "Tools";
+            // 
+            // miMoveLiveToPtu
+            // 
+            this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
+            this.miMoveLiveToPtu.Size = new System.Drawing.Size(159, 22);
+            this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
+            this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
+            // 
+            // miMovePtuToLive
+            // 
+            this.miMovePtuToLive.Name = "miMovePtuToLive";
+            this.miMovePtuToLive.Size = new System.Drawing.Size(159, 22);
+            this.miMovePtuToLive.Text = "Move PTU to LIVE";
+            this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
             // 
             // miSettings
             // 
@@ -273,7 +310,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUseHttpProxy,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(180, 22);
+            this.miSettings.Size = new System.Drawing.Size(113, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -315,38 +352,15 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbMenuLanguage.Size = new System.Drawing.Size(121, 21);
             this.cbMenuLanguage.SelectedIndexChanged += new System.EventHandler(this.cbMenuLanguage_SelectedIndexChanged);
             // 
-            // miTools
-            // 
-            this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miMoveLiveToPtu,
-            this.miMovePtuToLive});
-            this.miTools.Name = "miTools";
-            this.miTools.Size = new System.Drawing.Size(180, 22);
-            this.miTools.Text = "Tools";
-            // 
-            // miMoveLiveToPtu
-            // 
-            this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
-            this.miMoveLiveToPtu.Size = new System.Drawing.Size(180, 22);
-            this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
-            this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
-            // 
-            // miMovePtuToLive
-            // 
-            this.miMovePtuToLive.Name = "miMovePtuToLive";
-            this.miMovePtuToLive.Size = new System.Drawing.Size(180, 22);
-            this.miMovePtuToLive.Text = "Move PTU to LIVE";
-            this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
-            // 
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(180, 22);
+            this.miExitApp.Size = new System.Drawing.Size(113, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -495,5 +509,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miTools;
         private System.Windows.Forms.ToolStripMenuItem miMoveLiveToPtu;
         private System.Windows.Forms.ToolStripMenuItem miMovePtuToLive;
+        private System.Windows.Forms.Button btnGameSettings;
     }
 }

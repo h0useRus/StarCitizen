@@ -434,4 +434,7 @@
   <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
     <value>Копировать настройку</value>
   </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Настройки {0}</value>
+  </data>
 </root>

@@ -216,6 +216,20 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private async void btnGameSettings_Click(object sender, EventArgs e)
+        {
+            if (Program.CurrentGame != null)
+            {
+                var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
+                var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language);
+                if (configData != null)
+                {
+                    using var dlg = new GameSettingsForm(Program.CurrentGame, configData);
+                    dlg.ShowDialog(this);
+                }
+            }
+        }
+
         private void cbGameModes_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (cbGameModes.SelectedItem is GameInfo gameInfo)
@@ -478,6 +492,7 @@ namespace NSW.StarCitizen.Tools.Forms
             var controller = new LocalizationController(gameInfo);
             btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null &&
                                             controller.GetInstallationType() != LocalizationInstallationType.None;
+            btnGameSettings.Text = string.Format(Resources.GameSettings_Button_Text, gameInfo.Mode);
         }
 
         private void UpdateAppInstallButton()
@@ -495,20 +510,6 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DisplayMember = "Value";
             combobox.ValueMember = "Key";
             combobox.SelectedValue = Program.Settings.Language;
-        }
-
-        private async void tbGameMode_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (Program.CurrentGame != null)
-            {
-                var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
-                var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language);
-                if (configData != null)
-                {
-                    using var gameSettingsForm = new GameSettingsForm(Program.CurrentGame, configData);
-                    gameSettingsForm.ShowDialog(this);
-                }
-            }
         }
     }
 }

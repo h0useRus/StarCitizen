@@ -199,6 +199,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings {0}.
+        /// </summary>
+        internal static string GameSettings_Button_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_Button_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy All Settings.
         /// </summary>
         internal static string GameSettings_Copy_All_Settings_Button {
