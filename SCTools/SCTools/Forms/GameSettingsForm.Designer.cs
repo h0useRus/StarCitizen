@@ -33,14 +33,14 @@ namespace NSW.StarCitizen.Tools.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameSettingsForm));
             this.cmGameSetting = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miResetSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.miCopySetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.miCopyAllSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.miChangedOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnResetAll = new System.Windows.Forms.Button();
             this.btnResetPage = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.miCopyAllSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tabCategories = new NSW.StarCitizen.Tools.Controls.TabControlEx();
             this.cmGameSetting.SuspendLayout();
             this.SuspendLayout();
@@ -64,17 +64,24 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miResetSetting.Text = "Reset Setting";
             this.miResetSetting.Click += new System.EventHandler(this.miResetSetting_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
-            // 
             // miCopySetting
             // 
             this.miCopySetting.Name = "miCopySetting";
             this.miCopySetting.Size = new System.Drawing.Size(155, 22);
             this.miCopySetting.Text = "Copy Setting";
             this.miCopySetting.Click += new System.EventHandler(this.miCopySetting_Click);
+            // 
+            // miCopyAllSettings
+            // 
+            this.miCopyAllSettings.Name = "miCopyAllSettings";
+            this.miCopyAllSettings.Size = new System.Drawing.Size(155, 22);
+            this.miCopyAllSettings.Text = "Copy All Settings";
+            this.miCopyAllSettings.Click += new System.EventHandler(this.miCopyAllSettings_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
             // 
             // miChangedOnly
             // 
@@ -125,15 +132,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // toolTip
             // 
+            this.toolTip.AutoPopDelay = 20000;
+            this.toolTip.InitialDelay = 500;
             this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // miCopyAllSettings
-            // 
-            this.miCopyAllSettings.Name = "miCopyAllSettings";
-            this.miCopyAllSettings.Size = new System.Drawing.Size(155, 22);
-            this.miCopyAllSettings.Text = "Copy All Settings";
-            this.miCopyAllSettings.Click += new System.EventHandler(this.miCopyAllSettings_Click);
+            this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
             // tabCategories
             // 

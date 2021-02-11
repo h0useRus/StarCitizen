@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
@@ -76,21 +75,25 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cmGameSetting.SourceControl is ISettingControl setting)
             {
-                Clipboard.SetText($"{setting.Key}={setting.Value}");
+                var cfgData = new CfgData();
+                cfgData.AddCommentRow(setting.Model.Name);
+                cfgData.AddOrUpdateRow(setting.Model.Key, setting.Value);
+                Clipboard.SetText(cfgData.ToString());
             }
         }
 
         private void miCopyAllSettings_Click(object sender, EventArgs e)
         {
-            StringBuilder content = new StringBuilder();
+            var cfgData = new CfgData();
             foreach (var setting in _settingControls)
             {
                 if (setting.HasValue)
                 {
-                    content.AppendLine($"{setting.Key}={setting.Value}");
+                    cfgData.AddCommentRow(setting.Model.Name);
+                    cfgData.AddOrUpdateRow(setting.Model.Key, setting.Value);
                 }
             }
-            Clipboard.SetText(content.ToString());
+            Clipboard.SetText(cfgData.ToString());
         }
 
         private void miChangedOnly_CheckedChanged(object sender, EventArgs e)
@@ -98,6 +101,14 @@ namespace NSW.StarCitizen.Tools.Forms
             foreach (var setting in _settingControls)
             {
                 setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
+            }
+        }
+
+        private void toolTip_Popup(object sender, PopupEventArgs e)
+        {
+            if (e.AssociatedControl.Parent is ISettingControl setting)
+            {
+                toolTip.ToolTipTitle = setting.Model.Name;
             }
         }
 
@@ -176,7 +187,7 @@ namespace NSW.StarCitizen.Tools.Forms
             var cfgData = _gameSettings.Load();
             foreach (var control in _settingControls)
             {
-                if (cfgData.TryGetValue(control.Key, out var value) && value != null)
+                if (cfgData.TryGetValue(control.Model.Key, out var value) && value != null)
                 {
                     try
                     {
@@ -202,7 +213,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 if (control.HasValue)
                 {
-                    cfgData.AddOrUpdateRow(control.Key, control.Value);
+                    cfgData.AddOrUpdateRow(control.Model.Key, control.Value);
                 }
             }
             return _gameSettings.SaveConfig(cfgData);

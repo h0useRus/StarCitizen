@@ -22,22 +22,22 @@ namespace NSW.StarCitizen.Tools.Controllers
             _configDataLoader = configDataLoader;
         }
 
-        public async Task<ConfigData?> LoadDatabaseAsync(Control window, string languageName)
+        public async Task<ConfigData?> LoadDatabaseAsync(Control window, string languageName, bool forceReload = false)
         {
             using var progressDlg = new ProgressForm();
             try
             {
-                if (IsDatabaseAlreadyLoaded(languageName))
+                if (!forceReload && IsDatabaseAlreadyLoaded(languageName))
                 {
                     return _configDataLoader.BuildData(languageName);
                 }
                 progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
                 progressDlg.Show(window);
-                await _configDataLoader.LoadDatabaseAsync(progressDlg.CancelToken);
+                await _configDataLoader.LoadDatabaseAsync(progressDlg.CancelToken, forceReload);
                 progressDlg.CurrentTaskProgress = 0.5f;
                 if (_configDataLoader.DatabaseLoaded)
                 {
-                    await LoadDatabaseLanguageAsync(languageName, progressDlg.CancelToken);
+                    await LoadDatabaseLanguageAsync(languageName, progressDlg.CancelToken, forceReload);
                     progressDlg.CurrentTaskProgress = 0.9f;
                     return _configDataLoader.BuildData(languageName);
                 }
@@ -69,13 +69,14 @@ namespace NSW.StarCitizen.Tools.Controllers
             (!_configDataLoader.GetSupportedLanguages().Contains(languageName) ||
             _configDataLoader.LoadedLanguages.Contains(languageName));
 
-        private async Task<bool> LoadDatabaseLanguageAsync(string languageName, CancellationToken? cancellationToken = default)
+        private async Task<bool> LoadDatabaseLanguageAsync(string languageName,
+            CancellationToken? cancellationToken = default, bool forceReload = false)
         {
             try
             {
                 if (_configDataLoader.GetSupportedLanguages().Contains(languageName))
                 {
-                    await _configDataLoader.LoadTranslationAsync(languageName, cancellationToken);
+                    await _configDataLoader.LoadTranslationAsync(languageName, cancellationToken, forceReload);
                     return _configDataLoader.LoadedLanguages.Contains(languageName);
                 }
             }

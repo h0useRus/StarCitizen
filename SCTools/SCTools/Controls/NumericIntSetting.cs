@@ -8,7 +8,7 @@ namespace NSW.StarCitizen.Tools.Controls
     public partial class NumericIntSetting : UserControl, ISettingControl
     {
         public Control Control => this;
-        public string Key => Setting.Key;
+        public BaseSetting Model => Setting;
         public string Value
         {
             get => numControl.Value.ToString();
