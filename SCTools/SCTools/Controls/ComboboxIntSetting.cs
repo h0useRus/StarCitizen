@@ -4,7 +4,7 @@ using Defter.StarCitizen.ConfigDB.Model;
 
 namespace NSW.StarCitizen.Tools.Controls
 {
-    public partial class ComboboxSetting : UserControl, ISettingControl
+    public partial class ComboboxIntSetting : UserControl, ISettingControl
     {
         public Control Control => this;
         public BaseSetting Model => Setting;
@@ -38,7 +38,7 @@ namespace NSW.StarCitizen.Tools.Controls
             set => cbValue.SelectedValue = value;
         }
 
-        public ComboboxSetting(ToolTip toolTip, IntegerSetting setting)
+        public ComboboxIntSetting(ToolTip toolTip, IntegerSetting setting)
         {
             Setting = setting;
             InitializeComponent();
@@ -67,8 +67,11 @@ namespace NSW.StarCitizen.Tools.Controls
             }
         }
 
-        private void Combobox_SelectedIndexChanged(object sender, System.EventArgs e) =>
+        private void Combobox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            lblValue.Text = cbValue.SelectedValue != null ? cbValue.SelectedValue.ToString() : string.Empty;
             BackColor = HasValue ? SystemColors.ControlDark : SystemColors.Control;
+        }
 
         private void ComboboxSetting_DoubleClick(object sender, System.EventArgs e) => ClearValue();
     }

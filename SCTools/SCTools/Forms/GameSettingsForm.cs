@@ -127,6 +127,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             tabCategories.SuspendLayout();
             tabCategories.TabPages.Clear();
+            var settingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var settingControls = new List<ISettingControl>();
             foreach (var category in configData.SettingCategories.Values)
             {
@@ -142,13 +143,16 @@ namespace NSW.StarCitizen.Tools.Forms
                 };
                 foreach (var setting in category.Settings.Values)
                 {
-                    var settingControl = CreateSettingControl(toolTip, setting);
-                    if (settingControl != null)
+                    if (settingKeys.Add(setting.Key)) // block duplicates
                     {
-                        settingControl.Control.Dock = DockStyle.Fill;
-                        settingControl.Control.ContextMenuStrip = cmGameSetting;
-                        settingControls.Add(settingControl);
-                        layout.Controls.Add(settingControl.Control);
+                        var settingControl = CreateSettingControl(toolTip, setting);
+                        if (settingControl != null)
+                        {
+                            settingControl.Control.Dock = DockStyle.Fill;
+                            settingControl.Control.ContextMenuStrip = cmGameSetting;
+                            settingControls.Add(settingControl);
+                            layout.Controls.Add(settingControl.Control);
+                        }
                     }
                 }
                 newPage.Controls.Add(layout);
@@ -233,11 +237,15 @@ namespace NSW.StarCitizen.Tools.Forms
                     {
                         return new NumericIntSetting(toolTip, integerSetting);
                     }
-                    return new ComboboxSetting(toolTip, integerSetting);
+                    return new ComboboxIntSetting(toolTip, integerSetting);
                 }
                 if (setting is FloatSetting floatSetting)
                 {
-                    return new NumericFloatSetting(toolTip, floatSetting);
+                    if (floatSetting.Range)
+                    {
+                        return new NumericFloatSetting(toolTip, floatSetting);
+                    }
+                    return new ComboboxFloatSetting(toolTip, floatSetting);
                 }
             }
             catch
