@@ -64,7 +64,7 @@ namespace NSW.StarCitizen.Tools.Controls
             this.numControl.CausesValidation = false;
             this.numControl.Dock = System.Windows.Forms.DockStyle.Right;
             this.numControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.numControl.InterceptMouseWheel = NSW.StarCitizen.Tools.Controls.NumericUpDownEx.InterceptMouseWheelMode.WhenMouseOver;
+            this.numControl.InterceptMouseWheel = NSW.StarCitizen.Tools.Controls.InterceptMouseWheelMode.WhenMouseOver;
             this.numControl.Location = new System.Drawing.Point(290, 9);
             this.numControl.Margin = new System.Windows.Forms.Padding(0);
             this.numControl.MinimumSize = new System.Drawing.Size(50, 0);

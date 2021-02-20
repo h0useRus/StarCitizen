@@ -9,11 +9,9 @@ namespace NSW.StarCitizen.Tools.Controls
 
         protected override void WndProc(ref Message message)
         {
-            if (message.Msg == WinApi.WM_MOUSEWHEEL && !_inWndProc)
+            if (message.Msg == WinApi.WM_MOUSEWHEEL)
             {
-                _inWndProc = true;
-                WinApi.SendMessage(SelectedTab.Handle, message.Msg, message.WParam, message.LParam);
-                _inWndProc = false;
+                WinApi.SendControlMessage(SelectedTab, ref message, ref _inWndProc);
             }
             base.WndProc(ref message);
         }

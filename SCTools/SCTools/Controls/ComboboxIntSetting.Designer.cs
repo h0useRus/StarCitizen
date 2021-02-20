@@ -53,6 +53,7 @@ namespace NSW.StarCitizen.Tools.Controls
             this.cbValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbValue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cbValue.InterceptMouseWheel = NSW.StarCitizen.Tools.Controls.InterceptMouseWheelMode.WhenMouseOver;
             this.cbValue.Location = new System.Drawing.Point(200, 8);
             this.cbValue.MinimumSize = new System.Drawing.Size(75, 0);
             this.cbValue.Name = "cbValue";

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
@@ -34,6 +35,23 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             SetForegroundWindow(window);
             BringWindowToTop(window);
+        }
+
+        public static bool SendControlMessage(Control control, ref Message message, ref bool isProcessing)
+        {
+            if (!isProcessing)
+            {
+                try
+                {
+                    isProcessing = true;
+                    return SendMessage(control.Handle, message.Msg, message.WParam, message.LParam);
+                }
+                finally
+                {
+                    isProcessing = false;
+                }
+            }
+            return false;
         }
     }
 }

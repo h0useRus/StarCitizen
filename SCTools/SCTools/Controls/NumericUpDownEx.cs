@@ -17,16 +17,6 @@ namespace NSW.StarCitizen.Tools.Controls
         [Description("Enables validate text during editing.")]
         public bool ValidateTextDuringEditing { get; set; } = true;
 
-        public enum InterceptMouseWheelMode
-        {
-            /// <summary>MouseWheel always works (defauld behavior)</summary>
-            Always,
-            /// <summary>MouseWheel works only when mouse is over the (focused) control</summary>
-            WhenMouseOver,
-            /// <summary>MouseWheel never works</summary>
-            Never
-        }
-
         // these events will be raised correctly, when mouse enters on the textbox
         public new event EventHandler<EventArgs>? MouseEnter;
         public new event EventHandler<EventArgs>? MouseLeave;
@@ -34,6 +24,7 @@ namespace NSW.StarCitizen.Tools.Controls
         private readonly TextBox _textbox;
         private readonly Control _upDownButtons;
         private bool _mouseOver;
+        private bool _inWndProc;
 
         public NumericUpDownEx() : base()
         {
@@ -88,9 +79,13 @@ namespace NSW.StarCitizen.Tools.Controls
                             {
                                 base.WndProc(ref message);
                             }
+                            else
+                            {
+                                WinApi.SendControlMessage(Parent, ref message, ref _inWndProc);
+                            }
                             break;
                         case InterceptMouseWheelMode.Never:
-                            // kill the message
+                            WinApi.SendControlMessage(Parent, ref message, ref _inWndProc);
                             return;
                     }
                     break;
