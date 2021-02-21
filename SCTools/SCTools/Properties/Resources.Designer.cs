@@ -226,6 +226,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string GameSettings_Error_Title {
+            get {
+                return ResourceManager.GetString("GameSettings_Error_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed load settings database json.
         /// </summary>
         internal static string GameSettings_FailedLoadDb_Text {
@@ -240,6 +249,105 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string GameSettings_FailedParseDb_Text {
             get {
                 return ResourceManager.GetString("GameSettings_FailedParseDb_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile:.
+        /// </summary>
+        internal static string GameSettings_Profile_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_Profile_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save changes in profile {0}?.
+        /// </summary>
+        internal static string GameSettings_ProfileAskSave_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileAskSave_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile changed.
+        /// </summary>
+        internal static string GameSettings_ProfileAskSave_Title {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileAskSave_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string GameSettings_ProfileDelete_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileDelete_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error modify profile.
+        /// </summary>
+        internal static string GameSettings_ProfileError_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileError_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        internal static string GameSettings_ProfileNew_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileNew_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter profile name:.
+        /// </summary>
+        internal static string GameSettings_ProfileNew_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileNew_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new profile.
+        /// </summary>
+        internal static string GameSettings_ProfileNew_Title {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileNew_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        internal static string GameSettings_ProfileRename_Button {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileRename_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter profile name:.
+        /// </summary>
+        internal static string GameSettings_ProfileRename_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileRename_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename selected profile.
+        /// </summary>
+        internal static string GameSettings_ProfileRename_Title {
+            get {
+                return ResourceManager.GetString("GameSettings_ProfileRename_Title", resourceCulture);
             }
         }
         
@@ -271,11 +379,20 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save.
+        ///   Looks up a localized string similar to Save &amp;&amp; Apply.
         /// </summary>
         internal static string GameSettings_Save_Button {
             get {
                 return ResourceManager.GetString("GameSettings_Save_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed apply settings.
+        /// </summary>
+        internal static string GameSettings_SettingApplyError_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_SettingApplyError_Text", resourceCulture);
             }
         }
         

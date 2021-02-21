@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,11 +16,14 @@ using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class GameSettingsForm : Form, ILocalizedForm
+    public partial class GameSettingsForm : Form, ILocalizedForm, PromptForm.IValueValidator
     {
         private readonly GameInfo _gameInfo;
         private readonly GameSettings _gameSettings;
+        private readonly ProfileManager _profileManager = new ProfileManager();
         private IReadOnlyList<ISettingControl> _settingControls = new List<ISettingControl>();
+        private string? _currentProfileName;
+        private string? _appliedProfileName;
         private ConfigData _configData;
 
         public GameSettingsForm(GameInfo gameInfo, ConfigData configData)
@@ -31,7 +35,34 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateLocalizedControlsOnly();
         }
 
-        private void GameSettingsForm_Load(object sender, EventArgs e) => LoadSettingControls(_configData);
+        private void GameSettingsForm_Load(object sender, EventArgs e)
+        {
+            _profileManager.Load();
+
+            cbProfiles.BindingContext = BindingContext;
+            if (_profileManager.Profiles.Count > 0)
+            {
+                cbProfiles.DataSource = new BindingSource(_profileManager.Profiles.Keys, null);
+            }
+            else
+            {
+                cbProfiles.DataSource = null;
+            }
+            cbProfiles.SelectedIndex = -1;
+            btnRenameProfile.Enabled = false;
+            btnDeleteProfile.Enabled = false;
+            _currentProfileName = null;
+
+            LoadSettingControls(_configData);
+        }
+
+        private void GameSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_currentProfileName != null && !AskAndSaveProfileChanges(_currentProfileName))
+            {
+                e.Cancel = true;
+            }
+        }
 
         public async void UpdateLocalizedControls()
         {
@@ -39,15 +70,170 @@ namespace NSW.StarCitizen.Tools.Forms
             await LoadDatabaseAsync();
         }
 
+        public bool IsPromptValueValid(string value) =>
+            ProfileManager.IsValidProfileName(value) && !_profileManager.Profiles.ContainsKey(value.Trim());
+
         private void UpdateLocalizedControlsOnly()
         {
             Text = Resources.GameSettings_Title + " - " + _gameInfo.Mode;
+            lblProfile.Text = Resources.GameSettings_Profile_Text;
+            btnNewProfile.Text = Resources.GameSettings_ProfileNew_Button;
+            btnRenameProfile.Text = Resources.GameSettings_ProfileRename_Button;
+            btnDeleteProfile.Text = Resources.GameSettings_ProfileDelete_Button;
             btnResetAll.Text = Resources.GameSettings_Reset_All_Button;
             btnResetPage.Text = Resources.GameSettings_Reset_Page_Button;
             btnSave.Text = Resources.GameSettings_Save_Button;
         }
 
-        private void btnSave_Click(object sender, EventArgs e) => SaveGameSettings();
+        private void cbProfiles_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cbProfiles.SelectedItem is string profileName)
+            {
+                if (_currentProfileName != null && !profileName.Equals(_currentProfileName) &&
+                    !AskAndSaveProfileChanges(_currentProfileName))
+                {
+                    cbProfiles.SelectedItem = _currentProfileName;
+                    return;
+                }
+                if (!_profileManager.Profiles.TryGetValue(profileName, out var profileData))
+                {
+                    cbProfiles.SelectedItem = _currentProfileName;
+                    return;
+                }
+                _currentProfileName = profileName;
+                LoadGameSettings(profileData);
+                UpdateSettingsVisibility();
+                btnRenameProfile.Enabled = true;
+                btnDeleteProfile.Enabled = true;
+            }
+        }
+
+        private void cbProfiles_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index >= 0)
+            {
+                var profileName = cbProfiles.Items[e.Index].ToString();
+                var fontStyle = profileName.Equals(_appliedProfileName) ? FontStyle.Bold : FontStyle.Regular;
+                using var brush = new SolidBrush(e.ForeColor);
+                using var font = new Font(e.Font, fontStyle);
+                e.DrawBackground();
+                e.Graphics.DrawString(profileName, font, brush, e.Bounds);
+                e.DrawFocusRectangle();
+            }
+        }
+
+        private void btnNewProfile_Click(object sender, EventArgs e)
+        {
+            using var promptDlg = new PromptForm(PromptForm.PromptType.CreateProfile, this)
+            {
+                MaxValueLength = 32
+            };
+            if (promptDlg.ShowDialog() == DialogResult.OK)
+            {
+                var profileName = promptDlg.Value.Trim();
+                if (_profileManager.CreateProfile(profileName, GetCurrentConfigData()))
+                {
+                    UpdateProfiles(profileName);
+                }
+                else
+                {
+                    MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                        Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnRenameProfile_Click(object sender, EventArgs e)
+        {
+            if (cbProfiles.SelectedItem is string profileName)
+            {
+                using var promptDlg = new PromptForm(PromptForm.PromptType.RenameProfile, this)
+                {
+                    Value = profileName,
+                    MaxValueLength = 32
+                };
+                if (promptDlg.ShowDialog() == DialogResult.OK)
+                {
+                    var newProfileName = promptDlg.Value.Trim();
+                    if (_profileManager.RenameProfile(profileName, newProfileName))
+                    {
+                        if (_appliedProfileName != null && _appliedProfileName.Equals(profileName))
+                        {
+                            _appliedProfileName = newProfileName;
+                        }
+                        UpdateProfiles(newProfileName);
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                            Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnDeleteProfile_Click(object sender, EventArgs e)
+        {
+            if (cbProfiles.SelectedItem is string profileName)
+            {
+                _profileManager.DeleteProfile(profileName);
+                if (_appliedProfileName != null && _appliedProfileName.Equals(profileName))
+                {
+                    _appliedProfileName = null;
+                }
+                UpdateProfiles(null);
+            }
+        }
+
+        private void UpdateProfiles(string? selectValue)
+        {
+            if (_profileManager.Profiles.Count > 0)
+            {
+                cbProfiles.DataSource = new BindingSource(_profileManager.Profiles.Keys, null);
+                if (selectValue != null)
+                {
+                    cbProfiles.SelectedItem = selectValue;
+                    _currentProfileName = selectValue;
+                }
+                else
+                {
+                    cbProfiles.SelectedIndex = -1;
+                    _currentProfileName = null;
+                }
+            }
+            else
+            {
+                cbProfiles.DataSource = null;
+                _currentProfileName = null;
+            }
+            btnRenameProfile.Enabled = _currentProfileName != null;
+            btnDeleteProfile.Enabled = _currentProfileName != null;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string? selectedProfile = null;
+            var cfgData = GetCurrentConfigData();
+            if (cbProfiles.SelectedItem is string profileName)
+            {
+                selectedProfile = profileName;
+                if (!_profileManager.SaveProfile(profileName, cfgData))
+                {
+                    MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                        Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }        
+            if (_gameSettings.SaveConfig(cfgData))
+            {
+                _appliedProfileName = selectedProfile;
+            }
+            else
+            {
+                MessageBox.Show(this, Resources.GameSettings_SettingApplyError_Text,
+                    Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            cbProfiles.Refresh();
+        }
 
         private void btnResetAll_Click(object sender, EventArgs e) => ResetGameSettings();
 
@@ -96,13 +282,7 @@ namespace NSW.StarCitizen.Tools.Forms
             Clipboard.SetText(cfgData.ToString());
         }
 
-        private void miChangedOnly_CheckedChanged(object sender, EventArgs e)
-        {
-            foreach (var setting in _settingControls)
-            {
-                setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
-            }
-        }
+        private void miChangedOnly_CheckedChanged(object sender, EventArgs e) => UpdateSettingsVisibility();
 
         private void toolTip_Popup(object sender, PopupEventArgs e)
         {
@@ -164,7 +344,23 @@ namespace NSW.StarCitizen.Tools.Forms
             btnSave.Enabled = anyDataAvailable;
             btnResetAll.Enabled = anyDataAvailable;
             btnResetPage.Enabled = anyDataAvailable;
-            LoadGameSettings();
+
+            var cfgData = _gameSettings.Load();
+            LoadGameSettings(cfgData);
+            SelectProfileByData(cfgData);
+        }
+
+        private CfgData GetCurrentConfigData()
+        {
+            var cfgData = new CfgData();
+            foreach (var control in _settingControls)
+            {
+                if (control.HasValue)
+                {
+                    cfgData.AddOrUpdateRow(control.Model.Key, control.Value);
+                }
+            }
+            return cfgData;
         }
 
         private void ResetAtPageSettings()
@@ -186,9 +382,58 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void LoadGameSettings()
+        private void UpdateSettingsVisibility()
         {
-            var cfgData = _gameSettings.Load();
+            foreach (var setting in _settingControls)
+            {
+                setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
+            }
+        }
+
+        private void SelectProfileByData(CfgData cfgData)
+        {
+            foreach (var profileEntry in _profileManager.Profiles)
+            {
+                if (profileEntry.Value.Equals(cfgData))
+                {
+                    _appliedProfileName = profileEntry.Key;
+                    UpdateProfiles(profileEntry.Key);
+                    break;
+                }
+            }
+        }
+
+        private bool AskAndSaveProfileChanges(string profileName)
+        {
+            var currentConfig = GetCurrentConfigData();
+            if (_profileManager.Profiles.TryGetValue(profileName, out var profileData) &&
+                !currentConfig.Equals(profileData))
+            {
+                var dialogResult = MessageBox.Show(this, string.Format(Resources.GameSettings_ProfileAskSave_Text, profileName),
+                    Resources.GameSettings_ProfileAskSave_Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button3);
+                switch (dialogResult)
+                {
+                    case DialogResult.Yes:
+                        if (!_profileManager.SaveProfile(profileName, currentConfig))
+                        {
+                            MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                                Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                        return true;
+                    case DialogResult.No:
+                        return true;
+                    case DialogResult.Cancel:
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private void LoadGameSettings(CfgData cfgData)
+        {
             foreach (var control in _settingControls)
             {
                 if (cfgData.TryGetValue(control.Model.Key, out var value) && value != null)
@@ -208,19 +453,6 @@ namespace NSW.StarCitizen.Tools.Forms
                     control.ClearValue();
                 }
             }
-        }
-
-        private bool SaveGameSettings()
-        {
-            var cfgData = new CfgData();
-            foreach (var control in _settingControls)
-            {
-                if (control.HasValue)
-                {
-                    cfgData.AddOrUpdateRow(control.Model.Key, control.Value);
-                }
-            }
-            return _gameSettings.SaveConfig(cfgData);
         }
 
         private static ISettingControl? CreateSettingControl(ToolTip toolTip, BaseSetting setting)

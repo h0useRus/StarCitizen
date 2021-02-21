@@ -417,7 +417,7 @@
     <value>Скинути сторінку</value>
   </data>
   <data name="GameSettings_Save_Button" xml:space="preserve">
-    <value>Зберегти</value>
+    <value>Застосувати</value>
   </data>
   <data name="GameSettings_Title" xml:space="preserve">
     <value>Star Citizen : Налаштування</value>
@@ -436,5 +436,44 @@
   </data>
   <data name="GameSettings_Button_Text" xml:space="preserve">
     <value>Налаштування {0}</value>
+  </data>
+  <data name="GameSettings_Error_Title" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
+    <value>Зберегти зміни у профілі - {0}?</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
+    <value>Профіль змінено</value>
+  </data>
+  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
+    <value>Помилка зміни профіля</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
+    <value>Введіть назву профілю:</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
+    <value>Створення профілю</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
+    <value>Введіть нову назву профілю:</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
+    <value>Перейменування профілю</value>
+  </data>
+  <data name="GameSettings_Profile_Text" xml:space="preserve">
+    <value>Профіль:</value>
+  </data>
+  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
+    <value>Помилка застосування налаштувань</value>
   </data>
 </root>

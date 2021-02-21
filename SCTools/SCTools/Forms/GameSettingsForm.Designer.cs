@@ -41,6 +41,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnResetAll = new System.Windows.Forms.Button();
             this.btnResetPage = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.cbProfiles = new System.Windows.Forms.ComboBox();
+            this.btnNewProfile = new System.Windows.Forms.Button();
+            this.btnRenameProfile = new System.Windows.Forms.Button();
+            this.btnDeleteProfile = new System.Windows.Forms.Button();
+            this.lblProfile = new System.Windows.Forms.Label();
             this.tabCategories = new NSW.StarCitizen.Tools.Controls.TabControlEx();
             this.cmGameSetting.SuspendLayout();
             this.SuspendLayout();
@@ -139,6 +144,64 @@ namespace NSW.StarCitizen.Tools.Forms
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
+            // cbProfiles
+            // 
+            this.cbProfiles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbProfiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProfiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbProfiles.FormattingEnabled = true;
+            this.cbProfiles.Location = new System.Drawing.Point(125, 8);
+            this.cbProfiles.Name = "cbProfiles";
+            this.cbProfiles.Size = new System.Drawing.Size(236, 21);
+            this.cbProfiles.TabIndex = 4;
+            this.cbProfiles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbProfiles_DrawItem);
+            this.cbProfiles.SelectionChangeCommitted += new System.EventHandler(this.cbProfiles_SelectionChangeCommitted);
+            // 
+            // btnNewProfile
+            // 
+            this.btnNewProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewProfile.Location = new System.Drawing.Point(4, 35);
+            this.btnNewProfile.Name = "btnNewProfile";
+            this.btnNewProfile.Size = new System.Drawing.Size(115, 23);
+            this.btnNewProfile.TabIndex = 5;
+            this.btnNewProfile.Text = "New...";
+            this.btnNewProfile.UseVisualStyleBackColor = true;
+            this.btnNewProfile.Click += new System.EventHandler(this.btnNewProfile_Click);
+            // 
+            // btnRenameProfile
+            // 
+            this.btnRenameProfile.Enabled = false;
+            this.btnRenameProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRenameProfile.Location = new System.Drawing.Point(125, 35);
+            this.btnRenameProfile.Name = "btnRenameProfile";
+            this.btnRenameProfile.Size = new System.Drawing.Size(115, 23);
+            this.btnRenameProfile.TabIndex = 6;
+            this.btnRenameProfile.Text = "Rename...";
+            this.btnRenameProfile.UseVisualStyleBackColor = true;
+            this.btnRenameProfile.Click += new System.EventHandler(this.btnRenameProfile_Click);
+            // 
+            // btnDeleteProfile
+            // 
+            this.btnDeleteProfile.Enabled = false;
+            this.btnDeleteProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteProfile.Location = new System.Drawing.Point(246, 35);
+            this.btnDeleteProfile.Name = "btnDeleteProfile";
+            this.btnDeleteProfile.Size = new System.Drawing.Size(115, 23);
+            this.btnDeleteProfile.TabIndex = 7;
+            this.btnDeleteProfile.Text = "Delete";
+            this.btnDeleteProfile.UseVisualStyleBackColor = true;
+            this.btnDeleteProfile.Click += new System.EventHandler(this.btnDeleteProfile_Click);
+            // 
+            // lblProfile
+            // 
+            this.lblProfile.AutoSize = true;
+            this.lblProfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblProfile.Location = new System.Drawing.Point(3, 14);
+            this.lblProfile.Name = "lblProfile";
+            this.lblProfile.Size = new System.Drawing.Size(45, 15);
+            this.lblProfile.TabIndex = 8;
+            this.lblProfile.Text = "Profile:";
+            // 
             // tabCategories
             // 
             this.tabCategories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -147,11 +210,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabCategories.ContextMenuStrip = this.cmGameSetting;
             this.tabCategories.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabCategories.ItemSize = new System.Drawing.Size(0, 20);
-            this.tabCategories.Location = new System.Drawing.Point(0, 8);
+            this.tabCategories.Location = new System.Drawing.Point(0, 71);
             this.tabCategories.Name = "tabCategories";
             this.tabCategories.Padding = new System.Drawing.Point(3, 3);
             this.tabCategories.SelectedIndex = 0;
-            this.tabCategories.Size = new System.Drawing.Size(779, 497);
+            this.tabCategories.Size = new System.Drawing.Size(779, 434);
             this.tabCategories.TabIndex = 0;
             // 
             // GameSettingsForm
@@ -159,6 +222,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 540);
+            this.Controls.Add(this.lblProfile);
+            this.Controls.Add(this.btnDeleteProfile);
+            this.Controls.Add(this.btnRenameProfile);
+            this.Controls.Add(this.btnNewProfile);
+            this.Controls.Add(this.cbProfiles);
             this.Controls.Add(this.btnResetPage);
             this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnSave);
@@ -171,9 +239,11 @@ namespace NSW.StarCitizen.Tools.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GameSettingsForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameSettingsForm_FormClosing);
             this.Load += new System.EventHandler(this.GameSettingsForm_Load);
             this.cmGameSetting.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -190,5 +260,10 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem miCopySetting;
         private System.Windows.Forms.ToolStripMenuItem miCopyAllSettings;
+        private System.Windows.Forms.ComboBox cbProfiles;
+        private System.Windows.Forms.Button btnNewProfile;
+        private System.Windows.Forms.Button btnRenameProfile;
+        private System.Windows.Forms.Button btnDeleteProfile;
+        private System.Windows.Forms.Label lblProfile;
     }
 }

@@ -196,6 +196,21 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             }
             return builder.ToString();
         }
+
+        public override bool Equals(object value)
+        {
+            if (ReferenceEquals(this, value))
+            {
+                return true;
+            }
+            if (value is CfgData cfgData)
+            {
+                return Enumerable.SequenceEqual(_rows, cfgData._rows);
+            }
+            return false;
+        }
+
+        public override int GetHashCode() => _rows.GetHashCode();
     }
 
     public class CfgFile
