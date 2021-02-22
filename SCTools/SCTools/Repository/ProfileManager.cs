@@ -44,6 +44,10 @@ namespace NSW.StarCitizen.Tools.Repository
             {
                 return false;
             }
+            if (!Directory.Exists(_profilesPath))
+            {
+                Directory.CreateDirectory(_profilesPath);
+            }
             var profileFile = new CfgFile(GetProfilePath(profileName));
             if (profileFile.Save(profileData))
             {
@@ -57,6 +61,10 @@ namespace NSW.StarCitizen.Tools.Repository
         {
             if (_profiles.ContainsKey(profileName))
             {
+                if (!Directory.Exists(_profilesPath))
+                {
+                    Directory.CreateDirectory(_profilesPath);
+                }
                 var profileFile = new CfgFile(GetProfilePath(profileName));
                 if (profileFile.Save(profileData))
                 {
