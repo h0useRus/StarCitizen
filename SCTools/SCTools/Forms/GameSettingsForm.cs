@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
@@ -268,19 +267,8 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void miCopyAllSettings_Click(object sender, EventArgs e)
-        {
-            var cfgData = new CfgData();
-            foreach (var setting in _settingControls)
-            {
-                if (setting.HasValue)
-                {
-                    cfgData.AddCommentRow(setting.Model.Name);
-                    cfgData.AddOrUpdateRow(setting.Model.Key, setting.Value);
-                }
-            }
-            Clipboard.SetText(cfgData.ToString());
-        }
+        private void miCopyAllSettings_Click(object sender, EventArgs e) =>
+            Clipboard.SetText(_settingControls.ToCfgDataReadable().ToString());
 
         private void miChangedOnly_CheckedChanged(object sender, EventArgs e) => UpdateSettingsVisibility();
 
@@ -305,40 +293,17 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void LoadSettingControls(ConfigData configData)
         {
-            tabCategories.SuspendLayout();
-            tabCategories.TabPages.Clear();
-            var settingKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var settingControls = new List<ISettingControl>();
+            tabCategories.SuspendLayout();
+            tabCategories.Hide();
+            tabCategories.TabPages.Clear();
             foreach (var category in configData.SettingCategories.Values)
             {
-                TabPage newPage = new TabPage(category.Name)
-                {
-                    AutoScroll = true
-                };
-                TableLayoutPanel layout = new TableLayoutPanel
-                {
-                    Dock = DockStyle.Top,
-                    ColumnCount = 1,
-                    AutoSize = true
-                };
-                foreach (var setting in category.Settings.Values)
-                {
-                    if (settingKeys.Add(setting.Key)) // block duplicates
-                    {
-                        var settingControl = CreateSettingControl(toolTip, setting);
-                        if (settingControl != null)
-                        {
-                            settingControl.Control.Dock = DockStyle.Fill;
-                            settingControl.Control.ContextMenuStrip = cmGameSetting;
-                            settingControls.Add(settingControl);
-                            layout.Controls.Add(settingControl.Control);
-                        }
-                    }
-                }
-                newPage.Controls.Add(layout);
-                tabCategories.TabPages.Add(newPage);
+                tabCategories.TabPages.Add(SettingCategoryTabPage.Create(category, toolTip,
+                    cmGameSetting, c => settingControls.Add(c)));
             }
             tabCategories.ResumeLayout();
+            tabCategories.Show();
             _settingControls = settingControls;
             bool anyDataAvailable = settingControls.Count != 0;
             btnSave.Enabled = anyDataAvailable;
@@ -350,37 +315,13 @@ namespace NSW.StarCitizen.Tools.Forms
             SelectProfileByData(cfgData);
         }
 
-        private CfgData GetCurrentConfigData()
-        {
-            var cfgData = new CfgData();
-            foreach (var control in _settingControls)
-            {
-                if (control.HasValue)
-                {
-                    cfgData.AddOrUpdateRow(control.Model.Key, control.Value);
-                }
-            }
-            return cfgData;
-        }
+        private CfgData GetCurrentConfigData() => _settingControls.ToCfgData();
 
-        private void ResetAtPageSettings()
-        {
-            foreach (var layoutPanel in tabCategories.SelectedTab.Controls.OfType<TableLayoutPanel>())
-            {
-                foreach (var settingControl in layoutPanel.Controls.OfType<ISettingControl>())
-                {
-                    settingControl.ClearValue();
-                }
-            }
-        }
+        private void LoadGameSettings(CfgData cfgData) => _settingControls.LoadFrom(cfgData);
 
-        private void ResetGameSettings()
-        {
-            foreach (var control in _settingControls)
-            {
-                control.ClearValue();
-            }
-        }
+        private void ResetAtPageSettings() => SettingCategoryTabPage.GetSettings(tabCategories.SelectedTab).ClearValues();
+
+        private void ResetGameSettings() => _settingControls.ClearValues();
 
         private void UpdateSettingsVisibility()
         {
@@ -430,61 +371,6 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
             }
             return true;
-        }
-
-        private void LoadGameSettings(CfgData cfgData)
-        {
-            foreach (var control in _settingControls)
-            {
-                if (cfgData.TryGetValue(control.Model.Key, out var value) && value != null)
-                {
-                    try
-                    {
-                        control.Value = value;
-                    }
-                    catch
-                    {
-                        // if value corrupted reset it to default
-                        control.ClearValue();
-                    }
-                }
-                else
-                {
-                    control.ClearValue();
-                }
-            }
-        }
-
-        private static ISettingControl? CreateSettingControl(ToolTip toolTip, BaseSetting setting)
-        {
-            try
-            {
-                if (setting is BooleanSetting booleanSetting)
-                {
-                    return new CheckboxSetting(toolTip, booleanSetting);
-                }
-                if (setting is IntegerSetting integerSetting)
-                {
-                    if (integerSetting.Range)
-                    {
-                        return new NumericIntSetting(toolTip, integerSetting);
-                    }
-                    return new ComboboxIntSetting(toolTip, integerSetting);
-                }
-                if (setting is FloatSetting floatSetting)
-                {
-                    if (floatSetting.Range)
-                    {
-                        return new NumericFloatSetting(toolTip, floatSetting);
-                    }
-                    return new ComboboxFloatSetting(toolTip, floatSetting);
-                }
-            }
-            catch
-            {
-                // skip invalid settings
-            }
-            return null;
         }
     }
 }
