@@ -38,23 +38,13 @@ namespace NSW.StarCitizen.Tools.Controls
             lblCaption.Text = setting.Name;
             numControl.Minimum = (decimal)setting.MinValue;
             numControl.Maximum = (decimal)setting.MaxValue;
-            float increment = Math.Min((setting.MaxValue - setting.MinValue) / 100.0f, 1.0f);
-            numControl.Increment = (decimal)increment;
-            if (increment >= 1.0f)
+            if (setting.Step.HasValue)
             {
-                numControl.DecimalPlaces = 0;
-            }
-            else if (increment >= 0.1f)
-            {
-                numControl.DecimalPlaces = 1;
-            }
-            else if (increment >= 0.01f)
-            {
-                numControl.DecimalPlaces = 2;
+                InitStep(numControl, setting.Step.Value);
             }
             else
             {
-                numControl.DecimalPlaces = 3;
+                InitStep(numControl, Math.Min((setting.MaxValue - setting.MinValue) / 100.0f, 1.0f));
             }
             ClearValue();
             UpdateValueText();
@@ -96,5 +86,26 @@ namespace NSW.StarCitizen.Tools.Controls
         }
 
         private void NumericFloatSetting_DoubleClick(object sender, EventArgs e) => ClearValue();
+
+        private static void InitStep(NumericUpDown numControl, float increment)
+        {
+            numControl.Increment = (decimal)increment;
+            if (increment >= 1.0f)
+            {
+                numControl.DecimalPlaces = 0;
+            }
+            else if (increment >= 0.1f)
+            {
+                numControl.DecimalPlaces = 1;
+            }
+            else if (increment >= 0.01f)
+            {
+                numControl.DecimalPlaces = 2;
+            }
+            else
+            {
+                numControl.DecimalPlaces = 3;
+            }
+        }
     }
 }

@@ -38,6 +38,14 @@ namespace NSW.StarCitizen.Tools.Controls
             lblCaption.Text = setting.Name;
             numControl.Minimum = setting.MinValue;
             numControl.Maximum = setting.MaxValue;
+            if (setting.Step.HasValue)
+            {
+                numControl.Increment = (decimal)setting.Step;
+            }
+            else
+            {
+                numControl.Increment = 1;
+            }
             ClearValue();
             UpdateValueText();
             if (setting.Description != null)
