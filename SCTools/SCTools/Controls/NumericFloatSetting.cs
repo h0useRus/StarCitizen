@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
 
@@ -74,7 +75,8 @@ namespace NSW.StarCitizen.Tools.Controls
         {
             if ((!string.IsNullOrEmpty(numControl.Text) || Setting.DefaultValue.HasValue) &&
                 Setting.Values.TryGetValue((float)numControl.Value, out var valueName) &&
-                !numControl.Value.ToString().Equals(valueName))
+                (!float.TryParse(valueName, NumberStyles.Float, CultureInfo.InvariantCulture, out var value) ||
+                (value != (float)numControl.Value)))
             {
                 lblValue.Text = valueName;
             }

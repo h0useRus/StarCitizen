@@ -74,7 +74,7 @@ namespace NSW.StarCitizen.Tools.Controls
         {
             if ((!string.IsNullOrEmpty(numControl.Text) || Setting.DefaultValue.HasValue) &&
                 Setting.Values.TryGetValue((int)numControl.Value, out var valueName) &&
-                !numControl.Value.ToString().Equals(valueName))
+                (!int.TryParse(valueName, out var value) || (value != (int)numControl.Value)))
             {
                 lblValue.Text = valueName;
             }
