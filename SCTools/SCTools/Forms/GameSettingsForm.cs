@@ -15,7 +15,7 @@ using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class GameSettingsForm : Form, ILocalizedForm, PromptForm.IValueValidator
+    public partial class GameSettingsForm : Form, ILocalizedForm
     {
         private readonly GameInfo _gameInfo;
         private readonly GameSettings _gameSettings;
@@ -69,9 +69,6 @@ namespace NSW.StarCitizen.Tools.Forms
             await LoadDatabaseAsync();
         }
 
-        public bool IsPromptValueValid(string value) =>
-            ProfileManager.IsValidProfileName(value) && !_profileManager.Profiles.ContainsKey(value.Trim());
-
         private void UpdateLocalizedControlsOnly()
         {
             Text = Resources.GameSettings_Title + " - " + _gameInfo.Mode;
@@ -123,7 +120,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void btnNewProfile_Click(object sender, EventArgs e)
         {
-            using var promptDlg = new PromptForm(PromptForm.PromptType.CreateProfile, this)
+            using var promptDlg = new PromptForm(PromptForm.PromptType.CreateProfile, IsValidAndAvailableProfileName)
             {
                 MaxValueLength = 32
             };
@@ -146,7 +143,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbProfiles.SelectedItem is string profileName)
             {
-                using var promptDlg = new PromptForm(PromptForm.PromptType.RenameProfile, this)
+                using var promptDlg = new PromptForm(PromptForm.PromptType.RenameProfile, IsValidAndAvailableProfileName)
                 {
                     Value = profileName,
                     MaxValueLength = 32
@@ -330,6 +327,9 @@ namespace NSW.StarCitizen.Tools.Forms
                 setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
             }
         }
+
+        private bool IsValidAndAvailableProfileName(string value) =>
+            ProfileManager.IsValidProfileName(value) && !_profileManager.Profiles.ContainsKey(value.Trim());
 
         private void SelectProfileByData(CfgData cfgData)
         {

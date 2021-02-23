@@ -8,17 +8,12 @@ namespace NSW.StarCitizen.Tools.Forms
     public partial class PromptForm : Form, ILocalizedForm
     {
         private readonly PromptType _promptType;
-        private readonly IValueValidator _valueValidator;
+        private readonly Func<string, bool> _valueValidator;
 
         public enum PromptType
         {
             CreateProfile,
             RenameProfile
-        }
-
-        public interface IValueValidator
-        {
-            bool IsPromptValueValid(string value);
         }
 
         public string Value
@@ -37,7 +32,7 @@ namespace NSW.StarCitizen.Tools.Forms
             set => tbValue.MaxLength = value;
         }
 
-        public PromptForm(PromptType promptType, IValueValidator valueValidator)
+        public PromptForm(PromptType promptType, Func<string, bool> valueValidator)
         {
             _promptType = promptType;
             _valueValidator = valueValidator;
@@ -63,6 +58,6 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void tbValue_TextChanged(object sender, EventArgs e) => UpdateAcceptButton();
 
-        private void UpdateAcceptButton() => btnOK.Enabled = _valueValidator.IsPromptValueValid(tbValue.Text);
+        private void UpdateAcceptButton() => btnOK.Enabled = _valueValidator(tbValue.Text);
     }
 }
