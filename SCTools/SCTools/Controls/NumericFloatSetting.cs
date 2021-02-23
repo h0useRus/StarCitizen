@@ -90,22 +90,15 @@ namespace NSW.StarCitizen.Tools.Controls
         private static void InitStep(NumericUpDown numControl, float increment)
         {
             numControl.Increment = (decimal)increment;
-            if (increment >= 1.0f)
+            int decimalPlaces = 0;
+            if (increment > 0)
             {
-                numControl.DecimalPlaces = 0;
+                for (float value = 1.0f; increment < value; value /= 10.0f)
+                {
+                    decimalPlaces++;
+                }
             }
-            else if (increment >= 0.1f)
-            {
-                numControl.DecimalPlaces = 1;
-            }
-            else if (increment >= 0.01f)
-            {
-                numControl.DecimalPlaces = 2;
-            }
-            else
-            {
-                numControl.DecimalPlaces = 3;
-            }
+            numControl.DecimalPlaces = decimalPlaces;
         }
     }
 }
