@@ -44,9 +44,9 @@ namespace NSW.StarCitizen.Tools.Controls
             InitializeComponent();
             lblCaption.Text = setting.Name;
             cbValue.BindingContext = BindingContext;
-            cbValue.DataSource = new BindingSource(setting.Values, null);
             cbValue.DisplayMember = "Value";
             cbValue.ValueMember = "Key";
+            cbValue.DataSource = new BindingSource(setting.Values, null);
             ClearValue();
             if (setting.Description != null)
             {

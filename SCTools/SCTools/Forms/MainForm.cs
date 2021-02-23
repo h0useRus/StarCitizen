@@ -506,9 +506,9 @@ namespace NSW.StarCitizen.Tools.Forms
         private void InitLanguageCombobox(ComboBox combobox)
         {
             combobox.BindingContext = BindingContext;
-            combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             combobox.DisplayMember = "Value";
             combobox.ValueMember = "Key";
+            combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             combobox.SelectedValue = Program.Settings.Language;
         }
     }
