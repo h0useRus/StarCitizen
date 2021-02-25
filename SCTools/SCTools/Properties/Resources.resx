@@ -486,4 +486,7 @@ By clicking "Yes", you confirm that you have read and understood the warning and
   <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
     <value>Failed apply settings</value>
   </data>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

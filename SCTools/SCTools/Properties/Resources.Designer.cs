@@ -1115,6 +1115,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string Promtp_OK_Button {
+            get {
+                return ResourceManager.GetString("Promtp_OK_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move LIVE to PTU.
         /// </summary>
         internal static string Tools_Move_LIVE_PTU {

@@ -265,7 +265,7 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
         private void miCopyAllSettings_Click(object sender, EventArgs e) =>
-            Clipboard.SetText(_settingControls.ToCfgDataReadable().ToString());
+            Clipboard.SetText(_settingControls.ToCfgData(withComments:true).ToString());
 
         private void miChangedOnly_CheckedChanged(object sender, EventArgs e) => UpdateSettingsVisibility();
 

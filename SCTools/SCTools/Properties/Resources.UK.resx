@@ -476,4 +476,7 @@
   <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
     <value>Помилка застосування налаштувань</value>
   </data>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

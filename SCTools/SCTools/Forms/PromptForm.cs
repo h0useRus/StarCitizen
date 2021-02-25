@@ -43,6 +43,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public void UpdateLocalizedControls()
         {
+            btnOK.Text = Resources.Promtp_OK_Button;
             switch (_promptType)
             {
                 case PromptType.CreateProfile:

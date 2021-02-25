@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
-using NSW.StarCitizen.Tools.Helpers;
+using NLog;
 
 namespace NSW.StarCitizen.Tools.Controls
 {
     public static class SettingCategoryTabPage
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         public static TabPage Create(SettingCategory category, ToolTip toolTip, ContextMenuStrip contextMenu,
             Action<ISettingControl> settingControlFunc)
         {
@@ -88,10 +90,12 @@ namespace NSW.StarCitizen.Tools.Controls
                     return new ComboboxFloatSetting(toolTip, floatSetting);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                // skip invalid settings
+                _logger.Warn(e, $"Ignore invalid setting: {setting.Key}");
+                return null;
             }
+            _logger.Info($"Ignore not supported setting: {setting.Key}");
             return null;
         }
     }
