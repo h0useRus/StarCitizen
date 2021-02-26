@@ -24,7 +24,7 @@ jobs:
       run: dotnet restore $env:Solution_Name --source https://api.nuget.org/v3/index.json
       
     - name: Build solution
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Build_Config
     
     - name: Publish to folder
       run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
