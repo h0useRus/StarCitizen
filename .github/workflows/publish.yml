@@ -32,7 +32,7 @@ jobs:
     - name: Create zip package
       shell: pwsh
       run: |
-        Compress-Archive ${env:PATH}/${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish/* ${env:PATH}/${{ env.Solution_Name }}.zip
+        Compress-Archive ${env:GITHUB_WORKSPACE}/${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish/* ${env:GITHUB_WORKSPACE}/${{ env.Solution_Name }}.zip
       
     - name: Create Release
       uses: actions/create-release@v1
