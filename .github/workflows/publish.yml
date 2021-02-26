@@ -54,5 +54,3 @@ jobs:
         asset_path: ./${{ env.Solution_Name }}.zip
         asset_name: ${{ env.Solution_Name }}.zip
         asset_content_type: application/zip
-        
-        token: ${{ secrets.GITHUB_TOKEN }}
