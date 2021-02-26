@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: SCTools
+      Build_Config: Release
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Download NuGet dependencies
+      run: dotnet restore $env:Solution_Name --source https://api.nuget.org/v3/index.json
+      
+    - name: Build solution
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+    
+    - name: Publish 
+      run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
+    
+    - name: Create application package
+      working-directory: "./${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish"
+        
