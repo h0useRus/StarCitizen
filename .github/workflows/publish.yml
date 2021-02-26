@@ -30,9 +30,10 @@ jobs:
       run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
     
     - name: Create zip package
+      working-directory: ${{ env.WORKING_DIRECTORY }}
       shell: pwsh
       run: |
-        Compress-Archive ${{ github.action_path }}/${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish/* ${{ github.action_path }}/${{ env.Solution_Name }}.zip
+        Compress-Archive ./${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish/* ${{ env.Solution_Name }}.zip
       
     - name: Create Release
       uses: actions/create-release@v1
