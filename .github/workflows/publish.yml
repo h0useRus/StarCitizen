@@ -1,18 +1,10 @@
-name: Build
+name: Publish
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
   workflow_dispatch:
   
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
-
     runs-on: windows-latest
     
     env:
@@ -34,9 +26,18 @@ jobs:
     - name: Build solution
       run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
     
-    - name: Publish 
+    - name: Publish to folder
       run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
     
-    - name: Create application package
-      working-directory: "./${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish"
-        
+    - name: Create zip package
+      uses: thedoctor0/zip-release@master
+      with:
+        directory: "./${{ env.Solution_Name }}/${{ env.Solution_Name }}/publish"
+        filename: "${{ env.Solution_Name }}.zip"
+    
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        name: "SC:Tools"
+        artifacts: "${{ env.Solution_Name }}.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
