@@ -1,5 +1,5 @@
 # Star Citizen Tools v0.5.5
-
+[![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 
 ## Features
 
