@@ -35,6 +35,7 @@ jobs:
         Compress-Archive ${env:GITHUB_WORKSPACE}\${{ env.Solution_Name }}\${{ env.Solution_Name }}\publish\* ${env:GITHUB_WORKSPACE}\${{ env.Solution_Name }}.zip
       
     - name: Create Release
+      id: create_release
       uses: actions/create-release@v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
