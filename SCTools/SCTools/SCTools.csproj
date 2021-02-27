@@ -32,6 +32,10 @@
     <ProjectReference Include="..\SCToolsLib\SCToolsLib.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
