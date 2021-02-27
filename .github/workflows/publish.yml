@@ -1,0 +1,59 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*.*.*' # Push events to matching tag 0.5.0 ect
+  
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: SCTools
+      Build_Config: Release
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Download NuGet dependencies
+      run: dotnet restore $env:Solution_Name --source https://api.nuget.org/v3/index.json
+      
+    - name: Build solution
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Build_Config
+    
+    - name: Publish to folder
+      run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
+    
+    - name: Create zip package
+      shell: pwsh
+      run: |
+        Compress-Archive ${env:GITHUB_WORKSPACE}\${{ env.Solution_Name }}\${{ env.Solution_Name }}\publish\* ${env:GITHUB_WORKSPACE}\${{ env.Solution_Name }}.zip
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: SC:Tools ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ env.Solution_Name }}.zip
+        asset_name: ${{ env.Solution_Name }}.zip
+        asset_content_type: application/zip
