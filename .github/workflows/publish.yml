@@ -1,7 +1,9 @@
 name: Publish
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - '*.*.*' # Push events to matching tag 0.5.0 ect
   
 jobs:
   build:
