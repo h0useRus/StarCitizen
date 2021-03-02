@@ -156,7 +156,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 ShowNewFolderButton = false,
                 SelectedPath = _lastBrowsePath ?? (_isGameFolderSet ? tbGamePath.Text : string.Empty)
             };
-            if (dlg.ShowDialog() == DialogResult.OK)
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
                 string? gamePath = GameFolders.SearchGameFolder(_lastBrowsePath);

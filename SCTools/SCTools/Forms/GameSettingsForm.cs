@@ -124,7 +124,7 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 MaxValueLength = 32
             };
-            if (promptDlg.ShowDialog() == DialogResult.OK)
+            if (promptDlg.ShowDialog(this) == DialogResult.OK)
             {
                 var profileName = promptDlg.Value.Trim();
                 if (_profileManager.CreateProfile(profileName, GetCurrentConfigData()))
@@ -148,7 +148,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     Value = profileName,
                     MaxValueLength = 32
                 };
-                if (promptDlg.ShowDialog() == DialogResult.OK)
+                if (promptDlg.ShowDialog(this) == DialogResult.OK)
                 {
                     var newProfileName = promptDlg.Value.Trim();
                     if (_profileManager.RenameProfile(profileName, newProfileName))
