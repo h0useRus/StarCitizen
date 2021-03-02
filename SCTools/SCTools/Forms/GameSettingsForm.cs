@@ -237,9 +237,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cmGameSetting_Opened(object sender, EventArgs e)
         {
-            miResetSetting.Enabled = cmGameSetting.SourceControl is ISettingControl setting && setting.HasValue;
+            bool settingWithValue = cmGameSetting.SourceControl is ISettingControl setting && setting.HasValue;
+            miResetSetting.Enabled = settingWithValue;
             miResetSetting.Text = Resources.GameSettings_Reset_Setting_Button;
-            miCopySetting.Enabled = cmGameSetting.SourceControl is ISettingControl;
+            miCopySetting.Enabled = settingWithValue;
             miCopySetting.Text = Resources.GameSettings_Copy_Setting_Button;
             miCopyAllSettings.Text = Resources.GameSettings_Copy_All_Settings_Button;
             miChangedOnly.Text = Resources.GameSettings_Show_Only_Changed_Button;
