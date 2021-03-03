@@ -53,4 +53,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="UnzipArchive" BeforeTargets="Build">
+    <Unzip
+      SourceFiles="$(SolutionDir)/nuget.config.zip"
+      DestinationFolder="$(SolutionDir)"
+      OverwriteReadOnlyFiles="true"
+    />
+  </Target>
+
 </Project>
