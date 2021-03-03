@@ -28,7 +28,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
       
     - name: Download NuGet dependencies
-      run: dotnet restore $env:Solution_Name --source https://api.nuget.org/v3/index.json
+      run: dotnet restore $env:Solution_Name
       
     - name: Build solution
       run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
