@@ -479,4 +479,10 @@
   <data name="Promtp_OK_Button" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
+    <value>Неправильні налаштування user.cfg:</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
+    <value>Виявлені неправильні налаштування</value>
+  </data>
 </root>

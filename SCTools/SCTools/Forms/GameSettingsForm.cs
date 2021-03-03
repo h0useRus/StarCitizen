@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
@@ -315,7 +316,16 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private CfgData GetCurrentConfigData() => _settingControls.ToCfgData();
 
-        private void LoadGameSettings(CfgData cfgData) => _settingControls.LoadFrom(cfgData);
+        private void LoadGameSettings(CfgData cfgData)
+        {
+            var invalidSettings = _settingControls.LoadFrom(cfgData);
+            invalidSettings.AddRange(_settingControls.GetUnsupportedSettings(cfgData));
+            if (invalidSettings.Count != 0)
+            {
+                MessageBox.Show(this, $"{Resources.GameSettings_InvalidSettingFound_Text}\n{string.Join(",\n", invalidSettings)}",
+                    Resources.GameSettings_InvalidSettingFound_Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
 
         private void ResetAtPageSettings() => SettingCategoryTabPage.GetSettings(tabCategories.SelectedTab).ClearValues();
 
