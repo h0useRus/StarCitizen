@@ -55,11 +55,7 @@
 
   <Target Name="UnzipArchive" BeforeTargets="Restore;CollectPackageReferences">
     <Message Text="Unpack nuget.config!" Importance="high" />
-    <Unzip
-      SourceFiles="$(SolutionDir)\nuget.config.bin"
-      DestinationFolder="$(SolutionDir)"
-      OverwriteReadOnlyFiles="true"
-    />
+    <Exec Command="copy /b $(SolutionDir)\nuget.config.1+$(SolutionDir)\nuget.config.2 $(SolutionDir)\nuget.config" />
   </Target>
 
 </Project>
