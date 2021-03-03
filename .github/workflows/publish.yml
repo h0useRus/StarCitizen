@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - '*.*.*' # Push events to matching tag 0.5.0 ect
-  workflow_dispatch:
   
 jobs:
   build:
