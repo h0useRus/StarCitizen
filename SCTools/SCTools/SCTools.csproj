@@ -53,7 +53,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Target Name="UnzipArchive" BeforeTargets="Build">
+  <Target Name="UnzipArchive" BeforeTargets="Restore;CollectPackageReferences">
+    <Message Text="Unpack nuget.config!" Importance="high" />
     <Unzip
       SourceFiles="$(SolutionDir)/nuget.config.zip"
       DestinationFolder="$(SolutionDir)"
