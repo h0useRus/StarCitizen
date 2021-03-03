@@ -11,7 +11,7 @@
     <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
     <Description>Star Citizen : Tools</Description>
     <Authors>Denis Ibragimov</Authors>
-    <Copyright>Copyright (с) 2019-2020 NewSoftWorld</Copyright>
+    <Copyright>Copyright (с) 2019-2021 NewSoftWorld</Copyright>
     <AssemblyName>SCTools</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
     <LangVersion>8</LangVersion>
@@ -53,7 +53,13 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Target Name="UnzipArchive" BeforeTargets="Restore;CollectPackageReferences">
+  <ItemGroup>
+    <Compile Remove="publish\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <None Remove="publish\**" />
+  </ItemGroup>
+
+  <Target Name="UnpackNugetConfig" BeforeTargets="Restore;CollectPackageReferences">
     <Message Text="Unpack nuget.config!" Importance="high" />
     <Exec Command="copy /b $(SolutionDir)\nuget.config.1+$(SolutionDir)\nuget.config.2 $(SolutionDir)\nuget.config" />
   </Target>
