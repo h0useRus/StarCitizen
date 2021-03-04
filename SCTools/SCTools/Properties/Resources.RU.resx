@@ -450,7 +450,7 @@
     <value>Удалить</value>
   </data>
   <data name="GameSettings_ProfileError_Text" xml:space="preserve">
-    <value>Ошибка изменения профиля</value>
+    <value>Ошибка создания или изменения профиля</value>
   </data>
   <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
     <value>Создать</value>

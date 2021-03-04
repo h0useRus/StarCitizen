@@ -307,7 +307,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error modify profile.
+        ///   Looks up a localized string similar to Error create or modify profile.
         /// </summary>
         internal static string GameSettings_ProfileError_Text {
             get {

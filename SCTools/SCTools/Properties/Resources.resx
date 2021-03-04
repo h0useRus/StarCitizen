@@ -460,7 +460,7 @@ By clicking "Yes", you confirm that you have read and understood the warning and
     <value>Delete</value>
   </data>
   <data name="GameSettings_ProfileError_Text" xml:space="preserve">
-    <value>Error modify profile</value>
+    <value>Error create or modify profile</value>
   </data>
   <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
     <value>New</value>
