@@ -210,17 +210,16 @@ namespace NSW.StarCitizen.Tools.Forms
         private void btnSave_Click(object sender, EventArgs e)
         {
             string? selectedProfile = null;
-            var cfgData = GetCurrentConfigData();
             if (cbProfiles.SelectedItem is string profileName)
             {
                 selectedProfile = profileName;
-                if (!_profileManager.SaveProfile(profileName, cfgData))
+                if (!_profileManager.SaveProfile(profileName, GetCurrentConfigData()))
                 {
                     MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
                         Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }        
-            if (_gameSettings.SaveConfig(cfgData))
+            if (_gameSettings.SaveConfig(GetCurrentConfigData()))
             {
                 _appliedProfileName = selectedProfile;
             }
@@ -310,6 +309,7 @@ namespace NSW.StarCitizen.Tools.Forms
             btnResetPage.Enabled = anyDataAvailable;
 
             var cfgData = _gameSettings.Load();
+            cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
             LoadGameSettings(cfgData);
             SelectProfileByData(cfgData);
         }

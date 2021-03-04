@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NLog;
 using NSW.StarCitizen.Tools.Controls;
-using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Helpers
@@ -64,7 +63,6 @@ namespace NSW.StarCitizen.Tools.Helpers
         public static ISet<string> GetUnsupportedSettings(this IEnumerable<ISettingControl> settingControls, CfgData cfgData)
         {
             var unsupportedSettings = new HashSet<string>(cfgData.ToDictionary().Keys, StringComparer.OrdinalIgnoreCase);
-            unsupportedSettings.Remove(GameConstants.CurrentLanguageKey);
             if (unsupportedSettings.Count != 0)
             {
                 foreach (var control in settingControls)
