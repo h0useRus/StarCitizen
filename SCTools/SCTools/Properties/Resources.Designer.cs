@@ -136,6 +136,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application pre releases.
+        /// </summary>
+        internal static string Application_UpdatePreReleases_Text {
+            get {
+                return ResourceManager.GetString("Application_UpdatePreReleases_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Citizen : Utils - v{0}.
         /// </summary>
         internal static string AppName {

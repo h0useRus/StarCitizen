@@ -7,6 +7,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool MonitorUpdates { get; set; }
         [JsonProperty]
+        public bool AllowPreReleases { get; set; }
+        [JsonProperty]
         public int MonitorRefreshTime { get; set; } = 5;
     }
 }

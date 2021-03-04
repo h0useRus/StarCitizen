@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows.Forms;
 using NLog;
 using NSW.StarCitizen.Tools.Lib.Update;
@@ -11,7 +12,7 @@ namespace NSW.StarCitizen.Tools.Helpers
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public static ApplicationUpdater Updater { get; } = new ApplicationUpdater(GetUpdateRepository(),
-            Program.ExecutableDir, Resources.UpdateScript);
+            Program.ExecutableDir, Resources.UpdateScript, new PackageVerifier());
 
         public static bool InstallUpdateOnLaunch(string[] args)
         {
@@ -62,6 +63,19 @@ namespace NSW.StarCitizen.Tools.Helpers
                 GitHubDownloadType.Assets, updateInfoFactory, Program.Name, "h0useRus/StarCitizen");
             updateRepository.SetCurrentVersion(Program.Version.ToString(3));
             return updateRepository;
+        }
+
+        private sealed class PackageVerifier : ApplicationUpdater.IPackageVerifier
+        {
+            public bool VerifyPackage(string path)
+            {
+                if (!File.Exists(Path.Combine(path, $"{Program.Name}.exe")) ||
+                    !File.Exists(Path.Combine(path, $"{Program.Name}.exe.config")))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

@@ -67,6 +67,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
+            this.miUpdateToAlphaVersions = new System.Windows.Forms.ToolStripMenuItem();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -278,29 +279,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator2.Name = "tsSeparator2";
             this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
             // 
-            // miTools
-            // 
-            this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miMoveLiveToPtu,
-            this.miMovePtuToLive});
-            this.miTools.Name = "miTools";
-            this.miTools.Size = new System.Drawing.Size(113, 22);
-            this.miTools.Text = "Tools";
-            // 
-            // miMoveLiveToPtu
-            // 
-            this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
-            this.miMoveLiveToPtu.Size = new System.Drawing.Size(159, 22);
-            this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
-            this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
-            // 
-            // miMovePtuToLive
-            // 
-            this.miMovePtuToLive.Name = "miMovePtuToLive";
-            this.miMovePtuToLive.Size = new System.Drawing.Size(159, 22);
-            this.miMovePtuToLive.Text = "Move PTU to LIVE";
-            this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
-            // 
             // miSettings
             // 
             this.miSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -308,6 +286,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunMinimized,
             this.miRunTopMost,
             this.miUseHttpProxy,
+            this.miUpdateToAlphaVersions,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
             this.miSettings.Size = new System.Drawing.Size(113, 22);
@@ -439,6 +418,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbApplicationUpdate.TabIndex = 5;
             this.gbApplicationUpdate.TabStop = false;
             // 
+            // miUpdateToAlphaVersions
+            // 
+            this.miUpdateToAlphaVersions.CheckOnClick = true;
+            this.miUpdateToAlphaVersions.Name = "miUpdateToAlphaVersions";
+            this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(194, 22);
+            this.miUpdateToAlphaVersions.Text = "Update to alpha versions";
+            this.miUpdateToAlphaVersions.Click += new System.EventHandler(this.miUpdateToAlphaVersions_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -509,6 +496,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miTools;
         private System.Windows.Forms.ToolStripMenuItem miMoveLiveToPtu;
         private System.Windows.Forms.ToolStripMenuItem miMovePtuToLive;
+        private System.Windows.Forms.ToolStripMenuItem miUpdateToAlphaVersions;
         private System.Windows.Forms.Button btnGameSettings;
     }
 }

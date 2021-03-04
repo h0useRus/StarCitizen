@@ -21,6 +21,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IUpdateRepository _updateRepository;
+        private readonly IPackageVerifier _packageVerifier;
         private readonly string _executableDir;
         private readonly string _updateScriptContent;
         private readonly string _updateScriptPath;
@@ -29,6 +30,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         private readonly string _schedInstallJsonPath;
         private readonly string _installUnpackedDir;
         private readonly string _currentVersion;
+
+        public interface IPackageVerifier
+        {
+            bool VerifyPackage(string path);
+        }
 
         public event EventHandler MonitorStarted
         {
@@ -48,13 +54,21 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             remove { _updateRepository.MonitorNewVersion -= value; }
         }
 
-        public ApplicationUpdater(IUpdateRepository updateRepository, string executableDir, string updateScriptContent)
+        public bool AllowPreReleases
+        {
+            get => _updateRepository.AllowPreReleases;
+            set => _updateRepository.AllowPreReleases = value;
+        }
+
+        public ApplicationUpdater(IUpdateRepository updateRepository, string executableDir,
+            string updateScriptContent, IPackageVerifier packageVerifier)
         {
             if (updateRepository.CurrentVersion == null)
                 throw new InvalidOperationException("update repository current version is not set");
             _updateRepository = updateRepository;
             _executableDir = executableDir;
             _updateScriptContent = updateScriptContent;
+            _packageVerifier = packageVerifier;
             _updateScriptPath = Path.Combine(_executableDir, "update.bat");
             _updatesStoragePath = Path.Combine(_executableDir, "updates");
             _schedInstallArchivePath = Path.Combine(_updatesStoragePath, "latest.zip");
@@ -203,7 +217,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 using var archive = ZipFile.OpenRead(_schedInstallArchivePath);
                 extractTempDir.Create();
                 archive.ExtractToDirectory(extractTempDir.FullName);
-                if (!File.Exists(Path.Combine(extractTempDir.FullName, "SCTools.exe")))
+                if (!_packageVerifier.VerifyPackage(extractTempDir.FullName))
                     throw new NotSupportedException("Not supported upgrade package");
                 Directory.Move(extractTempDir.FullName, _installUnpackedDir);
             }
