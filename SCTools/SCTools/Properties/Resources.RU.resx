@@ -404,4 +404,7 @@
   <data name="Localization_InstallWarning_Title" xml:space="preserve">
     <value>Предупреждение</value>
   </data>
+  <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
+    <value>Альфа версии приложения</value>
+  </data>
 </root>

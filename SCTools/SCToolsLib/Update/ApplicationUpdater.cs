@@ -48,6 +48,12 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             remove { _updateRepository.MonitorNewVersion -= value; }
         }
 
+        public bool AllowPreReleases
+        {
+            get => _updateRepository.AllowPreReleases;
+            set => _updateRepository.AllowPreReleases = value;
+        }
+
         public ApplicationUpdater(IUpdateRepository updateRepository, string executableDir, string updateScriptContent)
         {
             if (updateRepository.CurrentVersion == null)

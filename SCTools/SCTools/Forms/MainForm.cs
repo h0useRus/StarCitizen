@@ -51,6 +51,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
+            miUpdateToAlphaVersions.Text = Resources.Application_UpdatePreReleases_Text;
             miTools.Text = Resources.Tools_Title;
             miMoveLiveToPtu.Text = Resources.Tools_Move_LIVE_PTU;
             miMovePtuToLive.Text = Resources.Tools_Move_PTU_LIVE;
@@ -113,6 +114,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             SetGameFolder(Program.Settings.GameFolder);
 
+            AppUpdate.Updater.AllowPreReleases = Program.Settings.Update.AllowPreReleases;
             if (Program.Settings.Update.MonitorUpdates)
                 AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
         }
@@ -336,6 +338,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
+            miUpdateToAlphaVersions.Checked = Program.Settings.Update.AllowPreReleases;
             if (Program.Settings.GameFolder != null && _gameModes != null)
             {
                 miMoveLiveToPtu.Enabled = _gameModes.Contains(GameMode.LIVE) && !_gameModes.Contains(GameMode.PTU);
@@ -380,6 +383,13 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.Settings.UseHttpProxy = miUseHttpProxy.Checked;
             Program.SaveAppSettings();
             // TODO: need some dialog about need restart to apply this setting
+        }
+
+        private void miUpdateToAlphaVersions_Click(object sender, EventArgs e)
+        {
+            AppUpdate.Updater.AllowPreReleases = miUpdateToAlphaVersions.Checked;
+            Program.Settings.Update.AllowPreReleases = miUpdateToAlphaVersions.Checked;
+            Program.SaveAppSettings();
         }
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)

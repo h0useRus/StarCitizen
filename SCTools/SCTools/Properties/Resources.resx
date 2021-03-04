@@ -414,4 +414,7 @@ By clicking "Yes", you confirm that you have read and understood the warning and
   <data name="Localization_InstallWarning_Title" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
+    <value>Application pre releases</value>
+  </data>
 </root>
