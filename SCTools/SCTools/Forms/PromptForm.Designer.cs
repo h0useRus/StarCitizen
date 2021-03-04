@@ -73,7 +73,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.tbValue);
             this.Controls.Add(this.btnOK);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PromptForm";

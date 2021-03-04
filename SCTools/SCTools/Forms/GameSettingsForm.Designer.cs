@@ -231,6 +231,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabCategories);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(375, 200);
