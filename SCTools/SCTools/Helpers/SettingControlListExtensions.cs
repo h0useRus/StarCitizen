@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NLog;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Lib.Helpers;
@@ -31,6 +32,25 @@ namespace NSW.StarCitizen.Tools.Helpers
             {
                 control.ClearValue();
             }
+        }
+
+        public static bool UpdateByKey(this IEnumerable<ISettingControl> settingControls, string key, string value)
+        {
+            var setting = settingControls.FirstOrDefault(s => s.Model.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+            if (setting != null)
+            {
+                try
+                {
+                    setting.Value = value;
+                }
+                catch (Exception e)
+                {
+                    _logger.Warn(e, $"Invalid setting value {setting.Model.Key}={value}");
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
 
         public static List<string> LoadFrom(this IEnumerable<ISettingControl> settingControls, CfgData cfgData)

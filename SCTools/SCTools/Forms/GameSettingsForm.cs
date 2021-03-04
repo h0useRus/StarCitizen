@@ -54,6 +54,11 @@ namespace NSW.StarCitizen.Tools.Forms
             _currentProfileName = null;
 
             LoadSettingControls(_configData);
+
+            var cfgData = _gameSettings.Load();
+            cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
+            LoadGameSettings(cfgData);
+            SelectProfileByData(cfgData);
         }
 
         private void GameSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -66,6 +71,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public async void UpdateLocalizedControls()
         {
+            if (_currentProfileName != null)
+            {
+                AskAndSaveProfileChanges(_currentProfileName, withCancel:false);
+            }
             UpdateLocalizedControlsOnly();
             await LoadDatabaseAsync();
         }
@@ -302,16 +311,18 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             tabCategories.ResumeLayout();
             tabCategories.Show();
+            foreach (var setting in _settingControls)
+            {
+                if (setting.HasValue)
+                {
+                    settingControls.UpdateByKey(setting.Model.Key, setting.Value);
+                }
+            }
             _settingControls = settingControls;
             bool anyDataAvailable = settingControls.Count != 0;
             btnSave.Enabled = anyDataAvailable;
             btnResetAll.Enabled = anyDataAvailable;
             btnResetPage.Enabled = anyDataAvailable;
-
-            var cfgData = _gameSettings.Load();
-            cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
-            LoadGameSettings(cfgData);
-            SelectProfileByData(cfgData);
         }
 
         private CfgData GetCurrentConfigData() => _settingControls.ToCfgData();
@@ -355,15 +366,15 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private bool AskAndSaveProfileChanges(string profileName)
+        private bool AskAndSaveProfileChanges(string profileName, bool withCancel = true)
         {
             var currentConfig = GetCurrentConfigData();
             if (_profileManager.Profiles.TryGetValue(profileName, out var profileData) &&
                 !currentConfig.Equals(profileData))
             {
                 var dialogResult = MessageBox.Show(this, string.Format(Resources.GameSettings_ProfileAskSave_Text, profileName),
-                    Resources.GameSettings_ProfileAskSave_Title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button3);
+                    Resources.GameSettings_ProfileAskSave_Title, withCancel ? MessageBoxButtons.YesNoCancel : MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question, withCancel ? MessageBoxDefaultButton.Button3 : MessageBoxDefaultButton.Button2);
                 switch (dialogResult)
                 {
                     case DialogResult.Yes:
