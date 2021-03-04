@@ -480,7 +480,7 @@
     <value>OK</value>
   </data>
   <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
-    <value>Неверные настройки user.cfg:</value>
+    <value>Неверные настройки:</value>
   </data>
   <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
     <value>Обнаружены неверные настройки</value>

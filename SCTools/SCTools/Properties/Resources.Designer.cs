@@ -253,7 +253,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid user.cfg setting:.
+        ///   Looks up a localized string similar to Invalid setting:.
         /// </summary>
         internal static string GameSettings_InvalidSettingFound_Text {
             get {
