@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.5.5
+# Star Citizen Tools v0.5.6
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 
 ## Features
@@ -22,7 +22,8 @@
 - Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
 - Configurable application settings:
-    - Auto run on system start
-    - Launch minimized to system tray
-    - Stay on top of other applications
-    - Enable use system proxy
+    - Auto run on system start (by default: OFF)
+    - Launch minimized to system tray (by default: OFF)
+    - Stay on top of other applications (by default: ON)
+    - Enable use system proxy (by default: OFF)
+    - Allow download application pre-release (by default: OFF)
