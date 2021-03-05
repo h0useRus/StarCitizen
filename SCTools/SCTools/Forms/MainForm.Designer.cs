@@ -279,6 +279,29 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator2.Name = "tsSeparator2";
             this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
             // 
+            // miTools
+            // 
+            this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miMoveLiveToPtu,
+            this.miMovePtuToLive});
+            this.miTools.Name = "miTools";
+            this.miTools.Size = new System.Drawing.Size(180, 22);
+            this.miTools.Text = "Tools";
+            // 
+            // miMoveLiveToPtu
+            // 
+            this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
+            this.miMoveLiveToPtu.Size = new System.Drawing.Size(159, 22);
+            this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
+            this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
+            // 
+            // miMovePtuToLive
+            // 
+            this.miMovePtuToLive.Name = "miMovePtuToLive";
+            this.miMovePtuToLive.Size = new System.Drawing.Size(159, 22);
+            this.miMovePtuToLive.Text = "Move PTU to LIVE";
+            this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
+            // 
             // miSettings
             // 
             this.miSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
