@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +38,13 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void GameSettingsForm_Load(object sender, EventArgs e)
         {
+#if DEBUG
+            lblReportIssues.Visible = false;
+            lblSettingsDbRepoUrl.Text = ConfigDataRepository.SourceSettings.DatabasePath;
+#else
+            lblReportIssues.Visible = true;
+            lblSettingsDbRepoUrl.Text = ConfigDataRepository.SourceSettings.RepositoryUrl;
+#endif
             _profileManager.Load();
 
             cbProfiles.BindingContext = BindingContext;
@@ -83,12 +91,19 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             Text = Resources.GameSettings_Title + " - " + _gameInfo.Mode;
             lblProfile.Text = Resources.GameSettings_Profile_Text;
+            lblReportIssues.Text = Resources.GameSettings_FoundAnyIssue_Text;
             btnNewProfile.Text = Resources.GameSettings_ProfileNew_Button;
             btnRenameProfile.Text = Resources.GameSettings_ProfileRename_Button;
             btnDeleteProfile.Text = Resources.GameSettings_ProfileDelete_Button;
             btnResetAll.Text = Resources.GameSettings_Reset_All_Button;
             btnResetPage.Text = Resources.GameSettings_Reset_Page_Button;
             btnSave.Text = Resources.GameSettings_Save_Button;
+        }
+
+        private void lblSettingsDbRepoUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(lblSettingsDbRepoUrl.Text);
+            lblSettingsDbRepoUrl.LinkVisited = true;
         }
 
         private void cbProfiles_SelectionChangeCommitted(object sender, EventArgs e)

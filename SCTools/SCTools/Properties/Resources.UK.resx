@@ -488,4 +488,8 @@
   <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
     <value>Виявлені неправильні налаштування</value>
   </data>
+  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
+    <value>Знайшли помилки в налаштуваннях?
+Будь-ласка, повідомте про них за посиланням нижче</value>
+  </data>
 </root>

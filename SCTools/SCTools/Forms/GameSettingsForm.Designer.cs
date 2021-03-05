@@ -46,6 +46,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnRenameProfile = new System.Windows.Forms.Button();
             this.btnDeleteProfile = new System.Windows.Forms.Button();
             this.lblProfile = new System.Windows.Forms.Label();
+            this.lblSettingsDbRepoUrl = new System.Windows.Forms.LinkLabel();
+            this.lblReportIssues = new System.Windows.Forms.Label();
             this.tabCategories = new NSW.StarCitizen.Tools.Controls.TabControlEx();
             this.cmGameSetting.SuspendLayout();
             this.SuspendLayout();
@@ -202,6 +204,31 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblProfile.TabIndex = 8;
             this.lblProfile.Text = "Profile:";
             // 
+            // lblSettingsDbRepoUrl
+            // 
+            this.lblSettingsDbRepoUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSettingsDbRepoUrl.Location = new System.Drawing.Point(367, 40);
+            this.lblSettingsDbRepoUrl.Name = "lblSettingsDbRepoUrl";
+            this.lblSettingsDbRepoUrl.Size = new System.Drawing.Size(408, 13);
+            this.lblSettingsDbRepoUrl.TabIndex = 9;
+            this.lblSettingsDbRepoUrl.TabStop = true;
+            this.lblSettingsDbRepoUrl.Text = "repoUrl";
+            this.lblSettingsDbRepoUrl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSettingsDbRepoUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblSettingsDbRepoUrl_LinkClicked);
+            // 
+            // lblReportIssues
+            // 
+            this.lblReportIssues.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblReportIssues.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblReportIssues.Location = new System.Drawing.Point(363, 8);
+            this.lblReportIssues.Name = "lblReportIssues";
+            this.lblReportIssues.Size = new System.Drawing.Size(408, 32);
+            this.lblReportIssues.TabIndex = 10;
+            this.lblReportIssues.Text = "report";
+            this.lblReportIssues.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // tabCategories
             // 
             this.tabCategories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -222,6 +249,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 540);
+            this.Controls.Add(this.lblReportIssues);
+            this.Controls.Add(this.lblSettingsDbRepoUrl);
             this.Controls.Add(this.lblProfile);
             this.Controls.Add(this.btnDeleteProfile);
             this.Controls.Add(this.btnRenameProfile);
@@ -266,5 +295,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnRenameProfile;
         private System.Windows.Forms.Button btnDeleteProfile;
         private System.Windows.Forms.Label lblProfile;
+        private System.Windows.Forms.LinkLabel lblSettingsDbRepoUrl;
+        private System.Windows.Forms.Label lblReportIssues;
     }
 }

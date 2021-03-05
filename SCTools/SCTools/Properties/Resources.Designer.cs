@@ -262,6 +262,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found any issue in settings?
+        ///Please report them by using link below.
+        /// </summary>
+        internal static string GameSettings_FoundAnyIssue_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_FoundAnyIssue_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid setting:.
         /// </summary>
         internal static string GameSettings_InvalidSettingFound_Text {
