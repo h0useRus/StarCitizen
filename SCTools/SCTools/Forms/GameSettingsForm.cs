@@ -63,7 +63,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void GameSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_currentProfileName != null && !AskAndSaveProfileChanges(_currentProfileName))
+            if (_currentProfileName != null && AskAndSaveProfileChanges(_currentProfileName) == DialogResult.Cancel)
             {
                 e.Cancel = true;
             }
@@ -96,7 +96,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (cbProfiles.SelectedItem is string profileName)
             {
                 if (_currentProfileName != null && !profileName.Equals(_currentProfileName) &&
-                    !AskAndSaveProfileChanges(_currentProfileName))
+                    AskAndSaveProfileChanges(_currentProfileName) == DialogResult.Cancel)
                 {
                     cbProfiles.SelectedItem = _currentProfileName;
                     return;
@@ -221,16 +221,23 @@ namespace NSW.StarCitizen.Tools.Forms
             string? selectedProfile = null;
             if (cbProfiles.SelectedItem is string profileName)
             {
-                selectedProfile = profileName;
-                if (!_profileManager.SaveProfile(profileName, GetCurrentConfigData()))
+                var result = AskAndSaveProfileChanges(profileName);
+                if (result == DialogResult.Cancel)
                 {
-                    MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
-                        Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-            }        
+                if (result == DialogResult.Yes)
+                {
+                    selectedProfile = profileName;
+                }
+            }
             if (_gameSettings.SaveConfig(GetCurrentConfigData()))
             {
                 _appliedProfileName = selectedProfile;
+                if (selectedProfile == null)
+                {
+                    UpdateProfiles(null);
+                }
             }
             else
             {
@@ -366,7 +373,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private bool AskAndSaveProfileChanges(string profileName, bool withCancel = true)
+        private DialogResult AskAndSaveProfileChanges(string profileName, bool withCancel = true)
         {
             var currentConfig = GetCurrentConfigData();
             if (_profileManager.Profiles.TryGetValue(profileName, out var profileData) &&
@@ -382,17 +389,17 @@ namespace NSW.StarCitizen.Tools.Forms
                         {
                             MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
                                 Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
+                            return DialogResult.Cancel;
                         }
-                        return true;
+                        return DialogResult.Yes;
                     case DialogResult.No:
-                        return true;
+                        return DialogResult.No;
                     case DialogResult.Cancel:
                     default:
-                        return false;
+                        return DialogResult.Cancel;
                 }
             }
-            return true;
+            return DialogResult.Yes;
         }
     }
 }

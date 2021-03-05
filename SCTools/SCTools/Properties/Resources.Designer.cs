@@ -406,7 +406,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save &amp;&amp; Apply.
+        ///   Looks up a localized string similar to Apply.
         /// </summary>
         internal static string GameSettings_Save_Button {
             get {
