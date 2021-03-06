@@ -332,6 +332,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     settingControls.UpdateByKey(setting.Model.Key, setting.Value);
                 }
             }
+            DisposableUtils.Dispose(_settingControls);
             _settingControls = settingControls;
             bool anyDataAvailable = settingControls.Count != 0;
             btnSave.Enabled = anyDataAvailable;
@@ -364,19 +365,14 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void SetProfilesList(IEnumerable<string>? profiles)
+        private void SetProfilesList(IEnumerable<string> profiles)
         {
             var profilesSource = cbProfiles.DataSource;
-            if (profiles != null && profiles.Any())
-            {
+            if (profiles.Any())
                 cbProfiles.DataSource = new BindingSource(profiles, null);
-                DisposableUtils.Dispose(profilesSource);
-            }
             else
-            {
                 cbProfiles.DataSource = null;
-                DisposableUtils.Dispose(profilesSource);
-            }
+            DisposableUtils.Dispose(profilesSource);
         }
 
         private bool IsValidAndAvailableProfileName(string value) =>
