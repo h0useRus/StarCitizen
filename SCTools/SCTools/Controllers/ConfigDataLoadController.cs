@@ -61,6 +61,17 @@ namespace NSW.StarCitizen.Tools.Controllers
             {
                 progressDlg.Hide();
             }
+            if (forceReload && _configDataLoader.DatabaseLoaded)
+            {
+                try
+                {
+                    return _configDataLoader.BuildData(languageName);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Error build database data");
+                }
+            }
             return null;
         }
 

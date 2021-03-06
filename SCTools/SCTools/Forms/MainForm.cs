@@ -19,6 +19,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private bool _isGameFolderSet;
         private bool _holdUpdates;
         private string? _lastBrowsePath;
+        private DateTime? lastSettingsLoadTime;
         private List<GameMode>? _gameModes;
 
         public MainForm()
@@ -222,10 +223,15 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (Program.CurrentGame != null)
             {
+                bool reload = lastSettingsLoadTime.HasValue && DateTime.UtcNow.Subtract(lastSettingsLoadTime.Value).TotalHours >= 1;
                 var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
-                var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language);
+                var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language, forceReload: reload);
                 if (configData != null)
                 {
+                    if (!lastSettingsLoadTime.HasValue || reload)
+                    {
+                        lastSettingsLoadTime = DateTime.UtcNow;
+                    }
                     using var dlg = new GameSettingsForm(Program.CurrentGame, configData);
                     dlg.ShowDialog(this);
                 }
