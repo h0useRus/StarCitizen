@@ -272,6 +272,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.MinimumSize = new System.Drawing.Size(375, 200);
             this.Name = "GameSettingsForm";
             this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.RestoreLocation = true;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GameSettingsForm";

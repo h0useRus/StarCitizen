@@ -17,7 +17,7 @@ using NSW.StarCitizen.Tools.Repository;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class GameSettingsForm : Form, ILocalizedForm
+    public partial class GameSettingsForm : FormEx, ILocalizedForm
     {
         private readonly GameInfo _gameInfo;
         private readonly GameSettings _gameSettings;
