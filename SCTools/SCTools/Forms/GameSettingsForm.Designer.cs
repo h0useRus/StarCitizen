@@ -1,3 +1,4 @@
+using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -14,9 +15,14 @@ namespace NSW.StarCitizen.Tools.Forms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                components?.Dispose();
+                DisposableUtils.Dispose(_settingControls);
+                _settingControls = null;
+                var profilesSource = cbProfiles.DataSource;
+                cbProfiles.DataSource = null;
+                DisposableUtils.Dispose(profilesSource);
             }
             base.Dispose(disposing);
         }
@@ -297,5 +303,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Label lblProfile;
         private System.Windows.Forms.LinkLabel lblSettingsDbRepoUrl;
         private System.Windows.Forms.Label lblReportIssues;
+
+        public object DispoableUtils { get; private set; }
     }
 }

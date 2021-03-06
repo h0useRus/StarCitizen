@@ -48,14 +48,7 @@ namespace NSW.StarCitizen.Tools.Forms
             _profileManager.Load();
 
             cbProfiles.BindingContext = BindingContext;
-            if (_profileManager.Profiles.Count > 0)
-            {
-                cbProfiles.DataSource = new BindingSource(_profileManager.Profiles.Keys, null);
-            }
-            else
-            {
-                cbProfiles.DataSource = null;
-            }
+            SetProfilesList(_profileManager.Profiles.Keys);
             cbProfiles.SelectedIndex = -1;
             btnRenameProfile.Enabled = false;
             btnDeleteProfile.Enabled = false;
@@ -208,9 +201,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateProfiles(string? selectValue)
         {
+            SetProfilesList(_profileManager.Profiles.Keys);
             if (_profileManager.Profiles.Count > 0)
             {
-                cbProfiles.DataSource = new BindingSource(_profileManager.Profiles.Keys, null);
                 if (selectValue != null)
                 {
                     cbProfiles.SelectedItem = selectValue;
@@ -224,7 +217,6 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             else
             {
-                cbProfiles.DataSource = null;
                 _currentProfileName = null;
             }
             btnRenameProfile.Enabled = _currentProfileName != null;
@@ -369,6 +361,21 @@ namespace NSW.StarCitizen.Tools.Forms
             foreach (var setting in _settingControls)
             {
                 setting.Control.Visible = !miChangedOnly.Checked || setting.HasValue;
+            }
+        }
+
+        private void SetProfilesList(IEnumerable<string>? profiles)
+        {
+            var profilesSource = cbProfiles.DataSource;
+            if (profiles != null && profiles.Any())
+            {
+                cbProfiles.DataSource = new BindingSource(profiles, null);
+                DisposableUtils.Dispose(profilesSource);
+            }
+            else
+            {
+                cbProfiles.DataSource = null;
+                DisposableUtils.Dispose(profilesSource);
             }
         }
 

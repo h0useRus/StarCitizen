@@ -25,6 +25,16 @@ namespace NSW.StarCitizen.Tools.Controls
             base.MouseLeave += OnMouseEnterLeave;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                base.MouseEnter -= OnMouseEnterLeave;
+                base.MouseLeave -= OnMouseEnterLeave;
+            }
+        }
+
         public new object DataSource
         {
             get => base.DataSource;

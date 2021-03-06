@@ -43,6 +43,20 @@ namespace NSW.StarCitizen.Tools.Controls
             base.MouseLeave += OnMouseEnterLeave;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                base.MouseEnter -= OnMouseEnterLeave;
+                base.MouseLeave -= OnMouseEnterLeave;
+                _textbox.MouseEnter -= OnMouseEnterLeave;
+                _textbox.MouseLeave -= OnMouseEnterLeave;
+                _upDownButtons.MouseEnter -= OnMouseEnterLeave;
+                _upDownButtons.MouseLeave -= OnMouseEnterLeave;
+            }
+        }
+
         protected override void OnLostFocus(EventArgs e)
         {
             base.OnLostFocus(e);

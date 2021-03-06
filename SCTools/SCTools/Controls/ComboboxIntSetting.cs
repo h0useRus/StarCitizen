@@ -19,7 +19,7 @@ namespace NSW.StarCitizen.Tools.Controls
             {
                 if (Setting.DefaultValue.HasValue)
                 {
-                    return SelectedValue != Setting.DefaultValue.Value;
+                    return cbValue.SelectedValue != null && SelectedValue != Setting.DefaultValue.Value;
                 }
                 return cbValue.SelectedValue != null;
             }

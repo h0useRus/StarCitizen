@@ -1,3 +1,4 @@
+using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Controls
 {
@@ -14,9 +15,12 @@ namespace NSW.StarCitizen.Tools.Controls
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                components?.Dispose();
+                var valueDataSource = cbValue.DataSource;
+                cbValue.DataSource = null;
+                DisposableUtils.Dispose(valueDataSource);
             }
             base.Dispose(disposing);
         }

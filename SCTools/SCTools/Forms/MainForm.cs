@@ -11,6 +11,7 @@ using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Repository;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -524,7 +525,9 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.BindingContext = BindingContext;
             combobox.DisplayMember = "Value";
             combobox.ValueMember = "Key";
+            var prevDataSource = combobox.DataSource;
             combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
+            DisposableUtils.Dispose(prevDataSource);
             combobox.SelectedValue = Program.Settings.Language;
         }
     }
