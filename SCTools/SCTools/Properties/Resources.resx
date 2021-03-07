@@ -502,4 +502,19 @@ By clicking "Yes", you confirm that you have read and understood the warning and
     <value>Found any issue in settings?
 Please report them by using link below</value>
   </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Default Value</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Max Value</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Values Desc</value>
+  </data>
 </root>

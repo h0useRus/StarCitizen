@@ -235,6 +235,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Value.
+        /// </summary>
+        internal static string GameSettings_DefaultValue_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_DefaultValue_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string GameSettings_Error_Title {
@@ -286,6 +295,24 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string GameSettings_InvalidSettingFound_Title {
             get {
                 return ResourceManager.GetString("GameSettings_InvalidSettingFound_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Value.
+        /// </summary>
+        internal static string GameSettings_MaxValue_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_MaxValue_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min Value.
+        /// </summary>
+        internal static string GameSettings_MinValue_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_MinValue_Text", resourceCulture);
             }
         }
         
@@ -443,11 +470,29 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step.
+        /// </summary>
+        internal static string GameSettings_Step_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_Step_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Citizen : Settings.
         /// </summary>
         internal static string GameSettings_Title {
             get {
                 return ResourceManager.GetString("GameSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Values Desc.
+        /// </summary>
+        internal static string GameSettings_Values_Text {
+            get {
+                return ResourceManager.GetString("GameSettings_Values_Text", resourceCulture);
             }
         }
         

@@ -48,10 +48,7 @@ namespace NSW.StarCitizen.Tools.Controls
             }
             ClearValue();
             UpdateValueText();
-            if (setting.Description != null)
-            {
-                toolTip.SetToolTip(lblCaption, setting.Description);
-            }
+            toolTip.SetToolTip(lblCaption, SettingDescBuilder.Build(setting));
         }
 
         public void ClearValue()
@@ -73,8 +70,7 @@ namespace NSW.StarCitizen.Tools.Controls
         private void UpdateValueText()
         {
             if ((!string.IsNullOrEmpty(numControl.Text) || Setting.DefaultValue.HasValue) &&
-                Setting.Values.TryGetValue((int)numControl.Value, out var valueName) &&
-                (!int.TryParse(valueName, out var value) || (value != (int)numControl.Value)))
+                Setting.Values.TryGetValue((int)numControl.Value, out var valueName) && valueName != null)
             {
                 lblValue.Text = valueName;
             }

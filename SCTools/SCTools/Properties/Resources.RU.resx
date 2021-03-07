@@ -492,4 +492,19 @@
     <value>Нашли ошибки в настройках?
 Пожалуйста, сообщите о них по ссылке ниже</value>
   </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Значение по умолчанию</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Макс. значение</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Мин. значение</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Шаг</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Описание значений</value>
+  </data>
 </root>

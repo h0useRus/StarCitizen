@@ -46,12 +46,9 @@ namespace NSW.StarCitizen.Tools.Controls
             cbValue.BindingContext = BindingContext;
             cbValue.DisplayMember = "Value";
             cbValue.ValueMember = "Key";
-            cbValue.DataSource = new BindingSource(setting.Values, null);
+            cbValue.DataSource = new BindingSource(setting.LabeledValues, null);
             ClearValue();
-            if (setting.Description != null)
-            {
-                toolTip.SetToolTip(lblCaption, setting.Description);
-            }
+            toolTip.SetToolTip(lblCaption, SettingDescBuilder.Build(setting));
         }
 
         public void ClearValue()

@@ -35,10 +35,7 @@ namespace NSW.StarCitizen.Tools.Controls
             lblCaption.Text = setting.Name;
             cbValue.ThreeState = !setting.DefaultValue.HasValue;
             cbValue.CheckState = GetCheckStateFromValue(setting.DefaultValue);
-            if (setting.Description != null)
-            {
-                toolTip.SetToolTip(lblCaption, setting.Description);
-            }
+            toolTip.SetToolTip(lblCaption, SettingDescBuilder.Build(setting));
         }
 
         public void ClearValue() => cbValue.CheckState = GetCheckStateFromValue(Setting.DefaultValue);
