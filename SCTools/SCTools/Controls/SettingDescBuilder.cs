@@ -10,12 +10,12 @@ namespace NSW.StarCitizen.Tools.Controls
         public static string Build(BooleanSetting setting)
         {
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine(setting.Key);
             if (setting.Description != null)
             {
-                builder.AppendLine(setting.Description);
                 builder.AppendLine();
+                builder.AppendLine(setting.Description);
             }
-            builder.AppendLine(setting.Key);
             if (setting.DefaultValue.HasValue)
             {
                 builder.AppendLine();
@@ -28,12 +28,12 @@ namespace NSW.StarCitizen.Tools.Controls
         public static string Build(IntegerSetting setting)
         {
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine(setting.Key);
             if (setting.Description != null)
             {
-                builder.AppendLine(setting.Description);
                 builder.AppendLine();
+                builder.AppendLine(setting.Description);
             }
-            builder.AppendLine(setting.Key);
             builder.AppendLine();
             if (setting.DefaultValue.HasValue)
             {
@@ -60,12 +60,12 @@ namespace NSW.StarCitizen.Tools.Controls
         public static string Build(FloatSetting setting)
         {
             StringBuilder builder = new StringBuilder();
+            builder.AppendLine(setting.Key);
             if (setting.Description != null)
             {
-                builder.AppendLine(setting.Description);
                 builder.AppendLine();
+                builder.AppendLine(setting.Description);
             }
-            builder.AppendLine(setting.Key);
             builder.AppendLine();
             if (setting.DefaultValue.HasValue)
             {

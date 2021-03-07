@@ -147,9 +147,10 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.toolTip.AutoPopDelay = 20000;
             this.toolTip.InitialDelay = 500;
-            this.toolTip.IsBalloon = true;
+            this.toolTip.OwnerDraw = true;
             this.toolTip.ReshowDelay = 100;
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.toolTip_Draw);
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
             // cbProfiles

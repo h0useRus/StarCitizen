@@ -301,6 +301,22 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void toolTip_Draw(object sender, DrawToolTipEventArgs e)
+        {
+            if (e.AssociatedControl.Parent is ISettingControl setting)
+            {
+                e.DrawBackground();
+                e.DrawBorder();
+                using var boldFont = new Font(e.Font, FontStyle.Bold);
+                var headerText = setting.Model.Name;
+                var headerTextSize = TextRenderer.MeasureText(headerText, boldFont);
+                var valueTextSize = TextRenderer.MeasureText(e.ToolTipText, e.Font);
+                TextRenderer.DrawText(e.Graphics, headerText, boldFont, e.Bounds.Location, Color.Black);
+                var valueTextPosition = new Point(e.Bounds.X, e.Bounds.Y + headerTextSize.Height);
+                TextRenderer.DrawText(e.Graphics, e.ToolTipText, e.Font, valueTextPosition, Color.Black);
+            }
+        }
+
         private async Task LoadDatabaseAsync()
         {
             var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
