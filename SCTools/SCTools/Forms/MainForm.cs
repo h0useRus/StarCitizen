@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Linq;
+using System.Net.Http;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
+using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
-using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Repository;
-using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -20,7 +20,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private bool _isGameFolderSet;
         private bool _holdUpdates;
         private string? _lastBrowsePath;
-        private DateTime? lastSettingsLoadTime;
+        private DateTime? _lastSettingsLoadTime;
         private List<GameMode>? _gameModes;
 
         public MainForm()
@@ -224,14 +224,14 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (Program.CurrentGame != null)
             {
-                bool reload = lastSettingsLoadTime.HasValue && DateTime.UtcNow.Subtract(lastSettingsLoadTime.Value).TotalHours >= 1;
+                bool reload = _lastSettingsLoadTime.HasValue && DateTime.UtcNow.Subtract(_lastSettingsLoadTime.Value).TotalHours >= 1;
                 var configDataLoadController = new ConfigDataLoadController(ConfigDataRepository.Loader);
                 var configData = await configDataLoadController.LoadDatabaseAsync(this, Program.Settings.Language, forceReload: reload);
                 if (configData != null)
                 {
-                    if (!lastSettingsLoadTime.HasValue || reload)
+                    if (!_lastSettingsLoadTime.HasValue || reload)
                     {
-                        lastSettingsLoadTime = DateTime.UtcNow;
+                        _lastSettingsLoadTime = DateTime.UtcNow;
                     }
                     using var dlg = new GameSettingsForm(Program.CurrentGame, configData);
                     dlg.ShowDialog(this);

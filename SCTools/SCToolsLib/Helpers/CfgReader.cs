@@ -91,10 +91,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
 
         public void Clear() => _rows.Clear();
 
-        public void AddCommentRow(string text)
-        {
-            _rows.Add(CfgTextRow.Create($"{CommentRowPrefix} {text}"));
-        }
+        public void AddCommentRow(string text) => _rows.Add(CfgTextRow.Create($"{CommentRowPrefix} {text}"));
 
         public bool AddRow(string original)
         {
