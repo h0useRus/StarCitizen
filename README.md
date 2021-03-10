@@ -1,5 +1,6 @@
 # Star Citizen Tools v0.5.6
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
+[![Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/total.svg)]()
 
 ## Features
 
