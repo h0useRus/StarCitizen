@@ -417,4 +417,104 @@ By clicking "Yes", you confirm that you have read and understood the warning and
   <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
     <value>Application pre releases</value>
   </data>
+  <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
+    <value>Failed load settings database json</value>
+  </data>
+  <data name="GameSettings_FailedParseDb_Text" xml:space="preserve">
+    <value>Failed parse settings database json</value>
+  </data>
+  <data name="GameSettings_Reset_All_Button" xml:space="preserve">
+    <value>Reset All</value>
+  </data>
+  <data name="GameSettings_Reset_Page_Button" xml:space="preserve">
+    <value>Reset in Page</value>
+  </data>
+  <data name="GameSettings_Save_Button" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="GameSettings_Title" xml:space="preserve">
+    <value>Star Citizen : Settings</value>
+  </data>
+  <data name="GameSettings_Show_Only_Changed_Button" xml:space="preserve">
+    <value>Show Only Changed</value>
+  </data>
+  <data name="GameSettings_Reset_Setting_Button" xml:space="preserve">
+    <value>Reset Setting</value>
+  </data>
+  <data name="GameSettings_Copy_All_Settings_Button" xml:space="preserve">
+    <value>Copy All Settings</value>
+  </data>
+  <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
+    <value>Copy Setting</value>
+  </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Settings {0}</value>
+  </data>
+  <data name="GameSettings_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
+    <value>Save changes in profile {0}?</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
+    <value>Profile changed</value>
+  </data>
+  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
+    <value>Error create or modify profile</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
+    <value>Enter profile name:</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
+    <value>Create new profile</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
+    <value>Enter profile name:</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
+    <value>Rename selected profile</value>
+  </data>
+  <data name="GameSettings_Profile_Text" xml:space="preserve">
+    <value>Profile:</value>
+  </data>
+  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
+    <value>Failed apply settings</value>
+  </data>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
+    <value>Invalid setting:</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
+    <value>Invalid Setting Found</value>
+  </data>
+  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
+    <value>Found any issue in settings?
+Please report them by using link below</value>
+  </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Default Value</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Max Value</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Values Desc</value>
+  </data>
 </root>

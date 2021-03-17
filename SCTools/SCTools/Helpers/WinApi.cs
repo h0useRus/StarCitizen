@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
@@ -16,6 +17,7 @@ namespace NSW.StarCitizen.Tools.Helpers
 
         public const int HWND_BROADCAST = 0xffff;
         public const int SW_SHOWNORMAL = 1;
+        public const int WM_MOUSEWHEEL = 0x20a;
 
         [DllImport("user32")]
         public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
@@ -33,6 +35,23 @@ namespace NSW.StarCitizen.Tools.Helpers
         {
             SetForegroundWindow(window);
             BringWindowToTop(window);
+        }
+
+        public static bool SendControlMessage(Control control, ref Message message, ref bool isProcessing)
+        {
+            if (!isProcessing)
+            {
+                try
+                {
+                    isProcessing = true;
+                    return SendMessage(control.Handle, message.Msg, message.WParam, message.LParam);
+                }
+                finally
+                {
+                    isProcessing = false;
+                }
+            }
+            return false;
         }
     }
 }

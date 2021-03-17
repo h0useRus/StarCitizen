@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Controllers;
+using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Localization;
@@ -11,7 +12,7 @@ using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class LocalizationForm : Form, ILocalizedForm
+    public partial class LocalizationForm : FormEx, ILocalizedForm
     {
         private readonly LocalizationController _controller;
 

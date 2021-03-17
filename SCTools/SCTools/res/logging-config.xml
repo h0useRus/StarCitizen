@@ -3,6 +3,9 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <variable name="logDirectory" value="${basedir}/logs"/>
   <targets>
+    <target xsi:type="Debugger"
+            name="debugger"
+            layout="${level:uppercase=true}|${message}|${exception:format=@}" />
     <target xsi:type="ColoredConsole"
             name="console"
             layout="${longdate}|${level:uppercase=true}|${logger}|${message}|${exception:format=@}" />
@@ -19,5 +22,6 @@
   <rules>
     <logger name="*" minlevel="Trace" writeTo="console" />
     <logger name="*" minlevel="Info" writeTo="file" />
+    <logger name="*" minlevel="Warning" writeTo="debugger" />
   </rules>
 </nlog>

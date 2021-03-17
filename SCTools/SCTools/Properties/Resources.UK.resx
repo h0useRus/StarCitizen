@@ -407,4 +407,104 @@
   <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
     <value>Альфа версії додатку</value>
   </data>
+  <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
+    <value>Помилка завантаження бази даних налаштувать</value>
+  </data>
+  <data name="GameSettings_FailedParseDb_Text" xml:space="preserve">
+    <value>Помилка парсингу бази даних налаштувать</value>
+  </data>
+  <data name="GameSettings_Reset_All_Button" xml:space="preserve">
+    <value>Скинути усі</value>
+  </data>
+  <data name="GameSettings_Reset_Page_Button" xml:space="preserve">
+    <value>Скинути сторінку</value>
+  </data>
+  <data name="GameSettings_Save_Button" xml:space="preserve">
+    <value>Застосувати</value>
+  </data>
+  <data name="GameSettings_Title" xml:space="preserve">
+    <value>Star Citizen : Налаштування</value>
+  </data>
+  <data name="GameSettings_Show_Only_Changed_Button" xml:space="preserve">
+    <value>Показувати тільки змінені</value>
+  </data>
+  <data name="GameSettings_Reset_Setting_Button" xml:space="preserve">
+    <value>Скинути налаштування</value>
+  </data>
+  <data name="GameSettings_Copy_All_Settings_Button" xml:space="preserve">
+    <value>Скопіювати всі налаштування</value>
+  </data>
+  <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
+    <value>Скопіювати налаштування</value>
+  </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Налаштування {0}</value>
+  </data>
+  <data name="GameSettings_Error_Title" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
+    <value>Зберегти зміни у профілі - {0}?</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
+    <value>Профіль змінено</value>
+  </data>
+  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
+    <value>Помилка створення чи зміни профілю</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
+    <value>Введіть назву профілю:</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
+    <value>Створення профілю</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
+    <value>Введіть нову назву профілю:</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
+    <value>Перейменування профілю</value>
+  </data>
+  <data name="GameSettings_Profile_Text" xml:space="preserve">
+    <value>Профіль:</value>
+  </data>
+  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
+    <value>Помилка застосування налаштувань</value>
+  </data>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
+    <value>Неправильні налаштування:</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
+    <value>Виявлені неправильні налаштування</value>
+  </data>
+  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
+    <value>Знайшли помилки в налаштуваннях?
+Будь-ласка, повідомте про них за посиланням нижче</value>
+  </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Значення за замовчуванням</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Макс. значення</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Мін. значення</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Крок</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Опис значень</value>
+  </data>
 </root>

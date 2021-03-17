@@ -59,6 +59,8 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
 
     public class CfgData : IEnumerable<CfgRow>
     {
+        public const string CommentRowPrefix = ";";
+
         private readonly List<CfgRow> _rows = new List<CfgRow>();
 
         public string? this[string key] => GetRowByKey(key)?.Value;
@@ -88,6 +90,8 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
         }
 
         public void Clear() => _rows.Clear();
+
+        public void AddCommentRow(string text) => _rows.Add(CfgTextRow.Create($"{CommentRowPrefix} {text}"));
 
         public bool AddRow(string original)
         {
@@ -176,6 +180,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
 
         private static bool IsTextString(string original) =>
             string.IsNullOrWhiteSpace(original) ||
+            original.StartsWith(CommentRowPrefix) ||
             original.StartsWith("--") ||
             original.StartsWith("//");
 
@@ -188,6 +193,21 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             }
             return builder.ToString();
         }
+
+        public override bool Equals(object value)
+        {
+            if (ReferenceEquals(this, value))
+            {
+                return true;
+            }
+            if (value is CfgData cfgData)
+            {
+                return Enumerable.SequenceEqual(_rows, cfgData._rows);
+            }
+            return false;
+        }
+
+        public override int GetHashCode() => _rows.GetHashCode();
     }
 
     public class CfgFile

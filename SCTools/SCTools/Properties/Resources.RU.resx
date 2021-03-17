@@ -407,4 +407,104 @@
   <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
     <value>Альфа версии приложения</value>
   </data>
+  <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
+    <value>Ошибка загрузки базы данных настроек</value>
+  </data>
+  <data name="GameSettings_FailedParseDb_Text" xml:space="preserve">
+    <value>Ошибка парсинга базы данных настроек</value>
+  </data>
+  <data name="GameSettings_Reset_All_Button" xml:space="preserve">
+    <value>Сброс всех</value>
+  </data>
+  <data name="GameSettings_Reset_Page_Button" xml:space="preserve">
+    <value>Сброс страницы</value>
+  </data>
+  <data name="GameSettings_Save_Button" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="GameSettings_Title" xml:space="preserve">
+    <value>Star Citizen : Настройки</value>
+  </data>
+  <data name="GameSettings_Show_Only_Changed_Button" xml:space="preserve">
+    <value>Показывать только измененные</value>
+  </data>
+  <data name="GameSettings_Reset_Setting_Button" xml:space="preserve">
+    <value>Сбросить настройку</value>
+  </data>
+  <data name="GameSettings_Copy_All_Settings_Button" xml:space="preserve">
+    <value>Копировать все настройки</value>
+  </data>
+  <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
+    <value>Копировать настройку</value>
+  </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Настройки {0}</value>
+  </data>
+  <data name="GameSettings_Error_Title" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
+    <value>Сохранить изменения профиля - {0}?</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
+    <value>Профиль изменен</value>
+  </data>
+  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
+    <value>Ошибка создания или изменения профиля</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
+    <value>Введите имя профиля:</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
+    <value>Создание нового профиля</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
+    <value>Переименировать</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
+    <value>Введите новое имя профиля:</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
+    <value>Переименирование профиля</value>
+  </data>
+  <data name="GameSettings_Profile_Text" xml:space="preserve">
+    <value>Профиль:</value>
+  </data>
+  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
+    <value>Ошибка применения настроек</value>
+  </data>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
+    <value>Неверные настройки:</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
+    <value>Обнаружены неверные настройки</value>
+  </data>
+  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
+    <value>Нашли ошибки в настройках?
+Пожалуйста, сообщите о них по ссылке ниже</value>
+  </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Значение по умолчанию</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Макс. значение</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Мин. значение</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Шаг</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Описание значений</value>
+  </data>
 </root>

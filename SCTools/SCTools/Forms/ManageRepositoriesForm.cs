@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
+using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -10,7 +11,7 @@ using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
-    public partial class ManageRepositoriesForm : Form, ILocalizedForm
+    public partial class ManageRepositoriesForm : FormEx, ILocalizedForm
     {
         private readonly RepositoryManager _repositoryManager;
         private readonly RepositoriesListViewAdapter _repositoriesListAdapter;

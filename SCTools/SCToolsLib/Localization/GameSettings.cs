@@ -8,6 +8,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     public class GameSettings
     {
         private readonly GameInfo _currentGame;
+        private string? _userConfigLanguage;
         public LanguageInfo LanguageInfo { get; private set; } = new LanguageInfo();
 
         public GameSettings(GameInfo currentGame)
@@ -15,7 +16,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             _currentGame = currentGame;
         }
 
-        public void Load()
+        public CfgData Load()
         {
             var languageInfo = new LanguageInfo();
             // system.cfg
@@ -25,11 +26,26 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             // user.cfg
             var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
             var userConfigData = userConfigFile.Read();
+            if (userConfigData.TryGetValue(GameConstants.CurrentLanguageKey, out var value))
+                _userConfigLanguage = value;
+            else
+                _userConfigLanguage = null;
             if (FixUserConfigLanguageInfo(userConfigData, languageInfo))
             {
                 userConfigFile.Save(userConfigData);
             }
             LanguageInfo = languageInfo;
+            return userConfigData;
+        }
+
+        public bool SaveConfig(CfgData config)
+        {
+            var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
+            if (_userConfigLanguage != null)
+            {
+                config.AddOrUpdateRow(GameConstants.CurrentLanguageKey, _userConfigLanguage);
+            }
+            return userConfigFile.Save(config);
         }
 
         public bool SaveCurrentLanguage(string languageName)
