@@ -4,11 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Localization version'
+        description: 'Application version'
         required: true
-  push:
-    tags:
-      - '*.*.*' # Push events to matching tag 0.5.0 ect
   
 jobs:
   build:
