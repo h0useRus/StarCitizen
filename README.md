@@ -1,6 +1,9 @@
 # Star Citizen Tools v0.5.6
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
-[![Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/total.svg)]()
+[![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)]()
+[![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)]()
+[![Total Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/total.svg)]()
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/h0useRus/StarCitizen/blob/master/LICENSE)
 
 ## Features
 
