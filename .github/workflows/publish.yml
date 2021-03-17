@@ -1,6 +1,11 @@
 name: Publish
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Localization version'
+        required: true
   push:
     tags:
       - '*.*.*' # Push events to matching tag 0.5.0 ect
@@ -42,8 +47,8 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: SC:Tools ${{ github.ref }}
+        tag_name: ${{ github.event.inputs.version }}
+        release_name: SC:Tools ${{ github.event.inputs.version }}
         draft: false
         prerelease: true
 
