@@ -62,6 +62,7 @@ namespace NSW.StarCitizen.Tools.Settings
 
         public static LocalizationSource DefaultBaseModding { get; } = new LocalizationSource("Base Modding Package", "defterai/starcitizenmodding", UpdateRepositoryType.GitHub);
         public static LocalizationSource DefaultRussian { get; } = new LocalizationSource("Russian Community", "n1ghter/sc_ru", UpdateRepositoryType.GitHub);
+        public static LocalizationSource MinimalRussian { get; } = new LocalizationSource("Russian Community (без названий)", "budukratok/SC_not_so_ru", UpdateRepositoryType.GitHub);
         public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource("Ukrainian Community", "slyf0x-ua/sc_uk", UpdateRepositoryType.GitHub);
         public static LocalizationSource DefaultKorean { get; } = new LocalizationSource("Korean Community", "xhatagon/sc_ko", UpdateRepositoryType.GitHub);
         public static LocalizationSource DefaultPolish { get; } = new LocalizationSource("Polish Community", "frosty-el-banana/sc_pl", UpdateRepositoryType.GitHub);
@@ -72,11 +73,11 @@ namespace NSW.StarCitizen.Tools.Settings
             DefaultUkrainian,
             DefaultKorean,
             DefaultPolish,
-            DefaultChinese,
         };
 
         public static IReadOnlyList<LocalizationSource> StandardList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
+            MinimalRussian,
             DefaultUkrainian,
             DefaultKorean,
             DefaultPolish,
