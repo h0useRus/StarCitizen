@@ -78,7 +78,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
 
             using var cancellationTokenSource = new CancellationTokenSource(20000);
-            var localizationSource = new LocalizationSource(name, repositoryUrl, UpdateRepositoryType.GitHub);
+            var localizationSource = LocalizationSource.CreateGithub(name, repositoryUrl);
             switch (await _repositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
             {
                 case RepositoryManager.AddStatus.Success:

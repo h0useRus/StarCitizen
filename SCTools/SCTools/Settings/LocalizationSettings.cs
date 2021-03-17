@@ -60,13 +60,16 @@ namespace NSW.StarCitizen.Tools.Settings
             Type = type;
         }
 
-        public static LocalizationSource DefaultBaseModding { get; } = new LocalizationSource("Base Modding Package", "defterai/starcitizenmodding", UpdateRepositoryType.GitHub);
-        public static LocalizationSource DefaultRussian { get; } = new LocalizationSource("Russian Community", "n1ghter/sc_ru", UpdateRepositoryType.GitHub);
-        public static LocalizationSource MinimalRussian { get; } = new LocalizationSource("Russian Community (без названий)", "budukratok/SC_not_so_ru", UpdateRepositoryType.GitHub);
-        public static LocalizationSource DefaultUkrainian { get; } = new LocalizationSource("Ukrainian Community", "slyf0x-ua/sc_uk", UpdateRepositoryType.GitHub);
-        public static LocalizationSource DefaultKorean { get; } = new LocalizationSource("Korean Community", "xhatagon/sc_ko", UpdateRepositoryType.GitHub);
-        public static LocalizationSource DefaultPolish { get; } = new LocalizationSource("Polish Community", "frosty-el-banana/sc_pl", UpdateRepositoryType.GitHub);
-        public static LocalizationSource DefaultChinese { get; } = new LocalizationSource("Chinese Community", "terrencetodd/sc_cn_zh", UpdateRepositoryType.GitHub);
+        public static LocalizationSource CreateGithub(string name, string repository) =>
+            new LocalizationSource(name, repository, UpdateRepositoryType.GitHub);
+
+        public static LocalizationSource DefaultBaseModding { get; } = CreateGithub("Base Modding Package", "defterai/starcitizenmodding");
+        public static LocalizationSource DefaultRussian { get; } = CreateGithub("Russian Community", "n1ghter/sc_ru");
+        public static LocalizationSource MinimalRussian { get; } = CreateGithub("Russian Community (без названий)", "budukratok/SC_not_so_ru");
+        public static LocalizationSource DefaultUkrainian { get; } = CreateGithub("Ukrainian Community", "slyf0x-ua/sc_uk");
+        public static LocalizationSource DefaultKorean { get; } = CreateGithub("Korean Community", "xhatagon/sc_ko");
+        public static LocalizationSource DefaultPolish { get; } = CreateGithub("Polish Community", "frosty-el-banana/sc_pl");
+        public static LocalizationSource DefaultChinese { get; } = CreateGithub("Chinese Community", "terrencetodd/sc_cn_zh");
 
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
