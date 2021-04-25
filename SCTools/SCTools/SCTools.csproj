@@ -59,6 +59,12 @@
     <None Remove="publish\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="localizations\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="UnpackNugetConfig" BeforeTargets="Restore;CollectPackageReferences">
     <Message Text="Unpack nuget.config!" Importance="high" />
     <Exec Command="copy /b $(SolutionDir)\nuget.config.1+$(SolutionDir)\nuget.config.2 $(SolutionDir)\nuget.config" StandardOutputImportance="low" />

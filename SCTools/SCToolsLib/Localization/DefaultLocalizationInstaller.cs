@@ -14,6 +14,45 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
+        public bool Verify(string zipFileName)
+        {
+            try
+            {
+                using var archive = ZipFile.OpenRead(zipFileName);
+                if (archive.Entries.Count != 0)
+                {
+                    var dataPresent = false;
+                    var corePresent = false;
+                    var rootEntry = archive.Entries[0];
+                    var dataPathStart = GameConstants.DataFolderName + "/";
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (entry.FullName.StartsWith(rootEntry.FullName, true, CultureInfo.InvariantCulture))
+                        {
+                            var relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
+                            if (relativePath.StartsWith(dataPathStart, true, CultureInfo.InvariantCulture))
+                            {
+                                dataPresent = true;
+                                if (corePresent)
+                                    return true;
+                            }
+                            else if (relativePath.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                corePresent = true;
+                                if (dataPresent)
+                                    return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // just silently ignore
+            }
+            return false;
+        }
+
         public InstallStatus Install(string zipFileName, string destinationFolder)
         {
             if (!Directory.Exists(destinationFolder))

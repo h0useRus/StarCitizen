@@ -19,6 +19,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
 
     public interface ILocalizationInstaller
     {
+        bool Verify(string zipFileName);
         InstallStatus Install(string zipFileName, string destinationFolder);
         UninstallStatus Uninstall(string destinationFolder);
         LocalizationInstallationType GetInstallationType(string destinationFolder);

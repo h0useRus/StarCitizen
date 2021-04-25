@@ -203,14 +203,15 @@ namespace NSW.StarCitizen.Tools.Repository
 
         private ILocalizationRepository? BuildRepository(LocalizationSource source)
         {
-            if (source.Type == UpdateRepositoryType.GitHub)
+            return source.Type switch
             {
-                return new GitHubLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository)
+                UpdateRepositoryType.GitHub => new GitHubLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository)
                 {
                     AuthToken = Program.Settings.AuthToken
-                };
-            }
-            return null;
+                },
+                UpdateRepositoryType.Folder => new FolderLocalizationRepository(GameMode, source.Name, source.Repository),
+                _ => null,
+            };
         }
 
         private LocalizationInstallation AddRepositoryInstallation(ILocalizationRepository repository)
