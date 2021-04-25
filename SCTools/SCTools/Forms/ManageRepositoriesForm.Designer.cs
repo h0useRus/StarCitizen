@@ -39,6 +39,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabPageUserRepositories = new System.Windows.Forms.TabPage();
             this.tabPageStdRepositories = new System.Windows.Forms.TabPage();
             this.lvStdRepositories = new System.Windows.Forms.ListView();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
             this.tabRepositories.SuspendLayout();
             this.tabPageUserRepositories.SuspendLayout();
             this.tabPageStdRepositories.SuspendLayout();
@@ -72,7 +74,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.tbName.Location = new System.Drawing.Point(12, 240);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(279, 20);
+            this.tbName.Size = new System.Drawing.Size(330, 20);
             this.tbName.TabIndex = 2;
             // 
             // lblPath
@@ -88,15 +90,15 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.tbUrl.Location = new System.Drawing.Point(12, 279);
             this.tbUrl.Name = "tbUrl";
-            this.tbUrl.Size = new System.Drawing.Size(279, 20);
+            this.tbUrl.Size = new System.Drawing.Size(330, 20);
             this.tbUrl.TabIndex = 4;
             // 
             // btnAdd
             // 
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Location = new System.Drawing.Point(306, 240);
+            this.btnAdd.Location = new System.Drawing.Point(387, 273);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 59);
+            this.btnAdd.Size = new System.Drawing.Size(75, 26);
             this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -105,9 +107,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnRemove
             // 
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(387, 240);
+            this.btnRemove.Location = new System.Drawing.Point(387, 234);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 59);
+            this.btnRemove.Size = new System.Drawing.Size(75, 26);
             this.btnRemove.TabIndex = 6;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -162,11 +164,35 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories.View = System.Windows.Forms.View.Details;
             this.lvStdRepositories.SelectedIndexChanged += new System.EventHandler(this.lvStdRepositories_SelectedIndexChanged);
             // 
+            // btnDown
+            // 
+            this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDown.Location = new System.Drawing.Point(348, 273);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(26, 26);
+            this.btnDown.TabIndex = 8;
+            this.btnDown.Text = "D";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUp.Location = new System.Drawing.Point(348, 234);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(26, 26);
+            this.btnUp.TabIndex = 9;
+            this.btnUp.Text = "U";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
             // ManageRepositoriesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 308);
+            this.Controls.Add(this.btnUp);
+            this.Controls.Add(this.btnDown);
             this.Controls.Add(this.tabRepositories);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.tbName);
@@ -205,5 +231,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.TabPage tabPageUserRepositories;
         private System.Windows.Forms.TabPage tabPageStdRepositories;
         private System.Windows.Forms.ListView lvStdRepositories;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnUp;
     }
 }
