@@ -209,7 +209,7 @@ namespace NSW.StarCitizen.Tools.Repository
                 {
                     AuthToken = Program.Settings.AuthToken
                 },
-                UpdateRepositoryType.Folder => new FolderLocalizationRepository(GameMode, source.Name, source.Repository),
+                UpdateRepositoryType.Folder => new FolderLocalizationRepository(Program.ExecutableDir, GameMode, source.Name, source.Repository),
                 _ => null,
             };
         }
