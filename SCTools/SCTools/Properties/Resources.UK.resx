@@ -216,8 +216,8 @@
   <data name="Localization_Game_Version" xml:space="preserve">
     <value>Версія гри</value>
   </data>
-  <data name="Localization_GitHubURL_Text" xml:space="preserve">
-    <value>Посилання на GitHub </value>
+  <data name="Localization_RepositoryURL_Text" xml:space="preserve">
+    <value>Посилання на GitHub або папка</value>
   </data>
   <data name="Localization_Installed_Version" xml:space="preserve">
     <value>Встановлена версія:</value>

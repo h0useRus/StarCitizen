@@ -704,15 +704,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GitHub URL.
-        /// </summary>
-        internal static string Localization_GitHubURL_Text {
-            get {
-                return ResourceManager.GetString("Localization_GitHubURL_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unfortunately, it was an error during installation. Please try again..
         /// </summary>
         internal static string Localization_Install_ErrorText {
@@ -961,6 +952,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repository URL (GitHub, folder).
+        /// </summary>
+        internal static string Localization_RepositoryURL_Text {
+            get {
+                return ResourceManager.GetString("Localization_RepositoryURL_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Run minimized.
         /// </summary>
         internal static string Localization_RunMinimized_Text {
@@ -1183,12 +1183,12 @@ namespace NSW.StarCitizen.Tools.Properties {
         ///      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
         ///  &lt;variable name=&quot;logDirectory&quot; value=&quot;${basedir}/logs&quot;/&gt;
         ///  &lt;targets&gt;
+        ///    &lt;target xsi:type=&quot;Debugger&quot;
+        ///            name=&quot;debugger&quot;
+        ///            layout=&quot;${level:uppercase=true}|${message}|${exception:format=@}&quot; /&gt;
         ///    &lt;target xsi:type=&quot;ColoredConsole&quot;
         ///            name=&quot;console&quot;
-        ///            layout=&quot;${longdate}|${level:uppercase=true}|${logger}|${message}|${exception:format=@}&quot; /&gt;
-        ///    &lt;target xsi:type=&quot;File&quot;
-        ///            name=&quot;file&quot;
-        ///            layout=&quot;${longdate}|${level:uppercase=tr [rest of string was truncated]&quot;;.
+        ///            layout=&quot;${longdate}|${level:uppercase=true}|${logger}| [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LoggingConfig {
             get {

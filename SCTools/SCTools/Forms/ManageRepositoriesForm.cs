@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
-using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Repository;
 using NSW.StarCitizen.Tools.Settings;
@@ -33,7 +32,7 @@ namespace NSW.StarCitizen.Tools.Forms
             tabPageUserRepositories.Text = Resources.Localization_UserRepos_Title;
             tabPageStdRepositories.Text = Resources.Localization_StdRepos_Title;
             lblName.Text = Resources.Localization_Name_Text;
-            lblPath.Text = Resources.Localization_GitHubURL_Text;
+            lblPath.Text = Resources.Localization_RepositoryURL_Text;
             btnAdd.Text = Resources.Localization_Add_Text;
             btnRemove.Text = Resources.Localization_Remove_Text;
             _repositoriesListAdapter.UpdateLocalization();
@@ -69,16 +68,14 @@ namespace NSW.StarCitizen.Tools.Forms
             }
 
             var url = tbUrl.Text.ToLower().Trim();
-            string? repositoryUrl = GitHubRepositoryUrl.Parse(url);
-            if (repositoryUrl == null)
+            LocalizationSource? localizationSource = LocalizationSource.CreateFromUrl(name, url);
+            if (localizationSource == null)
             {
                 MessageBox.Show(this, string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
                     Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             using var cancellationTokenSource = new CancellationTokenSource(20000);
-            var localizationSource = LocalizationSource.CreateGithub(name, repositoryUrl);
             switch (await _repositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
             {
                 case RepositoryManager.AddStatus.Success:
@@ -89,7 +86,7 @@ namespace NSW.StarCitizen.Tools.Forms
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.DuplicateUrl:
-                    MessageBox.Show(this, string.Format(Resources.Localization_DuplicateRepoUrl_Text, repositoryUrl),
+                    MessageBox.Show(this, string.Format(Resources.Localization_DuplicateRepoUrl_Text, url),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.Unreachable:
@@ -123,7 +120,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (source != null)
             {
                 tbName.Text = source.Name;
-                tbUrl.Text = GitHubRepositoryUrl.Build(source.Repository);
+                tbUrl.Text = source.GetUrl();
             }
         }
 
