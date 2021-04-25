@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.5.6
+# Star Citizen Tools v0.6.0
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -15,6 +15,7 @@
 - Full unininstall localization (with cleanup from all files)
 - Track and notify about available new versions of localization package
 - Manage localization repositories
+- Install localization archives from any folder (NEW in 0.6.0)
 - Separate localization installation for PTU/LIVE
 - Hide localization pre-release versions by default
 - Specify GitHub auth token in settings json to access private repositories
@@ -22,6 +23,7 @@
 ### General features
 
 - Move LIVE to PTU or reverse
+- Manage user.cfg game settings (NEW in 0.6.0)
 - Download and install application updates
 - Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
