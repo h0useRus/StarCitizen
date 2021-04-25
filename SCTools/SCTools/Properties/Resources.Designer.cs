@@ -853,6 +853,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        internal static string Localization_NotAvailable_Version {
+            get {
+                return ResourceManager.GetString("Localization_NotAvailable_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No localization updates were found.
         /// </summary>
         internal static string Localization_NoUpdatesFound_Text {

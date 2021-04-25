@@ -230,7 +230,8 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             var lastVersion = _controller.CurrentInstallation.LastVersion;
             lblSelectedVersion.Text = Resources.Localization_Latest_Version;
-            tbCurrentVersion.Text = string.IsNullOrEmpty(lastVersion) ? "N/A" : lastVersion;            
+            tbCurrentVersion.Text = string.IsNullOrEmpty(lastVersion) ?
+                Resources.Localization_NotAvailable_Version : lastVersion;
             lblCurrentLanguage.Visible = false;
             cbLanguages.Visible = false;
         }
