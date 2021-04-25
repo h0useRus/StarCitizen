@@ -216,7 +216,7 @@
   <data name="Localization_Game_Version" xml:space="preserve">
     <value>게임 버전</value>
   </data>
-  <data name="Localization_GitHubURL_Text" xml:space="preserve">
+  <data name="Localization_RepositoryURL_Text" xml:space="preserve">
     <value>GitHub 주소</value>
   </data>
   <data name="Localization_Installed_Version" xml:space="preserve">
