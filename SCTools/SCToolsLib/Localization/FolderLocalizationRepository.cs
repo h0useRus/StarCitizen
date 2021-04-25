@@ -16,8 +16,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         private readonly FolderUpdateInfo.Factory _folderUpdateInfoFactory = FolderUpdateInfo.Factory.New();
 
         public FolderLocalizationRepository(string appFolder, GameMode mode, string name, string repository) :
-            base(UpdateRepositoryType.Folder, name, repository,
-                Path.IsPathRooted(repository) ? repository : Path.Combine(appFolder, repository))
+            base(UpdateRepositoryType.Folder, name, repository, FolderRepositoryUrl.Build(appFolder, repository))
         {
             Mode = mode;
         }

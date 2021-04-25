@@ -61,7 +61,9 @@ namespace NSW.StarCitizen.Tools.Settings
             Type = type;
         }
 
-        public string GetUrl() => Type == UpdateRepositoryType.GitHub ? GitHubRepositoryUrl.Build(Repository) : Repository;
+        public string GetUrl() => Type == UpdateRepositoryType.GitHub ?
+            GitHubRepositoryUrl.Build(Repository) :
+            FolderRepositoryUrl.Build(Program.ExecutableDir, Repository);
 
         public static LocalizationSource CreateGithub(string name, string repository)
             => new LocalizationSource(name, repository, UpdateRepositoryType.GitHub);
@@ -76,9 +78,10 @@ namespace NSW.StarCitizen.Tools.Settings
             {
                 return CreateGithub(name, repositoryUrl);
             }
-            if (Path.IsPathRooted(url) || Directory.Exists(Path.Combine(Program.ExecutableDir, url)))
+            string? repositoryPath = FolderRepositoryUrl.Parse(Program.ExecutableDir, url);
+            if (repositoryPath != null)
             {
-                return CreateFolder(name, url);
+                return CreateFolder(name, repositoryPath);
             }
             return null;
         }
