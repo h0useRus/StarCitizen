@@ -5,6 +5,9 @@
 [![Total Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/total.svg)](https://github.com/h0useRus/StarCitizen/releases)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/h0useRus/StarCitizen/blob/master/LICENSE)
 
+[Русская версия](README_ru.md)  
+[Українcька версія](README_uk.md)  
+
 ## Guides
 
 - [Setup Application](guide/SETUP_APPLICATION.md)
