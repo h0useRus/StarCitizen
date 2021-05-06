@@ -7,6 +7,13 @@
 
 ## Features
 
+### Guides
+
+- [Setup Application](guide/SETUP_APPLICATION.md)
+- [Update Application](guide/UPDATE_APPLICATION.md)
+- [Install Localization](guide/INSTALL_LOCALIZATION.md)
+- [Update Localization](guide/UPDATE_LOCALIZATION.md)
+
 ### Localization features
 
 - Download and install localization from GitHub repositories
