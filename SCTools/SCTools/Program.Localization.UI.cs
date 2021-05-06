@@ -25,8 +25,9 @@ namespace NSW.StarCitizen.Tools
             var languages = new Dictionary<string, string> {
                 { "en-US", "english" }
             };
+            var executableDir = ExecutableDir;
             var neutralCultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures)
-                .Where(c => Directory.Exists(c.TwoLetterISOLanguageName));
+                .Where(c => Directory.Exists(Path.Combine(executableDir, c.TwoLetterISOLanguageName)));
             foreach (var neutralCulture in neutralCultures)
             {
                 var culture = CultureInfo.CreateSpecificCulture(neutralCulture.Name);
