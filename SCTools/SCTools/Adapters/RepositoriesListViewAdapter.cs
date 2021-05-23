@@ -61,6 +61,47 @@ namespace NSW.StarCitizen.Tools.Adapters
             }
         }
 
+        public ILocalizationRepository? GetRepository(int index)
+        {
+            var item = _listView.Items[index];
+            if (item.Tag is ILocalizationRepository repository)
+            {
+                return repository;
+            }
+            return null;
+        }
+
+        public LocalizationSource? GetSource(int index)
+        {
+            var item = _listView.Items[index];
+            if (item.Tag is LocalizationSource source)
+            {
+                return source;
+            }
+            return null;
+        }
+
+        public int GetSelectedIndex()
+        {
+            if (_listView.SelectedItems.Count > 0)
+            {
+                return _listView.SelectedItems[0].Index;
+            }
+            return -1;
+        }
+
+        public int GetRepositoryIndex(ILocalizationRepository repository)
+        {
+            for (int index = 0; index < _listView.Items.Count; index++)
+            {
+                if (GetRepository(index) == repository)
+                {
+                    return index;
+                }
+            }
+            return -1;
+        }
+
         public ILocalizationRepository? GetSelectedRepository()
         {
             if (_listView.SelectedItems.Count > 0 &&
@@ -86,6 +127,21 @@ namespace NSW.StarCitizen.Tools.Adapters
             if (_listView.SelectedItems.Count > 0)
             {
                 _listView.Items.Remove(_listView.SelectedItems[0]);
+            }
+        }
+
+        public void SetSelectedIndex(int itemIndex)
+        {
+            _listView.SelectedIndices.Clear();
+            _listView.SelectedIndices.Add(itemIndex);
+        }
+
+        public void SetSelectedRepository(ILocalizationRepository repository)
+        {
+            int index = GetRepositoryIndex(repository);
+            if (index >= 0)
+            {
+                SetSelectedIndex(index);
             }
         }
 

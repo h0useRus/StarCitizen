@@ -35,6 +35,8 @@ namespace NSW.StarCitizen.Tools.Forms
             lblPath.Text = Resources.Localization_RepositoryURL_Text;
             btnAdd.Text = Resources.Localization_Add_Text;
             btnRemove.Text = Resources.Localization_Remove_Text;
+            btnUp.Text = char.ConvertFromUtf32(0x2191);
+            btnDown.Text = char.ConvertFromUtf32(0x2193);
             _repositoriesListAdapter.UpdateLocalization();
             _stdRepositoriesListAdapter.UpdateLocalization();
         }
@@ -55,6 +57,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 tbName.Text = repository.Name;
                 tbUrl.Text = repository.RepositoryUrl;
             }
+            UpdateButtons();
         }
 
         private async void btnAdd_Click(object sender, EventArgs e)
@@ -124,8 +127,38 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null && _repositoryManager.MoveRepositoryUp(repository))
+            {
+                _repositoriesListAdapter.SetRepositoriesList(_repositoryManager.GetRepositoriesList());
+                _repositoriesListAdapter.SetSelectedRepository(repository);
+            }
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null && _repositoryManager.MoveRepositoryDown(repository))
+            {
+                _repositoriesListAdapter.SetRepositoriesList(_repositoryManager.GetRepositoriesList());
+                _repositoriesListAdapter.SetSelectedRepository(repository);
+            }
+        }
+
         private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e) => UpdateButtons();
 
-        private void UpdateButtons() => btnRemove.Enabled = _repositoriesListAdapter.RepositoriesCount > 1 && tabRepositories.SelectedIndex == 0;
+        private void UpdateButtons()
+        {
+            var visible = tabRepositories.SelectedIndex == 0;
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            btnRemove.Visible = visible;
+            btnRemove.Enabled = repository != null && _repositoriesListAdapter.RepositoriesCount > 1;
+            btnUp.Visible = visible;
+            btnUp.Enabled = repository != null && _repositoryManager.CanMoveRepositoryUp(repository);
+            btnDown.Visible = visible;
+            btnDown.Enabled = repository != null && _repositoryManager.CanMoveRepositoryDown(repository);
+        }
     }
 }

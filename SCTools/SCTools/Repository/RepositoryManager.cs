@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
@@ -92,6 +93,42 @@ namespace NSW.StarCitizen.Tools.Repository
             }
             repository.Dispose();
             return result;
+        }
+
+        public bool CanMoveRepositoryUp(ILocalizationRepository repository)
+            => _localizationRepositories.CanMoveStart(_localizationRepositories.IndexOf(repository));
+
+        public bool CanMoveRepositoryDown(ILocalizationRepository repository)
+            => _localizationRepositories.CanMoveEnd(_localizationRepositories.IndexOf(repository));
+
+        public bool MoveRepositoryUp(ILocalizationRepository repository)
+        {
+            if (_localizationRepositories.MoveStart(_localizationRepositories.IndexOf(repository)))
+            {
+                int sourceIndex = _localizationSettings.Repositories.FindIndex(r => r.Type == repository.Type &&
+                    string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+                if (_localizationSettings.Repositories.MoveStart(sourceIndex))
+                {
+                    Program.SaveAppSettings();
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool MoveRepositoryDown(ILocalizationRepository repository)
+        {
+            if (_localizationRepositories.MoveEnd(_localizationRepositories.IndexOf(repository)))
+            {
+                int sourceIndex = _localizationSettings.Repositories.FindIndex(r => r.Type == repository.Type &&
+                    string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+                if (_localizationSettings.Repositories.MoveEnd(sourceIndex))
+                {
+                    Program.SaveAppSettings();
+                }
+                return true;
+            }
+            return false;
         }
 
         public ILocalizationRepository? GetInstalledRepository()

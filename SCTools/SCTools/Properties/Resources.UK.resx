@@ -507,4 +507,7 @@
   <data name="GameSettings_Values_Text" xml:space="preserve">
     <value>Опис значень</value>
   </data>
+  <data name="Localization_NotAvailable_Version" xml:space="preserve">
+    <value>нема</value>
+  </data>
 </root>

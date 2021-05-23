@@ -517,4 +517,7 @@ Please report them by using link below</value>
   <data name="GameSettings_Values_Text" xml:space="preserve">
     <value>Values Desc</value>
   </data>
+  <data name="Localization_NotAvailable_Version" xml:space="preserve">
+    <value>N/A</value>
+  </data>
 </root>
