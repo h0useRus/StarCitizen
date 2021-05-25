@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Controllers;
@@ -57,18 +58,23 @@ namespace NSW.StarCitizen.Tools.Forms
         private void LocalizationForm_Shown(object sender, EventArgs e)
         {
             if (_setAsDefaultLocalizationAppShown) return;
+            var executablePath = Application.ExecutablePath;
+            if (executablePath.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
             string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
             if (defaultLocalizationApp == null)
             {
-                LocalizationAppRegistry.SetDefaultLocalizationApp(Application.ExecutablePath);
+                LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
             }
-            else if (!string.Equals(defaultLocalizationApp, Application.ExecutablePath, StringComparison.OrdinalIgnoreCase))
+            else if (!string.Equals(defaultLocalizationApp, executablePath, StringComparison.OrdinalIgnoreCase))
             {
                 _setAsDefaultLocalizationAppShown = true;
-                if (MessageBox.Show(this, string.Format(Resources.Localization_ChangeDefaultApp_Text, Resources.AppName),
-                    Resources.Localization_ChangeDefaultApp_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(this, Resources.Localization_ChangeDefaultApp_Text, Resources.Localization_ChangeDefaultApp_Title,
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    LocalizationAppRegistry.SetDefaultLocalizationApp(Application.ExecutablePath);
+                    LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
                 }
             }
         }
