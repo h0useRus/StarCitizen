@@ -274,6 +274,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Star Citizen : Localization";
             this.Load += new System.EventHandler(this.LocalizationForm_Load);
+            this.Shown += new System.EventHandler(this.LocalizationForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

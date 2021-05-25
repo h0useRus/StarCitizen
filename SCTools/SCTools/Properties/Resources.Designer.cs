@@ -560,6 +560,25 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SCTools isn&apos;t your default Star Citizen localization application.
+        ///Set as default?.
+        /// </summary>
+        internal static string Localization_ChangeDefaultApp_Text {
+            get {
+                return ResourceManager.GetString("Localization_ChangeDefaultApp_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default localization application.
+        /// </summary>
+        internal static string Localization_ChangeDefaultApp_Title {
+            get {
+                return ResourceManager.GetString("Localization_ChangeDefaultApp_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for localization update.
         /// </summary>
         internal static string Localization_CheckForUpdate_Title {

@@ -6,6 +6,7 @@ using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -14,6 +15,7 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : FormEx, ILocalizedForm
     {
+        private static bool _setAsDefaultLocalizationAppShown;
         private readonly LocalizationController _controller;
 
         public LocalizationForm(GameInfo currentGame)
@@ -50,6 +52,25 @@ namespace NSW.StarCitizen.Tools.Forms
             cbRepository.SelectedItem = _controller.CurrentRepository;
             UpdateAvailableVersions();
             UpdateControls();
+        }
+
+        private void LocalizationForm_Shown(object sender, EventArgs e)
+        {
+            if (_setAsDefaultLocalizationAppShown) return;
+            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
+            if (defaultLocalizationApp == null)
+            {
+                LocalizationAppRegistry.SetDefaultLocalizationApp(Application.ExecutablePath);
+            }
+            else if (!string.Equals(defaultLocalizationApp, Application.ExecutablePath, StringComparison.OrdinalIgnoreCase))
+            {
+                _setAsDefaultLocalizationAppShown = true;
+                if (MessageBox.Show(this, string.Format(Resources.Localization_ChangeDefaultApp_Text, Resources.AppName),
+                    Resources.Localization_ChangeDefaultApp_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    LocalizationAppRegistry.SetDefaultLocalizationApp(Application.ExecutablePath);
+                }
+            }
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)
