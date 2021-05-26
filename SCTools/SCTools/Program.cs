@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Forms;
 using NSW.StarCitizen.Tools.Helpers;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools
 {
@@ -15,9 +16,11 @@ namespace NSW.StarCitizen.Tools
         [STAThread]
         static void Main(string[] args)
         {
+            bool updateOutdatedLocalization = args.Length == 1 &&
+                args[0] == LocalizationAppRegistry.UpdateOutdatedParam;
             if (!SingleInstance.Start())
             {
-                SingleInstance.ShowFirstInstance();
+                SingleInstance.ShowFirstInstance(updateOutdatedLocalization);
                 return;
             }
             try
@@ -27,7 +30,7 @@ namespace NSW.StarCitizen.Tools
                     return;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+                Application.Run(new MainForm(updateOutdatedLocalization));
             }
             finally
             {
