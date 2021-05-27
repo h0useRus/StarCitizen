@@ -89,6 +89,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation can&apos;t be done with game runnig.
+        ///To proceed please ensure that game is not running and press retry..
+        /// </summary>
+        internal static string Application_CloseGame_Text {
+            get {
+                return ResourceManager.GetString("Application_CloseGame_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed install application update.
         /// </summary>
         internal static string Application_FailedInstallUpdate_Text {

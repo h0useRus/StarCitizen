@@ -513,4 +513,8 @@
   <data name="Localization_DefaultApp_Text" xml:space="preserve">
     <value>Приложение локализации по умолчанию</value>
   </data>
+  <data name="Application_CloseGame_Text" xml:space="preserve">
+    <value>Операция не может быть выполнена при запущенной игре.
+Чтобы продолжить, убедитесь, что игра не запущена, и повторите попытку.</value>
+  </data>
 </root>

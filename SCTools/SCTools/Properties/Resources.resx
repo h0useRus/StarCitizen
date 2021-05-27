@@ -523,4 +523,8 @@ Please report them by using link below</value>
   <data name="Localization_DefaultApp_Text" xml:space="preserve">
     <value>Default localization application</value>
   </data>
+  <data name="Application_CloseGame_Text" xml:space="preserve">
+    <value>Operation can't be done with game runnig.
+To proceed please ensure that game is not running and press retry.</value>
+  </data>
 </root>
