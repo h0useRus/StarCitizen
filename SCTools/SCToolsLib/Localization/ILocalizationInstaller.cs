@@ -1,4 +1,6 @@
 
+using System;
+
 namespace NSW.StarCitizen.Tools.Lib.Localization
 {
     public enum InstallStatus
@@ -21,6 +23,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     {
         bool Verify(string zipFileName);
         InstallStatus Install(string zipFileName, string destinationFolder);
+        bool WriteTimestamp(DateTimeOffset date, string destinationFolder);
         UninstallStatus Uninstall(string destinationFolder);
         LocalizationInstallationType GetInstallationType(string destinationFolder);
         LocalizationInstallationType RevertLocalization(string destinationFolder);

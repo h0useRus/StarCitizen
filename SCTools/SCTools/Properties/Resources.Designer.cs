@@ -596,6 +596,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default localization application.
+        /// </summary>
+        internal static string Localization_DefaultApp_Text {
+            get {
+                return ResourceManager.GetString("Localization_DefaultApp_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display alpha versions.
         /// </summary>
         internal static string Localization_DisplayPreReleases_Text {

@@ -136,6 +136,26 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             return InstallStatus.Success;
         }
 
+        public bool WriteTimestamp(DateTimeOffset date, string destinationFolder)
+        {
+            string timestampFile = Path.Combine(GameConstants.GetDataFolderPath(destinationFolder), "timestamp");
+            if (!File.Exists(timestampFile))
+            {
+                try
+                {
+                    using var timespampWriter = File.CreateText(timestampFile);
+                    timespampWriter.Write(DateTimeUtils.ToUnixTimeSeconds(date.UtcDateTime));
+                    timespampWriter.Flush();
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Failed write timestamp file: {timestampFile}");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public UninstallStatus Uninstall(string destinationFolder)
         {
             if (!Directory.Exists(destinationFolder))

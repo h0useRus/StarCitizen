@@ -149,6 +149,10 @@ namespace NSW.StarCitizen.Tools.Controllers
                         GameSettings.Load();
                         progressDlg.CurrentTaskProgress = 1.0f;
                         RepositoryManager.SetInstalledRepository(CurrentRepository, selectedUpdateInfo.GetVersion());
+                        if (selectedUpdateInfo is GitHubUpdateInfo githubUpateInfo)
+                        {
+                            CurrentRepository.Installer.WriteTimestamp(githubUpateInfo.Released, CurrentGame.RootFolderPath);
+                        }
                         status = true;
                         break;
                     case InstallStatus.PackageError:

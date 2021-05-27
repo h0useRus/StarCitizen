@@ -510,4 +510,7 @@
   <data name="Localization_NotAvailable_Version" xml:space="preserve">
     <value>нет</value>
   </data>
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
+    <value>Приложение локализации по умолчанию</value>
+  </data>
 </root>

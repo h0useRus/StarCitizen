@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Settings
 {
@@ -29,6 +30,12 @@ namespace NSW.StarCitizen.Tools.Settings
         {
             get => IsRunWithWindows();
             set => SetRunWithWindows(value);
+        }
+        [JsonIgnore]
+        public bool DefaultLocalizationApp
+        {
+            get => IsDefaultLocalizationApp();
+            set => SetDefaultLocalizationApp(value);
         }
         [JsonProperty]
         public bool UseHttpProxy { get; set; }
@@ -96,6 +103,21 @@ namespace NSW.StarCitizen.Tools.Settings
                     startupKey.SetValue(AppName, Application.ExecutablePath);
                 else
                     startupKey.DeleteValue(AppName, false);
+            }
+        }
+
+        private static bool IsDefaultLocalizationApp()
+        {
+            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
+            return defaultLocalizationApp != null &&
+                string.Equals(defaultLocalizationApp, Application.ExecutablePath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static void SetDefaultLocalizationApp(bool value)
+        {
+            if (IsDefaultLocalizationApp() != value)
+            {
+                LocalizationAppRegistry.SetDefaultLocalizationApp(value ? Application.ExecutablePath : null);
             }
         }
     }

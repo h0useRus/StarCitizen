@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -49,6 +50,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // menu localization
             miExitApp.Text = Resources.Localization_QuitApp_Text;
             miSettings.Text = Resources.Localization_Settings_Text;
+            miDefaultLocalizationApp.Text = Resources.Localization_DefaultApp_Text;
             miRunMinimized.Text = Resources.Localization_RunMinimized_Text;
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
@@ -355,6 +357,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cmTrayMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            miDefaultLocalizationApp.Enabled = !Application.ExecutablePath.StartsWith(Path.GetTempPath(),
+                StringComparison.OrdinalIgnoreCase);
+            miDefaultLocalizationApp.Checked = Program.Settings.DefaultLocalizationApp;
             miRunMinimized.Checked = Program.Settings.RunMinimized;
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
@@ -412,6 +417,9 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.Settings.Update.AllowPreReleases = miUpdateToAlphaVersions.Checked;
             Program.SaveAppSettings();
         }
+
+        private void miDefaultLocalizationApp_Click(object sender, EventArgs e)
+            => Program.Settings.DefaultLocalizationApp = miDefaultLocalizationApp.Checked;
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {

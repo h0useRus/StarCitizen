@@ -510,4 +510,7 @@
   <data name="Localization_NotAvailable_Version" xml:space="preserve">
     <value>нема</value>
   </data>
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
+    <value>Додаток локалізацї по замовчуванню</value>
+  </data>
 </root>
