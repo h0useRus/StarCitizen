@@ -393,12 +393,6 @@ namespace NSW.StarCitizen.Tools.Forms
                 Restore();
         }
 
-        private void miDefaultLocalizationApp_Click(object sender, EventArgs e)
-        {
-            Program.Settings.DefaultLocalizationApp = miDefaultLocalizationApp.Checked;
-            Program.SaveAppSettings();
-        }
-
         private void miRunMinimized_Click(object sender, EventArgs e) => cbGeneralRunMinimized.Checked = miRunMinimized.Checked;
 
         private void miRunOnStartup_Click(object sender, EventArgs e) => cbGeneralRunWithWindows.Checked = miRunOnStartup.Checked;
@@ -423,6 +417,9 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.Settings.Update.AllowPreReleases = miUpdateToAlphaVersions.Checked;
             Program.SaveAppSettings();
         }
+
+        private void miDefaultLocalizationApp_Click(object sender, EventArgs e)
+            => Program.Settings.DefaultLocalizationApp = miDefaultLocalizationApp.Checked;
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
