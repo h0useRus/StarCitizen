@@ -6,7 +6,6 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
     {
         private const string RegKeyLocalization = @"SOFTWARE\StarCitizenLocalization";
         private const string DefaultApp = "DefaultApp";
-        public const string UpdateOutdatedParam = "update_outdated";
 
         public static string? GetDefaultLocalizationApp()
         {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -20,14 +19,12 @@ namespace NSW.StarCitizen.Tools.Forms
     {
         private bool _isGameFolderSet;
         private bool _holdUpdates;
-        private bool _updateOutdatedLocalization;
         private string? _lastBrowsePath;
         private DateTime? _lastSettingsLoadTime;
         private List<GameMode>? _gameModes;
 
-        public MainForm(bool updateOutdatedLocalization)
+        public MainForm()
         {
-            _updateOutdatedLocalization = updateOutdatedLocalization;
             InitializeComponent();
             InitializeGeneral();
             UpdateLocalizedControls();
@@ -130,18 +127,6 @@ namespace NSW.StarCitizen.Tools.Forms
                 Minimize();
         }
 
-        private async void MainForm_Activated(object sender, EventArgs e)
-        {
-            if (_updateOutdatedLocalization)
-            {
-                _updateOutdatedLocalization = false;
-                if (Program.CurrentGame != null)
-                {
-                    await UpdateLocalizationAsync(Program.CurrentGame);
-                }
-            }
-        }
-
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -205,9 +190,34 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnUpdateLocalization_Click(object sender, EventArgs e)
         {
-            if (Program.CurrentGame == null)
-                return;
-            await UpdateLocalizationAsync(Program.CurrentGame);
+            if (Program.CurrentGame == null) return;
+            var controller = new LocalizationController(Program.CurrentGame);
+            controller.Load();
+            var installedVersion = controller.CurrentInstallation.InstalledVersion;
+            if (installedVersion != null && await controller.RefreshVersionsAsync(this))
+            {
+                var availableUpdate = controller.CurrentRepository.LatestUpdateInfo;
+                if (availableUpdate != null &&
+                    string.Compare(installedVersion, availableUpdate.GetVersion(),
+                        StringComparison.OrdinalIgnoreCase) != 0)
+                {
+                    var dialogResult = MessageBox.Show(this,
+                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
+                            $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
+                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes &&
+                        await controller.InstallVersionAsync(this, availableUpdate))
+                    {
+                        controller.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
+                        Resources.Localization_CheckForUpdate_Title,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private async void btnGameSettings_Click(object sender, EventArgs e)
@@ -441,10 +451,6 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
             {
-                if (message.LParam == SingleInstance.LP_UPDATE_OUTDATED)
-                {
-                    _updateOutdatedLocalization = true;
-                }
                 Restore();
             }
             base.WndProc(ref message);
@@ -523,37 +529,6 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             DisposableUtils.Dispose(prevDataSource);
             combobox.SelectedValue = Program.Settings.Language;
-        }
-
-        private async Task UpdateLocalizationAsync(GameInfo gameInfo)
-        {
-            var controller = new LocalizationController(gameInfo);
-            controller.Load();
-            var installedVersion = controller.CurrentInstallation.InstalledVersion;
-            if (installedVersion != null && await controller.RefreshVersionsAsync(this))
-            {
-                var availableUpdate = controller.CurrentRepository.LatestUpdateInfo;
-                if (availableUpdate != null &&
-                    string.Compare(installedVersion, availableUpdate.GetVersion(),
-                        StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    var dialogResult = MessageBox.Show(this,
-                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
-                            $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
-                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dialogResult == DialogResult.Yes &&
-                        await controller.InstallVersionAsync(this, availableUpdate))
-                    {
-                        controller.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
-                        Resources.Localization_CheckForUpdate_Title,
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
         }
     }
 }
