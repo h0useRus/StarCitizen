@@ -1,13 +1,11 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
-using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -16,7 +14,6 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : FormEx, ILocalizedForm
     {
-        private static bool _setAsDefaultLocalizationAppShown;
         private readonly LocalizationController _controller;
 
         public LocalizationForm(GameInfo currentGame)
@@ -53,30 +50,6 @@ namespace NSW.StarCitizen.Tools.Forms
             cbRepository.SelectedItem = _controller.CurrentRepository;
             UpdateAvailableVersions();
             UpdateControls();
-        }
-
-        private void LocalizationForm_Shown(object sender, EventArgs e)
-        {
-            if (_setAsDefaultLocalizationAppShown) return;
-            var executablePath = Application.ExecutablePath;
-            if (executablePath.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
-            if (defaultLocalizationApp == null)
-            {
-                LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
-            }
-            else if (!string.Equals(defaultLocalizationApp, executablePath, StringComparison.OrdinalIgnoreCase))
-            {
-                _setAsDefaultLocalizationAppShown = true;
-                if (MessageBox.Show(this, Resources.Localization_ChangeDefaultApp_Text, Resources.Localization_ChangeDefaultApp_Title,
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
-                }
-            }
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)

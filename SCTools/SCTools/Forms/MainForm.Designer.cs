@@ -54,6 +54,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miMoveLiveToPtu = new System.Windows.Forms.ToolStripMenuItem();
             this.miMovePtuToLive = new System.Windows.Forms.ToolStripMenuItem();
             this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDefaultLocalizationApp = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunMinimized = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
@@ -310,10 +311,19 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunTopMost,
             this.miUseHttpProxy,
             this.miUpdateToAlphaVersions,
+            this.miDefaultLocalizationApp,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
             this.miSettings.Size = new System.Drawing.Size(113, 22);
             this.miSettings.Text = "Settings";
+            // 
+            // miDefaultLocalizationApp
+            // 
+            this.miDefaultLocalizationApp.CheckOnClick = true;
+            this.miDefaultLocalizationApp.Name = "miDefaultLocalizationApp";
+            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(194, 22);
+            this.miDefaultLocalizationApp.Text = "Default localization app";
+            this.miDefaultLocalizationApp.Click += new System.EventHandler(this.miDefaultLocalizationApp_Click);
             // 
             // miRunOnStartup
             // 
@@ -521,5 +531,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miMovePtuToLive;
         private System.Windows.Forms.ToolStripMenuItem miUpdateToAlphaVersions;
         private System.Windows.Forms.Button btnGameSettings;
+        private System.Windows.Forms.ToolStripMenuItem miDefaultLocalizationApp;
     }
 }

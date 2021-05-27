@@ -520,11 +520,7 @@ Please report them by using link below</value>
   <data name="Localization_NotAvailable_Version" xml:space="preserve">
     <value>N/A</value>
   </data>
-  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
-    <value>SCTools isn't your default Star Citizen localization application.
-Set as default?</value>
-  </data>
-  <data name="Localization_ChangeDefaultApp_Title" xml:space="preserve">
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
     <value>Default localization application</value>
   </data>
 </root>

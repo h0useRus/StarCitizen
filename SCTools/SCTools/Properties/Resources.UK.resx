@@ -510,11 +510,7 @@
   <data name="Localization_NotAvailable_Version" xml:space="preserve">
     <value>нема</value>
   </data>
-  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
-    <value>SCTools не обраний вами як основний додаткок для локалізації Star Citizen.
-Бажаєте зробити його основним?</value>
-  </data>
-  <data name="Localization_ChangeDefaultApp_Title" xml:space="preserve">
-    <value>Додаток для локалізації по замовчуванню</value>
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
+    <value>Додаток локалізацї по замовчуванню</value>
   </data>
 </root>

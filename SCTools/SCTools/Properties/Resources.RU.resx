@@ -510,11 +510,7 @@
   <data name="Localization_NotAvailable_Version" xml:space="preserve">
     <value>нет</value>
   </data>
-  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
-    <value>SCTools не выбран вами как приложение по умолчанию для локализации Star Citizen.
-Желаете сделать его по умолчанию?</value>
-  </data>
-  <data name="Localization_ChangeDefaultApp_Title" xml:space="preserve">
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
     <value>Приложение локализации по умолчанию</value>
   </data>
 </root>
