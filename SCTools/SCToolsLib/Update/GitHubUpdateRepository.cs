@@ -287,7 +287,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             [JsonProperty("zipball_url")]
             public string ZipUrl { get; }
             [JsonProperty("published_at")]
-            public DateTimeOffset Published { get; private set; }
+            public DateTimeOffset? Published { get; private set; }
             [JsonProperty("created_at")]
             public DateTimeOffset Created { get; private set; }
             [JsonProperty("assets")]
