@@ -241,6 +241,16 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void tbGameMode_DoubleClick(object sender, EventArgs e)
+        {
+            if (Program.CurrentGame != null)
+            {
+                var packageIndex = new LocalizationPackageIndex(Program.CurrentGame.RootFolderPath);
+                var filesIndex = packageIndex.CreateLocal();
+                filesIndex.WriteToFile(Path.Combine(Program.CurrentGame.RootFolderPath, "index.txt"));
+            }
+        }
+
         private void cbGameModes_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (cbGameModes.SelectedItem is GameInfo gameInfo)

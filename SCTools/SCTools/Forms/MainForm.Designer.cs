@@ -54,12 +54,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miMoveLiveToPtu = new System.Windows.Forms.ToolStripMenuItem();
             this.miMovePtuToLive = new System.Windows.Forms.ToolStripMenuItem();
             this.miSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDefaultLocalizationApp = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunOnStartup = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunMinimized = new System.Windows.Forms.ToolStripMenuItem();
             this.miRunTopMost = new System.Windows.Forms.ToolStripMenuItem();
             this.miUseHttpProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.miUpdateToAlphaVersions = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDefaultLocalizationApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,6 +152,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGameMode.Size = new System.Drawing.Size(185, 20);
             this.tbGameMode.TabIndex = 1;
             this.tbGameMode.TabStop = false;
+            this.tbGameMode.DoubleClick += new System.EventHandler(this.tbGameMode_DoubleClick);
             // 
             // lblGameMode
             // 
@@ -317,14 +318,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miSettings.Size = new System.Drawing.Size(113, 22);
             this.miSettings.Text = "Settings";
             // 
-            // miDefaultLocalizationApp
-            // 
-            this.miDefaultLocalizationApp.CheckOnClick = true;
-            this.miDefaultLocalizationApp.Name = "miDefaultLocalizationApp";
-            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(194, 22);
-            this.miDefaultLocalizationApp.Text = "Default localization app";
-            this.miDefaultLocalizationApp.Click += new System.EventHandler(this.miDefaultLocalizationApp_Click);
-            // 
             // miRunOnStartup
             // 
             this.miRunOnStartup.CheckOnClick = true;
@@ -364,6 +357,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(194, 22);
             this.miUpdateToAlphaVersions.Text = "Update to alpha versions";
             this.miUpdateToAlphaVersions.Click += new System.EventHandler(this.miUpdateToAlphaVersions_Click);
+            // 
+            // miDefaultLocalizationApp
+            // 
+            this.miDefaultLocalizationApp.CheckOnClick = true;
+            this.miDefaultLocalizationApp.Name = "miDefaultLocalizationApp";
+            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(194, 22);
+            this.miDefaultLocalizationApp.Text = "Default localization app";
+            this.miDefaultLocalizationApp.Click += new System.EventHandler(this.miDefaultLocalizationApp_Click);
             // 
             // cbMenuLanguage
             // 

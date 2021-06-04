@@ -35,14 +35,18 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             return Task.FromResult(Enumerable.Empty<UpdateInfo>().ToList());
         }
 
-        public override Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
+        public override Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
             if (!File.Exists(updateInfo.DownloadUrl))
             {
                 throw new InvalidOperationException($"Repository file not exist: {updateInfo.DownloadUrl}");
             }
-            return Task.FromResult(updateInfo.DownloadUrl);
+            DownloadResult result = new DownloadResult
+            {
+                ArchiveFilePath = updateInfo.DownloadUrl
+            };
+            return Task.FromResult(result);
         }
 
         public override Task<bool> CheckAsync(CancellationToken cancellationToken)

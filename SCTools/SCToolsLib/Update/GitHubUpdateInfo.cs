@@ -7,6 +7,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
     {
         private readonly bool _namedVersion;
 
+        [JsonProperty]
+        public string? IndexDownloadUrl { get; protected set; }
         public override string GetVersion() => _namedVersion ? Name : TagName;
 
         [JsonConstructor]
@@ -44,13 +46,14 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return new GitHubUpdateInfo(release.Name, release.TagName, release.ZipUrl, _namedVersion)
                 {
                     PreRelease = release.PreRelease,
-                    Released = release.Published
+                    Released = release.Published,
+                    IndexDownloadUrl = release.Assets.FirstOrDefault(a => a.IsIndexFileUrl())?.ZipUrl
                 };
             }
 
             public UpdateInfo? CreateWithDownloadAsset(GitHubUpdateRepository.GitRelease release)
             {
-                var downloadUrl = release.Assets.FirstOrDefault()?.ZipUrl;
+                var downloadUrl = release.Assets.FirstOrDefault(a => !a.IsIndexFileUrl())?.ZipUrl;
                 if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
                     (downloadUrl == null) || string.IsNullOrEmpty(downloadUrl))
                 {
@@ -59,7 +62,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return new GitHubUpdateInfo(release.Name, release.TagName, downloadUrl, _namedVersion)
                 {
                     PreRelease = release.PreRelease,
-                    Released = release.Published
+                    Released = release.Published,
+                    IndexDownloadUrl = release.Assets.FirstOrDefault(a => a.IsIndexFileUrl())?.ZipUrl
                 };
             }
         }

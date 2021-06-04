@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -7,6 +8,7 @@ using NLog;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Properties;
+using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Lib.Localization
 {
@@ -91,21 +93,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     FileUtils.DeleteDirectoryNoThrow(backupDataDir, true);
                     backupDataDir = null;
                 }
-                var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-                if (File.Exists(enabledLibraryPath))
-                {
-                    File.Delete(enabledLibraryPath);
-                    File.Move(newLibraryPath, enabledLibraryPath);
-                }
-                else
-                {
-                    var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-                    if (File.Exists(disabledLibraryPath))
-                    {
-                        File.Delete(disabledLibraryPath);
-                    }
-                    File.Move(newLibraryPath, disabledLibraryPath);
-                }
+                InstallCore(newLibraryPath, destinationFolder);
             }
             catch (CryptographicException e)
             {
@@ -131,6 +119,92 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 if (backupDataDir != null)
                 {
                     RestoreDirectory(backupDataDir, dataPathDir);
+                }
+            }
+            return InstallStatus.Success;
+        }
+
+        public InstallStatus Install(string sourceFolder, string destinationFolder, FilesIndex.DiffList diffList)
+        {
+            if (!Directory.Exists(destinationFolder))
+            {
+                _logger.Error($"Install directory is not exist: {destinationFolder}");
+                return InstallStatus.FileError;
+            }
+            if (diffList.ChangedFiles.Count == 0)
+            {
+                foreach (var removeFile in diffList.RemoveFiles)
+                {
+                    FileUtils.DeleteFileNoThrow(Path.Combine(destinationFolder, removeFile));
+                }
+                return InstallStatus.Success;
+            }
+            var movedReusedFiles = new List<string>();
+            DirectoryInfo? backupDataDir = null;
+            var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
+            try
+            {
+                var newLibraryPath = Path.Combine(sourceFolder, GameConstants.PatcherOriginalName);
+                bool newLibraryExist = File.Exists(newLibraryPath);
+                if (newLibraryExist)
+                {
+                    using var libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
+                    if (!libraryCertVerifier.VerifyFile(newLibraryPath))
+                    {
+                        _logger.Error("Core certificate is invalid. Abort installation");
+                        return InstallStatus.VerifyError;
+                    }
+                }
+                foreach (var reuseFile in diffList.ReuseFiles)
+                {
+                    var destReusePath = Path.Combine(sourceFolder, reuseFile);
+                    Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
+                    File.Move(Path.Combine(destinationFolder, reuseFile), destReusePath);
+                    movedReusedFiles.Add(reuseFile);
+                }
+                if (dataPathDir.Exists)
+                {
+                    var backupDataDirPath = Path.Combine(destinationFolder, "backup_" + Path.GetRandomFileName());
+                    Directory.Move(dataPathDir.FullName, backupDataDirPath);
+                    backupDataDir = new DirectoryInfo(backupDataDirPath);
+                }
+                Directory.Move(GameConstants.GetDataFolderPath(sourceFolder), dataPathDir.FullName);
+                if (backupDataDir != null)
+                {
+                    FileUtils.DeleteDirectoryNoThrow(backupDataDir, true);
+                    backupDataDir = null;
+                }
+                if (newLibraryExist)
+                {
+                    InstallCore(newLibraryPath, destinationFolder);
+                }
+                movedReusedFiles.Clear();
+            }
+            catch (CryptographicException e)
+            {
+                _logger.Error(e, "Exception during verify core");
+                return InstallStatus.VerifyError;
+            }
+            catch (IOException e)
+            {
+                _logger.Error(e, "I/O exception during install");
+                return InstallStatus.FileError;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Unexpected exception during install");
+                return InstallStatus.UnknownError;
+            }
+            finally
+            {
+                if (backupDataDir != null)
+                {
+                    RestoreDirectory(backupDataDir, dataPathDir);
+                }
+                foreach (var reuseFile in movedReusedFiles)
+                {
+                    FileUtils.MoveFileNoThrow(Path.Combine(sourceFolder, reuseFile),
+                        Path.Combine(destinationFolder, reuseFile));
                 }
             }
             return InstallStatus.Success;
@@ -208,6 +282,25 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             }
 
             return LocalizationInstallationType.None;
+        }
+
+        private static void InstallCore(string newLibraryPath, string destinationFolder)
+        {
+            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            if (File.Exists(enabledLibraryPath))
+            {
+                File.Delete(enabledLibraryPath);
+                File.Move(newLibraryPath, enabledLibraryPath);
+            }
+            else
+            {
+                var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+                if (File.Exists(disabledLibraryPath))
+                {
+                    File.Delete(disabledLibraryPath);
+                }
+                File.Move(newLibraryPath, disabledLibraryPath);
+            }
         }
 
         private static bool Unpack(string zipFileName, string destinationFolder)

@@ -17,6 +17,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
     {
         private const string GitHubApiUrl = "https://api.github.com/repos";
         private const string GitHubApiRateLimitUrl = "https://api.github.com/rate_limit";
+        private const string GitHubRawContent = "https://raw.githubusercontent.com";
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly HttpClient _httpClient;
         private readonly string _repoReleasesUrl;
@@ -54,9 +55,19 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             return Enumerable.Empty<UpdateInfo>().ToList();
         }
 
-        public override async Task<string> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
-            CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
+        public override async Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
+            if (updateInfo is GitHubUpdateInfo gitHubUpdateInfo)
+            {
+                var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, cancellationToken, downloadProgress);
+                if (diffList != null)
+                {
+                    return new DownloadResult
+                    {
+                        DiffList = diffList
+                    };
+                }
+            }
             using var requestMessage = buildRequestMessage(updateInfo.DownloadUrl);
             using var response = await _httpClient.SendAsync(requestMessage,
                 HttpCompletionOption.ResponseHeadersRead, cancellationToken);
@@ -87,7 +98,10 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                     _logger.Warn($"Failed remove temporary file: {tempFileName}");
                 throw;
             }
-            return tempFileName;
+            return new DownloadResult
+            {
+                ArchiveFilePath = tempFileName
+            };
         }
 
         public override async Task<bool> CheckAsync(CancellationToken cancellationToken)
@@ -104,6 +118,95 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return false;
             }
         }
+
+        private async Task<FilesIndex.DiffList?> DownloadIncrementalAsync(GitHubUpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
+        {
+            if (PackageIndex == null || updateInfo.IndexDownloadUrl == null)
+            {
+                return null;
+            }
+            try
+            {
+                var sourceIndex = PackageIndex.CreateLocal(cancellationToken);
+                if (sourceIndex.IsEmpty())
+                {
+                    return null;
+                }
+                // 1. download & parse index file
+                var targetIndex = await DownloadFilesIndexAsync(updateInfo.IndexDownloadUrl, cancellationToken);
+                if (!PackageIndex.VerifyExternal(targetIndex))
+                {
+                    _logger.Warn($"Invalid repository index file: {updateInfo.Dump()}");
+                    return null;
+                }
+                // 2. compute diff files list
+                var diffFiles = FilesIndex.BuildDiffList(sourceIndex, targetIndex);
+                // 3. download missing target files one by one
+                downloadProgress?.ReportContentSize(targetIndex.GetFilesSize(diffFiles.ChangedFiles));
+                long downloadedBytes = 0;
+                foreach (var sourceFilePath in diffFiles.ChangedFiles)
+                {
+                    var sourceFileUrl = $"{GitHubRawContent}/{Repository}/{updateInfo.TagName}/{sourceFilePath}";
+                    var downloadFilePath = Path.Combine(downloadPath, sourceFilePath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(downloadFilePath));
+                    await DownloadFileAsync(sourceFileUrl, downloadFilePath, cancellationToken);
+                    downloadedBytes += targetIndex.GetFileSize(sourceFilePath);
+                    downloadProgress?.ReportDownloadedSize(downloadedBytes);
+                }
+                return diffFiles;
+            }
+            catch (GitHubRequestLimitExceedException e)
+            {
+                throw e;
+            }
+            catch (OperationCanceledException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                _logger.Warn(e, $"Failed download incremental update: {updateInfo.Dump()}");
+                if (downloadProgress != null)
+                {
+                    downloadProgress.ReportDownloadedSize(0);
+                    downloadProgress.ReportContentSize(0);
+                }
+            }
+            return null;
+        }
+
+        private async Task<FilesIndex> DownloadFilesIndexAsync(string downloadUrl, CancellationToken cancellationToken)
+        {
+            using var requestMessage = buildRequestMessage(downloadUrl);
+            using var response = await _httpClient.SendAsync(requestMessage,
+                HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            await CheckRequestLimitStatusCodeAsync(response, cancellationToken).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            using var indexStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var indexStreamReader = new StreamReader(indexStream);
+            return FilesIndex.LoadFromStream(indexStreamReader, cancellationToken);
+        }
+
+        private async Task DownloadFileAsync(string downloadUrl, string downloadFilePath, CancellationToken cancellationToken)
+        {
+            using var requestMessage = buildRequestMessage(downloadUrl);
+            using var response = await _httpClient.SendAsync(requestMessage,
+                HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            using var contentStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            try
+            {
+                using var fileStream = File.Create(downloadFilePath);
+                await contentStream.CopyToAsync(fileStream, 0x4000, cancellationToken).ConfigureAwait(false);
+            }
+            catch
+            {
+                if (File.Exists(downloadFilePath) && !FileUtils.DeleteFileNoThrow(downloadFilePath))
+                    _logger.Warn($"Failed remove temporary file: {downloadFilePath}");
+                throw;
+            }
+        }
+
         private IEnumerable<UpdateInfo> GetSourceCodeUpdates(IEnumerable<GitRelease> releases)
         {
             foreach (var r in releases)
@@ -163,8 +266,6 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
             if (AuthToken != null)
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue("token", AuthToken);
-            //if (Program.Settings.AuthToken != null)
-            //    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("token", Program.Settings.AuthToken);
             return requestMessage;
         }
 
@@ -212,6 +313,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             {
                 ZipUrl = zipUrl;
             }
+
+            public bool IsIndexFileUrl() => ZipUrl != null && ZipUrl.EndsWith("/index.txt");
         }
 
         public class GitRateLimit
