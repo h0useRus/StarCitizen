@@ -8,6 +8,7 @@ using NLog;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Forms;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -131,6 +132,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             }
             _logger.Info($"Install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
             bool status = false;
+            string? filePath = null;
             using var progressDlg = new ProgressForm();
             try
             {
@@ -139,38 +141,49 @@ namespace NSW.StarCitizen.Tools.Controllers
                 var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
-                var filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, Path.GetTempPath(),
+                filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, Path.GetTempPath(),
                     progressDlg.CancelToken, downloadDialogAdapter);
                 progressDlg.BindAdapter(new InstallProgressDialogAdapter());
+                using var gameMutex = new GameMutex();
+                if (!GameMutexController.AcquireWithRetryDialog(progressDlg, gameMutex))
+                {
+                    _logger.Info($"Install localization aborted by user because game running");
+                    return false;
+                }
                 var result = CurrentRepository.Installer.Install(filePath, CurrentGame.RootFolderPath);
                 switch (result)
                 {
                     case InstallStatus.Success:
-                        GameSettings.Load();
-                        progressDlg.CurrentTaskProgress = 1.0f;
-                        RepositoryManager.SetInstalledRepository(CurrentRepository, selectedUpdateInfo.GetVersion());
                         if (selectedUpdateInfo is GitHubUpdateInfo githubUpateInfo)
                         {
                             CurrentRepository.Installer.WriteTimestamp(githubUpateInfo.Released, CurrentGame.RootFolderPath);
                         }
+                        GameSettings.Load();
+                        gameMutex.Release();
+                        progressDlg.CurrentTaskProgress = 1.0f;
+                        RepositoryManager.SetInstalledRepository(CurrentRepository, selectedUpdateInfo.GetVersion());
                         status = true;
                         break;
                     case InstallStatus.PackageError:
+                        gameMutex.Release();
                         _logger.Error($"Failed install localization due to package error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(progressDlg, Resources.Localization_Package_ErrorText,
                             Resources.Localization_Package_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case InstallStatus.VerifyError:
+                        gameMutex.Release();
                         _logger.Error($"Failed install localization due to core verify error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(progressDlg, Resources.Localization_Verify_ErrorText,
                             Resources.Localization_Verify_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case InstallStatus.FileError:
+                        gameMutex.Release();
                         _logger.Error($"Failed install localization due to file error: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(progressDlg, Resources.Localization_File_ErrorText,
                             Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     default:
+                        gameMutex.Release();
                         _logger.Error($"Failed install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
                         MessageBox.Show(progressDlg, Resources.Localization_Install_ErrorText,
                             Resources.Localization_Install_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -199,6 +212,13 @@ namespace NSW.StarCitizen.Tools.Controllers
                 Cursor.Current = Cursors.Default;
                 window.Enabled = true;
                 progressDlg.Hide();
+                if (filePath != null && selectedUpdateInfo is GitHubUpdateInfo)
+                {
+                    if (File.Exists(filePath) && !FileUtils.DeleteFileNoThrow(filePath))
+                    {
+                        _logger.Warn($"Failed cleanup temporary file: {filePath}");
+                    }
+                }
             }
             return status;
         }
@@ -225,11 +245,18 @@ namespace NSW.StarCitizen.Tools.Controllers
                 {
                     progressDlg.BindAdapter(new UninstallProgressDialogAdapter());
                     progressDlg.Show(window);
+                    using var gameMutex = new GameMutex();
+                    if (!GameMutexController.AcquireWithRetryDialog(progressDlg, gameMutex))
+                    {
+                        _logger.Info($"Uninstall localization aborted by user because game running");
+                        return false;
+                    }
                     switch (CurrentRepository.Installer.Uninstall(CurrentGame.RootFolderPath))
                     {
                         case UninstallStatus.Success:
                             GameSettings.RemoveCurrentLanguage();
                             GameSettings.Load();
+                            gameMutex.Release();
                             progressDlg.CurrentTaskProgress = 1.0f;
                             RepositoryManager.RemoveInstalledRepository(CurrentRepository);
                             status = true;
@@ -237,6 +264,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                         case UninstallStatus.Partial:
                             GameSettings.RemoveCurrentLanguage();
                             GameSettings.Load();
+                            gameMutex.Release();
                             progressDlg.CurrentTaskProgress = 1.0f;
                             RepositoryManager.RemoveInstalledRepository(CurrentRepository);
                             status = true;
@@ -245,6 +273,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                                     Resources.Localization_Uninstall_WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             break;
                         default:
+                            gameMutex.Release();
                             _logger.Error($"Failed uninstall localization: {CurrentGame.Mode}");
                             MessageBox.Show(progressDlg, Resources.Localization_Uninstall_ErrorText,
                                 Resources.Localization_Uninstall_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -272,6 +301,11 @@ namespace NSW.StarCitizen.Tools.Controllers
             {
                 window.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
+                using var gameMutex = new GameMutex();
+                if (!GameMutexController.AcquireWithRetryDialog(window, gameMutex))
+                {
+                    return;
+                }
                 CurrentRepository.Installer.RevertLocalization(CurrentGame.RootFolderPath);
             }
             catch (Exception e)

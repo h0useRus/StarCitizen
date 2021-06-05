@@ -43,12 +43,18 @@ namespace NSW.StarCitizen.Tools.Controllers
                     return false;
                 }
             }
+            using var gameMutex = new GameMutex();
+            if (!GameMutexController.AcquireWithRetryDialog(window, gameMutex))
+            {
+                return false;
+            }
             try
             {
                 Directory.Move(srcPath, destPath);
             }
             catch (Exception e)
             {
+                gameMutex.Release();
                 _logger.Error(e, "Failed rename game folder: " + srcPath);
                 MessageBox.Show(window, Resources.Localization_File_ErrorText,
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);

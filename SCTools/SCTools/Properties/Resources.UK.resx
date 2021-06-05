@@ -513,4 +513,8 @@
   <data name="Localization_DefaultApp_Text" xml:space="preserve">
     <value>Додаток локалізацї по замовчуванню</value>
   </data>
+  <data name="Application_CloseGame_Text" xml:space="preserve">
+    <value>Операція не може бути виконана коли увімкнена гра.
+Щоб продовжити, переконайтесь, що гра закрита, і повторіть спробу.</value>
+  </data>
 </root>
