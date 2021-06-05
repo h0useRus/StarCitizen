@@ -155,12 +155,15 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                         return InstallStatus.VerifyError;
                     }
                 }
-                foreach (var reuseFile in diffList.ReuseFiles)
+                foreach (string reuseFile in diffList.ReuseFiles)
                 {
-                    var destReusePath = Path.Combine(sourceFolder, reuseFile);
-                    Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
-                    File.Move(Path.Combine(destinationFolder, reuseFile), destReusePath);
-                    movedReusedFiles.Add(reuseFile);
+                    if (!reuseFile.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var destReusePath = Path.Combine(sourceFolder, reuseFile);
+                        Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
+                        File.Move(Path.Combine(destinationFolder, reuseFile), destReusePath);
+                        movedReusedFiles.Add(reuseFile);
+                    }
                 }
                 if (dataPathDir.Exists)
                 {
