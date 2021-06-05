@@ -24,6 +24,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         private readonly GitHubUpdateInfo.Factory _gitHubUpdateInfoFactory;
         public GitHubDownloadType DownloadType { get; }
         public string? AuthToken { get; set; }
+        public bool AllowIncrementalDownload { get; set; }
 
         public GitHubUpdateRepository(HttpClient httpClient, GitHubDownloadType downloadType,
             GitHubUpdateInfo.Factory gitHubUpdateInfoFactory, string name, string repository) :
@@ -58,7 +59,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         public override async Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            if (packageIndex != null && updateInfo is GitHubUpdateInfo gitHubUpdateInfo)
+            if (AllowIncrementalDownload && packageIndex != null && updateInfo is GitHubUpdateInfo gitHubUpdateInfo)
             {
                 var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, packageIndex, cancellationToken, downloadProgress);
                 if (diffList != null)

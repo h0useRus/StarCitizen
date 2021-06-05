@@ -517,4 +517,7 @@
     <value>Операція не може бути виконана коли увімкнена гра.
 Щоб продовжити, переконайтесь, що гра закрита, і повторіть спробу.</value>
   </data>
+  <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
+    <value>Оптимізоване завантаження</value>
+  </data>
 </root>

@@ -527,4 +527,7 @@ Please report them by using link below</value>
     <value>Operation can't be done with game runnig.
 To proceed please ensure that game is not running and press retry.</value>
   </data>
+  <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
+    <value>Allow incremental download</value>
+  </data>
 </root>

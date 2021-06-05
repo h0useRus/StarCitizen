@@ -69,6 +69,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
+            this.miAllowIncrementalDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -264,21 +265,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(114, 104);
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 126);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
             // 
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(113, 22);
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
             this.miAppName.Text = "SCTools";
             this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // miTools
             // 
@@ -286,7 +287,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miMoveLiveToPtu,
             this.miMovePtuToLive});
             this.miTools.Name = "miTools";
-            this.miTools.Size = new System.Drawing.Size(113, 22);
+            this.miTools.Size = new System.Drawing.Size(180, 22);
             this.miTools.Text = "Tools";
             // 
             // miMoveLiveToPtu
@@ -311,17 +312,18 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunTopMost,
             this.miUseHttpProxy,
             this.miUpdateToAlphaVersions,
+            this.miAllowIncrementalDownload,
             this.miDefaultLocalizationApp,
             this.cbMenuLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(113, 22);
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
             // 
             this.miRunOnStartup.CheckOnClick = true;
             this.miRunOnStartup.Name = "miRunOnStartup";
-            this.miRunOnStartup.Size = new System.Drawing.Size(194, 22);
+            this.miRunOnStartup.Size = new System.Drawing.Size(206, 22);
             this.miRunOnStartup.Text = "Run On Windows startup";
             this.miRunOnStartup.Click += new System.EventHandler(this.miRunOnStartup_Click);
             // 
@@ -329,7 +331,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miRunMinimized.CheckOnClick = true;
             this.miRunMinimized.Name = "miRunMinimized";
-            this.miRunMinimized.Size = new System.Drawing.Size(194, 22);
+            this.miRunMinimized.Size = new System.Drawing.Size(206, 22);
             this.miRunMinimized.Text = "Run minimized";
             this.miRunMinimized.Click += new System.EventHandler(this.miRunMinimized_Click);
             // 
@@ -337,7 +339,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miRunTopMost.CheckOnClick = true;
             this.miRunTopMost.Name = "miRunTopMost";
-            this.miRunTopMost.Size = new System.Drawing.Size(194, 22);
+            this.miRunTopMost.Size = new System.Drawing.Size(206, 22);
             this.miRunTopMost.Text = "Always on top";
             this.miRunTopMost.Click += new System.EventHandler(this.miRunTopMost_Click);
             // 
@@ -345,7 +347,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miUseHttpProxy.CheckOnClick = true;
             this.miUseHttpProxy.Name = "miUseHttpProxy";
-            this.miUseHttpProxy.Size = new System.Drawing.Size(194, 22);
+            this.miUseHttpProxy.Size = new System.Drawing.Size(206, 22);
             this.miUseHttpProxy.Text = "Use Http Proxy";
             this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
             // 
@@ -353,7 +355,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miUpdateToAlphaVersions.CheckOnClick = true;
             this.miUpdateToAlphaVersions.Name = "miUpdateToAlphaVersions";
-            this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(194, 22);
+            this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(206, 22);
             this.miUpdateToAlphaVersions.Text = "Update to alpha versions";
             this.miUpdateToAlphaVersions.Click += new System.EventHandler(this.miUpdateToAlphaVersions_Click);
             // 
@@ -361,7 +363,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miDefaultLocalizationApp.CheckOnClick = true;
             this.miDefaultLocalizationApp.Name = "miDefaultLocalizationApp";
-            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(194, 22);
+            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(206, 22);
             this.miDefaultLocalizationApp.Text = "Default localization app";
             this.miDefaultLocalizationApp.Click += new System.EventHandler(this.miDefaultLocalizationApp_Click);
             // 
@@ -375,12 +377,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(113, 22);
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -459,6 +461,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbApplicationUpdate.TabIndex = 5;
             this.gbApplicationUpdate.TabStop = false;
             // 
+            // miAllowIncrementalDownload
+            // 
+            this.miAllowIncrementalDownload.CheckOnClick = true;
+            this.miAllowIncrementalDownload.Name = "miAllowIncrementalDownload";
+            this.miAllowIncrementalDownload.Size = new System.Drawing.Size(206, 22);
+            this.miAllowIncrementalDownload.Text = "Allow incremental download";
+            this.miAllowIncrementalDownload.Click += new System.EventHandler(this.miAllowIncrementalDownload_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -532,5 +542,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miUpdateToAlphaVersions;
         private System.Windows.Forms.Button btnGameSettings;
         private System.Windows.Forms.ToolStripMenuItem miDefaultLocalizationApp;
+        private System.Windows.Forms.ToolStripMenuItem miAllowIncrementalDownload;
     }
 }

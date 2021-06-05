@@ -230,6 +230,17 @@ namespace NSW.StarCitizen.Tools.Repository
             }
         }
 
+        public void UpdateAllowIncrementalDownload(bool allowed)
+        {
+            foreach (var repository in _localizationRepositories)
+            {
+                if (repository is GitHubLocalizationRepository githubRepository)
+                {
+                    githubRepository.AllowIncrementalDownload = allowed;
+                }
+            }
+        }
+
         private void AddRepository(ILocalizationRepository repository)
         {
             repository.MonitorStarted += OnMonitorStarted;
@@ -244,7 +255,8 @@ namespace NSW.StarCitizen.Tools.Repository
             {
                 UpdateRepositoryType.GitHub => new GitHubLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository)
                 {
-                    AuthToken = Program.Settings.AuthToken
+                    AuthToken = Program.Settings.AuthToken,
+                    AllowIncrementalDownload = Program.Settings.AllowIncrementalDownload,
                 },
                 UpdateRepositoryType.Folder => new FolderLocalizationRepository(Program.ExecutableDir, GameMode, source.Name, source.Repository),
                 _ => null,
