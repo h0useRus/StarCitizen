@@ -20,7 +20,6 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         public string? CurrentVersion { get; private set; }
         public IEnumerable<UpdateInfo>? UpdateReleases { get; private set; }
         public UpdateInfo? LatestUpdateInfo => UpdateReleases?.FirstOrDefault();
-        public IPackageIndex? PackageIndex { get; set; }
         public bool AllowPreReleases { get; set; } = true;
 
         protected UpdateRepository(UpdateRepositoryType type, string name, string repository, string repositoryUrl)
@@ -61,7 +60,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             return null;
         }
 
-        public abstract Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
+        public abstract Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
+            CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
         public abstract Task<bool> CheckAsync(CancellationToken cancellationToken);
 
         public bool IsMonitorStarted { get; private set; }

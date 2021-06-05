@@ -1,5 +1,4 @@
 using System.Threading;
-using NSW.StarCitizen.Tools.Lib.Helpers;
 
 namespace NSW.StarCitizen.Tools.Lib.Update
 {

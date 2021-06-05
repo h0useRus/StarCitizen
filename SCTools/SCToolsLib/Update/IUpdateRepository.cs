@@ -14,13 +14,13 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         string? CurrentVersion { get; }
         IEnumerable<UpdateInfo>? UpdateReleases { get; }
         UpdateInfo? LatestUpdateInfo { get; }
-        IPackageIndex? PackageIndex { get; set; }
         bool AllowPreReleases { get; set; }
 
         Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
         Task<IEnumerable<UpdateInfo>> RefreshUpdatesAsync(CancellationToken cancellationToken);
         Task<UpdateInfo?> GetLatestAsync(CancellationToken cancellationToken);
-        Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
+        Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
+            CancellationToken cancellationToken, IDownloadProgress? downloadProgress);
         Task<bool> CheckAsync(CancellationToken cancellationToken);
         void SetCurrentVersion(string version);
         UpdateInfo? UpdateCurrentVersion(string? fallbackVersionName);

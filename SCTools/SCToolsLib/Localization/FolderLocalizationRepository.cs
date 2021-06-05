@@ -35,7 +35,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             return Task.FromResult(Enumerable.Empty<UpdateInfo>().ToList());
         }
 
-        public override Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath,
+        public override Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
             if (!File.Exists(updateInfo.DownloadUrl))

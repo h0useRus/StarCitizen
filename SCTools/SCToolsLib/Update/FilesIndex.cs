@@ -9,6 +9,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
 {
     public sealed class FilesIndex
     {
+        public static readonly char DirectorySeparatorChar = Path.DirectorySeparatorChar;
+
         public sealed class DiffList
         {
             public ISet<string> ChangedFiles { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -18,8 +20,18 @@ namespace NSW.StarCitizen.Tools.Lib.Update
 
         public struct Record
         {
-            public long Size;
-            public byte[] Hash;
+            public long Size { get; }
+            public byte[] Hash { get; }
+
+            public Record(long size, byte[] hash)
+            {
+                if (size < 0)
+                    throw new InvalidDataException($"Record file size is less than zero");
+                if (hash == null)
+                    throw new NullReferenceException("Record file hash is null");
+                Size = size;
+                Hash = hash;
+            }
 
             public override bool Equals(object obj)
             {
@@ -43,9 +55,9 @@ namespace NSW.StarCitizen.Tools.Lib.Update
 
         public IReadOnlyDictionary<string, Record> Index { get; }
 
-        private FilesIndex(Builder builder)
+        private FilesIndex(Dictionary<string, Record> index)
         {
-            Index = builder.Index;
+            Index = index;
         }
 
         public bool IsEmpty() => Index.Count == 0;
@@ -97,20 +109,16 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         {
             var builder = new Builder();
             string line;
+            char[] delim = new char[] { ':' };
             while ((line = stream.ReadLine()) != null)
             {
                 cancellationToken?.ThrowIfCancellationRequested();
                 if (!string.IsNullOrWhiteSpace(line))
                 {
-                    var parts = line.Split(':');
+                    var parts = line.Split(delim, 3);
                     if (parts.Length != 3)
-                        throw new InvalidDataException();
-                    Record record;
-                    record.Size = long.Parse(parts[1]);
-                    if (record.Size < 0)
-                        throw new InvalidDataException();
-                    record.Hash = Convert.FromBase64String(parts[2]);
-                    builder.Index.Add(parts[0], record);
+                        throw new InvalidDataException($"Invalid number of record elements: {parts.Length}");
+                    builder.Add(parts[0], new Record(long.Parse(parts[1]), Convert.FromBase64String(parts[2])));
                 }
             }
             return builder.Build();
@@ -149,9 +157,21 @@ namespace NSW.StarCitizen.Tools.Lib.Update
 
         public class Builder
         {
-            public Dictionary<string, Record> Index { get; } = new Dictionary<string, Record>(StringComparer.OrdinalIgnoreCase);
+            private readonly Dictionary<string, Record> _index = new Dictionary<string, Record>(StringComparer.OrdinalIgnoreCase);
 
-            public FilesIndex Build() => new FilesIndex(this);
+            public void Add(string rawFilePath, Record record)
+            {
+                if (string.IsNullOrWhiteSpace(rawFilePath))
+                    throw new InvalidDataException("File path is empty");
+                var filePath = rawFilePath.Replace(Path.AltDirectorySeparatorChar, DirectorySeparatorChar);
+                if (filePath.Contains(".."))
+                    throw new InvalidDataException($"File path contains backward elements: {filePath}");
+                _index.Add(filePath, record);
+            }
+
+            public bool Remove(string rawFilePath) => _index.Remove(rawFilePath.Replace(Path.AltDirectorySeparatorChar, DirectorySeparatorChar));
+
+            public FilesIndex Build() => new FilesIndex(_index);
         }
 
         public sealed class HashBuilder : Builder
@@ -183,15 +203,12 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 using var md5 = MD5.Create();
                 using var stream = File.Open(fileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 cancellationToken?.ThrowIfCancellationRequested();
-                Record record;
-                record.Size = stream.Length;
-                record.Hash = md5.ComputeHash(stream);
-                Index.Add(relativeFilePath, record);
+                Add(relativeFilePath, new Record(stream.Length, md5.ComputeHash(stream)));
             }
 
             private void AddFileAtPath(FileInfo fileInfo, string? path = default, CancellationToken? cancellationToken = default)
             {
-                var relativeFilePath = string.IsNullOrEmpty(path) ? fileInfo.Name : (path + Path.DirectorySeparatorChar + fileInfo.Name);
+                var relativeFilePath = string.IsNullOrEmpty(path) ? fileInfo.Name : (path + DirectorySeparatorChar + fileInfo.Name);
                 AddFile(fileInfo, relativeFilePath, cancellationToken);
             }
 
@@ -205,7 +222,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 foreach (var subDirInfo in directoryInfo.EnumerateDirectories())
                 {
                     cancellationToken?.ThrowIfCancellationRequested();
-                    var relativeDirPath = string.IsNullOrEmpty(path) ? subDirInfo.Name : (path + Path.DirectorySeparatorChar + subDirInfo.Name);
+                    var relativeDirPath = string.IsNullOrEmpty(path) ? subDirInfo.Name : (path + DirectorySeparatorChar + subDirInfo.Name);
                     AddDirectory(subDirInfo, relativeDirPath, cancellationToken);
                 }
             }

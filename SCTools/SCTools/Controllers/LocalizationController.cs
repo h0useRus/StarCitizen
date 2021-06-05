@@ -142,8 +142,8 @@ namespace NSW.StarCitizen.Tools.Controllers
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
                 downloadDirInfo = Directory.CreateDirectory(Path.Combine(CurrentGame.RootFolderPath, "download_" + Path.GetRandomFileName()));
-                CurrentRepository.PackageIndex = new LocalizationPackageIndex(CurrentGame.RootFolderPath);
-                var downloadResult = await CurrentRepository.DownloadAsync(selectedUpdateInfo, downloadDirInfo.FullName,
+                var packageIndex = new LocalizationPackageIndex(CurrentGame.RootFolderPath);
+                var downloadResult = await CurrentRepository.DownloadAsync(selectedUpdateInfo, downloadDirInfo.FullName, packageIndex,
                     progressDlg.CancelToken, downloadDialogAdapter);
                 progressDlg.BindAdapter(new InstallProgressDialogAdapter());
                 using var gameMutex = new GameMutex();

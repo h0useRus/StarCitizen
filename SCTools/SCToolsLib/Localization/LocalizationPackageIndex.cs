@@ -36,15 +36,11 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             {
                 return false;
             }
-            var dataPrefix = GameConstants.DataFolderName + '\\';
-            foreach (var pair in filesIndex.Index)
+            var dataPrefix = GameConstants.DataFolderName + FilesIndex.DirectorySeparatorChar;
+            foreach (var filePath in filesIndex.Index.Keys)
             {
-                if (pair.Key.Contains(".."))
-                {
-                    return false;
-                }
-                if (!pair.Key.Equals(GameConstants.PatcherOriginalName) &&
-                    !pair.Key.StartsWith(dataPrefix))
+                if (!filePath.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase) &&
+                    !filePath.StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
@@ -60,7 +56,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             {
                 builder.AddFile(GameConstants.GetDisabledPatcherPath(_sourcePath), GameConstants.PatcherOriginalName, cancellationToken);
             }
-            builder.Index.Remove("data\\timestamp");
+            builder.Remove(@"data\timestamp");
             return builder;
         }
     }

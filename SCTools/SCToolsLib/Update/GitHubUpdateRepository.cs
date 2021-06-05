@@ -55,11 +55,12 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             return Enumerable.Empty<UpdateInfo>().ToList();
         }
 
-        public override async Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
+        public override async Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
+            CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            if (updateInfo is GitHubUpdateInfo gitHubUpdateInfo)
+            if (packageIndex != null && updateInfo is GitHubUpdateInfo gitHubUpdateInfo)
             {
-                var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, cancellationToken, downloadProgress);
+                var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, packageIndex, cancellationToken, downloadProgress);
                 if (diffList != null)
                 {
                     return new DownloadResult
@@ -119,22 +120,23 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             }
         }
 
-        private async Task<FilesIndex.DiffList?> DownloadIncrementalAsync(GitHubUpdateInfo updateInfo, string downloadPath, CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
+        private async Task<FilesIndex.DiffList?> DownloadIncrementalAsync(GitHubUpdateInfo updateInfo, string downloadPath, IPackageIndex packageIndex,
+            CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
         {
-            if (PackageIndex == null || updateInfo.IndexDownloadUrl == null)
+            if (updateInfo.IndexDownloadUrl == null)
             {
                 return null;
             }
             try
             {
-                var sourceIndex = PackageIndex.CreateLocal(cancellationToken);
+                var sourceIndex = packageIndex.CreateLocal(cancellationToken);
                 if (sourceIndex.IsEmpty())
                 {
                     return null;
                 }
                 // 1. download & parse index file
                 var targetIndex = await DownloadFilesIndexAsync(updateInfo.IndexDownloadUrl, cancellationToken);
-                if (!PackageIndex.VerifyExternal(targetIndex))
+                if (!packageIndex.VerifyExternal(targetIndex))
                 {
                     _logger.Warn($"Invalid repository index file: {updateInfo.Dump()}");
                     return null;
