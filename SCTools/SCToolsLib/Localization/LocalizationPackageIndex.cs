@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using NLog;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Update;
@@ -17,11 +18,15 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             _sourcePath = sourcePath;
         }
 
-        public FilesIndex CreateLocal(CancellationToken? cancellationToken = default)
+        public async Task<FilesIndex> CreateLocalAsync(CancellationToken? cancellationToken = default)
         {
             try
             {
-                return CreateBuilder(cancellationToken).Build();
+                return (await CreateBuilderAsync(cancellationToken).ConfigureAwait(false)).Build();
+            }
+            catch (OperationCanceledException e)
+            {
+                throw e;
             }
             catch (Exception e)
             {
@@ -48,13 +53,16 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             return true;
         }
 
-        protected FilesIndex.Builder CreateBuilder(CancellationToken? cancellationToken = default)
+        protected async Task<FilesIndex.Builder> CreateBuilderAsync(CancellationToken? cancellationToken = default)
         {
             var builder = new FilesIndex.HashBuilder();
-            builder.AddDirectory(GameConstants.GetDataFolderPath(_sourcePath), GameConstants.DataFolderName, cancellationToken);
-            if (!builder.AddFile(GameConstants.GetEnabledPatcherPath(_sourcePath), GameConstants.PatcherOriginalName, cancellationToken))
+            await builder.AddDirectoryAsync(GameConstants.GetDataFolderPath(_sourcePath),
+                GameConstants.DataFolderName, cancellationToken).ConfigureAwait(false);
+            if (!await builder.AddFileAsync(GameConstants.GetEnabledPatcherPath(_sourcePath),
+                GameConstants.PatcherOriginalName, cancellationToken).ConfigureAwait(false))
             {
-                builder.AddFile(GameConstants.GetDisabledPatcherPath(_sourcePath), GameConstants.PatcherOriginalName, cancellationToken);
+                await builder.AddFileAsync(GameConstants.GetDisabledPatcherPath(_sourcePath),
+                    GameConstants.PatcherOriginalName, cancellationToken).ConfigureAwait(false);
             }
             builder.Remove(@"data\timestamp");
             return builder;

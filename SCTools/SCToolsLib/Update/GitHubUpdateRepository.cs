@@ -130,7 +130,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             }
             try
             {
-                var sourceIndex = packageIndex.CreateLocal(cancellationToken);
+                var sourceIndex = await packageIndex.CreateLocalAsync(cancellationToken);
                 if (sourceIndex.IsEmpty())
                 {
                     return null;
@@ -144,9 +144,10 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 }
                 // 2. compute diff files list
                 var diffFiles = FilesIndex.BuildDiffList(sourceIndex, targetIndex);
+                var downloadContentSize = targetIndex.GetFilesSize(diffFiles.ChangedFiles);
                 // 3. download missing target files one by one
-                downloadProgress?.ReportContentSize(targetIndex.GetFilesSize(diffFiles.ChangedFiles));
                 long downloadedBytes = 0;
+                downloadProgress?.ReportContentSize(downloadContentSize);
                 foreach (var sourceFilePath in diffFiles.ChangedFiles)
                 {
                     var sourceFileUrl = $"{GitHubRawContent}/{Repository}/{updateInfo.TagName}/{sourceFilePath}";
