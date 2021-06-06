@@ -132,7 +132,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             }
             _logger.Info($"Install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
             bool status = false;
-            string? filePath = null;
+            DirectoryInfo? downloadDirInfo = null;
             using var progressDlg = new ProgressForm();
             try
             {
@@ -141,7 +141,9 @@ namespace NSW.StarCitizen.Tools.Controllers
                 var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
-                filePath = await CurrentRepository.DownloadAsync(selectedUpdateInfo, Path.GetTempPath(),
+                downloadDirInfo = Directory.CreateDirectory(Path.Combine(CurrentGame.RootFolderPath, "download_" + Path.GetRandomFileName()));
+                var packageIndex = new LocalizationPackageIndex(CurrentGame.RootFolderPath);
+                var downloadResult = await CurrentRepository.DownloadAsync(selectedUpdateInfo, downloadDirInfo.FullName, packageIndex,
                     progressDlg.CancelToken, downloadDialogAdapter);
                 progressDlg.BindAdapter(new InstallProgressDialogAdapter());
                 using var gameMutex = new GameMutex();
@@ -150,8 +152,18 @@ namespace NSW.StarCitizen.Tools.Controllers
                     _logger.Info($"Install localization aborted by user because game running");
                     return false;
                 }
-                var result = CurrentRepository.Installer.Install(filePath, CurrentGame.RootFolderPath);
-                switch (result)
+                InstallStatus installStatus;
+                if (downloadResult.ArchiveFilePath != null)
+                {
+                    installStatus = CurrentRepository.Installer.Install(downloadResult.ArchiveFilePath, CurrentGame.RootFolderPath);
+                }
+                else
+                {
+                    if (downloadResult.DiffList == null)
+                        throw new InvalidOperationException("Download result is empty");
+                    installStatus = CurrentRepository.Installer.Install(downloadDirInfo.FullName, CurrentGame.RootFolderPath, downloadResult.DiffList);
+                }
+                switch (installStatus)
                 {
                     case InstallStatus.Success:
                         if (selectedUpdateInfo is GitHubUpdateInfo githubUpateInfo)
@@ -212,11 +224,11 @@ namespace NSW.StarCitizen.Tools.Controllers
                 Cursor.Current = Cursors.Default;
                 window.Enabled = true;
                 progressDlg.Hide();
-                if (filePath != null && selectedUpdateInfo is GitHubUpdateInfo)
+                if (downloadDirInfo != null && selectedUpdateInfo is GitHubUpdateInfo)
                 {
-                    if (File.Exists(filePath) && !FileUtils.DeleteFileNoThrow(filePath))
+                    if (downloadDirInfo.Exists && !FileUtils.DeleteDirectoryNoThrow(downloadDirInfo, true))
                     {
-                        _logger.Warn($"Failed cleanup temporary file: {filePath}");
+                        _logger.Warn($"Failed remove download directory: {downloadDirInfo.FullName}");
                     }
                 }
             }

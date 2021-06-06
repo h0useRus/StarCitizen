@@ -56,6 +56,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
             miUpdateToAlphaVersions.Text = Resources.Application_UpdatePreReleases_Text;
+            miAllowIncrementalDownload.Text = Resources.Application_AllowIncrementalDownload_Text;
             miTools.Text = Resources.Tools_Title;
             miMoveLiveToPtu.Text = Resources.Tools_Move_LIVE_PTU;
             miMovePtuToLive.Text = Resources.Tools_Move_PTU_LIVE;
@@ -365,6 +366,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
             miUpdateToAlphaVersions.Checked = Program.Settings.Update.AllowPreReleases;
+            miAllowIncrementalDownload.Checked = Program.Settings.AllowIncrementalDownload;
             if (Program.Settings.GameFolder != null && _gameModes != null)
             {
                 miMoveLiveToPtu.Enabled = _gameModes.Contains(GameMode.LIVE) && !_gameModes.Contains(GameMode.PTU);
@@ -420,6 +422,13 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void miDefaultLocalizationApp_Click(object sender, EventArgs e)
             => Program.Settings.DefaultLocalizationApp = miDefaultLocalizationApp.Checked;
+
+        private void miAllowIncrementalDownload_Click(object sender, EventArgs e)
+        {
+            Program.Settings.AllowIncrementalDownload = miAllowIncrementalDownload.Checked;
+            Program.UpdateAllowIncrementalDownload(miAllowIncrementalDownload.Checked);
+            Program.SaveAppSettings();
+        }
 
         private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {

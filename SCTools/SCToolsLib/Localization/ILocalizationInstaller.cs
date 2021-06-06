@@ -1,5 +1,5 @@
-
 using System;
+using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Lib.Localization
 {
@@ -23,6 +23,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     {
         bool Verify(string zipFileName);
         InstallStatus Install(string zipFileName, string destinationFolder);
+        InstallStatus Install(string sourceFolder, string destinationFolder, FilesIndex.DiffList diffList);
         bool WriteTimestamp(DateTimeOffset date, string destinationFolder);
         UninstallStatus Uninstall(string destinationFolder);
         LocalizationInstallationType GetInstallationType(string destinationFolder);

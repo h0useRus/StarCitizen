@@ -71,6 +71,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow incremental download.
+        /// </summary>
+        internal static string Application_AllowIncrementalDownload_Text {
+            get {
+                return ResourceManager.GetString("Application_AllowIncrementalDownload_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for application update.
         /// </summary>
         internal static string Application_CheckForUpdate_Title {

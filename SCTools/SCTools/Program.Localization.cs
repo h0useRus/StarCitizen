@@ -35,6 +35,14 @@ namespace NSW.StarCitizen.Tools
             }
         }
 
+        public static void UpdateAllowIncrementalDownload(bool allowed)
+        {
+            foreach (var repositoryManager in RepositoryManagers.Values)
+            {
+                repositoryManager.UpdateAllowIncrementalDownload(allowed);
+            }
+        }
+
         private static Dictionary<GameMode, RepositoryManager> CreateRepositoryManagers()
         {
             var modes = Enum.GetValues(typeof(GameMode));

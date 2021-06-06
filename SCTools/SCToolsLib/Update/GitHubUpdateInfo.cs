@@ -7,6 +7,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
     {
         private readonly bool _namedVersion;
 
+        [JsonProperty]
+        public string? IndexDownloadUrl { get; protected set; }
         public override string GetVersion() => _namedVersion ? Name : TagName;
 
         [JsonConstructor]
@@ -37,14 +39,15 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             public UpdateInfo? CreateWithDownloadSourceCode(GitHubUpdateRepository.GitRelease release)
             {
                 if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
-                    string.IsNullOrEmpty(release.ZipUrl))
+                    release.Published == null || string.IsNullOrEmpty(release.ZipUrl))
                 {
                     return null;
                 }
                 return new GitHubUpdateInfo(release.Name, release.TagName, release.ZipUrl, _namedVersion)
                 {
                     PreRelease = release.PreRelease,
-                    Released = release.Published
+                    Released = release.Published.Value,
+                    IndexDownloadUrl = release.Assets.FirstOrDefault(a => a.IsIndexFileUrl())?.ZipUrl
                 };
             }
 
@@ -52,6 +55,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             {
                 var downloadUrl = release.Assets.FirstOrDefault()?.ZipUrl;
                 if (string.IsNullOrEmpty(release.Name) || string.IsNullOrEmpty(release.TagName) ||
+                    release.Published == null ||
                     (downloadUrl == null) || string.IsNullOrEmpty(downloadUrl))
                 {
                     return null;
@@ -59,7 +63,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return new GitHubUpdateInfo(release.Name, release.TagName, downloadUrl, _namedVersion)
                 {
                     PreRelease = release.PreRelease,
-                    Released = release.Published
+                    Released = release.Published.Value,
                 };
             }
         }
