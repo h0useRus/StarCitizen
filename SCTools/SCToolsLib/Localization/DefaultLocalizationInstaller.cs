@@ -131,7 +131,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 _logger.Error($"Install directory is not exist: {destinationFolder}");
                 return InstallStatus.FileError;
             }
-            if (diffList.ChangedFiles.Count == 0)
+            if (diffList.ChangedFiles.Count == 0 && diffList.IsReuseNotChangeFileNames())
             {
                 foreach (var removeFile in diffList.RemoveFiles)
                 {
@@ -139,7 +139,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 }
                 return InstallStatus.Success;
             }
-            var movedReusedFiles = new List<string>();
+            var movedReusedFiles = new Dictionary<string, string>();
             DirectoryInfo? backupDataDir = null;
             var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
             try
@@ -155,14 +155,15 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                         return InstallStatus.VerifyError;
                     }
                 }
-                foreach (string reuseFile in diffList.ReuseFiles)
+                foreach (var reusePair in diffList.ReuseFiles)
                 {
-                    if (!reuseFile.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
+                    if (!reusePair.Key.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
                     {
-                        var destReusePath = Path.Combine(sourceFolder, reuseFile);
+                        var sourceReusePath = Path.Combine(destinationFolder, reusePair.Key);
+                        var destReusePath = Path.Combine(sourceFolder, reusePair.Value);
                         Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
-                        File.Move(Path.Combine(destinationFolder, reuseFile), destReusePath);
-                        movedReusedFiles.Add(reuseFile);
+                        File.Move(sourceReusePath, destReusePath);
+                        movedReusedFiles.Add(destReusePath, sourceReusePath);
                     }
                 }
                 if (dataPathDir.Exists)
@@ -204,10 +205,9 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 {
                     RestoreDirectory(backupDataDir, dataPathDir);
                 }
-                foreach (var reuseFile in movedReusedFiles)
+                foreach (var pair in movedReusedFiles)
                 {
-                    FileUtils.MoveFileNoThrow(Path.Combine(sourceFolder, reuseFile),
-                        Path.Combine(destinationFolder, reuseFile));
+                    FileUtils.MoveFileNoThrow(pair.Key, pair.Value);
                 }
             }
             return InstallStatus.Success;

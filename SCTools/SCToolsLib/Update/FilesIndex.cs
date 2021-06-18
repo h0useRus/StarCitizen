@@ -16,8 +16,20 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         public sealed class DiffList
         {
             public ISet<string> ChangedFiles { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            public ISet<string> ReuseFiles { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             public ISet<string> RemoveFiles { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            public IDictionary<string, string> ReuseFiles { get; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            public bool IsReuseNotChangeFileNames()
+            {
+                foreach (var pair in ReuseFiles)
+                {
+                    if (!pair.Key.Equals(pair.Value, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
 
         public struct Record
@@ -61,6 +73,19 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         }
 
         public bool IsEmpty() => Index.Count == 0;
+
+
+        public string? GetFileNameByRecord(Record record)
+        {
+            foreach (var pair in Index)
+            {
+                if (pair.Value.Equals(record))
+                {
+                    return pair.Key;
+                }
+            }
+            return null;
+        }
 
         public long GetFileSize(string fileName)
         {
@@ -135,19 +160,29 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             var diffList = new DiffList();
             foreach (var targetInfo in target.Index)
             {
-                if (source.Index.TryGetValue(targetInfo.Key, out var hash) &&
-                    targetInfo.Value.Equals(hash))
+                if (source.Index.TryGetValue(targetInfo.Key, out var record) &&
+                    targetInfo.Value.Equals(record) &&
+                    !diffList.ReuseFiles.ContainsKey(targetInfo.Key))
                 {
-                    diffList.ReuseFiles.Add(targetInfo.Key);
+                    diffList.ReuseFiles.Add(targetInfo.Key, targetInfo.Key);
                 }
                 else
                 {
-                    diffList.ChangedFiles.Add(targetInfo.Key);
+                    string? alternativeName = source.GetFileNameByRecord(targetInfo.Value);
+                    if (alternativeName != null && !diffList.ReuseFiles.ContainsKey(alternativeName))
+                    {
+                        diffList.ReuseFiles.Add(alternativeName, targetInfo.Key);
+                    }
+                    else
+                    {
+                        diffList.ChangedFiles.Add(targetInfo.Key);
+                    }
                 }
             }
             foreach (var sourceInfo in source.Index)
             {
-                if (!target.Index.ContainsKey(sourceInfo.Key))
+                if (!target.Index.ContainsKey(sourceInfo.Key) &&
+                    !diffList.ReuseFiles.ContainsKey(sourceInfo.Key))
                 {
                     diffList.RemoveFiles.Add(sourceInfo.Key);
                 }
