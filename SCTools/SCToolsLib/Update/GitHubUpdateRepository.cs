@@ -64,7 +64,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, packageIndex, cancellationToken, downloadProgress);
                 if (diffList != null)
                 {
-                    return DownloadResult.FromFilesDiffList(diffList);
+                    return DownloadResult.FromFilesDiffList(downloadPath, diffList);
                 }
             }
             using var requestMessage = buildRequestMessage(updateInfo.DownloadUrl);

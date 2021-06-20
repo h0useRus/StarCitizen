@@ -101,11 +101,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 Directory.CreateDirectory(_updatesStoragePath);
             }
             var downloadResult = await _updateRepository.DownloadAsync(version, _updatesStoragePath, null, cancellationToken, downloadProgress);
-            if (downloadResult.ArchiveFilePath == null)
+            if (downloadResult is FullDownoadResult fullDownoadResult)
             {
-                throw new InvalidOperationException("Application update support only full download now");
+                return fullDownoadResult.ArchiveFilePath;
             }
-            return downloadResult.ArchiveFilePath;
+            throw new InvalidOperationException("Application update support only full download now");
         }
 
         public InstallUpdateStatus InstallScheduledUpdate()

@@ -152,17 +152,12 @@ namespace NSW.StarCitizen.Tools.Controllers
                     _logger.Info($"Install localization aborted by user because game running");
                     return false;
                 }
-                InstallStatus installStatus;
-                if (downloadResult.ArchiveFilePath != null)
+                var installStatus = downloadResult switch
                 {
-                    installStatus = CurrentRepository.Installer.Install(downloadResult.ArchiveFilePath, CurrentGame.RootFolderPath);
-                }
-                else
-                {
-                    if (downloadResult.DiffList == null)
-                        throw new InvalidOperationException("Download result is empty");
-                    installStatus = CurrentRepository.Installer.Install(downloadDirInfo.FullName, CurrentGame.RootFolderPath, downloadResult.DiffList);
-                }
+                    FullDownoadResult fullResult => CurrentRepository.Installer.Install(fullResult.ArchiveFilePath, CurrentGame.RootFolderPath),
+                    IncrementalDownloadResult incrementalResult => CurrentRepository.Installer.Install(incrementalResult.DownloadPath, CurrentGame.RootFolderPath, incrementalResult.DiffList),
+                    _ => throw new InvalidOperationException("Download result is empty")
+                };
                 switch (installStatus)
                 {
                     case InstallStatus.Success:
