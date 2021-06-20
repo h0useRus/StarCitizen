@@ -64,10 +64,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 var diffList = await DownloadIncrementalAsync(gitHubUpdateInfo, downloadPath, packageIndex, cancellationToken, downloadProgress);
                 if (diffList != null)
                 {
-                    return new DownloadResult
-                    {
-                        DiffList = diffList
-                    };
+                    return DownloadResult.FromFilesDiffList(diffList);
                 }
             }
             using var requestMessage = buildRequestMessage(updateInfo.DownloadUrl);
@@ -100,10 +97,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                     _logger.Warn($"Failed remove temporary file: {tempFileName}");
                 throw;
             }
-            return new DownloadResult
-            {
-                ArchiveFilePath = tempFileName
-            };
+            return DownloadResult.FromArchivePath(tempFileName);
         }
 
         public override async Task<bool> CheckAsync(CancellationToken cancellationToken)

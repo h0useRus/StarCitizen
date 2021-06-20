@@ -42,11 +42,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             {
                 throw new InvalidOperationException($"Repository file not exist: {updateInfo.DownloadUrl}");
             }
-            DownloadResult result = new DownloadResult
-            {
-                ArchiveFilePath = updateInfo.DownloadUrl
-            };
-            return Task.FromResult(result);
+            return Task.FromResult(DownloadResult.FromArchivePath(updateInfo.DownloadUrl));
         }
 
         public override Task<bool> CheckAsync(CancellationToken cancellationToken)
