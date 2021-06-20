@@ -51,7 +51,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvRepositories.FullRowSelect = true;
             this.lvRepositories.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvRepositories.HideSelection = false;
-            this.lvRepositories.HoverSelection = true;
             this.lvRepositories.Location = new System.Drawing.Point(5, 6);
             this.lvRepositories.MultiSelect = false;
             this.lvRepositories.Name = "lvRepositories";
@@ -154,7 +153,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories.FullRowSelect = true;
             this.lvStdRepositories.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvStdRepositories.HideSelection = false;
-            this.lvStdRepositories.HoverSelection = true;
             this.lvStdRepositories.Location = new System.Drawing.Point(5, 6);
             this.lvStdRepositories.MultiSelect = false;
             this.lvStdRepositories.Name = "lvStdRepositories";
@@ -171,6 +169,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(26, 26);
             this.btnDown.TabIndex = 8;
+            this.btnDown.TabStop = false;
             this.btnDown.Text = "D";
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
@@ -182,6 +181,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(26, 26);
             this.btnUp.TabIndex = 9;
+            this.btnUp.TabStop = false;
             this.btnUp.Text = "U";
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);

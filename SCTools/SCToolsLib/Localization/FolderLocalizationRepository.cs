@@ -22,7 +22,13 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         }
 
         public async override Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
-            => await Task.Run(() => GetUpdatesInFolder(cancellationToken), cancellationToken);
+        {
+            if (!Directory.Exists(RepositoryUrl))
+            {
+                throw new InvalidOperationException($"Repository path not exist: {RepositoryUrl}");
+            }
+            return await Task.Run(() => GetUpdatesInFolder(cancellationToken), cancellationToken);
+        }
 
         public override Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
@@ -39,10 +45,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
 
         private List<UpdateInfo> GetUpdatesInFolder(CancellationToken cancellationToken)
         {
-            if (!Directory.Exists(RepositoryUrl))
-            {
-                throw new InvalidOperationException($"Repository path not exist: {RepositoryUrl}");
-            }
             string[] files = Directory.GetFiles(RepositoryUrl, "*.zip", SearchOption.TopDirectoryOnly);
             if (files != null && files.Any())
             {
