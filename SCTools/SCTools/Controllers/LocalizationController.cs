@@ -71,7 +71,7 @@ namespace NSW.StarCitizen.Tools.Controllers
         {
             _logger.Info($"Refresh localization versions: {CurrentRepository.RepositoryUrl}");
             bool status = false;
-            using var progressDlg = new ProgressForm(10000);
+            using var progressDlg = new ProgressForm(30000);
             try
             {
                 window.Enabled = false;

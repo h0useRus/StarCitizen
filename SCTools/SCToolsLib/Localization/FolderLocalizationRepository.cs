@@ -21,19 +21,8 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             Mode = mode;
         }
 
-        public override Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
-        {
-            if (!Directory.Exists(RepositoryUrl))
-            {
-                throw new InvalidOperationException($"Repository path not exist: {RepositoryUrl}");
-            }
-            string[] files = Directory.GetFiles(RepositoryUrl, "*.zip", SearchOption.TopDirectoryOnly);
-            if (files != null && files.Any())
-            {
-                return Task.FromResult(GetUpdates(files).ToList());
-            }
-            return Task.FromResult(Enumerable.Empty<UpdateInfo>().ToList());
-        }
+        public async override Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
+            => await Task.Run(() => GetUpdatesInFolder(cancellationToken), cancellationToken);
 
         public override Task<DownloadResult> DownloadAsync(UpdateInfo updateInfo, string downloadPath, IPackageIndex? packageIndex,
             CancellationToken cancellationToken, IDownloadProgress? downloadProgress)
@@ -48,10 +37,28 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         public override Task<bool> CheckAsync(CancellationToken cancellationToken)
             => Task.FromResult(Directory.Exists(RepositoryUrl));
 
-        private IEnumerable<UpdateInfo> GetUpdates(IEnumerable<string> releaseFiles)
+        private List<UpdateInfo> GetUpdatesInFolder(CancellationToken cancellationToken)
+        {
+            if (!Directory.Exists(RepositoryUrl))
+            {
+                throw new InvalidOperationException($"Repository path not exist: {RepositoryUrl}");
+            }
+            string[] files = Directory.GetFiles(RepositoryUrl, "*.zip", SearchOption.TopDirectoryOnly);
+            if (files != null && files.Any())
+            {
+                return GetUpdates(files, cancellationToken).ToList();
+            }
+            return Enumerable.Empty<UpdateInfo>().ToList();
+        }
+
+        private IEnumerable<UpdateInfo> GetUpdates(IEnumerable<string> releaseFiles, CancellationToken cancellationToken)
         {
             foreach (var path in releaseFiles)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
                 var info = _folderUpdateInfoFactory.CreateWithArchive(path);
                 if (info != null && Installer.Verify(info.DownloadUrl))
                 {
