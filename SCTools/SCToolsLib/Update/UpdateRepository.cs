@@ -142,8 +142,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         private IEnumerable<UpdateInfo> SortAndFilterReleases(IEnumerable<UpdateInfo> releases)
         {
             if (AllowPreReleases)
-                return releases.OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released);
-            return releases.Where(v => !v.PreRelease).OrderByDescending(v => v.GetVersion()).ThenByDescending(v => v.Released);
+                return releases.OrderByDescending(v => v.Released).ThenByDescending(v => v.GetVersion());
+            return releases.Where(v => !v.PreRelease).OrderByDescending(v => v.Released).ThenByDescending(v => v.GetVersion());
         }
 
         public override string ToString() => Name;
