@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -61,22 +62,34 @@ namespace NSW.StarCitizen.Tools.Settings
             Type = type;
         }
 
-        public string GetUrl() => Type == UpdateRepositoryType.GitHub ?
-            GitHubRepositoryUrl.Build(Repository) :
-            FolderRepositoryUrl.Build(Program.ExecutableDir, Repository);
+        public string GetUrl() => Type switch
+        {
+            UpdateRepositoryType.GitHub => GitHubRepositoryUrl.Build(Repository),
+            UpdateRepositoryType.Gitee => GiteeRepositoryUrl.Build(Repository),
+            UpdateRepositoryType.Folder => FolderRepositoryUrl.Build(Program.ExecutableDir, Repository),
+            _ => throw new NotSupportedException("Not supported update repository type"),
+        };
 
         public static LocalizationSource CreateGithub(string name, string repository)
             => new LocalizationSource(name, repository, UpdateRepositoryType.GitHub);
+
+        public static LocalizationSource CreateGitee(string name, string repository)
+            => new LocalizationSource(name, repository, UpdateRepositoryType.Gitee);
 
         public static LocalizationSource CreateFolder(string name, string repository)
             => new LocalizationSource(name, repository, UpdateRepositoryType.Folder);
 
         public static LocalizationSource? CreateFromUrl(string name, string url)
         {
-            string? repositoryUrl = GitHubRepositoryUrl.Parse(url);
-            if (repositoryUrl != null)
+            string? gitHubRepositoryUrl = GitHubRepositoryUrl.Parse(url);
+            if (gitHubRepositoryUrl != null)
             {
-                return CreateGithub(name, repositoryUrl);
+                return CreateGithub(name, gitHubRepositoryUrl);
+            }
+            string? giteeRepositoryUrl = GiteeRepositoryUrl.Parse(url);
+            if (giteeRepositoryUrl != null)
+            {
+                return CreateGitee(name, giteeRepositoryUrl);
             }
             string? repositoryPath = FolderRepositoryUrl.Parse(Program.ExecutableDir, url);
             if (repositoryPath != null)

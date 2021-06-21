@@ -258,6 +258,7 @@ namespace NSW.StarCitizen.Tools.Repository
                     AuthToken = Program.Settings.AuthToken,
                     AllowIncrementalDownload = Program.Settings.AllowIncrementalDownload,
                 },
+                UpdateRepositoryType.Gitee => new GiteeLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository),
                 UpdateRepositoryType.Folder => new FolderLocalizationRepository(Program.ExecutableDir, GameMode, source.Name, source.Repository),
                 _ => null,
             };

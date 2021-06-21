@@ -70,7 +70,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
 
-            var url = tbUrl.Text.ToLower().Trim();
+            var url = tbUrl.Text.Trim();
             LocalizationSource? localizationSource = LocalizationSource.CreateFromUrl(name, url);
             if (localizationSource == null)
             {
