@@ -365,6 +365,9 @@ namespace NSW.StarCitizen.Tools.Forms
                     AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
                     AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
                 }
+#if !DEBUG
+                ConfigDataRepository.UpdateLoader(repositoryType);
+#endif
                 if (Program.Settings.Update.RepositoryType != repositoryType)
                 {
                     Program.Settings.Update.RepositoryType = repositoryType;
@@ -479,7 +482,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        #endregion
+#endregion
 
         protected override void WndProc(ref Message message)
         {
