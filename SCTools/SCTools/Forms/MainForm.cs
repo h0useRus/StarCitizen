@@ -65,21 +65,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeGeneral()
         {
-            AppUpdate.Updater.MonitorStarted += (sender, s) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
-            };
-            AppUpdate.Updater.MonitorStopped += (sender, s) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
-            };
-            AppUpdate.Updater.MonitorNewVersion += (sender, version) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
-            };
+            AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
+            AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
+            AppUpdate.Updater.MonitorNewVersion += OnAppUpdatesFoundNewVersion;
             foreach (var manager in Program.RepositoryManagers.Values)
             {
                 manager.Notification += (sender, s) =>
@@ -90,6 +78,7 @@ namespace NSW.StarCitizen.Tools.Forms
             TopMost = Program.Settings.TopMostWindow;
             InitLanguageCombobox(cbLanguage);
             cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
+            cbAppUpdateSource.SelectedItem = Program.Settings.Update.RepositoryType.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
             cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
@@ -356,6 +345,34 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.SaveAppSettings();
         }
 
+        private void cbAppUpdateSource_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (Enum.TryParse<UpdateRepositoryType>(cbAppUpdateSource.SelectedItem.ToString(), out var repositoryType))
+            {
+                var prevUpdater = AppUpdate.Updater;
+                if (AppUpdate.ChangeUpdateRepositoryType(repositoryType))
+                {
+                    prevUpdater.MonitorStarted -= OnAppUpdatesMonitorStarted;
+                    prevUpdater.MonitorStopped -= OnAppUpdatesMonitorStopped;
+                    prevUpdater.MonitorNewVersion -= OnAppUpdatesFoundNewVersion;
+                    prevUpdater.MonitorStop();
+                    prevUpdater.Dispose();
+
+                    AppUpdate.Updater.AllowPreReleases = Program.Settings.Update.AllowPreReleases;
+                    AppUpdate.Updater.MonitorNewVersion += OnAppUpdatesFoundNewVersion;
+                    if (Program.Settings.Update.MonitorUpdates)
+                        AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                    AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
+                    AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
+                }
+                if (Program.Settings.Update.RepositoryType != repositoryType)
+                {
+                    Program.Settings.Update.RepositoryType = repositoryType;
+                    Program.SaveAppSettings();
+                }
+            }
+        }
+
         private void cmTrayMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             miDefaultLocalizationApp.Enabled = !Application.ExecutablePath.StartsWith(Path.GetTempPath(),
@@ -535,6 +552,7 @@ namespace NSW.StarCitizen.Tools.Forms
             btnAppUpdate.Text = scheduledUpdateInfo != null
                 ? string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
                 : Resources.Application_CheckForUpdates_Text;
+            cbAppUpdateSource.Enabled = scheduledUpdateInfo == null;
         }
 
         private void InitLanguageCombobox(ComboBox combobox)
@@ -546,6 +564,24 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             DisposableUtils.Dispose(prevDataSource);
             combobox.SelectedValue = Program.Settings.Language;
+        }
+
+        private void OnAppUpdatesMonitorStarted(object sender, EventArgs eventArgs)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
+        }
+
+        private void OnAppUpdatesMonitorStopped(object sender, EventArgs eventArgs)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
+        }
+
+        private void OnAppUpdatesFoundNewVersion(object sender, string version)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
         }
     }
 }

@@ -103,7 +103,9 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 IsMonitorStarted = true;
                 MonitorRefreshTime = refreshTime;
                 MonitorStarted?.Invoke(this, EventArgs.Empty);
+#if DEBUG
                 CheckForNewVersionAsync();
+#endif
             }
         }
 

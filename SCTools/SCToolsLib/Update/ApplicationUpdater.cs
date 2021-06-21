@@ -60,6 +60,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             set => _updateRepository.AllowPreReleases = value;
         }
 
+        public UpdateRepositoryType RepositoryType => _updateRepository.Type;
+
         public ApplicationUpdater(IUpdateRepository updateRepository, string executableDir,
             string updateScriptContent, IPackageVerifier packageVerifier)
         {

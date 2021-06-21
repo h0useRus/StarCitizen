@@ -141,9 +141,13 @@ namespace NSW.StarCitizen.Tools.Controllers
                 var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
-                downloadDirInfo = Directory.CreateDirectory(Path.Combine(CurrentGame.RootFolderPath, "download_" + Path.GetRandomFileName()));
+                if (!(selectedUpdateInfo is FolderUpdateInfo))
+                {
+                    downloadDirInfo = Directory.CreateDirectory(Path.Combine(CurrentGame.RootFolderPath, "download_" + Path.GetRandomFileName()));
+                }
                 var packageIndex = new LocalizationPackageIndex(CurrentGame.RootFolderPath);
-                var downloadResult = await CurrentRepository.DownloadAsync(selectedUpdateInfo, downloadDirInfo.FullName, packageIndex,
+                var downloadResult = await CurrentRepository.DownloadAsync(selectedUpdateInfo,
+                    downloadDirInfo != null ? downloadDirInfo.FullName : string.Empty, packageIndex,
                     progressDlg.CancelToken, downloadDialogAdapter);
                 progressDlg.BindAdapter(new InstallProgressDialogAdapter());
                 using var gameMutex = new GameMutex();
@@ -161,9 +165,9 @@ namespace NSW.StarCitizen.Tools.Controllers
                 switch (installStatus)
                 {
                     case InstallStatus.Success:
-                        if (selectedUpdateInfo is GitHubUpdateInfo githubUpateInfo)
+                        if (!(selectedUpdateInfo is FolderUpdateInfo))
                         {
-                            CurrentRepository.Installer.WriteTimestamp(githubUpateInfo.Released, CurrentGame.RootFolderPath);
+                            CurrentRepository.Installer.WriteTimestamp(selectedUpdateInfo.Released, CurrentGame.RootFolderPath);
                         }
                         GameSettings.Load();
                         gameMutex.Release();
@@ -219,12 +223,10 @@ namespace NSW.StarCitizen.Tools.Controllers
                 Cursor.Current = Cursors.Default;
                 window.Enabled = true;
                 progressDlg.Hide();
-                if (downloadDirInfo != null && selectedUpdateInfo is GitHubUpdateInfo)
+                if (downloadDirInfo != null && downloadDirInfo.Exists &&
+                    !FileUtils.DeleteDirectoryNoThrow(downloadDirInfo, true))
                 {
-                    if (downloadDirInfo.Exists && !FileUtils.DeleteDirectoryNoThrow(downloadDirInfo, true))
-                    {
-                        _logger.Warn($"Failed remove download directory: {downloadDirInfo.FullName}");
-                    }
+                    _logger.Warn($"Failed remove download directory: {downloadDirInfo.FullName}");
                 }
             }
             return status;
