@@ -28,6 +28,8 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocalizationForm));
             this.lblMinutes = new System.Windows.Forms.Label();
             this.cbRefreshTime = new System.Windows.Forms.ComboBox();
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
@@ -45,6 +47,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnManage = new System.Windows.Forms.Button();
             this.btnUninstall = new System.Windows.Forms.Button();
             this.cbAllowPreReleaseVersions = new System.Windows.Forms.CheckBox();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // lblMinutes
@@ -241,6 +244,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbAllowPreReleaseVersions.UseVisualStyleBackColor = true;
             this.cbAllowPreReleaseVersions.CheckedChanged += new System.EventHandler(this.cbAllowPreReleaseVersions_CheckedChanged);
             // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "Folder");
+            this.imageList.Images.SetKeyName(1, "Gitee");
+            this.imageList.Images.SetKeyName(2, "GitHub");
+            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,5 +308,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnManage;
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.CheckBox cbAllowPreReleaseVersions;
+        private System.Windows.Forms.ImageList imageList;
     }
 }

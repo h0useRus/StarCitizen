@@ -8,6 +8,7 @@ namespace NSW.StarCitizen.Tools.Adapters
 {
     public class RepositoriesListViewAdapter
     {
+        private const string COLUMN_KEY_TYPE = "chType";
         private const string COLUMN_KEY_NAME = "chName";
         private const string COLUMN_KEY_PATH = "chPath";
         private readonly ListView _listView;
@@ -28,6 +29,9 @@ namespace NSW.StarCitizen.Tools.Adapters
                 {
                     switch (columnHeader.Name)
                     {
+                        case COLUMN_KEY_TYPE:
+                            columnHeader.Text = string.Empty;
+                            break;
                         case COLUMN_KEY_NAME:
                             columnHeader.Text = Resources.Localization_Name_Text;
                             break;
@@ -44,8 +48,9 @@ namespace NSW.StarCitizen.Tools.Adapters
             _listView.Items.Clear();
             foreach (var repository in repositories)
             {
-                var item = _listView.Items.Add(repository.Name, repository.Name);
+                var item = _listView.Items.Add(string.Empty, repository.Type.ToString());
                 item.Tag = repository;
+                item.SubItems.Add(repository.Name);
                 item.SubItems.Add(repository.Repository);
             }
         }
@@ -55,8 +60,9 @@ namespace NSW.StarCitizen.Tools.Adapters
             _listView.Items.Clear();
             foreach (var repository in repositories)
             {
-                var item = _listView.Items.Add(repository.Name, repository.Name);
+                var item = _listView.Items.Add(string.Empty, repository.Type.ToString());
                 item.Tag = repository;
+                item.SubItems.Add(repository.Name);
                 item.SubItems.Add(repository.Repository);
             }
         }
@@ -147,9 +153,12 @@ namespace NSW.StarCitizen.Tools.Adapters
 
         private void Initialize()
         {
-            var item = _listView.Columns.Add(COLUMN_KEY_NAME, Resources.Localization_Name_Text);
-            item.Width = _listView.Width / 2 - 5;
-            _listView.Columns.Add(COLUMN_KEY_PATH, Resources.Localization_Path_Text, _listView.Width - item.Width - 5);
+            var typeItem = _listView.Columns.Add(COLUMN_KEY_TYPE, string.Empty);
+            typeItem.Width = 24;
+            var nameItem = _listView.Columns.Add(COLUMN_KEY_NAME, Resources.Localization_Name_Text);
+            nameItem.Width = _listView.Width / 2 - 5;
+            _listView.Columns.Add(COLUMN_KEY_PATH, Resources.Localization_Path_Text,
+                _listView.Width - nameItem.Width - typeItem.Width - 5);
         }
     }
 }

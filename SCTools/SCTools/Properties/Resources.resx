@@ -251,7 +251,7 @@
     <value>Error</value>
   </data>
   <data name="Localization_RepositoryURL_Text" xml:space="preserve">
-    <value>Repository URL (GitHub, folder)</value>
+    <value>Repository URL (GitHub, Gitee, folder)</value>
   </data>
   <data name="Localization_Installing_Text" xml:space="preserve">
     <value>Installing...</value>

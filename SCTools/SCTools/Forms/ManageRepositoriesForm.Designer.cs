@@ -28,6 +28,8 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageRepositoriesForm));
             this.lvRepositories = new System.Windows.Forms.ListView();
             this.lblName = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
@@ -41,6 +43,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories = new System.Windows.Forms.ListView();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.tabRepositories.SuspendLayout();
             this.tabPageUserRepositories.SuspendLayout();
             this.tabPageStdRepositories.SuspendLayout();
@@ -55,6 +58,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvRepositories.MultiSelect = false;
             this.lvRepositories.Name = "lvRepositories";
             this.lvRepositories.Size = new System.Drawing.Size(450, 178);
+            this.lvRepositories.SmallImageList = this.imageList;
             this.lvRepositories.TabIndex = 0;
             this.lvRepositories.UseCompatibleStateImageBehavior = false;
             this.lvRepositories.View = System.Windows.Forms.View.Details;
@@ -157,6 +161,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories.MultiSelect = false;
             this.lvStdRepositories.Name = "lvStdRepositories";
             this.lvStdRepositories.Size = new System.Drawing.Size(450, 178);
+            this.lvStdRepositories.SmallImageList = this.imageList;
             this.lvStdRepositories.TabIndex = 1;
             this.lvStdRepositories.UseCompatibleStateImageBehavior = false;
             this.lvStdRepositories.View = System.Windows.Forms.View.Details;
@@ -185,6 +190,14 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnUp.Text = "U";
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "GitHub");
+            this.imageList.Images.SetKeyName(1, "Folder");
+            this.imageList.Images.SetKeyName(2, "Gitee");
             // 
             // ManageRepositoriesForm
             // 
@@ -233,5 +246,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ListView lvStdRepositories;
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.ImageList imageList;
     }
 }

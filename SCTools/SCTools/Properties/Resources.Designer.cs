@@ -989,7 +989,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repository URL (GitHub, folder).
+        ///   Looks up a localized string similar to Repository URL (GitHub, Gitee, folder).
         /// </summary>
         internal static string Localization_RepositoryURL_Text {
             get {
