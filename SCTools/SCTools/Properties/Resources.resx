@@ -530,4 +530,7 @@ To proceed please ensure that game is not running and press retry.</value>
   <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
     <value>Allow incremental download</value>
   </data>
+  <data name="Localization_Modify_Text" xml:space="preserve">
+    <value>Modify</value>
+  </data>
 </root>

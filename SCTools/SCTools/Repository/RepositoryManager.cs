@@ -77,6 +77,33 @@ namespace NSW.StarCitizen.Tools.Repository
             return AddStatus.Unreachable;
         }
 
+        public async Task<AddStatus> UpdateRepositoryAsync(ILocalizationRepository repository, LocalizationSource source,
+            CancellationToken cancellationToken)
+        {
+            bool nameChanged = repository.Name != source.Name;
+            bool urlChanged = repository.Type != source.Type ||
+                !string.Equals(repository.Repository, source.Repository, StringComparison.OrdinalIgnoreCase);
+            if (nameChanged && ContainsRepositoryName(source.Name))
+                return AddStatus.DuplicateName;
+            if (urlChanged && ContainsRepository(source.Type, source.Repository))
+                return AddStatus.DuplicateUrl;
+            if (nameChanged || urlChanged)
+            {
+                var newRepository = BuildRepository(source);
+                if (newRepository != null)
+                {
+                    if ((!urlChanged || await newRepository.CheckAsync(cancellationToken)) &&
+                        ReplaceRepository(repository, newRepository, source))
+                    {
+                        return AddStatus.Success;
+                    }
+                    newRepository.Dispose();
+                }
+                return AddStatus.Unreachable;
+            }
+            return AddStatus.Success;
+        }
+
         public bool RemoveRepository(ILocalizationRepository repository)
         {
             repository.MonitorStarted -= OnMonitorStarted;
@@ -247,6 +274,35 @@ namespace NSW.StarCitizen.Tools.Repository
             repository.MonitorStopped += OnMonitorStopped;
             repository.MonitorNewVersion += OnMonitorNewVersion;
             _localizationRepositories.Add(repository);
+        }
+
+        private bool ReplaceRepository(ILocalizationRepository repository, ILocalizationRepository newRepository, LocalizationSource newSource)
+        {
+            bool monitorWasRunning = repository.IsMonitorStarted;
+            repository.MonitorStarted -= OnMonitorStarted;
+            repository.MonitorStopped -= OnMonitorStopped;
+            repository.MonitorNewVersion -= OnMonitorNewVersion;
+            repository.MonitorStop();
+            int repoIndex = _localizationRepositories.IndexOf(repository);
+            if (repoIndex < 0)
+            {
+                return false;
+            }
+            _localizationRepositories[repoIndex] = newRepository;
+            newRepository.MonitorNewVersion += OnMonitorNewVersion;
+            if (monitorWasRunning)
+                newRepository.MonitorStart(repository.MonitorRefreshTime);
+            newRepository.MonitorStarted += OnMonitorStarted;
+            newRepository.MonitorStopped += OnMonitorStopped;
+            int sourceIndex = _localizationSettings.Repositories.FindIndex(r => r.Type == repository.Type &&
+                string.Compare(r.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0);
+            if (sourceIndex >= 0)
+                _localizationSettings.Repositories[sourceIndex] = newSource;
+            else
+                _localizationSettings.Repositories.Add(newSource);
+            Program.SaveAppSettings();
+            repository.Dispose();
+            return true;
         }
 
         private ILocalizationRepository? BuildRepository(LocalizationSource source)

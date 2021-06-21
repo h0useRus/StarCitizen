@@ -139,7 +139,10 @@ namespace NSW.StarCitizen.Tools.Adapters
         public void SetSelectedIndex(int itemIndex)
         {
             _listView.SelectedIndices.Clear();
-            _listView.SelectedIndices.Add(itemIndex);
+            if (itemIndex >= 0)
+            {
+                _listView.SelectedIndices.Add(itemIndex);
+            }
         }
 
         public void SetSelectedRepository(ILocalizationRepository repository)

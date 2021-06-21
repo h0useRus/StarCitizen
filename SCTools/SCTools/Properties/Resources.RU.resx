@@ -520,4 +520,7 @@
   <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
     <value>Оптимизарованная загрузка</value>
   </data>
+  <data name="Localization_Modify_Text" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
 </root>
