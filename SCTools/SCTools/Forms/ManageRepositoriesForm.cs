@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Security;
 using System.Threading;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
@@ -161,6 +163,24 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateButtons();
         }
 
+        private void lvRepositories_DoubleClick(object sender, EventArgs e)
+        {
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
+            {
+                LaunchUrlOrFolderPath(repository.RepositoryUrl);
+            }
+        }
+
+        private void lvStdRepositories_DoubleClick(object sender, EventArgs e)
+        {
+            var source = _stdRepositoriesListAdapter.GetSelectedSource();
+            if (source != null)
+            {
+                LaunchUrlOrFolderPath(source.GetUrl());
+            }
+        }
+
         private void UpdateButtons()
         {
             var visible = tabRepositories.SelectedIndex == 0;
@@ -173,6 +193,18 @@ namespace NSW.StarCitizen.Tools.Forms
             btnUp.Enabled = repository != null && _repositoryManager.CanMoveRepositoryUp(repository);
             btnDown.Visible = visible;
             btnDown.Enabled = repository != null && _repositoryManager.CanMoveRepositoryDown(repository);
+        }
+
+        private static void LaunchUrlOrFolderPath(string urlOrPath)
+        {
+            try
+            {
+                using var process = Process.Start(urlOrPath);
+            }
+            catch (SecurityException)
+            {
+                // just ignore
+            }
         }
     }
 }

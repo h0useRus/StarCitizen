@@ -226,6 +226,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     UpdatePresentLocalizationInfo();
                     break;
             }
+            cbAllowPreReleaseVersions.Visible = !(_controller.CurrentRepository is FolderLocalizationRepository);
             cbAllowPreReleaseVersions.Checked = _controller.CurrentInstallation.AllowPreRelease;
             // monitoring
             cbCheckNewVersions.Checked = _controller.CurrentInstallation.MonitorForUpdates;

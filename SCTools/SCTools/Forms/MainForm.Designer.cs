@@ -422,7 +422,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblMinutes
             // 
             this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(264, 60);
+            this.lblMinutes.Location = new System.Drawing.Point(264, 58);
             this.lblMinutes.Name = "lblMinutes";
             this.lblMinutes.Size = new System.Drawing.Size(43, 13);
             this.lblMinutes.TabIndex = 11;

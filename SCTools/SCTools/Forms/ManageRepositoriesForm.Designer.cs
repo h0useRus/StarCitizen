@@ -63,6 +63,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvRepositories.UseCompatibleStateImageBehavior = false;
             this.lvRepositories.View = System.Windows.Forms.View.Details;
             this.lvRepositories.SelectedIndexChanged += new System.EventHandler(this.lvRepositories_SelectedIndexChanged);
+            this.lvRepositories.DoubleClick += new System.EventHandler(this.lvRepositories_DoubleClick);
             // 
             // imageList
             // 
@@ -177,6 +178,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories.UseCompatibleStateImageBehavior = false;
             this.lvStdRepositories.View = System.Windows.Forms.View.Details;
             this.lvStdRepositories.SelectedIndexChanged += new System.EventHandler(this.lvStdRepositories_SelectedIndexChanged);
+            this.lvStdRepositories.DoubleClick += new System.EventHandler(this.lvStdRepositories_DoubleClick);
             // 
             // btnDown
             // 
@@ -216,6 +218,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tbUrl);
             this.Controls.Add(this.lblName);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
