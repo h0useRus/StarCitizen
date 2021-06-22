@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Update;
@@ -103,6 +102,8 @@ namespace NSW.StarCitizen.Tools.Settings
         public static LocalizationSource DefaultRussian { get; } = CreateGithub("Russian Community", "n1ghter/sc_ru");
         public static LocalizationSource MinimalRussian { get; } = CreateGithub("Russian Community (без названий)", "budukratok/SC_not_so_ru");
         public static LocalizationSource DefaultUkrainian { get; } = CreateGithub("Ukrainian Community", "slyf0x-ua/sc_uk");
+        public static LocalizationSource DefaultChineseGitee { get; } = CreateGitee("Chinese Community", "mwfaw/SC_CN_zh");
+        public static LocalizationSource DefaultChineseGitHub { get; } = CreateGithub("Chinese Community (international)", "Terrencetodd/SC_CN_zh");
         public static LocalizationSource DefaultKorean { get; } = CreateGithub("Korean Community", "xhatagon/sc_ko");
         public static LocalizationSource DefaultPolish { get; } = CreateGithub("Polish Community", "frosty-el-banana/sc_pl");
         public static LocalizationSource DefaultLocal { get; } = CreateFolder("Localizations Folder", "localizations");
@@ -110,6 +111,8 @@ namespace NSW.StarCitizen.Tools.Settings
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
             DefaultUkrainian,
+            DefaultChineseGitee,
+            DefaultChineseGitHub,
             DefaultKorean,
             DefaultPolish,
         };
@@ -118,6 +121,8 @@ namespace NSW.StarCitizen.Tools.Settings
             DefaultRussian,
             MinimalRussian,
             DefaultUkrainian,
+            DefaultChineseGitee,
+            DefaultChineseGitHub,
             DefaultKorean,
             DefaultPolish,
             DefaultBaseModding,
