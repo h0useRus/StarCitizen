@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Windows.Forms;
 using NLog;
@@ -11,8 +12,20 @@ namespace NSW.StarCitizen.Tools.Helpers
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public static ApplicationUpdater Updater { get; } = new ApplicationUpdater(GetUpdateRepository(),
+        public static ApplicationUpdater Updater { get; private set; } = new ApplicationUpdater(
+            GetUpdateRepository(Program.Settings.Update.RepositoryType),
             Program.ExecutableDir, Resources.UpdateScript, new PackageVerifier());
+
+        public static bool ChangeUpdateRepositoryType(UpdateRepositoryType updateRepositoryType)
+        {
+            if (Updater.RepositoryType != updateRepositoryType)
+            {
+                Updater = new ApplicationUpdater(GetUpdateRepository(updateRepositoryType),
+                    Program.ExecutableDir, Resources.UpdateScript, new PackageVerifier());
+                return true;
+            }
+            return false;
+        }
 
         public static bool InstallUpdateOnLaunch(string[] args)
         {
@@ -56,11 +69,16 @@ namespace NSW.StarCitizen.Tools.Helpers
             return true;
         }
 
-        private static IUpdateRepository GetUpdateRepository()
+        private static IUpdateRepository GetUpdateRepository(UpdateRepositoryType updateRepositoryType)
         {
-            var updateInfoFactory = GitHubUpdateInfo.Factory.NewWithVersionByTagName();
-            var updateRepository = new GitHubUpdateRepository(HttpNetClient.Client,
-                GitHubDownloadType.Assets, updateInfoFactory, Program.Name, "h0useRus/StarCitizen");
+            IUpdateRepository updateRepository = updateRepositoryType switch
+            {
+                UpdateRepositoryType.GitHub => new GitHubUpdateRepository(HttpNetClient.Client, GitHubDownloadType.Assets,
+                                       GitHubUpdateInfo.Factory.NewWithVersionByTagName(), $"{Program.Name} (GitHub)", "h0useRus/StarCitizen"),
+                UpdateRepositoryType.Gitee => new GiteeUpdateRepository(HttpNetClient.Client,
+                                       GiteeUpdateInfo.Factory.NewWithVersionByTagName(), $"{Program.Name} (Gitee)", "defter/StarCitizen"),
+                _ => throw new NotSupportedException($"Application update repository type {updateRepositoryType} is not supported"),
+            };
             updateRepository.SetCurrentVersion(Program.Version.ToString(3));
             return updateRepository;
         }

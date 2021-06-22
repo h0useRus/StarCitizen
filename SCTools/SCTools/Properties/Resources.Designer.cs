@@ -863,6 +863,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modify.
+        /// </summary>
+        internal static string Localization_Modify_Text {
+            get {
+                return ResourceManager.GetString("Localization_Modify_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string Localization_Name_Text {
@@ -989,7 +998,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repository URL (GitHub, folder).
+        ///   Looks up a localized string similar to Repository URL (GitHub, Gitee, folder).
         /// </summary>
         internal static string Localization_RepositoryURL_Text {
             get {

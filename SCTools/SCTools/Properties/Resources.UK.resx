@@ -217,7 +217,7 @@
     <value>Версія гри</value>
   </data>
   <data name="Localization_RepositoryURL_Text" xml:space="preserve">
-    <value>Посилання на GitHub або папка</value>
+    <value>Посилання на GitHub, Gitee або папка</value>
   </data>
   <data name="Localization_Installed_Version" xml:space="preserve">
     <value>Встановлена версія:</value>
@@ -519,5 +519,8 @@
   </data>
   <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
     <value>Оптимізоване завантаження</value>
+  </data>
+  <data name="Localization_Modify_Text" xml:space="preserve">
+    <value>Змінити</value>
   </data>
 </root>

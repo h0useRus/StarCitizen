@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Settings
 {
@@ -10,5 +11,7 @@ namespace NSW.StarCitizen.Tools.Settings
         public bool AllowPreReleases { get; set; }
         [JsonProperty]
         public int MonitorRefreshTime { get; set; } = 5;
+        [JsonProperty]
+        public UpdateRepositoryType RepositoryType { get; set; } = UpdateRepositoryType.GitHub;
     }
 }

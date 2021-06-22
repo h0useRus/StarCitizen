@@ -153,7 +153,14 @@ namespace NSW.StarCitizen.Tools.Forms
                 using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
                 using var font = new Font(e.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
                 e.DrawBackground();
-                e.Graphics.DrawString(drawRepository.Name, font, brush, e.Bounds);
+                int iconIndex = imageList.Images.IndexOfKey(drawRepository.Type.ToString());
+                if (iconIndex >= 0)
+                {
+                    using var icon = Icon.FromHandle(((Bitmap)imageList.Images[iconIndex]).GetHicon());
+                    e.Graphics.DrawIcon(icon, e.Bounds.X, e.Bounds.Y);
+                }
+                Rectangle textRectangle = new Rectangle(e.Bounds.X + 18, e.Bounds.Y, e.Bounds.Width - 18, e.Bounds.Height);
+                e.Graphics.DrawString(drawRepository.Name, font, brush, textRectangle);
                 e.DrawFocusRectangle();
             }
         }
