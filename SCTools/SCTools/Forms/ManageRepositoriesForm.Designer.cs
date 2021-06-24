@@ -101,10 +101,13 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // tbUrl
             // 
+            this.tbUrl.AllowDrop = true;
             this.tbUrl.Location = new System.Drawing.Point(12, 279);
             this.tbUrl.Name = "tbUrl";
             this.tbUrl.Size = new System.Drawing.Size(339, 20);
             this.tbUrl.TabIndex = 4;
+            this.tbUrl.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbUrl_DragDrop);
+            this.tbUrl.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbUrl_DragEnter);
             // 
             // btnAdd
             // 

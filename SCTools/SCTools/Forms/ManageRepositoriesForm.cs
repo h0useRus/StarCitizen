@@ -63,6 +63,18 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateButtons();
         }
 
+        private void tbUrl_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.Data.GetSingleDirectoryPath() != null ? DragDropEffects.Link : DragDropEffects.None;
+
+        private void tbUrl_DragDrop(object sender, DragEventArgs e)
+        {
+            string? droppedPath = e.Data.GetSingleDirectoryPath();
+            if (droppedPath != null)
+            {
+                tbUrl.Text = droppedPath;
+            }
+        }
+
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             var name = tbName.Text.Trim();

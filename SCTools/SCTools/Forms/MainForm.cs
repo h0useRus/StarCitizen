@@ -143,7 +143,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void niTray_BalloonTipClicked(object sender, EventArgs e) => Restore();
 
-        private void btnGamePath_Click(object sender, EventArgs e)
+        private void tbGamePath_Click(object sender, EventArgs e)
         {
             using var dlg = new FolderBrowserDialog
             {
@@ -155,18 +155,19 @@ namespace NSW.StarCitizen.Tools.Forms
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
-                string? gamePath = GameFolders.SearchGameFolder(_lastBrowsePath);
-                if (!SetGameFolder(gamePath))
-                {
-                    MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    Program.Settings.GameFolder = gamePath;
-                    Program.SaveAppSettings();
-                }
+                SetGameFolderByUser(_lastBrowsePath);
+            }
+        }
+
+        private void tbGamePath_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.Data.GetSingleDirectoryPath() != null ? DragDropEffects.Link : DragDropEffects.None;
+
+        private void tbGamePath_DragDrop(object sender, DragEventArgs e)
+        {
+            string? droppedPath = e.Data.GetSingleDirectoryPath();
+            if (droppedPath != null)
+            {
+                SetGameFolderByUser(droppedPath);
             }
         }
 
@@ -532,6 +533,22 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 Program.CurrentGame = gameInfo;
                 UpdateGameModeInfo(gameInfo);
+            }
+        }
+
+        private void SetGameFolderByUser(string path)
+        {
+            string? gamePath = GameFolders.SearchGameFolder(path);
+            if (!SetGameFolder(gamePath))
+            {
+                MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                Program.Settings.GameFolder = gamePath;
+                Program.SaveAppSettings();
             }
         }
 

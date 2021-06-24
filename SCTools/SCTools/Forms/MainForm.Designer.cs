@@ -79,6 +79,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // tbGamePath
             // 
+            this.tbGamePath.AllowDrop = true;
             this.tbGamePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbGamePath.BackColor = System.Drawing.SystemColors.Info;
@@ -91,7 +92,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGamePath.TabIndex = 1;
             this.tbGamePath.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tbGamePath.WordWrap = false;
-            this.tbGamePath.Click += new System.EventHandler(this.btnGamePath_Click);
+            this.tbGamePath.Click += new System.EventHandler(this.tbGamePath_Click);
+            this.tbGamePath.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbGamePath_DragDrop);
+            this.tbGamePath.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbGamePath_DragEnter);
             // 
             // cbGameModes
             // 
