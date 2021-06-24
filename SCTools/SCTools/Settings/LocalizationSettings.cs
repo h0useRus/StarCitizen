@@ -12,8 +12,6 @@ namespace NSW.StarCitizen.Tools.Settings
         public List<LocalizationSource> Repositories { get; } = new List<LocalizationSource>();
         [JsonProperty]
         public List<LocalizationInstallation> Installations { get; } = new List<LocalizationInstallation>();
-        [JsonProperty]
-        public int MonitorRefreshTime { get; set; } = 5;
     }
 
     public class LocalizationInstallation

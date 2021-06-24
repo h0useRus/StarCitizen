@@ -75,7 +75,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRefreshTime.Name = "cbRefreshTime";
             this.cbRefreshTime.Size = new System.Drawing.Size(46, 21);
             this.cbRefreshTime.TabIndex = 11;
-            this.cbRefreshTime.SelectedIndexChanged += new System.EventHandler(this.cbRefreshTime_SelectedIndexChanged);
+            this.cbRefreshTime.SelectionChangeCommitted += new System.EventHandler(this.cbRefreshTime_SelectionChangeCommitted);
             // 
             // cbCheckNewVersions
             // 

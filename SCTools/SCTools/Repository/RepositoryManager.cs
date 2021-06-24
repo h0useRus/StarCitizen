@@ -324,7 +324,7 @@ namespace NSW.StarCitizen.Tools.Repository
         {
             var installation = new LocalizationInstallation(GameMode, repository.Repository, repository.Type)
             {
-                MonitorRefreshTime = _localizationSettings.MonitorRefreshTime
+                MonitorRefreshTime = TimePresets.GetRefreshTimePresets(repository.Type).First()
             };
             _localizationSettings.Installations.Add(installation);
             return installation;

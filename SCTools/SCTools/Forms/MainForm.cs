@@ -13,6 +13,7 @@ using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Repository;
+using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -77,7 +78,8 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             TopMost = Program.Settings.TopMostWindow;
             InitLanguageCombobox(cbLanguage);
-            cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
+            cbRefreshTime.DataSource = TimePresets.GetRefreshTimePresets(Program.Settings.Update.RepositoryType);
+            cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime;
             cbAppUpdateSource.SelectedItem = Program.Settings.Update.RepositoryType.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
@@ -340,16 +342,21 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            Program.Settings.Update.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
-            if (Program.Settings.Update.MonitorUpdates)
-                AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
-            Program.SaveAppSettings();
+            if (cbRefreshTime.SelectedItem is int refreshTime &&
+                Program.Settings.Update.MonitorRefreshTime != refreshTime)
+            {
+                Program.Settings.Update.MonitorRefreshTime = refreshTime;
+                if (Program.Settings.Update.MonitorUpdates)
+                    AppUpdate.Updater.MonitorStart(refreshTime);
+                Program.SaveAppSettings();
+            }
         }
 
         private void cbAppUpdateSource_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (Enum.TryParse<UpdateRepositoryType>(cbAppUpdateSource.SelectedItem.ToString(), out var repositoryType))
             {
+                int? monitorRefreshTime = null;
                 var prevUpdater = AppUpdate.Updater;
                 if (AppUpdate.ChangeUpdateRepositoryType(repositoryType))
                 {
@@ -359,19 +366,29 @@ namespace NSW.StarCitizen.Tools.Forms
                     prevUpdater.MonitorStop();
                     prevUpdater.Dispose();
 
+                    int[] refreshTimePresets = TimePresets.GetRefreshTimePresets(repositoryType);
+                    cbRefreshTime.DataSource = refreshTimePresets;
+                    cbRefreshTime.SelectedItem = refreshTimePresets[0];
+                    monitorRefreshTime = refreshTimePresets[0];
+
                     AppUpdate.Updater.AllowPreReleases = Program.Settings.Update.AllowPreReleases;
                     AppUpdate.Updater.MonitorNewVersion += OnAppUpdatesFoundNewVersion;
                     if (Program.Settings.Update.MonitorUpdates)
-                        AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                        AppUpdate.Updater.MonitorStart(refreshTimePresets[0]);
                     AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
                     AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
                 }
 #if !DEBUG
                 ConfigDataRepository.UpdateLoader(repositoryType);
 #endif
-                if (Program.Settings.Update.RepositoryType != repositoryType)
+                if (Program.Settings.Update.RepositoryType != repositoryType ||
+                    (monitorRefreshTime.HasValue && Program.Settings.Update.MonitorRefreshTime != monitorRefreshTime.Value))
                 {
                     Program.Settings.Update.RepositoryType = repositoryType;
+                    if (monitorRefreshTime.HasValue)
+                    {
+                        Program.Settings.Update.MonitorRefreshTime = monitorRefreshTime.Value;
+                    }
                     Program.SaveAppSettings();
                 }
             }

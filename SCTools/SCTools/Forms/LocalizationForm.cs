@@ -9,6 +9,7 @@ using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -119,11 +120,12 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void cbRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (cbRefreshTime.SelectedItem.ToString() != _controller.CurrentInstallation.MonitorRefreshTime.ToString())
+            if (cbRefreshTime.SelectedItem is int refreshTime &&
+                refreshTime != _controller.CurrentInstallation.MonitorRefreshTime)
             {
-                _controller.CurrentInstallation.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+                _controller.CurrentInstallation.MonitorRefreshTime = refreshTime;
                 Program.SaveAppSettings();
                 _controller.RepositoryManager.RunMonitors();
             }
@@ -230,7 +232,8 @@ namespace NSW.StarCitizen.Tools.Forms
             cbAllowPreReleaseVersions.Checked = _controller.CurrentInstallation.AllowPreRelease;
             // monitoring
             cbCheckNewVersions.Checked = _controller.CurrentInstallation.MonitorForUpdates;
-            cbRefreshTime.SelectedItem = _controller.CurrentInstallation.MonitorRefreshTime.ToString();
+            cbRefreshTime.DataSource = TimePresets.GetRefreshTimePresets(_controller.CurrentRepository.Type);
+            cbRefreshTime.SelectedItem = _controller.CurrentInstallation.MonitorRefreshTime;
             UpdateButtonsVisibility();
         }
 
