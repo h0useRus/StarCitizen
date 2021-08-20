@@ -125,64 +125,64 @@
     <value>Star Citizen : Utils - v{0}</value>
   </data>
   <data name="GameMode_LIVE" xml:space="preserve">
-    <value>Persistent Universe</value>
+    <value>持续性宇宙</value>
   </data>
   <data name="GameMode_PTU" xml:space="preserve">
-    <value>Persistent Test Universe</value>
+    <value>公开测试宇宙</value>
   </data>
   <data name="GamePath_Description" xml:space="preserve">
-    <value>Please select Star Citizen root folder.</value>
+    <value>请选择星际公民游戏根目录</value>
   </data>
   <data name="GamePath_Error_Text" xml:space="preserve">
     <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
   </data>
   <data name="GamePath_Error_Title" xml:space="preserve">
-    <value>Wrong path to Star Citizen folder</value>
+    <value>星际公民路径错误 folder</value>
   </data>
   <data name="GamePath_Hint" xml:space="preserve">
-    <value>Press here to select Star Citizen root folder</value>
+    <value>单击此处选择星际公民游戏根目录</value>
   </data>
   <data name="Localization_Game_Mode" xml:space="preserve">
-    <value>Game mode</value>
+    <value>游戏模式</value>
   </data>
   <data name="Localization_Game_Version" xml:space="preserve">
-    <value>Game version</value>
+    <value>游戏版本</value>
   </data>
   <data name="LocalizationButton_Text" xml:space="preserve">
-    <value>Localization {0}</value>
+    <value>本地化 {0}</value>
   </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
-    <value>minutes</value>
+    <value>分钟</value>
   </data>
   <data name="Localization_CurrentLanguage" xml:space="preserve">
-    <value>Current language:</value>
+    <value>当前语言:</value>
   </data>
   <data name="Localization_InstallVersion_Text" xml:space="preserve">
-    <value>Install selected version</value>
+    <value>安装所选版本</value>
   </data>
   <data name="Localization_Refresh_Text" xml:space="preserve">
-    <value>Refresh</value>
+    <value>刷新</value>
   </data>
   <data name="Localization_Title" xml:space="preserve">
-    <value>Star Citizen : Localization</value>
+    <value>星际公民 ： 本地化</value>
   </data>
   <data name="Localization_Install_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during installation. Please try again.</value>
+    <value>安装过程发生错误导致安装失败，请重新尝试</value>
   </data>
   <data name="Localization_Install_ErrorTitle" xml:space="preserve">
-    <value>Install Error</value>
+    <value>安装错误</value>
   </data>
   <data name="Localization_Button_Disable_localization" xml:space="preserve">
-    <value>Disable localization</value>
+    <value>关闭本地化</value>
   </data>
   <data name="Localization_Button_Enable_localization" xml:space="preserve">
-    <value>Enable localization</value>
+    <value>开启本地化</value>
   </data>
   <data name="Localization_Download_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during download. Please try again.</value>
+    <value>下载过程发生错误导致安装失败，请重新尝试</value>
   </data>
   <data name="Localization_Download_ErrorTitle" xml:space="preserve">
-    <value>Download Error</value>
+    <value>下载错误</value>
   </data>
   <data name="Localization_File_ErrorText" xml:space="preserve">
     <value>Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions.</value>
@@ -212,79 +212,79 @@
     <value>Latest version:</value>
   </data>
   <data name="Localization_Press_Refresh_Button" xml:space="preserve">
-    <value>Please press Refresh button</value>
+    <value>请单击 刷新 按钮</value>
   </data>
   <data name="Localization_Start_Monitoring" xml:space="preserve">
-    <value>Start monitoring.</value>
+    <value>开始检测</value>
   </data>
   <data name="Localization_Stop_Monitoring" xml:space="preserve">
-    <value>Stop monitoring.</value>
+    <value>停止检测</value>
   </data>
   <data name="Localization_AvailableVersions_Text" xml:space="preserve">
-    <value>Available versions:</value>
+    <value>可用版本：</value>
   </data>
   <data name="Localization_Manage_Text" xml:space="preserve">
-    <value>Manage</value>
+    <value>管理</value>
   </data>
   <data name="Localization_SourceRepository_Text" xml:space="preserve">
-    <value>Source repository:</value>
+    <value>源代码库：</value>
   </data>
   <data name="Localization_Add_Text" xml:space="preserve">
-    <value>Add</value>
+    <value>添加</value>
   </data>
   <data name="Localization_Cancel_Text" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
     <value>Check for new version every</value>
   </data>
   <data name="Localization_Downloading_Text" xml:space="preserve">
-    <value>Downloading...</value>
+    <value>下载中...</value>
   </data>
   <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
-    <value>Repository name '{0}' is already exist.</value>
+    <value>版本库 '{0}' 已经存在.</value>
   </data>
   <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
-    <value>Repository url '{0}' is already exist.</value>
+    <value>版本库地址 '{0}' 已经存在.</value>
   </data>
   <data name="Localization_Error_Title" xml:space="preserve">
-    <value>Error</value>
+    <value>错误</value>
   </data>
   <data name="Localization_RepositoryURL_Text" xml:space="preserve">
-    <value>Repository URL (GitHub, Gitee, folder)</value>
+    <value>版本库URL (GitHub, Gitee, 本地文件夹)</value>
   </data>
   <data name="Localization_Installing_Text" xml:space="preserve">
-    <value>Installing...</value>
+    <value>安装中...</value>
   </data>
   <data name="Localization_InstallVersion_Title" xml:space="preserve">
     <value>Install version:  {0}</value>
   </data>
   <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>Repository name is empty.</value>
+    <value>版本库名称未填写.</value>
   </data>
   <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>Repository url is empty.</value>
+    <value>版本库地址未填写.</value>
   </data>
   <data name="Localization_Language_Text" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="Localization_Name_Text" xml:space="preserve">
-    <value>Name</value>
+    <value>名称</value>
   </data>
   <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
     <value>No access to repository '{0}'</value>
   </data>
   <data name="Localization_Path_Text" xml:space="preserve">
-    <value>Path</value>
+    <value>路径</value>
   </data>
   <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
-    <value>Refresh available versions</value>
+    <value>刷新可用版本</value>
   </data>
   <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
     <value>Repository '{0}' used by '{1}'. Do you want remove it?</value>
   </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
-    <value>Remove</value>
+    <value>移除</value>
   </data>
   <data name="Localization_Repositories_Title" xml:space="preserve">
     <value>Star Citizen : Localization repositories</value>
