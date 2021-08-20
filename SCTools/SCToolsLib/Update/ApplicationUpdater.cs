@@ -60,6 +60,8 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             set => _updateRepository.AllowPreReleases = value;
         }
 
+        public UpdateRepositoryType RepositoryType => _updateRepository.Type;
+
         public ApplicationUpdater(IUpdateRepository updateRepository, string executableDir,
             string updateScriptContent, IPackageVerifier packageVerifier)
         {
@@ -134,7 +136,19 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             return InstallUpdateStatus.ExtractFilesError;
         }
 
-        public UpdateInfo? GetScheduledUpdateInfo() => File.Exists(_schedInstallArchivePath) ? JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath) : null;
+        public UpdateInfo? GetScheduledUpdateInfo()
+        {
+            if (File.Exists(_schedInstallArchivePath))
+            {
+                return _updateRepository.Type switch
+                {
+                    UpdateRepositoryType.GitHub => JsonHelper.ReadFile<GitHubUpdateInfo>(_schedInstallJsonPath),
+                    UpdateRepositoryType.Gitee => JsonHelper.ReadFile<GiteeUpdateInfo>(_schedInstallJsonPath),
+                    _ => throw new NotSupportedException("Not supported download type"),
+                };
+            }
+            return null;
+        }
 
         public bool IsAlreadyInstalledVersion(UpdateInfo updateInfo) =>
             string.Compare(updateInfo.GetVersion(), _currentVersion, StringComparison.OrdinalIgnoreCase) == 0;

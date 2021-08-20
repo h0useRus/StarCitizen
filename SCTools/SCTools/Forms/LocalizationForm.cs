@@ -9,6 +9,7 @@ using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
+using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -119,11 +120,12 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void cbRefreshTime_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (cbRefreshTime.SelectedItem.ToString() != _controller.CurrentInstallation.MonitorRefreshTime.ToString())
+            if (cbRefreshTime.SelectedItem is int refreshTime &&
+                refreshTime != _controller.CurrentInstallation.MonitorRefreshTime)
             {
-                _controller.CurrentInstallation.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
+                _controller.CurrentInstallation.MonitorRefreshTime = refreshTime;
                 Program.SaveAppSettings();
                 _controller.RepositoryManager.RunMonitors();
             }
@@ -153,7 +155,14 @@ namespace NSW.StarCitizen.Tools.Forms
                 using var brush = new SolidBrush(isInstalled ? e.ForeColor : Color.Gray);
                 using var font = new Font(e.Font, isInstalled ? FontStyle.Bold : FontStyle.Regular);
                 e.DrawBackground();
-                e.Graphics.DrawString(drawRepository.Name, font, brush, e.Bounds);
+                int iconIndex = imageList.Images.IndexOfKey(drawRepository.Type.ToString());
+                if (iconIndex >= 0)
+                {
+                    using var icon = Icon.FromHandle(((Bitmap)imageList.Images[iconIndex]).GetHicon());
+                    e.Graphics.DrawIcon(icon, e.Bounds.X, e.Bounds.Y);
+                }
+                Rectangle textRectangle = new Rectangle(e.Bounds.X + 18, e.Bounds.Y, e.Bounds.Width - 18, e.Bounds.Height);
+                e.Graphics.DrawString(drawRepository.Name, font, brush, textRectangle);
                 e.DrawFocusRectangle();
             }
         }
@@ -219,10 +228,12 @@ namespace NSW.StarCitizen.Tools.Forms
                     UpdatePresentLocalizationInfo();
                     break;
             }
+            cbAllowPreReleaseVersions.Visible = !(_controller.CurrentRepository is FolderLocalizationRepository);
             cbAllowPreReleaseVersions.Checked = _controller.CurrentInstallation.AllowPreRelease;
             // monitoring
             cbCheckNewVersions.Checked = _controller.CurrentInstallation.MonitorForUpdates;
-            cbRefreshTime.SelectedItem = _controller.CurrentInstallation.MonitorRefreshTime.ToString();
+            cbRefreshTime.DataSource = TimePresets.GetRefreshTimePresets(_controller.CurrentRepository.Type);
+            cbRefreshTime.SelectedItem = _controller.CurrentInstallation.MonitorRefreshTime;
             UpdateButtonsVisibility();
         }
 

@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Update;
@@ -12,8 +12,6 @@ namespace NSW.StarCitizen.Tools.Settings
         public List<LocalizationSource> Repositories { get; } = new List<LocalizationSource>();
         [JsonProperty]
         public List<LocalizationInstallation> Installations { get; } = new List<LocalizationInstallation>();
-        [JsonProperty]
-        public int MonitorRefreshTime { get; set; } = 5;
     }
 
     public class LocalizationInstallation
@@ -61,22 +59,34 @@ namespace NSW.StarCitizen.Tools.Settings
             Type = type;
         }
 
-        public string GetUrl() => Type == UpdateRepositoryType.GitHub ?
-            GitHubRepositoryUrl.Build(Repository) :
-            FolderRepositoryUrl.Build(Program.ExecutableDir, Repository);
+        public string GetUrl() => Type switch
+        {
+            UpdateRepositoryType.GitHub => GitHubRepositoryUrl.Build(Repository),
+            UpdateRepositoryType.Gitee => GiteeRepositoryUrl.Build(Repository),
+            UpdateRepositoryType.Folder => FolderRepositoryUrl.Build(Program.ExecutableDir, Repository),
+            _ => throw new NotSupportedException("Not supported update repository type"),
+        };
 
         public static LocalizationSource CreateGithub(string name, string repository)
             => new LocalizationSource(name, repository, UpdateRepositoryType.GitHub);
+
+        public static LocalizationSource CreateGitee(string name, string repository)
+            => new LocalizationSource(name, repository, UpdateRepositoryType.Gitee);
 
         public static LocalizationSource CreateFolder(string name, string repository)
             => new LocalizationSource(name, repository, UpdateRepositoryType.Folder);
 
         public static LocalizationSource? CreateFromUrl(string name, string url)
         {
-            string? repositoryUrl = GitHubRepositoryUrl.Parse(url);
-            if (repositoryUrl != null)
+            string? gitHubRepositoryUrl = GitHubRepositoryUrl.Parse(url);
+            if (gitHubRepositoryUrl != null)
             {
-                return CreateGithub(name, repositoryUrl);
+                return CreateGithub(name, gitHubRepositoryUrl);
+            }
+            string? giteeRepositoryUrl = GiteeRepositoryUrl.Parse(url);
+            if (giteeRepositoryUrl != null)
+            {
+                return CreateGitee(name, giteeRepositoryUrl);
             }
             string? repositoryPath = FolderRepositoryUrl.Parse(Program.ExecutableDir, url);
             if (repositoryPath != null)
@@ -90,6 +100,8 @@ namespace NSW.StarCitizen.Tools.Settings
         public static LocalizationSource DefaultRussian { get; } = CreateGithub("Russian Community", "n1ghter/sc_ru");
         public static LocalizationSource MinimalRussian { get; } = CreateGithub("Russian Community (без названий)", "budukratok/SC_not_so_ru");
         public static LocalizationSource DefaultUkrainian { get; } = CreateGithub("Ukrainian Community", "slyf0x-ua/sc_uk");
+        public static LocalizationSource DefaultChineseGitee { get; } = CreateGitee("Chinese Community", "mwfaw/SC_CN_zh");
+        public static LocalizationSource DefaultChineseGitHub { get; } = CreateGithub("Chinese Community (international)", "Terrencetodd/SC_CN_zh");
         public static LocalizationSource DefaultKorean { get; } = CreateGithub("Korean Community", "xhatagon/sc_ko");
         public static LocalizationSource DefaultPolish { get; } = CreateGithub("Polish Community", "frosty-el-banana/sc_pl");
         public static LocalizationSource DefaultLocal { get; } = CreateFolder("Localizations Folder", "localizations");
@@ -97,6 +109,8 @@ namespace NSW.StarCitizen.Tools.Settings
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
             DefaultRussian,
             DefaultUkrainian,
+            DefaultChineseGitee,
+            DefaultChineseGitHub,
             DefaultKorean,
             DefaultPolish,
         };
@@ -105,6 +119,8 @@ namespace NSW.StarCitizen.Tools.Settings
             DefaultRussian,
             MinimalRussian,
             DefaultUkrainian,
+            DefaultChineseGitee,
+            DefaultChineseGitHub,
             DefaultKorean,
             DefaultPolish,
             DefaultBaseModding,

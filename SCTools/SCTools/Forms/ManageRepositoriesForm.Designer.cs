@@ -28,7 +28,10 @@ namespace NSW.StarCitizen.Tools.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageRepositoriesForm));
             this.lvRepositories = new System.Windows.Forms.ListView();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.lblName = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
@@ -54,11 +57,22 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvRepositories.Location = new System.Drawing.Point(5, 6);
             this.lvRepositories.MultiSelect = false;
             this.lvRepositories.Name = "lvRepositories";
-            this.lvRepositories.Size = new System.Drawing.Size(450, 178);
+            this.lvRepositories.Size = new System.Drawing.Size(458, 178);
+            this.lvRepositories.SmallImageList = this.imageList;
             this.lvRepositories.TabIndex = 0;
             this.lvRepositories.UseCompatibleStateImageBehavior = false;
             this.lvRepositories.View = System.Windows.Forms.View.Details;
             this.lvRepositories.SelectedIndexChanged += new System.EventHandler(this.lvRepositories_SelectedIndexChanged);
+            this.lvRepositories.DoubleClick += new System.EventHandler(this.lvRepositories_DoubleClick);
+            // 
+            // imageList
+            // 
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "GitHub");
+            this.imageList.Images.SetKeyName(1, "Folder");
+            this.imageList.Images.SetKeyName(2, "Gitee");
+            this.imageList.Images.SetKeyName(3, "Delete");
             // 
             // lblName
             // 
@@ -73,7 +87,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.tbName.Location = new System.Drawing.Point(12, 240);
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(330, 20);
+            this.tbName.Size = new System.Drawing.Size(339, 20);
             this.tbName.TabIndex = 2;
             // 
             // lblPath
@@ -87,17 +101,20 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // tbUrl
             // 
+            this.tbUrl.AllowDrop = true;
             this.tbUrl.Location = new System.Drawing.Point(12, 279);
             this.tbUrl.Name = "tbUrl";
-            this.tbUrl.Size = new System.Drawing.Size(330, 20);
+            this.tbUrl.Size = new System.Drawing.Size(339, 20);
             this.tbUrl.TabIndex = 4;
+            this.tbUrl.DragDrop += new System.Windows.Forms.DragEventHandler(this.tbUrl_DragDrop);
+            this.tbUrl.DragEnter += new System.Windows.Forms.DragEventHandler(this.tbUrl_DragEnter);
             // 
             // btnAdd
             // 
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Location = new System.Drawing.Point(387, 273);
+            this.btnAdd.Location = new System.Drawing.Point(367, 273);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 26);
+            this.btnAdd.Size = new System.Drawing.Size(103, 26);
             this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -106,11 +123,13 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnRemove
             // 
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemove.Location = new System.Drawing.Point(387, 234);
+            this.btnRemove.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.btnRemove.ImageKey = "Delete";
+            this.btnRemove.ImageList = this.imageList;
+            this.btnRemove.Location = new System.Drawing.Point(444, 234);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 26);
+            this.btnRemove.Size = new System.Drawing.Size(26, 26);
             this.btnRemove.TabIndex = 6;
-            this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
@@ -122,7 +141,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabRepositories.Location = new System.Drawing.Point(3, 1);
             this.tabRepositories.Name = "tabRepositories";
             this.tabRepositories.SelectedIndex = 0;
-            this.tabRepositories.Size = new System.Drawing.Size(474, 219);
+            this.tabRepositories.Size = new System.Drawing.Size(477, 219);
             this.tabRepositories.TabIndex = 7;
             this.tabRepositories.SelectedIndexChanged += new System.EventHandler(this.tabRepositories_SelectedIndexChanged);
             // 
@@ -132,7 +151,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabPageUserRepositories.Location = new System.Drawing.Point(4, 25);
             this.tabPageUserRepositories.Name = "tabPageUserRepositories";
             this.tabPageUserRepositories.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageUserRepositories.Size = new System.Drawing.Size(466, 190);
+            this.tabPageUserRepositories.Size = new System.Drawing.Size(469, 190);
             this.tabPageUserRepositories.TabIndex = 0;
             this.tabPageUserRepositories.Text = "User";
             this.tabPageUserRepositories.UseVisualStyleBackColor = true;
@@ -143,7 +162,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tabPageStdRepositories.Location = new System.Drawing.Point(4, 25);
             this.tabPageStdRepositories.Name = "tabPageStdRepositories";
             this.tabPageStdRepositories.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStdRepositories.Size = new System.Drawing.Size(466, 190);
+            this.tabPageStdRepositories.Size = new System.Drawing.Size(469, 190);
             this.tabPageStdRepositories.TabIndex = 1;
             this.tabPageStdRepositories.Text = "Standard";
             this.tabPageStdRepositories.UseVisualStyleBackColor = true;
@@ -156,16 +175,18 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lvStdRepositories.Location = new System.Drawing.Point(5, 6);
             this.lvStdRepositories.MultiSelect = false;
             this.lvStdRepositories.Name = "lvStdRepositories";
-            this.lvStdRepositories.Size = new System.Drawing.Size(450, 178);
+            this.lvStdRepositories.Size = new System.Drawing.Size(458, 178);
+            this.lvStdRepositories.SmallImageList = this.imageList;
             this.lvStdRepositories.TabIndex = 1;
             this.lvStdRepositories.UseCompatibleStateImageBehavior = false;
             this.lvStdRepositories.View = System.Windows.Forms.View.Details;
             this.lvStdRepositories.SelectedIndexChanged += new System.EventHandler(this.lvStdRepositories_SelectedIndexChanged);
+            this.lvStdRepositories.DoubleClick += new System.EventHandler(this.lvStdRepositories_DoubleClick);
             // 
             // btnDown
             // 
             this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDown.Location = new System.Drawing.Point(348, 273);
+            this.btnDown.Location = new System.Drawing.Point(367, 234);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(26, 26);
             this.btnDown.TabIndex = 8;
@@ -177,7 +198,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnUp
             // 
             this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUp.Location = new System.Drawing.Point(348, 234);
+            this.btnUp.Location = new System.Drawing.Point(399, 234);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(26, 26);
             this.btnUp.TabIndex = 9;
@@ -190,16 +211,17 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 308);
-            this.Controls.Add(this.btnUp);
+            this.ClientSize = new System.Drawing.Size(484, 308);
             this.Controls.Add(this.btnDown);
-            this.Controls.Add(this.tabRepositories);
             this.Controls.Add(this.btnRemove);
+            this.Controls.Add(this.btnUp);
+            this.Controls.Add(this.tabRepositories);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tbUrl);
             this.Controls.Add(this.lblName);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -233,5 +255,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ListView lvStdRepositories;
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.ImageList imageList;
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Security;
 using System.Threading;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
@@ -33,8 +35,9 @@ namespace NSW.StarCitizen.Tools.Forms
             tabPageStdRepositories.Text = Resources.Localization_StdRepos_Title;
             lblName.Text = Resources.Localization_Name_Text;
             lblPath.Text = Resources.Localization_RepositoryURL_Text;
-            btnAdd.Text = Resources.Localization_Add_Text;
-            btnRemove.Text = Resources.Localization_Remove_Text;
+            btnAdd.Text = _repositoriesListAdapter.GetSelectedRepository() == null ||
+                tabRepositories.SelectedIndex != 0 ? Resources.Localization_Add_Text :
+                Resources.Localization_Modify_Text;
             btnUp.Text = char.ConvertFromUtf32(0x2191);
             btnDown.Text = char.ConvertFromUtf32(0x2193);
             _repositoriesListAdapter.UpdateLocalization();
@@ -60,6 +63,18 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateButtons();
         }
 
+        private void tbUrl_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.Data.GetSingleDirectoryPath() != null ? DragDropEffects.Link : DragDropEffects.None;
+
+        private void tbUrl_DragDrop(object sender, DragEventArgs e)
+        {
+            string? droppedPath = e.Data.GetSingleDirectoryPath();
+            if (droppedPath != null)
+            {
+                tbUrl.Text = droppedPath;
+            }
+        }
+
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             var name = tbName.Text.Trim();
@@ -70,7 +85,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
 
-            var url = tbUrl.Text.ToLower().Trim();
+            var url = tbUrl.Text.Trim();
             LocalizationSource? localizationSource = LocalizationSource.CreateFromUrl(name, url);
             if (localizationSource == null)
             {
@@ -79,7 +94,13 @@ namespace NSW.StarCitizen.Tools.Forms
                 return;
             }
             using var cancellationTokenSource = new CancellationTokenSource(20000);
-            switch (await _repositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token))
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            RepositoryManager.AddStatus addStatus;
+            if (repository == null || tabRepositories.SelectedIndex != 0)
+                addStatus = await _repositoryManager.AddRepositoryAsync(localizationSource, cancellationTokenSource.Token);
+            else
+                addStatus = await _repositoryManager.UpdateRepositoryAsync(repository, localizationSource, cancellationTokenSource.Token);
+            switch (addStatus)
             {
                 case RepositoryManager.AddStatus.Success:
                     DataBindList();
@@ -147,18 +168,55 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e) => UpdateButtons();
+        private void tabRepositories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _repositoriesListAdapter.SetSelectedIndex(-1);
+            _stdRepositoriesListAdapter.SetSelectedIndex(-1);
+            UpdateButtons();
+        }
+
+        private void lvRepositories_DoubleClick(object sender, EventArgs e)
+        {
+            var repository = _repositoriesListAdapter.GetSelectedRepository();
+            if (repository != null)
+            {
+                LaunchUrlOrFolderPath(repository.RepositoryUrl);
+            }
+        }
+
+        private void lvStdRepositories_DoubleClick(object sender, EventArgs e)
+        {
+            var source = _stdRepositoriesListAdapter.GetSelectedSource();
+            if (source != null)
+            {
+                LaunchUrlOrFolderPath(source.GetUrl());
+            }
+        }
 
         private void UpdateButtons()
         {
             var visible = tabRepositories.SelectedIndex == 0;
             var repository = _repositoriesListAdapter.GetSelectedRepository();
+            btnAdd.Text = repository == null || !visible ?
+                Resources.Localization_Add_Text : Resources.Localization_Modify_Text;
             btnRemove.Visible = visible;
             btnRemove.Enabled = repository != null && _repositoriesListAdapter.RepositoriesCount > 1;
             btnUp.Visible = visible;
             btnUp.Enabled = repository != null && _repositoryManager.CanMoveRepositoryUp(repository);
             btnDown.Visible = visible;
             btnDown.Enabled = repository != null && _repositoryManager.CanMoveRepositoryDown(repository);
+        }
+
+        private static void LaunchUrlOrFolderPath(string urlOrPath)
+        {
+            try
+            {
+                using var process = Process.Start(urlOrPath);
+            }
+            catch (SecurityException)
+            {
+                // just ignore
+            }
         }
     }
 }

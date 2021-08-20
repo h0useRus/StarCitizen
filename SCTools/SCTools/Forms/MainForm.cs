@@ -13,6 +13,7 @@ using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
 using NSW.StarCitizen.Tools.Repository;
+using NSW.StarCitizen.Tools.Settings;
 
 namespace NSW.StarCitizen.Tools.Forms
 {
@@ -65,21 +66,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void InitializeGeneral()
         {
-            AppUpdate.Updater.MonitorStarted += (sender, s) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
-            };
-            AppUpdate.Updater.MonitorStopped += (sender, s) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
-            };
-            AppUpdate.Updater.MonitorNewVersion += (sender, version) =>
-            {
-                IUpdateRepository repository = (IUpdateRepository)sender;
-                niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
-            };
+            AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
+            AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
+            AppUpdate.Updater.MonitorNewVersion += OnAppUpdatesFoundNewVersion;
             foreach (var manager in Program.RepositoryManagers.Values)
             {
                 manager.Notification += (sender, s) =>
@@ -89,7 +78,9 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             TopMost = Program.Settings.TopMostWindow;
             InitLanguageCombobox(cbLanguage);
-            cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime.ToString();
+            cbRefreshTime.DataSource = TimePresets.GetRefreshTimePresets(Program.Settings.Update.RepositoryType);
+            cbRefreshTime.SelectedItem = Program.Settings.Update.MonitorRefreshTime;
+            cbAppUpdateSource.SelectedItem = Program.Settings.Update.RepositoryType.ToString();
             _holdUpdates = true;
             cbGeneralRunMinimized.Checked = Program.Settings.RunMinimized;
             cbGeneralRunWithWindows.Checked = Program.Settings.RunWithWindows;
@@ -154,7 +145,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void niTray_BalloonTipClicked(object sender, EventArgs e) => Restore();
 
-        private void btnGamePath_Click(object sender, EventArgs e)
+        private void tbGamePath_Click(object sender, EventArgs e)
         {
             using var dlg = new FolderBrowserDialog
             {
@@ -166,18 +157,19 @@ namespace NSW.StarCitizen.Tools.Forms
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 _lastBrowsePath = dlg.SelectedPath;
-                string? gamePath = GameFolders.SearchGameFolder(_lastBrowsePath);
-                if (!SetGameFolder(gamePath))
-                {
-                    MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    Program.Settings.GameFolder = gamePath;
-                    Program.SaveAppSettings();
-                }
+                SetGameFolderByUser(_lastBrowsePath);
+            }
+        }
+
+        private void tbGamePath_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.Data.GetSingleDirectoryPath() != null ? DragDropEffects.Link : DragDropEffects.None;
+
+        private void tbGamePath_DragDrop(object sender, DragEventArgs e)
+        {
+            string? droppedPath = e.Data.GetSingleDirectoryPath();
+            if (droppedPath != null)
+            {
+                SetGameFolderByUser(droppedPath);
             }
         }
 
@@ -350,10 +342,56 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbRefreshTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            Program.Settings.Update.MonitorRefreshTime = int.Parse(cbRefreshTime.SelectedItem.ToString());
-            if (Program.Settings.Update.MonitorUpdates)
-                AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
-            Program.SaveAppSettings();
+            if (cbRefreshTime.SelectedItem is int refreshTime &&
+                Program.Settings.Update.MonitorRefreshTime != refreshTime)
+            {
+                Program.Settings.Update.MonitorRefreshTime = refreshTime;
+                if (Program.Settings.Update.MonitorUpdates)
+                    AppUpdate.Updater.MonitorStart(refreshTime);
+                Program.SaveAppSettings();
+            }
+        }
+
+        private void cbAppUpdateSource_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (Enum.TryParse<UpdateRepositoryType>(cbAppUpdateSource.SelectedItem.ToString(), out var repositoryType))
+            {
+                int? monitorRefreshTime = null;
+                var prevUpdater = AppUpdate.Updater;
+                if (AppUpdate.ChangeUpdateRepositoryType(repositoryType))
+                {
+                    prevUpdater.MonitorStarted -= OnAppUpdatesMonitorStarted;
+                    prevUpdater.MonitorStopped -= OnAppUpdatesMonitorStopped;
+                    prevUpdater.MonitorNewVersion -= OnAppUpdatesFoundNewVersion;
+                    prevUpdater.MonitorStop();
+                    prevUpdater.Dispose();
+
+                    int[] refreshTimePresets = TimePresets.GetRefreshTimePresets(repositoryType);
+                    cbRefreshTime.DataSource = refreshTimePresets;
+                    cbRefreshTime.SelectedItem = refreshTimePresets[0];
+                    monitorRefreshTime = refreshTimePresets[0];
+
+                    AppUpdate.Updater.AllowPreReleases = Program.Settings.Update.AllowPreReleases;
+                    AppUpdate.Updater.MonitorNewVersion += OnAppUpdatesFoundNewVersion;
+                    if (Program.Settings.Update.MonitorUpdates)
+                        AppUpdate.Updater.MonitorStart(refreshTimePresets[0]);
+                    AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
+                    AppUpdate.Updater.MonitorStopped += OnAppUpdatesMonitorStopped;
+                }
+#if !DEBUG
+                ConfigDataRepository.UpdateLoader(repositoryType);
+#endif
+                if (Program.Settings.Update.RepositoryType != repositoryType ||
+                    (monitorRefreshTime.HasValue && Program.Settings.Update.MonitorRefreshTime != monitorRefreshTime.Value))
+                {
+                    Program.Settings.Update.RepositoryType = repositoryType;
+                    if (monitorRefreshTime.HasValue)
+                    {
+                        Program.Settings.Update.MonitorRefreshTime = monitorRefreshTime.Value;
+                    }
+                    Program.SaveAppSettings();
+                }
+            }
         }
 
         private void cmTrayMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -462,7 +500,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
-        #endregion
+#endregion
 
         protected override void WndProc(ref Message message)
         {
@@ -515,6 +553,22 @@ namespace NSW.StarCitizen.Tools.Forms
             }
         }
 
+        private void SetGameFolderByUser(string path)
+        {
+            string? gamePath = GameFolders.SearchGameFolder(path);
+            if (!SetGameFolder(gamePath))
+            {
+                MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (string.Compare(Program.Settings.GameFolder, gamePath, StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                Program.Settings.GameFolder = gamePath;
+                Program.SaveAppSettings();
+            }
+        }
+
         private void UpdateGameModeInfo(GameInfo gameInfo)
         {
             tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
@@ -535,6 +589,7 @@ namespace NSW.StarCitizen.Tools.Forms
             btnAppUpdate.Text = scheduledUpdateInfo != null
                 ? string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
                 : Resources.Application_CheckForUpdates_Text;
+            cbAppUpdateSource.Enabled = scheduledUpdateInfo == null;
         }
 
         private void InitLanguageCombobox(ComboBox combobox)
@@ -546,6 +601,24 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             DisposableUtils.Dispose(prevDataSource);
             combobox.SelectedValue = Program.Settings.Language;
+        }
+
+        private void OnAppUpdatesMonitorStarted(object sender, EventArgs eventArgs)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Start_Monitoring, ToolTipIcon.Info);
+        }
+
+        private void OnAppUpdatesMonitorStopped(object sender, EventArgs eventArgs)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, Resources.Localization_Stop_Monitoring, ToolTipIcon.Info);
+        }
+
+        private void OnAppUpdatesFoundNewVersion(object sender, string version)
+        {
+            IUpdateRepository repository = (IUpdateRepository)sender;
+            niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
         }
     }
 }
