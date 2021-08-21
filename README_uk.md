@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.6.0
+# Star Citizen Tools v0.6.2
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -26,6 +26,8 @@
 - Розділене встановлення локалізаці для PTU / LIVE
 - Приховування по замовчуванню ранніх альфа версій локалізації
 - Можливість задати токен GitHub для роботи з приватними репозиторіями (через ручне редагування settings.json) 
+- Розумне довантаження локалізації без повного скачування (НОВЕ у 0.6.1)
+- Підтримка завантаження локалізації і оновлень додатку з gitee для країн і регіонів де заблокований GitHUb (НОВЕ у 0.6.2)
 
 ### Загальні
 
