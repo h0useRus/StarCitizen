@@ -51,6 +51,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // lvRepositories
             // 
+            this.lvRepositories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvRepositories.FullRowSelect = true;
             this.lvRepositories.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvRepositories.HideSelection = false;
@@ -76,6 +79,8 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // lblName
             // 
+            this.lblName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblName.AutoSize = true;
             this.lblName.Location = new System.Drawing.Point(9, 223);
             this.lblName.Name = "lblName";
@@ -85,6 +90,8 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // tbName
             // 
+            this.tbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbName.Location = new System.Drawing.Point(12, 240);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(339, 20);
@@ -92,6 +99,8 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // lblPath
             // 
+            this.lblPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPath.AutoSize = true;
             this.lblPath.Location = new System.Drawing.Point(9, 263);
             this.lblPath.Name = "lblPath";
@@ -102,6 +111,8 @@ namespace NSW.StarCitizen.Tools.Forms
             // tbUrl
             // 
             this.tbUrl.AllowDrop = true;
+            this.tbUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbUrl.Location = new System.Drawing.Point(12, 279);
             this.tbUrl.Name = "tbUrl";
             this.tbUrl.Size = new System.Drawing.Size(339, 20);
@@ -111,6 +122,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Location = new System.Drawing.Point(367, 273);
             this.btnAdd.Name = "btnAdd";
@@ -122,6 +134,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // btnRemove
             // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemove.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
             this.btnRemove.ImageKey = "Delete";
@@ -135,6 +148,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // tabRepositories
             // 
+            this.tabRepositories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabRepositories.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabRepositories.Controls.Add(this.tabPageUserRepositories);
             this.tabRepositories.Controls.Add(this.tabPageStdRepositories);
@@ -169,6 +185,9 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // lvStdRepositories
             // 
+            this.lvStdRepositories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvStdRepositories.FullRowSelect = true;
             this.lvStdRepositories.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvStdRepositories.HideSelection = false;
@@ -185,6 +204,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // btnDown
             // 
+            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDown.Location = new System.Drawing.Point(367, 234);
             this.btnDown.Name = "btnDown";
@@ -197,6 +217,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             // btnUp
             // 
+            this.btnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUp.Location = new System.Drawing.Point(399, 234);
             this.btnUp.Name = "btnUp";
@@ -222,9 +243,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.tbUrl);
             this.Controls.Add(this.lblName);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(500, 347);
             this.Name = "ManageRepositoriesForm";
             this.RestoreLocation = true;
             this.ShowIcon = false;
