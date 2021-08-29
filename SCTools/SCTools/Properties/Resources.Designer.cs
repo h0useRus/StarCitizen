@@ -588,7 +588,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for updates....
+        ///   Looks up a localized string similar to Update localization {0}.
         /// </summary>
         internal static string Localization_CheckForUpdates_Text {
             get {

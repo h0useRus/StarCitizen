@@ -386,7 +386,7 @@ Do you want download and install it now?</value>
     <value>No localization updates were found</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Check for updates...</value>
+    <value>Update localization {0}</value>
   </data>
   <data name="LoggingConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\logging-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>

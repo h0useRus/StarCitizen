@@ -12,6 +12,11 @@ namespace NSW.StarCitizen.Tools.Settings
         public List<LocalizationSource> Repositories { get; } = new List<LocalizationSource>();
         [JsonProperty]
         public List<LocalizationInstallation> Installations { get; } = new List<LocalizationInstallation>();
+        [JsonProperty]
+        public DateTime? LastRegularCheckTime { get; set; }
+
+        public bool CanLaunchRegularUpdatesCheck(DateTime nowTime)
+            => LastRegularCheckTime == null || nowTime.Subtract(LastRegularCheckTime.Value).TotalDays >= 7;
     }
 
     public class LocalizationInstallation

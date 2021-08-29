@@ -379,7 +379,7 @@
 Желаете загрузить и установить?</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Проверка обновлений...</value>
+    <value>Обновить локализацию {0}</value>
   </data>
   <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
     <value>Переместить LIVE в PTU</value>

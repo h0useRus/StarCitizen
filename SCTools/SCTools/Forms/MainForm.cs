@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Adapters;
 using NSW.StarCitizen.Tools.Controllers;
@@ -106,13 +107,20 @@ namespace NSW.StarCitizen.Tools.Forms
 
         #region Events
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
             SetGameFolder(Program.Settings.GameFolder);
 
             AppUpdate.Updater.AllowPreReleases = Program.Settings.Update.AllowPreReleases;
             if (Program.Settings.Update.MonitorUpdates)
+            {
+                AppUpdate.Updater.MonitorStarted -= OnAppUpdatesMonitorStarted;
                 AppUpdate.Updater.MonitorStart(Program.Settings.Update.MonitorRefreshTime);
+                AppUpdate.Updater.MonitorStarted += OnAppUpdatesMonitorStarted;
+            }
+
+            if (Program.Settings.RegularCheckForUpdates && Program.Settings.GameFolder != null)
+                await LaunchRegularCheckForUpdatesAsync();
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -184,36 +192,7 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
         private async void btnUpdateLocalization_Click(object sender, EventArgs e)
-        {
-            if (Program.CurrentGame == null) return;
-            var controller = new LocalizationController(Program.CurrentGame);
-            controller.Load();
-            var installedVersion = controller.CurrentInstallation.InstalledVersion;
-            if (installedVersion != null && await controller.RefreshVersionsAsync(this))
-            {
-                var availableUpdate = controller.CurrentRepository.LatestUpdateInfo;
-                if (availableUpdate != null &&
-                    string.Compare(installedVersion, availableUpdate.GetVersion(),
-                        StringComparison.OrdinalIgnoreCase) != 0)
-                {
-                    var dialogResult = MessageBox.Show(this,
-                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
-                            $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
-                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dialogResult == DialogResult.Yes &&
-                        await controller.InstallVersionAsync(this, availableUpdate))
-                    {
-                        controller.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
-                        Resources.Localization_CheckForUpdate_Title,
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-        }
+            => await CheckForLocalizationUpdatesAsync(userInitiated: true);
 
         private async void btnGameSettings_Click(object sender, EventArgs e)
         {
@@ -266,68 +245,7 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
         private async void btnAppUpdate_Click(object sender, EventArgs e)
-        {
-            if (AppUpdate.Updater.GetScheduledUpdateInfo() != null)
-            {
-                if (AppUpdate.InstallScheduledUpdate())
-                    Close();
-                UpdateAppInstallButton();
-                return;
-            }
-            using var progressDlg = new ProgressForm();
-            try
-            {
-                Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
-                progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
-                progressDlg.Show(this);
-                var availableUpdate = await AppUpdate.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
-                progressDlg.CurrentTaskProgress = 1.0f;
-                if (availableUpdate == null)
-                {
-                    progressDlg.Hide();
-                    MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text,
-                        Resources.Application_CheckForUpdate_Title,
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                var dialogResult = MessageBox.Show(this,
-                    string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
-                    Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(null);
-                    progressDlg.BindAdapter(downloadDialogAdapter);
-                    var filePath = await AppUpdate.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken,
-                        downloadDialogAdapter);
-                    AppUpdate.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
-                }
-            }
-            catch (Exception exception)
-            {
-                if (!progressDlg.IsCanceledByUser)
-                {
-                    progressDlg.Hide();
-                    if (exception is HttpRequestException)
-                    {
-                        MessageBox.Show(this, Resources.Localization_Download_ErrorText + '\n' + exception.Message,
-                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show(this, Resources.Localization_Download_ErrorText,
-                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-                Enabled = true;
-                progressDlg.Hide();
-                UpdateAppInstallButton();
-            }
-        }
+            => await CheckForApplicationUpdatesAsync(userInitiated: true);
 
         private void cbCheckNewVersions_CheckedChanged(object sender, EventArgs e)
         {
@@ -576,7 +494,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
-            btnUpdateLocalization.Text = Resources.Localization_CheckForUpdates_Text;
+            btnUpdateLocalization.Text = string.Format(Resources.Localization_CheckForUpdates_Text, gameInfo.Mode);
             var controller = new LocalizationController(gameInfo);
             btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null &&
                                             controller.GetInstallationType() != LocalizationInstallationType.None;
@@ -601,6 +519,131 @@ namespace NSW.StarCitizen.Tools.Forms
             combobox.DataSource = new BindingSource(Program.GetSupportedUiLanguages(), null);
             DisposableUtils.Dispose(prevDataSource);
             combobox.SelectedValue = Program.Settings.Language;
+        }
+
+        private async Task CheckForApplicationUpdatesAsync(bool userInitiated)
+        {
+            if (AppUpdate.Updater.GetScheduledUpdateInfo() != null)
+            {
+                if (userInitiated)
+                {
+                    if (AppUpdate.InstallScheduledUpdate())
+                        Close();
+                    UpdateAppInstallButton();
+                }
+                return;
+            }
+            using var progressDlg = new ProgressForm();
+            try
+            {
+                Enabled = false;
+                Cursor.Current = Cursors.WaitCursor;
+                progressDlg.BindAdapter(new CheckForUpdateDialogAdapter());
+                progressDlg.Show(this);
+                var availableUpdate = await AppUpdate.Updater.CheckForUpdateVersionAsync(progressDlg.CancelToken);
+                progressDlg.CurrentTaskProgress = 1.0f;
+                if (availableUpdate == null)
+                {
+                    if (userInitiated)
+                    {
+                        progressDlg.Hide();
+                        MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text,
+                            Resources.Application_CheckForUpdate_Title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    return;
+                }
+                var dialogResult = MessageBox.Show(this,
+                    string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                    Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    var downloadDialogAdapter = new DownloadProgressDialogAdapter(null);
+                    progressDlg.BindAdapter(downloadDialogAdapter);
+                    var filePath = await AppUpdate.Updater.DownloadVersionAsync(availableUpdate, progressDlg.CancelToken,
+                        downloadDialogAdapter);
+                    AppUpdate.Updater.ScheduleInstallUpdate(availableUpdate, filePath);
+                }
+            }
+            catch (Exception exception)
+            {
+                if (!progressDlg.IsCanceledByUser)
+                {
+                    progressDlg.Hide();
+                    if (exception is HttpRequestException)
+                    {
+                        MessageBox.Show(this, Resources.Localization_Download_ErrorText + '\n' + exception.Message,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, Resources.Localization_Download_ErrorText,
+                            Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Enabled = true;
+                progressDlg.Hide();
+                UpdateAppInstallButton();
+            }
+        }
+
+        private async Task CheckForLocalizationUpdatesAsync(bool userInitiated)
+        {
+            if (Program.CurrentGame == null)
+                return;
+            var controller = new LocalizationController(Program.CurrentGame);
+            controller.Load();
+            var installedVersion = controller.CurrentInstallation.InstalledVersion;
+            if (installedVersion != null && await controller.RefreshVersionsAsync(this))
+            {
+                var availableUpdate = controller.CurrentRepository.LatestUpdateInfo;
+                if (availableUpdate != null &&
+                    string.Compare(installedVersion, availableUpdate.GetVersion(),
+                        StringComparison.OrdinalIgnoreCase) != 0)
+                {
+                    var dialogResult = MessageBox.Show(this,
+                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
+                            $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
+                        Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes &&
+                        await controller.InstallVersionAsync(this, availableUpdate))
+                    {
+                        controller.CurrentRepository.SetCurrentVersion(availableUpdate.GetVersion());
+                    }
+                }
+                else if (userInitiated)
+                {
+                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
+                        Resources.Localization_CheckForUpdate_Title,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private async Task LaunchRegularCheckForUpdatesAsync()
+        {
+            var nowTime = DateTime.UtcNow;
+            if (Program.CurrentGame != null)
+            {
+                var localizationSettings = Program.Settings.GetGameModeSettings(Program.CurrentGame.Mode);
+                if (localizationSettings.CanLaunchRegularUpdatesCheck(nowTime))
+                {
+                    localizationSettings.LastRegularCheckTime = nowTime;
+                    Program.SaveAppSettings();
+                    await CheckForLocalizationUpdatesAsync(userInitiated: false);
+                    return; // do not check for application updates after localization check
+                }
+            }
+            if (Program.Settings.Update.CanLaunchRegularUpdatesCheck(nowTime))
+            {
+                Program.Settings.Update.LastRegularCheckTime = nowTime;
+                Program.SaveAppSettings();
+                await CheckForApplicationUpdatesAsync(userInitiated: false);
+            }
         }
 
         private void OnAppUpdatesMonitorStarted(object sender, EventArgs eventArgs)
