@@ -158,7 +158,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbVersions.FormattingEnabled = true;
+            this.cbVersions.IntegralHeight = false;
             this.cbVersions.Location = new System.Drawing.Point(117, 65);
+            this.cbVersions.MaxDropDownItems = 16;
             this.cbVersions.Name = "cbVersions";
             this.cbVersions.Size = new System.Drawing.Size(283, 21);
             this.cbVersions.TabIndex = 4;
@@ -172,7 +174,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbRepository.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbRepository.FormattingEnabled = true;
+            this.cbRepository.IntegralHeight = false;
             this.cbRepository.Location = new System.Drawing.Point(117, 12);
+            this.cbRepository.MaxDropDownItems = 16;
             this.cbRepository.Name = "cbRepository";
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 1;
