@@ -48,6 +48,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnUninstall = new System.Windows.Forms.Button();
             this.cbAllowPreReleaseVersions = new System.Windows.Forms.CheckBox();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.lblCoreVersion = new System.Windows.Forms.Label();
+            this.lblCurrentCoreVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMinutes
@@ -256,11 +258,32 @@ namespace NSW.StarCitizen.Tools.Forms
             this.imageList.Images.SetKeyName(1, "Gitee");
             this.imageList.Images.SetKeyName(2, "GitHub");
             // 
+            // lblCoreVersion
+            // 
+            this.lblCoreVersion.AutoSize = true;
+            this.lblCoreVersion.Location = new System.Drawing.Point(6, 128);
+            this.lblCoreVersion.Name = "lblCoreVersion";
+            this.lblCoreVersion.Size = new System.Drawing.Size(69, 13);
+            this.lblCoreVersion.TabIndex = 14;
+            this.lblCoreVersion.Text = "Core version:";
+            // 
+            // lblCurrentCoreVersion
+            // 
+            this.lblCurrentCoreVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 128);
+            this.lblCurrentCoreVersion.Name = "lblCurrentCoreVersion";
+            this.lblCurrentCoreVersion.Size = new System.Drawing.Size(361, 13);
+            this.lblCurrentCoreVersion.TabIndex = 15;
+            this.lblCurrentCoreVersion.Text = "0.0.0.0";
+            this.lblCurrentCoreVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 228);
+            this.Controls.Add(this.lblCurrentCoreVersion);
+            this.Controls.Add(this.lblCoreVersion);
             this.Controls.Add(this.cbAllowPreReleaseVersions);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
@@ -313,5 +336,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.CheckBox cbAllowPreReleaseVersions;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Label lblCoreVersion;
+        private System.Windows.Forms.Label lblCurrentCoreVersion;
     }
 }

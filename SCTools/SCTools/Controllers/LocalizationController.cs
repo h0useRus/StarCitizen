@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -66,6 +67,8 @@ namespace NSW.StarCitizen.Tools.Controllers
         public UpdateInfo? UpdateCurrentVersion() => CurrentRepository.UpdateCurrentVersion(CurrentInstallation.LastVersion ?? CurrentInstallation.InstalledVersion);
 
         public LocalizationInstallationType GetInstallationType() => CurrentRepository.Installer.GetInstallationType(CurrentGame.RootFolderPath);
+
+        public FileVersionInfo? GetPatcherFileVersionInfo() => CurrentRepository.Installer.GetPatcherFileVersionInfo(CurrentGame.RootFolderPath);
 
         public async Task<bool> RefreshVersionsAsync(Control window)
         {

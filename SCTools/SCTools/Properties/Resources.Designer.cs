@@ -606,6 +606,42 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        internal static string Localization_Core_Disabled_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Disabled_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        internal static string Localization_Core_Enabled_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Enabled_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing (Reinstall Localization).
+        /// </summary>
+        internal static string Localization_Core_Missing_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Missing_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core version:.
+        /// </summary>
+        internal static string Localization_CoreVersion_Text {
+            get {
+                return ResourceManager.GetString("Localization_CoreVersion_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current language:.
         /// </summary>
         internal static string Localization_CurrentLanguage {

@@ -523,4 +523,16 @@
   <data name="Localization_Modify_Text" xml:space="preserve">
     <value>Изменить</value>
   </data>
+  <data name="Localization_CoreVersion_Text" xml:space="preserve">
+    <value>Версия ядра:</value>
+  </data>
+  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="Localization_Core_Missing_Status" xml:space="preserve">
+    <value>Отсутствует (Переустановите локализацию)</value>
+  </data>
 </root>

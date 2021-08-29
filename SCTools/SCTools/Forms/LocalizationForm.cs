@@ -34,6 +34,7 @@ namespace NSW.StarCitizen.Tools.Forms
             lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
             lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
             lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
+            lblCoreVersion.Text = Resources.Localization_CoreVersion_Text;
             cbAllowPreReleaseVersions.Text = Resources.Localization_DisplayPreReleases_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
@@ -215,16 +216,33 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 case LocalizationInstallationType.None:
                     btnLocalizationDisable.Visible = false;
+                    lblCoreVersion.Visible = false;
+                    lblCurrentCoreVersion.Visible = false;
+                    if (!string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion))
+                    {
+                        lblCoreVersion.Visible = true;
+                        lblCurrentCoreVersion.Visible = true;
+                        lblCurrentCoreVersion.Text = Resources.Localization_Core_Missing_Status;
+                        lblCurrentCoreVersion.ForeColor = Color.Red;
+                    }
                     UpdateMissingLocalizationInfo();
                     break;
                 case LocalizationInstallationType.Enabled:
                     btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCurrentCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
+                    lblCurrentCoreVersion.Text = $"{_controller.GetPatcherFileVersionInfo()?.FileVersion} ({Resources.Localization_Core_Enabled_Status})";
+                    lblCurrentCoreVersion.ForeColor = Color.Blue;
                     UpdatePresentLocalizationInfo();
                     break;
                 case LocalizationInstallationType.Disabled:
                     btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCurrentCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
+                    lblCurrentCoreVersion.Text = $"{_controller.GetPatcherFileVersionInfo()?.FileVersion} ({Resources.Localization_Core_Disabled_Status})";
+                    lblCurrentCoreVersion.ForeColor = Color.Gray;
                     UpdatePresentLocalizationInfo();
                     break;
             }
