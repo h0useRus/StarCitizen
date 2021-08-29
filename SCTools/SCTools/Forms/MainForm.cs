@@ -59,6 +59,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
             miUpdateToAlphaVersions.Text = Resources.Application_UpdatePreReleases_Text;
             miAllowIncrementalDownload.Text = Resources.Application_AllowIncrementalDownload_Text;
+            miLanguage.Text = Resources.Localization_Language_Text;
             miTools.Text = Resources.Tools_Title;
             miMoveLiveToPtu.Text = Resources.Tools_Move_LIVE_PTU;
             miMovePtuToLive.Text = Resources.Tools_Move_PTU_LIVE;
@@ -333,11 +334,20 @@ namespace NSW.StarCitizen.Tools.Forms
                 miMoveLiveToPtu.Enabled = false;
                 miMovePtuToLive.Enabled = false;
             }
-            if (cbMenuLanguage.ComboBox != null)
+            // build languages submenu
+            var currentLanguage = Program.Settings.Language;
+            miLanguage.DropDownItems.Clear();
+            foreach (var pair in Program.GetSupportedUiLanguages())
             {
-                _holdUpdates = true;
-                InitLanguageCombobox(cbMenuLanguage.ComboBox);
-                _holdUpdates = false;
+                bool isCurrentLanguage = pair.Key.Equals(currentLanguage);
+                var menuItem = new ToolStripMenuItem(pair.Value)
+                {
+                    Tag = pair.Key,
+                    CheckOnClick = true,
+                    CheckState = isCurrentLanguage ? CheckState.Checked : CheckState.Unchecked
+                };
+                menuItem.CheckedChanged += miLanguage_CheckedChanged;
+                miLanguage.DropDownItems.Add(menuItem);
             }
         }
 
@@ -386,11 +396,17 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.SaveAppSettings();
         }
 
-        private void cbMenuLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        private void miLanguage_CheckedChanged(object sender, EventArgs e)
         {
             if (_holdUpdates) return;
-            if (cbMenuLanguage.ComboBox != null && cbMenuLanguage.ComboBox.SelectedValue is string language)
+            if (sender is ToolStripMenuItem menuItem && menuItem.Tag is string language)
             {
+                _holdUpdates = true;
+                foreach (ToolStripMenuItem item in miLanguage.DropDownItems)
+                {
+                    item.Checked = language.Equals(item.Tag);
+                }
+                _holdUpdates = false;
                 cbLanguage.SelectedValue = language;
                 Program.Settings.Language = language;
                 Program.SaveAppSettings();

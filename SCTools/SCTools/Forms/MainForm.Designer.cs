@@ -61,7 +61,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUpdateToAlphaVersions = new System.Windows.Forms.ToolStripMenuItem();
             this.miAllowIncrementalDownload = new System.Windows.Forms.ToolStripMenuItem();
             this.miDefaultLocalizationApp = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbMenuLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.tsSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExitApp = new System.Windows.Forms.ToolStripMenuItem();
             this.cbGeneralRunWithWindows = new System.Windows.Forms.CheckBox();
@@ -71,6 +70,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
             this.cbAppUpdateSource = new System.Windows.Forms.ComboBox();
+            this.miLanguage = new System.Windows.Forms.ToolStripMenuItem();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -269,21 +269,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(114, 104);
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 126);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
             // 
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(113, 22);
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
             this.miAppName.Text = "SCTools";
             this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // miTools
             // 
@@ -291,20 +291,20 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miMoveLiveToPtu,
             this.miMovePtuToLive});
             this.miTools.Name = "miTools";
-            this.miTools.Size = new System.Drawing.Size(113, 22);
+            this.miTools.Size = new System.Drawing.Size(180, 22);
             this.miTools.Text = "Tools";
             // 
             // miMoveLiveToPtu
             // 
             this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
-            this.miMoveLiveToPtu.Size = new System.Drawing.Size(159, 22);
+            this.miMoveLiveToPtu.Size = new System.Drawing.Size(167, 22);
             this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
             this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
             // 
             // miMovePtuToLive
             // 
             this.miMovePtuToLive.Name = "miMovePtuToLive";
-            this.miMovePtuToLive.Size = new System.Drawing.Size(159, 22);
+            this.miMovePtuToLive.Size = new System.Drawing.Size(167, 22);
             this.miMovePtuToLive.Text = "Move PTU to LIVE";
             this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
             // 
@@ -318,16 +318,16 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miUpdateToAlphaVersions,
             this.miAllowIncrementalDownload,
             this.miDefaultLocalizationApp,
-            this.cbMenuLanguage});
+            this.miLanguage});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(113, 22);
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
             // 
             this.miRunOnStartup.CheckOnClick = true;
             this.miRunOnStartup.Name = "miRunOnStartup";
-            this.miRunOnStartup.Size = new System.Drawing.Size(206, 22);
+            this.miRunOnStartup.Size = new System.Drawing.Size(226, 22);
             this.miRunOnStartup.Text = "Run On Windows startup";
             this.miRunOnStartup.Click += new System.EventHandler(this.miRunOnStartup_Click);
             // 
@@ -335,7 +335,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miRunMinimized.CheckOnClick = true;
             this.miRunMinimized.Name = "miRunMinimized";
-            this.miRunMinimized.Size = new System.Drawing.Size(206, 22);
+            this.miRunMinimized.Size = new System.Drawing.Size(226, 22);
             this.miRunMinimized.Text = "Run minimized";
             this.miRunMinimized.Click += new System.EventHandler(this.miRunMinimized_Click);
             // 
@@ -343,7 +343,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miRunTopMost.CheckOnClick = true;
             this.miRunTopMost.Name = "miRunTopMost";
-            this.miRunTopMost.Size = new System.Drawing.Size(206, 22);
+            this.miRunTopMost.Size = new System.Drawing.Size(226, 22);
             this.miRunTopMost.Text = "Always on top";
             this.miRunTopMost.Click += new System.EventHandler(this.miRunTopMost_Click);
             // 
@@ -351,7 +351,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miUseHttpProxy.CheckOnClick = true;
             this.miUseHttpProxy.Name = "miUseHttpProxy";
-            this.miUseHttpProxy.Size = new System.Drawing.Size(206, 22);
+            this.miUseHttpProxy.Size = new System.Drawing.Size(226, 22);
             this.miUseHttpProxy.Text = "Use Http Proxy";
             this.miUseHttpProxy.Click += new System.EventHandler(this.miUseHttpProxy_Click);
             // 
@@ -359,7 +359,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miUpdateToAlphaVersions.CheckOnClick = true;
             this.miUpdateToAlphaVersions.Name = "miUpdateToAlphaVersions";
-            this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(206, 22);
+            this.miUpdateToAlphaVersions.Size = new System.Drawing.Size(226, 22);
             this.miUpdateToAlphaVersions.Text = "Update to alpha versions";
             this.miUpdateToAlphaVersions.Click += new System.EventHandler(this.miUpdateToAlphaVersions_Click);
             // 
@@ -367,7 +367,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miAllowIncrementalDownload.CheckOnClick = true;
             this.miAllowIncrementalDownload.Name = "miAllowIncrementalDownload";
-            this.miAllowIncrementalDownload.Size = new System.Drawing.Size(206, 22);
+            this.miAllowIncrementalDownload.Size = new System.Drawing.Size(226, 22);
             this.miAllowIncrementalDownload.Text = "Allow incremental download";
             this.miAllowIncrementalDownload.Click += new System.EventHandler(this.miAllowIncrementalDownload_Click);
             // 
@@ -375,26 +375,19 @@ namespace NSW.StarCitizen.Tools.Forms
             // 
             this.miDefaultLocalizationApp.CheckOnClick = true;
             this.miDefaultLocalizationApp.Name = "miDefaultLocalizationApp";
-            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(206, 22);
+            this.miDefaultLocalizationApp.Size = new System.Drawing.Size(226, 22);
             this.miDefaultLocalizationApp.Text = "Default localization app";
             this.miDefaultLocalizationApp.Click += new System.EventHandler(this.miDefaultLocalizationApp_Click);
-            // 
-            // cbMenuLanguage
-            // 
-            this.cbMenuLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMenuLanguage.Name = "cbMenuLanguage";
-            this.cbMenuLanguage.Size = new System.Drawing.Size(121, 21);
-            this.cbMenuLanguage.SelectedIndexChanged += new System.EventHandler(this.cbMenuLanguage_SelectedIndexChanged);
             // 
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(110, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(113, 22);
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -489,6 +482,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbAppUpdateSource.TabIndex = 12;
             this.cbAppUpdateSource.SelectionChangeCommitted += new System.EventHandler(this.cbAppUpdateSource_SelectionChangeCommitted);
             // 
+            // miLanguage
+            // 
+            this.miLanguage.Name = "miLanguage";
+            this.miLanguage.Size = new System.Drawing.Size(226, 22);
+            this.miLanguage.Text = "Language";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -552,7 +551,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miRunOnStartup;
         private System.Windows.Forms.ToolStripSeparator tsSeparator2;
         private System.Windows.Forms.ToolStripMenuItem miAppName;
-        private System.Windows.Forms.ToolStripComboBox cbMenuLanguage;
         private System.Windows.Forms.ToolStripMenuItem miRunTopMost;
         private System.Windows.Forms.ToolStripMenuItem miUseHttpProxy;
         private System.Windows.Forms.Button btnUpdateLocalization;
@@ -564,5 +562,6 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ToolStripMenuItem miDefaultLocalizationApp;
         private System.Windows.Forms.ToolStripMenuItem miAllowIncrementalDownload;
         private System.Windows.Forms.ComboBox cbAppUpdateSource;
+        private System.Windows.Forms.ToolStripMenuItem miLanguage;
     }
 }
