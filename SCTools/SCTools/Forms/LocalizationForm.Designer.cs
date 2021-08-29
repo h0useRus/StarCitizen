@@ -261,7 +261,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblCoreVersion
             // 
             this.lblCoreVersion.AutoSize = true;
-            this.lblCoreVersion.Location = new System.Drawing.Point(6, 128);
+            this.lblCoreVersion.Location = new System.Drawing.Point(6, 126);
             this.lblCoreVersion.Name = "lblCoreVersion";
             this.lblCoreVersion.Size = new System.Drawing.Size(69, 13);
             this.lblCoreVersion.TabIndex = 14;
@@ -270,12 +270,11 @@ namespace NSW.StarCitizen.Tools.Forms
             // lblCurrentCoreVersion
             // 
             this.lblCurrentCoreVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 128);
+            this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 126);
             this.lblCurrentCoreVersion.Name = "lblCurrentCoreVersion";
             this.lblCurrentCoreVersion.Size = new System.Drawing.Size(361, 13);
             this.lblCurrentCoreVersion.TabIndex = 15;
             this.lblCurrentCoreVersion.Text = "0.0.0.0";
-            this.lblCurrentCoreVersion.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // LocalizationForm
             // 
