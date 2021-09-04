@@ -102,7 +102,8 @@ namespace NSW.StarCitizen.Tools.Settings
         }
 
         public static LocalizationSource DefaultBaseModding { get; } = CreateGithub("Base Modding Package", "defterai/starcitizenmodding");
-        public static LocalizationSource DefaultRussian { get; } = CreateGithub("Russian Community", "n1ghter/sc_ru");
+        public static LocalizationSource DefaultRussianGitHub { get; } = CreateGithub("Russian Community", "n1ghter/sc_ru");
+        public static LocalizationSource DefaultRussianGitee { get; } = CreateGitee("Russian Community (зеркало)", "defter/SC_ru");
         public static LocalizationSource MinimalRussian { get; } = CreateGithub("Russian Community (без названий)", "budukratok/SC_not_so_ru");
         public static LocalizationSource DefaultUkrainian { get; } = CreateGithub("Ukrainian Community", "slyf0x-ua/sc_uk");
         public static LocalizationSource DefaultChineseGitee { get; } = CreateGitee("Chinese Community", "mwfaw/SC_CN_zh");
@@ -112,7 +113,7 @@ namespace NSW.StarCitizen.Tools.Settings
         public static LocalizationSource DefaultLocal { get; } = CreateFolder("Localizations Folder", "localizations");
 
         public static IReadOnlyList<LocalizationSource> DefaultList { get; } = new List<LocalizationSource>() {
-            DefaultRussian,
+            DefaultRussianGitHub,
             DefaultUkrainian,
             DefaultChineseGitee,
             DefaultChineseGitHub,
@@ -121,7 +122,8 @@ namespace NSW.StarCitizen.Tools.Settings
         };
 
         public static IReadOnlyList<LocalizationSource> StandardList { get; } = new List<LocalizationSource>() {
-            DefaultRussian,
+            DefaultRussianGitHub,
+            DefaultRussianGitee,
             MinimalRussian,
             DefaultUkrainian,
             DefaultChineseGitee,
