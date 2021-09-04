@@ -74,7 +74,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
-            await _controller.RefreshVersionsAsync(this);
+            if (await _controller.RefreshVersionsAsync(this))
+            {
+                _controller.UpdateCurrentVersionToLatest();
+            }
             UpdateAvailableVersions();
             UpdateButtonsVisibility();
         }

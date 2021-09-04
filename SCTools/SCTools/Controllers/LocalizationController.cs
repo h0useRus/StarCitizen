@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -65,6 +66,15 @@ namespace NSW.StarCitizen.Tools.Controllers
         }
 
         public UpdateInfo? UpdateCurrentVersion() => CurrentRepository.UpdateCurrentVersion(CurrentInstallation.LastVersion ?? CurrentInstallation.InstalledVersion);
+
+        public void UpdateCurrentVersionToLatest()
+        {
+            var latestUpdateInfo = CurrentRepository.LatestUpdateInfo;
+            if (latestUpdateInfo != null)
+            {
+                CurrentRepository.SetCurrentVersion(latestUpdateInfo.GetVersion());
+            }
+        }
 
         public LocalizationInstallationType GetInstallationType() => CurrentRepository.Installer.GetInstallationType(CurrentGame.RootFolderPath);
 
