@@ -1,11 +1,13 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -15,6 +17,7 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : FormEx, ILocalizedForm
     {
+        private static bool _setAsDefaultLocalizationAppShown;
         private readonly LocalizationController _controller;
 
         public LocalizationForm(GameInfo currentGame)
@@ -52,6 +55,40 @@ namespace NSW.StarCitizen.Tools.Forms
             cbRepository.SelectedItem = _controller.CurrentRepository;
             UpdateAvailableVersions();
             UpdateControls();
+        }
+
+        private void LocalizationForm_Shown(object sender, EventArgs e)
+        {
+            if (_setAsDefaultLocalizationAppShown || Program.Settings.DefaultLocalizationAppChangeShown)
+            {
+                return;
+            }
+            var executablePath = Application.ExecutablePath;
+            if (executablePath.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase))
+            {
+                _setAsDefaultLocalizationAppShown = true;
+                return;
+            }
+            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
+            if (defaultLocalizationApp == null)
+            {
+                LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
+            }
+            else if (!string.Equals(defaultLocalizationApp, executablePath, StringComparison.OrdinalIgnoreCase))
+            {
+                _setAsDefaultLocalizationAppShown = true;
+                var dialogResult = MessageBox.Show(this, string.Format(Resources.Localization_ChangeDefaultApp_Text, Program.Name),
+                    Resources.Localization_DefaultApp_Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (dialogResult != DialogResult.Cancel)
+                {
+                    Program.Settings.DefaultLocalizationAppChangeShown = true;
+                    Program.SaveAppSettings();
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
+                    }
+                }
+            }
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)

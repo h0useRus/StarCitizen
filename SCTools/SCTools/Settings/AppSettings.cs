@@ -44,6 +44,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool AcceptInstallWarning { get; set; }
         [JsonProperty]
+        public bool DefaultLocalizationAppChangeShown { get; set; }
+        [JsonProperty]
         public bool AllowIncrementalDownload { get; set; } = true;
         [JsonProperty]
         public bool RegularCheckForUpdates { get; set; } = true;

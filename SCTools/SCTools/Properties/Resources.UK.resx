@@ -535,4 +535,8 @@
   <data name="Localization_Core_Missing_Status" xml:space="preserve">
     <value>Відсутнє (Перевстановіть локалізацію)</value>
   </data>
+  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
+    <value>{0} не обраний вами як основний додаткок для локалізації Star Citizen.
+Бажаєте зробити його основним?</value>
+  </data>
 </root>

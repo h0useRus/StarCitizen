@@ -545,4 +545,8 @@ To proceed please ensure that game is not running and press retry.</value>
   <data name="Localization_Core_Missing_Status" xml:space="preserve">
     <value>Missing (Reinstall Localization)</value>
   </data>
+  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
+    <value>{0} isn't your default Star Citizen localization application.
+Set as default?</value>
+  </data>
 </root>
