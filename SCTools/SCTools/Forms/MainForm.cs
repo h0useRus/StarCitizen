@@ -450,7 +450,8 @@ namespace NSW.StarCitizen.Tools.Forms
             if (path != null)
             {
                 var gameModes = GameFolders.GetGameModes(path);
-                foreach (var gameMode in gameModes)
+                var gameMode = GameFolders.GetDefaultOrFirstGameMode(gameModes, Program.CurrentGame);
+                if (gameMode != null)
                 {
                     _isGameFolderSet = true;
                     gbGameInfo.Visible = true;
@@ -459,6 +460,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     tbGamePath.Text = path.ToUpper();
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = gameModes;
+                    cbGameModes.SelectedItem = gameMode;
                     _gameModes = gameModes.Select(i => i.Mode).ToList();
                     SetGameModeInfo(gameMode);
                     Program.RunRepositoryMonitors(gameModes);
