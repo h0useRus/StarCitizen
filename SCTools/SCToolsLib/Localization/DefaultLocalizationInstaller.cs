@@ -299,9 +299,9 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 {
                     return FileVersionInfo.GetVersionInfo(enabledLibraryPath);
                 }
-                catch
+                catch (Exception e)
                 {
-                    // just ignore
+                    _logger.Error(e, $"Failed get core version info: {enabledLibraryPath}");
                 }
             }
             var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
@@ -311,9 +311,9 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 {
                     return FileVersionInfo.GetVersionInfo(disabledLibraryPath);
                 }
-                catch
+                catch (Exception e)
                 {
-                    // just ignore
+                    _logger.Error(e, $"Failed get core version info: {disabledLibraryPath}");
                 }
             }
             return null;
