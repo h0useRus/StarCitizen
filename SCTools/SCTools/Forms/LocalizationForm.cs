@@ -1,11 +1,13 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
+using NSW.StarCitizen.Tools.Lib.Helpers;
 using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -15,6 +17,7 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : FormEx, ILocalizedForm
     {
+        private static bool _setAsDefaultLocalizationAppShown;
         private readonly LocalizationController _controller;
 
         public LocalizationForm(GameInfo currentGame)
@@ -34,6 +37,7 @@ namespace NSW.StarCitizen.Tools.Forms
             lblCurrentVersion.Text = Resources.Localization_SourceRepository_Text;
             lblServerVersion.Text = Resources.Localization_AvailableVersions_Text;
             lblCurrentLanguage.Text = Resources.Localization_CurrentLanguage;
+            lblCoreVersion.Text = Resources.Localization_CoreVersion_Text;
             cbAllowPreReleaseVersions.Text = Resources.Localization_DisplayPreReleases_Text;
             lblMinutes.Text = Resources.Localization_AutomaticCheck_Measure;
             cbCheckNewVersions.Text = Resources.Localization_CheckForVersionEvery_Text;
@@ -51,6 +55,40 @@ namespace NSW.StarCitizen.Tools.Forms
             cbRepository.SelectedItem = _controller.CurrentRepository;
             UpdateAvailableVersions();
             UpdateControls();
+        }
+
+        private void LocalizationForm_Shown(object sender, EventArgs e)
+        {
+            if (_setAsDefaultLocalizationAppShown || Program.Settings.DefaultLocalizationAppChangeShown)
+            {
+                return;
+            }
+            var executablePath = Application.ExecutablePath;
+            if (executablePath.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase))
+            {
+                _setAsDefaultLocalizationAppShown = true;
+                return;
+            }
+            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
+            if (defaultLocalizationApp == null)
+            {
+                LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
+            }
+            else if (!string.Equals(defaultLocalizationApp, executablePath, StringComparison.OrdinalIgnoreCase))
+            {
+                _setAsDefaultLocalizationAppShown = true;
+                var dialogResult = MessageBox.Show(this, string.Format(Resources.Localization_ChangeDefaultApp_Text, Program.Name),
+                    Resources.Localization_DefaultApp_Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (dialogResult != DialogResult.Cancel)
+                {
+                    Program.Settings.DefaultLocalizationAppChangeShown = true;
+                    Program.SaveAppSettings();
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
+                    }
+                }
+            }
         }
 
         private void cbRepository_SelectionChangeCommitted(object sender, EventArgs e)
@@ -73,7 +111,10 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
-            await _controller.RefreshVersionsAsync(this);
+            if (await _controller.RefreshVersionsAsync(this))
+            {
+                _controller.UpdateCurrentVersionToLatest();
+            }
             UpdateAvailableVersions();
             UpdateButtonsVisibility();
         }
@@ -215,16 +256,33 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 case LocalizationInstallationType.None:
                     btnLocalizationDisable.Visible = false;
+                    lblCoreVersion.Visible = false;
+                    lblCurrentCoreVersion.Visible = false;
+                    if (!string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion))
+                    {
+                        lblCoreVersion.Visible = true;
+                        lblCurrentCoreVersion.Visible = true;
+                        lblCurrentCoreVersion.Text = Resources.Localization_Core_Missing_Status;
+                        lblCurrentCoreVersion.ForeColor = Color.Red;
+                    }
                     UpdateMissingLocalizationInfo();
                     break;
                 case LocalizationInstallationType.Enabled:
                     btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCurrentCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Disable_localization;
+                    lblCurrentCoreVersion.Text = $"{_controller.GetPatcherFileVersionInfo()?.FileVersion} ({Resources.Localization_Core_Enabled_Status})";
+                    lblCurrentCoreVersion.ForeColor = Color.Blue;
                     UpdatePresentLocalizationInfo();
                     break;
                 case LocalizationInstallationType.Disabled:
                     btnLocalizationDisable.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    lblCurrentCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     btnLocalizationDisable.Text = Resources.Localization_Button_Enable_localization;
+                    lblCurrentCoreVersion.Text = $"{_controller.GetPatcherFileVersionInfo()?.FileVersion} ({Resources.Localization_Core_Disabled_Status})";
+                    lblCurrentCoreVersion.ForeColor = Color.Gray;
                     UpdatePresentLocalizationInfo();
                     break;
             }

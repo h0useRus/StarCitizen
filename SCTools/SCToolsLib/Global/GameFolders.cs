@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace NSW.StarCitizen.Tools.Lib.Global
 {
@@ -19,6 +20,19 @@ namespace NSW.StarCitizen.Tools.Lib.Global
                 }
             }
             return result;
+        }
+
+        public static GameInfo? GetDefaultOrFirstGameMode(List<GameInfo> gameModes, GameInfo? defaultGameMode)
+        {
+            if (defaultGameMode != null)
+            {
+                var result = gameModes.FirstOrDefault(i => i.Mode == defaultGameMode.Mode);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+            return gameModes.FirstOrDefault();
         }
 
         public static string? SearchGameFolder(string searchPath)

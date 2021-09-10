@@ -379,7 +379,7 @@
 Бажаєте завантажити і встановити?</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Перевірити оновлення...</value>
+    <value>Оновити локалізацію {0}</value>
   </data>
   <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
     <value>Перемістити LIVE в PTU</value>
@@ -522,5 +522,21 @@
   </data>
   <data name="Localization_Modify_Text" xml:space="preserve">
     <value>Змінити</value>
+  </data>
+  <data name="Localization_CoreVersion_Text" xml:space="preserve">
+    <value>Версія ядра:</value>
+  </data>
+  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
+    <value>Вимкнено</value>
+  </data>
+  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
+    <value>Увімкнено</value>
+  </data>
+  <data name="Localization_Core_Missing_Status" xml:space="preserve">
+    <value>Відсутнє (Перевстановіть локалізацію)</value>
+  </data>
+  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
+    <value>{0} не обраний вами як основний додаткок для локалізації Star Citizen.
+Бажаєте зробити його основним?</value>
   </data>
 </root>

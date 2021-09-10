@@ -379,7 +379,7 @@
 Желаете загрузить и установить?</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Проверка обновлений...</value>
+    <value>Обновить локализацию {0}</value>
   </data>
   <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
     <value>Переместить LIVE в PTU</value>
@@ -522,5 +522,21 @@
   </data>
   <data name="Localization_Modify_Text" xml:space="preserve">
     <value>Изменить</value>
+  </data>
+  <data name="Localization_CoreVersion_Text" xml:space="preserve">
+    <value>Версия ядра:</value>
+  </data>
+  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
+    <value>Выключено</value>
+  </data>
+  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="Localization_Core_Missing_Status" xml:space="preserve">
+    <value>Отсутствует (Переустановите локализацию)</value>
+  </data>
+  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
+    <value>{0} не выбран вами как приложение по умолчанию для локализации Star Citizen.
+Желаете сделать его по умолчанию?</value>
   </data>
 </root>

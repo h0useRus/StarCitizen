@@ -579,6 +579,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} isn&apos;t your default Star Citizen localization application.
+        ///Set as default?.
+        /// </summary>
+        internal static string Localization_ChangeDefaultApp_Text {
+            get {
+                return ResourceManager.GetString("Localization_ChangeDefaultApp_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for localization update.
         /// </summary>
         internal static string Localization_CheckForUpdate_Title {
@@ -588,7 +598,7 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for updates....
+        ///   Looks up a localized string similar to Update localization {0}.
         /// </summary>
         internal static string Localization_CheckForUpdates_Text {
             get {
@@ -602,6 +612,42 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_CheckForVersionEvery_Text {
             get {
                 return ResourceManager.GetString("Localization_CheckForVersionEvery_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        internal static string Localization_Core_Disabled_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Disabled_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        internal static string Localization_Core_Enabled_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Enabled_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing (Reinstall Localization).
+        /// </summary>
+        internal static string Localization_Core_Missing_Status {
+            get {
+                return ResourceManager.GetString("Localization_Core_Missing_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core version:.
+        /// </summary>
+        internal static string Localization_CoreVersion_Text {
+            get {
+                return ResourceManager.GetString("Localization_CoreVersion_Text", resourceCulture);
             }
         }
         

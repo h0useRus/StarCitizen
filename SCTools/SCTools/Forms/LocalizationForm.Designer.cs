@@ -48,6 +48,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnUninstall = new System.Windows.Forms.Button();
             this.cbAllowPreReleaseVersions = new System.Windows.Forms.CheckBox();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.lblCoreVersion = new System.Windows.Forms.Label();
+            this.lblCurrentCoreVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMinutes
@@ -158,7 +160,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbVersions.FormattingEnabled = true;
+            this.cbVersions.IntegralHeight = false;
             this.cbVersions.Location = new System.Drawing.Point(117, 65);
+            this.cbVersions.MaxDropDownItems = 16;
             this.cbVersions.Name = "cbVersions";
             this.cbVersions.Size = new System.Drawing.Size(283, 21);
             this.cbVersions.TabIndex = 4;
@@ -172,7 +176,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbRepository.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbRepository.FormattingEnabled = true;
+            this.cbRepository.IntegralHeight = false;
             this.cbRepository.Location = new System.Drawing.Point(117, 12);
+            this.cbRepository.MaxDropDownItems = 16;
             this.cbRepository.Name = "cbRepository";
             this.cbRepository.Size = new System.Drawing.Size(283, 21);
             this.cbRepository.TabIndex = 1;
@@ -252,11 +258,31 @@ namespace NSW.StarCitizen.Tools.Forms
             this.imageList.Images.SetKeyName(1, "Gitee");
             this.imageList.Images.SetKeyName(2, "GitHub");
             // 
+            // lblCoreVersion
+            // 
+            this.lblCoreVersion.AutoSize = true;
+            this.lblCoreVersion.Location = new System.Drawing.Point(6, 126);
+            this.lblCoreVersion.Name = "lblCoreVersion";
+            this.lblCoreVersion.Size = new System.Drawing.Size(69, 13);
+            this.lblCoreVersion.TabIndex = 14;
+            this.lblCoreVersion.Text = "Core version:";
+            // 
+            // lblCurrentCoreVersion
+            // 
+            this.lblCurrentCoreVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 126);
+            this.lblCurrentCoreVersion.Name = "lblCurrentCoreVersion";
+            this.lblCurrentCoreVersion.Size = new System.Drawing.Size(361, 13);
+            this.lblCurrentCoreVersion.TabIndex = 15;
+            this.lblCurrentCoreVersion.Text = "0.0.0.0";
+            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 228);
+            this.Controls.Add(this.lblCurrentCoreVersion);
+            this.Controls.Add(this.lblCoreVersion);
             this.Controls.Add(this.cbAllowPreReleaseVersions);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
@@ -285,6 +311,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Star Citizen : Localization";
             this.Load += new System.EventHandler(this.LocalizationForm_Load);
+            this.Shown += new System.EventHandler(this.LocalizationForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -309,5 +336,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.CheckBox cbAllowPreReleaseVersions;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Label lblCoreVersion;
+        private System.Windows.Forms.Label lblCurrentCoreVersion;
     }
 }

@@ -363,7 +363,7 @@
     <value>항상 위에 표시하기</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>업데이트 확인 중...</value>
+    <value>업데이트 확인 중 {0}</value>
   </data>
   <data name="Localization_QuitApp_Text" xml:space="preserve">
     <value>나가기</value>

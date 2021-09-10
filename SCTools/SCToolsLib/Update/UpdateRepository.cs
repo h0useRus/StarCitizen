@@ -26,9 +26,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
-            if (string.IsNullOrWhiteSpace(repository))
+            if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
-
+            if (type != UpdateRepositoryType.Folder && string.IsNullOrWhiteSpace(repository))
+                throw new ArgumentNullException(nameof(repository));
+            
             Type = type;
             Name = name;
             Repository = repository;

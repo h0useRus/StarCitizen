@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Lib.Localization
@@ -28,5 +29,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         UninstallStatus Uninstall(string destinationFolder);
         LocalizationInstallationType GetInstallationType(string destinationFolder);
         LocalizationInstallationType RevertLocalization(string destinationFolder);
+        FileVersionInfo? GetPatcherFileVersionInfo(string destinationFolder);
     }
 }

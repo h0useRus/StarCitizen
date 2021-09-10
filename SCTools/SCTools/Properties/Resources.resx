@@ -386,7 +386,7 @@ Do you want download and install it now?</value>
     <value>No localization updates were found</value>
   </data>
   <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Check for updates...</value>
+    <value>Update localization {0}</value>
   </data>
   <data name="LoggingConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\logging-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
@@ -532,5 +532,21 @@ To proceed please ensure that game is not running and press retry.</value>
   </data>
   <data name="Localization_Modify_Text" xml:space="preserve">
     <value>Modify</value>
+  </data>
+  <data name="Localization_CoreVersion_Text" xml:space="preserve">
+    <value>Core version:</value>
+  </data>
+  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Localization_Core_Missing_Status" xml:space="preserve">
+    <value>Missing (Reinstall Localization)</value>
+  </data>
+  <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
+    <value>{0} isn't your default Star Citizen localization application.
+Set as default?</value>
   </data>
 </root>

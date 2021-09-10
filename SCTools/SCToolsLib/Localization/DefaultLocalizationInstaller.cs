@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -285,6 +286,37 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             }
 
             return LocalizationInstallationType.None;
+        }
+
+        public FileVersionInfo? GetPatcherFileVersionInfo(string destinationFolder)
+        {
+            if (!Directory.Exists(destinationFolder))
+                return null;
+            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
+            if (File.Exists(enabledLibraryPath))
+            {
+                try
+                {
+                    return FileVersionInfo.GetVersionInfo(enabledLibraryPath);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Failed get core version info: {enabledLibraryPath}");
+                }
+            }
+            var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
+            if (File.Exists(disabledLibraryPath))
+            {
+                try
+                {
+                    return FileVersionInfo.GetVersionInfo(disabledLibraryPath);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, $"Failed get core version info: {disabledLibraryPath}");
+                }
+            }
+            return null;
         }
 
         private static void InstallCore(string newLibraryPath, string destinationFolder)
