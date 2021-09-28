@@ -19,7 +19,7 @@ namespace NSW.StarCitizen.Tools
         {
             var location = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase);
             var dirInfo = new FileInfo(location.LocalPath).Directory;
-            if (dirInfo == null) throw new NullReferenceException("No assembly executable directory");
+            if (dirInfo == null) throw new InvalidOperationException("No assembly executable directory");
             return dirInfo.FullName;
         }
     }

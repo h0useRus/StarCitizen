@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NSW.StarCitizen.Tools.Lib.Global
 {
-    public class GameFolders
+    public static class GameFolders
     {
         public static List<GameInfo> GetGameModes(string gameFolder)
         {

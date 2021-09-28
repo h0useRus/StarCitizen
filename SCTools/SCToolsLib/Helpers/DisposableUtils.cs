@@ -24,17 +24,19 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
         }
     }
 
-    public class DynamicDisposable<T> : IDisposable
+    public sealed class DynamicDisposable<T> : IDisposable
     {
         public T Object { get; }
 
-        public static DynamicDisposable<T> CreateNonNull(T obj) => new DynamicDisposable<T>(obj);
-        public static DynamicDisposable<T>? CreateNullable(T obj) => (obj != null) ? new DynamicDisposable<T>(obj) : null;
         public DynamicDisposable(T obj)
         {
             Object = obj;
         }
 
-        public void Dispose() => DisposableUtils.Dispose(Object);
+        public void Dispose()
+        {
+            DisposableUtils.Dispose(Object);
+            GC.SuppressFinalize(this);
+        }
     }
 }

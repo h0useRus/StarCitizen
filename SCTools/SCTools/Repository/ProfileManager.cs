@@ -11,7 +11,7 @@ namespace NSW.StarCitizen.Tools.Repository
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly string _profilesPath = Path.Combine(Program.ExecutableDir, "profiles");
-        private readonly IDictionary<string, CfgData> _profiles = new Dictionary<string, CfgData>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly IDictionary<string, CfgData> _profiles = new Dictionary<string, CfgData>(StringComparer.OrdinalIgnoreCase);
         private const string ProfileExtension = ".cfg";
         public IReadOnlyDictionary<string, CfgData> Profiles => new ReadOnlyDictionary<string, CfgData>(_profiles);
 

@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Defter.StarCitizen.ConfigDB.Model;
 
@@ -10,8 +11,8 @@ namespace NSW.StarCitizen.Tools.Controls
         public BaseSetting Model => Setting;
         public string Value
         {
-            get => SelectedValue.ToString();
-            set => SelectedValue = float.Parse(value);
+            get => SelectedValue.ToString(CultureInfo.InvariantCulture);
+            set => SelectedValue = float.Parse(value, CultureInfo.InvariantCulture);
         }
         public bool HasValue
         {

@@ -20,17 +20,17 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public bool IsCanceledByUser { get; }
 
-        public string Text { set; }
+        public string Text { get; set; }
 
-        public string CurrentTaskName { set; }
+        public string CurrentTaskName { get; set; }
 
-        public string CurrentTaskInfo { set; }
+        public string CurrentTaskInfo { get; set; }
 
-        public float CurrentTaskProgress { set; }
+        public float CurrentTaskProgress { get; set; }
 
-        public bool UserCancellable { set; }
+        public bool UserCancellable { get; set; }
 
-        public string UserCancelText { set; }
+        public string UserCancelText { get; set; }
     }
 
     public partial class ProgressForm : Form, IProgressDialog, ILocalizedForm
@@ -44,6 +44,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public string CurrentTaskName
         {
+            get => lblTaskName.Text;
             set
             {
                 lblTaskName.Text = value;
@@ -53,6 +54,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public string CurrentTaskInfo
         {
+            get => lblTaskInfo.Text;
             set
             {
                 lblTaskInfo.Text = value;
@@ -62,6 +64,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public float CurrentTaskProgress
         {
+            get => GetTaskProgressValue();
             set => SetTaskProgressValue(value);
         }
 
@@ -143,6 +146,14 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
         private void btnStop_Click(object sender, EventArgs e) => Close();
+
+        private float GetTaskProgressValue()
+        {
+            int range = prTaskProgress.Maximum - prTaskProgress.Minimum;
+            if (range != 0)
+                return (float)(prTaskProgress.Value - prTaskProgress.Minimum) / range;
+            return 0;
+        }
 
         private void SetTaskProgressValue(float value)
         {

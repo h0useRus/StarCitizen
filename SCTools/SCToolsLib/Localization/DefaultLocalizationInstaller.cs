@@ -30,10 +30,10 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     var dataPathStart = GameConstants.DataFolderName + "/";
                     foreach (var entry in archive.Entries)
                     {
-                        if (entry.FullName.StartsWith(rootEntry.FullName, true, CultureInfo.InvariantCulture))
+                        if (entry.FullName.StartsWith(rootEntry.FullName, StringComparison.OrdinalIgnoreCase))
                         {
                             var relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
-                            if (relativePath.StartsWith(dataPathStart, true, CultureInfo.InvariantCulture))
+                            if (relativePath.StartsWith(dataPathStart, StringComparison.OrdinalIgnoreCase))
                             {
                                 dataPresent = true;
                                 if (corePresent)
@@ -353,16 +353,16 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             //extract only data folder and core module
             foreach (var entry in archive.Entries)
             {
-                if (entry.FullName.StartsWith(rootEntry.FullName, true, CultureInfo.InvariantCulture))
+                if (entry.FullName.StartsWith(rootEntry.FullName, StringComparison.OrdinalIgnoreCase))
                 {
                     var relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
-                    if (string.IsNullOrEmpty(entry.Name) && relativePath.EndsWith("/"))
+                    if (string.IsNullOrEmpty(entry.Name) && relativePath.EndsWith("/", StringComparison.Ordinal))
                     {
                         var dir = Path.Combine(destinationFolder, relativePath);
                         if (!Directory.Exists(dir))
                             Directory.CreateDirectory(dir);
                     }
-                    else if (relativePath.StartsWith(dataPathStart, true, CultureInfo.InvariantCulture))
+                    else if (relativePath.StartsWith(dataPathStart, StringComparison.OrdinalIgnoreCase))
                     {
                         entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
                         dataExtracted = true;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -37,7 +38,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         public void UpdateLocalizedControls()
         {
-            Text = niTray.Text = string.Format(Resources.AppName, Program.Version.ToString(3));
+            Text = niTray.Text = string.Format(CultureInfo.CurrentUICulture, Resources.AppName, Program.Version.ToString(3));
             if (!_isGameFolderSet)
                 tbGamePath.Text = Resources.GamePath_Hint;
             if (Program.CurrentGame != null)
@@ -457,7 +458,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     gbGameInfo.Visible = true;
                     gbButtonMenu.Visible = true;
                     cbGameModes.Visible = true;
-                    tbGamePath.Text = path.ToUpper();
+                    tbGamePath.Text = path.ToUpper(CultureInfo.InvariantCulture);
                     tbGamePath.TextAlign = HorizontalAlignment.Left;
                     cbGameModes.DataSource = gameModes;
                     cbGameModes.SelectedItem = gameMode;
@@ -494,7 +495,7 @@ namespace NSW.StarCitizen.Tools.Forms
             string? gamePath = GameFolders.SearchGameFolder(path);
             if (!SetGameFolder(gamePath))
             {
-                MessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
+                RtlAwareMessageBox.Show(this, Resources.GamePath_Error_Text, Resources.GamePath_Error_Title,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -510,20 +511,20 @@ namespace NSW.StarCitizen.Tools.Forms
             tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
-            btnLocalization.Text = string.Format(Resources.LocalizationButton_Text, gameInfo.Mode);
+            btnLocalization.Text = string.Format(CultureInfo.CurrentUICulture, Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
-            btnUpdateLocalization.Text = string.Format(Resources.Localization_CheckForUpdates_Text, gameInfo.Mode);
+            btnUpdateLocalization.Text = string.Format(CultureInfo.CurrentUICulture, Resources.Localization_CheckForUpdates_Text, gameInfo.Mode);
             var controller = new LocalizationController(gameInfo);
             btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null &&
                                             controller.GetInstallationType() != LocalizationInstallationType.None;
-            btnGameSettings.Text = string.Format(Resources.GameSettings_Button_Text, gameInfo.Mode);
+            btnGameSettings.Text = string.Format(CultureInfo.CurrentUICulture, Resources.GameSettings_Button_Text, gameInfo.Mode);
         }
 
         private void UpdateAppInstallButton()
         {
             var scheduledUpdateInfo = AppUpdate.Updater.GetScheduledUpdateInfo();
             btnAppUpdate.Text = scheduledUpdateInfo != null
-                ? string.Format(Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
+                ? string.Format(CultureInfo.CurrentUICulture, Resources.Localization_InstallUpdateVer_Text, scheduledUpdateInfo.GetVersion())
                 : Resources.Application_CheckForUpdates_Text;
             cbAppUpdateSource.Enabled = scheduledUpdateInfo == null;
         }
@@ -565,14 +566,14 @@ namespace NSW.StarCitizen.Tools.Forms
                     if (userInitiated)
                     {
                         progressDlg.Hide();
-                        MessageBox.Show(this, Resources.Application_NoUpdatesFound_Text,
+                        RtlAwareMessageBox.Show(this, Resources.Application_NoUpdatesFound_Text,
                             Resources.Application_CheckForUpdate_Title,
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     return;
                 }
-                var dialogResult = MessageBox.Show(this,
-                    string.Format(Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
+                var dialogResult = RtlAwareMessageBox.Show(this,
+                    string.Format(CultureInfo.CurrentUICulture, Resources.Application_UpdateAvailableDownloadAsk_Text, availableUpdate.GetVersion()),
                     Resources.Application_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -590,12 +591,12 @@ namespace NSW.StarCitizen.Tools.Forms
                     progressDlg.Hide();
                     if (exception is HttpRequestException)
                     {
-                        MessageBox.Show(this, Resources.Localization_Download_ErrorText + '\n' + exception.Message,
+                        RtlAwareMessageBox.Show(this, Resources.Localization_Download_ErrorText + '\n' + exception.Message,
                             Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-                        MessageBox.Show(this, Resources.Localization_Download_ErrorText,
+                        RtlAwareMessageBox.Show(this, Resources.Localization_Download_ErrorText,
                             Resources.Localization_Download_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -623,8 +624,8 @@ namespace NSW.StarCitizen.Tools.Forms
                     string.Compare(installedVersion, availableUpdate.GetVersion(),
                         StringComparison.OrdinalIgnoreCase) != 0)
                 {
-                    var dialogResult = MessageBox.Show(this,
-                        string.Format(Resources.Localization_UpdateAvailableInstallAsk_Text,
+                    var dialogResult = RtlAwareMessageBox.Show(this,
+                        string.Format(CultureInfo.CurrentUICulture, Resources.Localization_UpdateAvailableInstallAsk_Text,
                             $"\n{controller.CurrentRepository.Name} - {availableUpdate.GetVersion()}"),
                         Resources.Localization_CheckForUpdate_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dialogResult == DialogResult.Yes &&
@@ -635,7 +636,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 else if (userInitiated)
                 {
-                    MessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
+                    RtlAwareMessageBox.Show(this, Resources.Localization_NoUpdatesFound_Text,
                         Resources.Localization_CheckForUpdate_Title,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -679,7 +680,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private void OnAppUpdatesFoundNewVersion(object sender, string version)
         {
             IUpdateRepository repository = (IUpdateRepository)sender;
-            niTray.ShowBalloonTip(5000, repository.Name, string.Format(Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
+            niTray.ShowBalloonTip(5000, repository.Name, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
         }
     }
 }

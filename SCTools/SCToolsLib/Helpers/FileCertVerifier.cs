@@ -9,7 +9,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
     /// <summary>
     /// Provides methods to verify file certificate and signature
     /// </summary>
-    public class FileCertVerifier : IDisposable
+    public sealed class FileCertVerifier : IDisposable
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly X509Certificate2? _rootCertificate;
@@ -85,6 +85,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
         {
             DisposableUtils.Dispose(_rootCertificate);
             DisposableUtils.Dispose(_fileSignCertificate);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             if (filename == null)
                 throw new ArgumentNullException(nameof(filename));
             _logger.Info("Verify file certificate");
-            using var fileCertificateCollection = DynamicDisposable<X509Certificate2Collection>.CreateNonNull(new X509Certificate2Collection());
+            using var fileCertificateCollection = new DynamicDisposable<X509Certificate2Collection>(new X509Certificate2Collection());
             fileCertificateCollection.Object.Import(filename);
             if (fileCertificateCollection.Object.Count != 1)
             {
@@ -109,7 +110,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             var fileCertificate = fileCertificateCollection.Object[0];
             if (fileCertificate.RawData.SequenceEqual(_fileSignCertificate.RawData))
             {
-                using var chain = DynamicDisposable<X509Chain>.CreateNonNull(X509Chain.Create());
+                using var chain = new DynamicDisposable<X509Chain>(X509Chain.Create());
                 if (_rootCertificate != null)
                 {
                     chain.Object.ChainPolicy.ExtraStore.Add(_rootCertificate); // add CA cert for verification

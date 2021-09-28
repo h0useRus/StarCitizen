@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -333,20 +334,23 @@ namespace NSW.StarCitizen.Tools.Repository
         private void OnMonitorNewVersion(object sender, string version)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}",
-                string.Format(Resources.Localization_Found_New_Version, version)));
+            Notification?.Invoke(sender, new Tuple<string, string>(BuildRepositoryNotificationTitle(r),
+                string.Format(CultureInfo.CurrentUICulture, Resources.Localization_Found_New_Version, version)));
         }
 
         private void OnMonitorStopped(object sender, EventArgs eventArgs)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}", Resources.Localization_Stop_Monitoring));
+            Notification?.Invoke(sender, new Tuple<string, string>(BuildRepositoryNotificationTitle(r), Resources.Localization_Stop_Monitoring));
         }
 
         private void OnMonitorStarted(object sender, EventArgs eventArgs)
         {
             var r = (ILocalizationRepository)sender;
-            Notification?.Invoke(sender, new Tuple<string, string>($"{r.Mode}: {r.Name}", Resources.Localization_Start_Monitoring));
+            Notification?.Invoke(sender, new Tuple<string, string>(BuildRepositoryNotificationTitle(r), Resources.Localization_Start_Monitoring));
         }
+
+        private static string BuildRepositoryNotificationTitle(ILocalizationRepository repository)
+            => string.Format(CultureInfo.CurrentUICulture, "{0}: {1}", repository.Mode, repository.Name);
     }
 }

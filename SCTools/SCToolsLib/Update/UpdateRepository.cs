@@ -40,7 +40,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             _monitorTimer.Elapsed += MonitorTimerOnElapsed;
         }
 
-        public void Dispose() => _monitorTimer.Dispose();
+        public void Dispose()
+        {
+            _monitorTimer.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         public abstract Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken);
 

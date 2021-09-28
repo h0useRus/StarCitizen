@@ -11,11 +11,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             {
                 string urlPath = Path.GetFullPath(url);
                 string rootDir = rootPath;
-                if (!rootDir.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                if (!rootDir.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
-                    rootDir = rootDir + Path.DirectorySeparatorChar;
+                    rootDir += Path.DirectorySeparatorChar;
                 }
-                if (urlPath.StartsWith(rootDir, StringComparison.InvariantCultureIgnoreCase))
+                if (urlPath.StartsWith(rootDir, StringComparison.OrdinalIgnoreCase))
                 {
                     string relativePath = urlPath.Substring(rootDir.Length);
                     return string.IsNullOrEmpty(relativePath) ? "." : relativePath;

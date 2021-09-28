@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         {
             if (mode != GameMode.LIVE)
             {
-                return tagName.EndsWith($"-{mode}", StringComparison.OrdinalIgnoreCase);
+                return tagName.EndsWith(string.Format(CultureInfo.InvariantCulture, "-{0}", mode), StringComparison.OrdinalIgnoreCase);
             }
             int index = tagName.LastIndexOf("-", StringComparison.Ordinal);
             if (index < 0 || index == tagName.Length - 1)

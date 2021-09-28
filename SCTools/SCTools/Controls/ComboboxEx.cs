@@ -102,7 +102,7 @@ namespace NSW.StarCitizen.Tools.Controls
             foreach (object o in Items)
             {
                 string toCheck;
-                if (DisplayMember.CompareTo("") == 0)
+                if (string.IsNullOrEmpty(DisplayMember))
                 {
                     toCheck = o.ToString();
                 }

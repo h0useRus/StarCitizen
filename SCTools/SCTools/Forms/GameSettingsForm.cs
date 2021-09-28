@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -151,7 +152,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 else
                 {
-                    MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                    RtlAwareMessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
                         Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -179,7 +180,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     }
                     else
                     {
-                        MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                        RtlAwareMessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
                             Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -248,7 +249,7 @@ namespace NSW.StarCitizen.Tools.Forms
             }
             else
             {
-                MessageBox.Show(this, Resources.GameSettings_SettingApplyError_Text,
+                RtlAwareMessageBox.Show(this, Resources.GameSettings_SettingApplyError_Text,
                     Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             cbProfiles.Refresh();
@@ -364,7 +365,7 @@ namespace NSW.StarCitizen.Tools.Forms
             invalidSettings.AddRange(_settingControls.GetUnsupportedSettings(cfgData));
             if (invalidSettings.Count != 0)
             {
-                MessageBox.Show(this, $"{Resources.GameSettings_InvalidSettingFound_Text}\n{string.Join(",\n", invalidSettings)}",
+                RtlAwareMessageBox.Show(this, $"{Resources.GameSettings_InvalidSettingFound_Text}\n{string.Join(",\n", invalidSettings)}",
                     Resources.GameSettings_InvalidSettingFound_Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -413,7 +414,7 @@ namespace NSW.StarCitizen.Tools.Forms
             if (_profileManager.Profiles.TryGetValue(profileName, out var profileData) &&
                 !currentConfig.Equals(profileData))
             {
-                var dialogResult = MessageBox.Show(this, string.Format(Resources.GameSettings_ProfileAskSave_Text, profileName),
+                var dialogResult = RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.GameSettings_ProfileAskSave_Text, profileName),
                     Resources.GameSettings_ProfileAskSave_Title, withCancel ? MessageBoxButtons.YesNoCancel : MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question, withCancel ? MessageBoxDefaultButton.Button3 : MessageBoxDefaultButton.Button2);
                 switch (dialogResult)
@@ -421,7 +422,7 @@ namespace NSW.StarCitizen.Tools.Forms
                     case DialogResult.Yes:
                         if (!_profileManager.SaveProfile(profileName, currentConfig))
                         {
-                            MessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
+                            RtlAwareMessageBox.Show(this, Resources.GameSettings_ProfileError_Text,
                                 Resources.GameSettings_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return DialogResult.Cancel;
                         }

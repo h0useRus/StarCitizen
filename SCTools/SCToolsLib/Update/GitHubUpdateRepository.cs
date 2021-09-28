@@ -312,7 +312,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 ZipUrl = zipUrl;
             }
 
-            public bool IsIndexFileUrl() => ZipUrl != null && ZipUrl.EndsWith("/index.txt");
+            public bool IsIndexFileUrl() => ZipUrl != null && ZipUrl.EndsWith("/index.txt", StringComparison.Ordinal);
         }
 
         public class GitRateLimit

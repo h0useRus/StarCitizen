@@ -22,7 +22,9 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
         {
             try
             {
-                return (await CreateBuilderAsync(cancellationToken).ConfigureAwait(false)).Build();
+                using var builder = new FilesIndex.HashBuilder();
+                await CreateBuilderAsync(builder, cancellationToken).ConfigureAwait(false);
+                return builder.Build();
             }
             catch (OperationCanceledException e)
             {
@@ -31,7 +33,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             catch (Exception e)
             {
                 _logger.Error(e, $"Failed create path package index: {_sourcePath}");
-                throw e;
+                throw;
             }
         }
 
@@ -53,9 +55,8 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             return true;
         }
 
-        protected async Task<FilesIndex.Builder> CreateBuilderAsync(CancellationToken? cancellationToken = default)
+        protected async Task CreateBuilderAsync(FilesIndex.HashBuilder builder, CancellationToken? cancellationToken = default)
         {
-            var builder = new FilesIndex.HashBuilder();
             await builder.AddDirectoryAsync(GameConstants.GetDataFolderPath(_sourcePath),
                 GameConstants.DataFolderName, cancellationToken).ConfigureAwait(false);
             if (!await builder.AddFileAsync(GameConstants.GetEnabledPatcherPath(_sourcePath),
@@ -65,7 +66,6 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
                     GameConstants.PatcherOriginalName, cancellationToken).ConfigureAwait(false);
             }
             builder.Remove(@"data\timestamp");
-            return builder;
         }
     }
 }

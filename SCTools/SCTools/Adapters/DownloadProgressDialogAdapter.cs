@@ -1,3 +1,4 @@
+using System.Globalization;
 using NSW.StarCitizen.Tools.Forms;
 using NSW.StarCitizen.Tools.Lib.Update;
 using NSW.StarCitizen.Tools.Properties;
@@ -30,7 +31,7 @@ namespace NSW.StarCitizen.Tools.Adapters
         public void UpdateLocalization(IProgressDialog dialog)
         {
             if (_localizationVersion != null)
-                dialog.Text = string.Format(Resources.Localization_InstallVersion_Title, _localizationVersion);
+                dialog.Text = string.Format(CultureInfo.CurrentUICulture, Resources.Localization_InstallVersion_Title, _localizationVersion);
             dialog.CurrentTaskName = Resources.Localization_Downloading_Text;
             dialog.UserCancelText = Resources.Localization_Cancel_Text;
         }

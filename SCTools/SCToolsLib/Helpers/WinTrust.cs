@@ -84,6 +84,17 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
         }
         public void Dispose()
         {
+            FreeUnmanagedResource();
+            GC.SuppressFinalize(this);
+        }
+
+        ~WinTrustFileInfo()
+        {
+            FreeUnmanagedResource();
+        }
+
+        private void FreeUnmanagedResource()
+        {
             if (pszFilePath != IntPtr.Zero)
             {
                 Marshal.FreeCoTaskMem(pszFilePath);
@@ -144,7 +155,19 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             SignatureSettings = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(WinTrustSignatureSettings)));
             Marshal.StructureToPtr(signatureSettings, SignatureSettings, false);
         }
+
         public void Dispose()
+        {
+            FreeUnmanagedResource();
+            GC.SuppressFinalize(this);
+        }
+
+        ~WinTrustData()
+        {
+            FreeUnmanagedResource();
+        }
+
+        private void FreeUnmanagedResource()
         {
             if (FileInfoPtr != IntPtr.Zero)
             {
@@ -180,7 +203,7 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
     {
         private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
         // GUID of the action to perform
-        private static readonly string WINTRUST_ACTION_GENERIC_VERIFY_V2 = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}";
+        private const string WINTRUST_ACTION_GENERIC_VERIFY_V2 = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}";
 
         [DllImport("wintrust", ExactSpelling = true, SetLastError = false, CharSet = CharSet.Unicode)]
         private static extern WinVerifyTrustResult WinVerifyTrust(

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using NLog;
+using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Properties;
 
@@ -24,14 +25,14 @@ namespace NSW.StarCitizen.Tools.Controllers
             var destPath = GameConstants.GetGameModePath(_gameFolder, destMode);
             if (Directory.Exists(destPath))
             {
-                MessageBox.Show(window, Resources.Localization_File_ErrorText,
+                RtlAwareMessageBox.Show(window, Resources.Localization_File_ErrorText,
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             var srcPath = GameConstants.GetGameModePath(_gameFolder, srcMode);
             if (!Directory.Exists(srcPath))
             {
-                MessageBox.Show(window, Resources.Localization_File_ErrorText,
+                RtlAwareMessageBox.Show(window, Resources.Localization_File_ErrorText,
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -56,7 +57,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             {
                 gameMutex.Release();
                 _logger.Error(e, "Failed rename game folder: " + srcPath);
-                MessageBox.Show(window, Resources.Localization_File_ErrorText,
+                RtlAwareMessageBox.Show(window, Resources.Localization_File_ErrorText,
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

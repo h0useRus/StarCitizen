@@ -180,9 +180,9 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
 
         private static bool IsTextString(string original) =>
             string.IsNullOrWhiteSpace(original) ||
-            original.StartsWith(CommentRowPrefix) ||
-            original.StartsWith("--") ||
-            original.StartsWith("//");
+            original.StartsWith(CommentRowPrefix, StringComparison.Ordinal) ||
+            original.StartsWith("--", StringComparison.Ordinal) ||
+            original.StartsWith("//", StringComparison.Ordinal);
 
         public override string ToString()
         {

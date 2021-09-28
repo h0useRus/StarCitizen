@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using NLog;
@@ -33,7 +34,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             if ((args.Length >= 2) && (args[0] == "update_status") && (args[1] != InstallUpdateStatus.Success.ToString("d")))
             {
                 _logger.Error($"Failed install update: {args[1]}");
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + args[1], Program.Name,
+                RtlAwareMessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + args[1], Program.Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -46,7 +47,7 @@ namespace NSW.StarCitizen.Tools.Helpers
                     return false;
                 }
                 Updater.ApplyScheduledUpdateProps(scheduledUpdateInfo);
-                var result = MessageBox.Show(string.Format(Resources.Application_UpdateAvailableInstallAsk_Text,
+                var result = RtlAwareMessageBox.Show(string.Format(CultureInfo.CurrentUICulture, Resources.Application_UpdateAvailableInstallAsk_Text,
                     scheduledUpdateInfo.GetVersion()), Program.Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
@@ -62,7 +63,7 @@ namespace NSW.StarCitizen.Tools.Helpers
             if (result != InstallUpdateStatus.Success)
             {
                 _logger.Error($"Failed launch install update: {result}");
-                MessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + result.ToString("d"), Program.Name,
+                RtlAwareMessageBox.Show(Resources.Application_FailedInstallUpdate_Text + @" - " + result.ToString("d"), Program.Name,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -35,14 +36,15 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         public struct Record
         {
             public long Size { get; }
-            public byte[] Hash { get; }
+            private byte[] Hash { get; }
+            public string HashString => Convert.ToBase64String(Hash);
 
             public Record(long size, byte[] hash)
             {
                 if (size < 0)
                     throw new InvalidDataException($"Record file size is less than zero");
                 Size = size;
-                Hash = hash ?? throw new NullReferenceException("Record file hash is null");
+                Hash = hash ?? throw new ArgumentNullException(nameof(hash));
             }
 
             public override bool Equals(object obj)
@@ -61,6 +63,10 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 hashCode = hashCode * -1521134295 + EqualityComparer<byte[]>.Default.GetHashCode(Hash);
                 return hashCode;
             }
+
+            public static bool operator==(Record left, Record right) => left.Equals(right);
+
+            public static bool operator!=(Record left, Record right) => !left.Equals(right);
         }
 
         public static FilesIndex Empty { get; } = new Builder().Build();
@@ -126,7 +132,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
         {
             foreach (var rec in Index)
             {
-                stream.WriteLine($"{rec.Key}:{rec.Value.Size}:{Convert.ToBase64String(rec.Value.Hash)}");
+                stream.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0}:{1}:{2}", rec.Key, rec.Value.Size, rec.Value.HashString));
             }
         }
 
@@ -143,7 +149,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                     var parts = line.Split(delim, 3);
                     if (parts.Length != 3)
                         throw new InvalidDataException($"Invalid number of record elements: {parts.Length}");
-                    builder.Add(parts[0], new Record(long.Parse(parts[1]), Convert.FromBase64String(parts[2])));
+                    builder.Add(parts[0], new Record(long.Parse(parts[1], CultureInfo.InvariantCulture), Convert.FromBase64String(parts[2])));
                 }
             }
             return builder.Build();
@@ -209,9 +215,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             public FilesIndex Build() => new FilesIndex(_index);
         }
 
-        public sealed class HashBuilder : Builder
+        public sealed class HashBuilder : Builder, IDisposable
         {
             private readonly MD5 _md5 = MD5.Create();
+
+            public void Dispose() => _md5.Dispose();
 
             public async Task<bool> AddFileAsync(string path, string relativeFilePath, CancellationToken? cancellationToken = default)
             {

@@ -3,6 +3,7 @@ using System.Net.Http;
 
 namespace NSW.StarCitizen.Tools.Lib.Update
 {
+    [Serializable]
     public class GitHubRequestLimitExceedException : HttpRequestException
     {
         public DateTime ResetLimitTime { get; }

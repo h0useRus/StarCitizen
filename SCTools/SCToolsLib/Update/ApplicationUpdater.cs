@@ -79,7 +79,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             _currentVersion = _updateRepository.CurrentVersion;
         }
 
-        public void Dispose() => _updateRepository.Dispose();
+        public void Dispose()
+        {
+            _updateRepository.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         public void MonitorStart(int refreshTime) => _updateRepository.MonitorStart(refreshTime);
 

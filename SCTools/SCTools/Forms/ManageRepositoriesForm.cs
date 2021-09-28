@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Security;
 using System.Threading;
 using System.Windows.Forms;
@@ -80,7 +81,7 @@ namespace NSW.StarCitizen.Tools.Forms
             var name = tbName.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show(this,string.Format(Resources.Localization_InvalidRepoName_Text, name),
+                RtlAwareMessageBox.Show(this,string.Format(CultureInfo.CurrentUICulture, Resources.Localization_InvalidRepoName_Text, name),
                     Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -89,7 +90,7 @@ namespace NSW.StarCitizen.Tools.Forms
             LocalizationSource? localizationSource = LocalizationSource.CreateFromUrl(name, url);
             if (localizationSource == null)
             {
-                MessageBox.Show(this, string.Format(Resources.Localization_InvalidRepoUrl_Text, url),
+                RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_InvalidRepoUrl_Text, url),
                     Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -106,15 +107,15 @@ namespace NSW.StarCitizen.Tools.Forms
                     DataBindList();
                     break;
                 case RepositoryManager.AddStatus.DuplicateName:
-                    MessageBox.Show(this, string.Format(Resources.Localization_DuplicateRepoName_Text, name),
+                    RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_DuplicateRepoName_Text, name),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.DuplicateUrl:
-                    MessageBox.Show(this, string.Format(Resources.Localization_DuplicateRepoUrl_Text, url),
+                    RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_DuplicateRepoUrl_Text, url),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case RepositoryManager.AddStatus.Unreachable:
-                    MessageBox.Show(this, string.Format(Resources.Localization_NoRepoAccess_Text, name),
+                    RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_NoRepoAccess_Text, name),
                         Resources.Localization_Error_Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
@@ -128,8 +129,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 var usedByGameMode = _repositoryManager.GetRepositoryUsedGameMode(repository);
                 if (usedByGameMode != null)
                 {
-                    if (MessageBox.Show(this, string.Format(Resources.Localization_RemoveUsedRepoWarning_Text, repository.Name, usedByGameMode.ToString()),
-                        Resources.Localization_Warning_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    if (RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_RemoveUsedRepoWarning_Text, repository.Name, usedByGameMode.ToString()),
+                        Resources.Localization_Warning_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
                         return;
                 }
                 _repositoryManager.RemoveRepository(repository);

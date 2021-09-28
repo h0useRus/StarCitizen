@@ -1,40 +1,30 @@
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Windows.Forms;
 
 namespace NSW.StarCitizen.Tools.Helpers
 {
     public static class WinApi
     {
-        [DllImport("user32")]
-        public static extern int RegisterWindowMessage(string message);
-
-        public static int RegisterWindowMessage(string format, params object[] args)
-        {
-            var message = string.Format(format, args);
-            return RegisterWindowMessage(message);
-        }
-
         public const int HWND_BROADCAST = 0xffff;
         public const int SW_SHOWNORMAL = 1;
         public const int WM_MOUSEWHEEL = 0x20a;
 
-        [DllImport("user32")]
-        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+        public static int RegisterWindowMessage(string format, params object[] args)
+        {
+            var message = string.Format(CultureInfo.InvariantCulture, format, args);
+            return UnsafeNativeMethods.RegisterWindowMessage(message);
+        }
 
-        [DllImport("user32")]
-        public static extern bool SendMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
-
-        [DllImport("user32")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32")]
-        public static extern bool BringWindowToTop(IntPtr hWnd);
+        public static bool SendMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam)
+            => UnsafeNativeMethods.SendMessage(hwnd, msg, wparam, lparam) != IntPtr.Zero;
 
         public static void ShowToFront(IntPtr window)
         {
-            SetForegroundWindow(window);
-            BringWindowToTop(window);
+            UnsafeNativeMethods.SetForegroundWindow(window);
+            UnsafeNativeMethods.BringWindowToTop(window);
         }
 
         public static bool SendControlMessage(Control control, ref Message message, ref bool isProcessing)
@@ -44,7 +34,7 @@ namespace NSW.StarCitizen.Tools.Helpers
                 try
                 {
                     isProcessing = true;
-                    return SendMessage(control.Handle, message.Msg, message.WParam, message.LParam);
+                    return UnsafeNativeMethods.SendMessage(control.Handle, message.Msg, message.WParam, message.LParam) != IntPtr.Zero;
                 }
                 finally
                 {
@@ -53,5 +43,27 @@ namespace NSW.StarCitizen.Tools.Helpers
             }
             return false;
         }
+    }
+
+    [SuppressUnmanagedCodeSecurity]
+    internal static class UnsafeNativeMethods
+    {
+        [DllImport("user32", CharSet = CharSet.Unicode)]
+        internal static extern int RegisterWindowMessage(string message);
+
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+
+        [DllImport("user32")]
+        internal static extern IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool BringWindowToTop(IntPtr hWnd);
     }
 }
