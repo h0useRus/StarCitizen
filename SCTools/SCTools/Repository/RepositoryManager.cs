@@ -15,6 +15,7 @@ namespace NSW.StarCitizen.Tools.Repository
 {
     public class RepositoryManager
     {
+        private readonly ILocalizationInstaller _localizationInstaller = new DefaultLocalizationInstaller();
         private readonly List<ILocalizationRepository> _localizationRepositories = new List<ILocalizationRepository>();
         private readonly LocalizationSettings _localizationSettings;
 
@@ -306,20 +307,17 @@ namespace NSW.StarCitizen.Tools.Repository
             return true;
         }
 
-        private ILocalizationRepository? BuildRepository(LocalizationSource source)
+        private ILocalizationRepository? BuildRepository(LocalizationSource source) => source.Type switch
         {
-            return source.Type switch
+            UpdateRepositoryType.GitHub => new GitHubLocalizationRepository(_localizationInstaller, HttpNetClient.Client, GameMode, source.Name, source.Repository)
             {
-                UpdateRepositoryType.GitHub => new GitHubLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository)
-                {
-                    AuthToken = Program.Settings.AuthToken,
-                    AllowIncrementalDownload = Program.Settings.AllowIncrementalDownload,
-                },
-                UpdateRepositoryType.Gitee => new GiteeLocalizationRepository(HttpNetClient.Client, GameMode, source.Name, source.Repository),
-                UpdateRepositoryType.Folder => new FolderLocalizationRepository(Program.ExecutableDir, GameMode, source.Name, source.Repository),
-                _ => null,
-            };
-        }
+                AuthToken = Program.Settings.AuthToken,
+                AllowIncrementalDownload = Program.Settings.AllowIncrementalDownload,
+            },
+            UpdateRepositoryType.Gitee => new GiteeLocalizationRepository(_localizationInstaller, HttpNetClient.Client, GameMode, source.Name, source.Repository),
+            UpdateRepositoryType.Folder => new FolderLocalizationRepository(_localizationInstaller, Program.ExecutableDir, GameMode, source.Name, source.Repository),
+            _ => null,
+        };
 
         private LocalizationInstallation AddRepositoryInstallation(ILocalizationRepository repository)
         {

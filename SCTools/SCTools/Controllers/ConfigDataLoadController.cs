@@ -23,7 +23,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             _configDataLoader = configDataLoader;
         }
 
-        public async Task<ConfigData?> LoadDatabaseAsync(Control window, string languageName, bool forceReload = false)
+        public async Task<ConfigData?> LoadDatabaseAsync(IWin32Window window, string languageName, bool forceReload = false)
         {
             using var progressDlg = new ProgressForm();
             try

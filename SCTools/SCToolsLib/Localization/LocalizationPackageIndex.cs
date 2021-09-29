@@ -26,9 +26,9 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
                 await CreateBuilderAsync(builder, cancellationToken).ConfigureAwait(false);
                 return builder.Build();
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {

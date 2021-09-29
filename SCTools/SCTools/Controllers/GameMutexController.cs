@@ -7,7 +7,7 @@ namespace NSW.StarCitizen.Tools.Controllers
 {
     public static class GameMutexController
     {
-        public static bool AcquireWithRetryDialog(Control window, GameMutex gameMutex)
+        public static bool AcquireWithRetryDialog(IWin32Window window, GameMutex gameMutex)
         {
             while (!gameMutex.TryAcquire())
             {

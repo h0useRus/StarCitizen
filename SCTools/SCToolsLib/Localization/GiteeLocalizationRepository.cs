@@ -14,12 +14,13 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     {
         public GameMode Mode { get; }
 
-        public ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
+        public ILocalizationInstaller Installer { get; }
 
-        public GiteeLocalizationRepository(HttpClient httpClient, GameMode mode, string name, string repository)
+        public GiteeLocalizationRepository(ILocalizationInstaller installer, HttpClient httpClient, GameMode mode, string name, string repository)
             : base(httpClient, GiteeUpdateInfo.Factory.NewWithVersionByName(), name, repository)
         {
             Mode = mode;
+            Installer = installer;
         }
 
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)

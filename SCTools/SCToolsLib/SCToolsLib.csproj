@@ -27,6 +27,7 @@
 
   <PropertyGroup>
     <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

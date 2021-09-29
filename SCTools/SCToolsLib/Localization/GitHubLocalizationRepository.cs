@@ -13,14 +13,14 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     public sealed class GitHubLocalizationRepository : GitHubUpdateRepository, ILocalizationRepository
     {
         public GameMode Mode { get; }
+        public ILocalizationInstaller Installer { get; }
 
-        public GitHubLocalizationRepository(HttpClient httpClient, GameMode mode, string name, string repository) :
+        public GitHubLocalizationRepository(ILocalizationInstaller installer, HttpClient httpClient, GameMode mode, string name, string repository) :
             base(httpClient, GitHubDownloadType.Sources, GitHubUpdateInfo.Factory.NewWithVersionByName(), name, repository)
         {
             Mode = mode;
+            Installer = installer;
         }
-
-        public ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
 
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {

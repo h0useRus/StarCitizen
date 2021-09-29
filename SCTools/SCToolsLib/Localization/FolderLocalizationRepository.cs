@@ -12,13 +12,14 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
     public sealed class FolderLocalizationRepository : UpdateRepository, ILocalizationRepository
     {
         public GameMode Mode { get; }
-        public ILocalizationInstaller Installer { get; } = new DefaultLocalizationInstaller();
+        public ILocalizationInstaller Installer { get; }
         private readonly FolderUpdateInfo.Factory _folderUpdateInfoFactory = FolderUpdateInfo.Factory.New();
 
-        public FolderLocalizationRepository(string appFolder, GameMode mode, string name, string repository) :
+        public FolderLocalizationRepository(ILocalizationInstaller installer, string appFolder, GameMode mode, string name, string repository) :
             base(UpdateRepositoryType.Folder, name, repository, FolderRepositoryUrl.Build(appFolder, repository))
         {
             Mode = mode;
+            Installer = installer;
         }
 
         public async override Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)

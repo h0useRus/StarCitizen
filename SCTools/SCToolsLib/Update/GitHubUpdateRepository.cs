@@ -153,13 +153,13 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 }
                 return diffFiles;
             }
-            catch (GitHubRequestLimitExceedException e)
+            catch (GitHubRequestLimitExceedException)
             {
-                throw e;
+                throw;
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {

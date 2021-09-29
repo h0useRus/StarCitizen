@@ -20,7 +20,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             _currentGameInfo = currentGameInfo;
         }
 
-        public bool MoveGameMode(Control window, GameMode srcMode, GameMode destMode)
+        public bool MoveGameMode(IWin32Window window, GameMode srcMode, GameMode destMode)
         {
             var destPath = GameConstants.GetGameModePath(_gameFolder, destMode);
             if (Directory.Exists(destPath))

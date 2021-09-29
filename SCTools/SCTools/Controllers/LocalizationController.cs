@@ -80,15 +80,13 @@ namespace NSW.StarCitizen.Tools.Controllers
 
         public FileVersionInfo? GetPatcherFileVersionInfo() => CurrentRepository.Installer.GetPatcherFileVersionInfo(CurrentGame.RootFolderPath);
 
-        public async Task<bool> RefreshVersionsAsync(Control window)
+        public async Task<bool> RefreshVersionsAsync(IWin32Window window)
         {
             _logger.Info($"Refresh localization versions: {CurrentRepository.RepositoryUrl}");
             bool status = false;
             using var progressDlg = new ProgressForm(30000);
             try
             {
-                window.Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
                 progressDlg.Text = Resources.Localization_RefreshAvailableVersion_Title;
                 progressDlg.UserCancelText = Resources.Localization_Stop_Text;
                 progressDlg.Show(window);
@@ -115,14 +113,12 @@ namespace NSW.StarCitizen.Tools.Controllers
             }
             finally
             {
-                Cursor.Current = Cursors.Default;
-                window.Enabled = true;
                 progressDlg.Hide();
             }
             return status;
         }
 
-        public async Task<bool> InstallVersionAsync(Control window, UpdateInfo selectedUpdateInfo)
+        public async Task<bool> InstallVersionAsync(IWin32Window window, UpdateInfo selectedUpdateInfo)
         {
             if (!CurrentGame.IsAvailable())
             {
@@ -149,8 +145,6 @@ namespace NSW.StarCitizen.Tools.Controllers
             using var progressDlg = new ProgressForm();
             try
             {
-                window.Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
                 var downloadDialogAdapter = new DownloadProgressDialogAdapter(selectedUpdateInfo.GetVersion());
                 progressDlg.BindAdapter(downloadDialogAdapter);
                 progressDlg.Show(window);
@@ -233,8 +227,6 @@ namespace NSW.StarCitizen.Tools.Controllers
             }
             finally
             {
-                Cursor.Current = Cursors.Default;
-                window.Enabled = true;
                 progressDlg.Hide();
                 if (downloadDirInfo != null && downloadDirInfo.Exists &&
                     !FileUtils.DeleteDirectoryNoThrow(downloadDirInfo, true))
@@ -245,7 +237,7 @@ namespace NSW.StarCitizen.Tools.Controllers
             return status;
         }
 
-        public bool Uninstall(Control window)
+        public bool Uninstall(IWin32Window window)
         {
             if (CurrentInstallation.InstalledVersion != null)
             {
@@ -317,12 +309,10 @@ namespace NSW.StarCitizen.Tools.Controllers
             return true;
         }
 
-        public void ToggleLocalization(Control window)
+        public void ToggleLocalization(IWin32Window window)
         {
             try
             {
-                window.Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
                 using var gameMutex = new GameMutex();
                 if (!GameMutexController.AcquireWithRetryDialog(window, gameMutex))
                 {
@@ -333,11 +323,6 @@ namespace NSW.StarCitizen.Tools.Controllers
             catch (Exception e)
             {
                 _logger.Error(e, $"Error during toggle localization: {CurrentGame.Mode}");
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-                window.Enabled = true;
             }
         }
     }

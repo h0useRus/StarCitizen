@@ -19,7 +19,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>NSW.StarCitizen.Tools.Program</StartupObject>
     <Nullable>enable</Nullable>
-    <Version>0.6.2</Version>
+    <Version>0.6.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +36,7 @@
 
   <PropertyGroup>
     <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   
   <ItemGroup>
