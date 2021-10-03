@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.6.2
+# Star Citizen Tools v0.6.3
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -30,13 +30,15 @@
 - Hide localization pre-release versions by default
 - Specify GitHub auth token in settings json to access private repositories
 - Incremental download of localization package (NEW in 0.6.1)
-- Support Chine gitee to download localization or app updates (NEW in 0.6.2)
+- Support China gitee to download localization or app updates (NEW in 0.6.2)
+- Сheck for localization updates on application start every 7 days (NEW in 0.6.3)
 
 ### General features
 
 - Move LIVE to PTU or reverse
 - Manage user.cfg game settings (NEW in 0.6.0)
 - Download and install application updates
+- Check for application updates on application start every 7 days (NEW in 0.6.3)
 - Supported UI languages: English, Russian, Ukrainian, Korean
 - Track and notify about available new version of application
 - Configurable application settings:

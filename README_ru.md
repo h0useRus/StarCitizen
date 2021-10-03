@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.6.2
+# Star Citizen Tools v0.6.3
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -28,12 +28,14 @@
 - Возможность указать токен аутентификации GitHub для доступа к частным репозиториям (вручную через редактирование settings.json) 
 - Умная докачка только изменений локализации (НОВИНКА в 0.6.1)
 - Поддержка скачивать локализации и обновления приложения с Gitee для стран и регионов где заблокирован GitHub (НОВИНКА в 0.6.2)
+- Проверка обновлений локализации раз в 7 дней на старте приложения (НОВИНКА в 0.6.3) 
 
 ### Общие
 
 - Переименирование папки LIVE в PTU или обратно
 - Управление настройками игры user.cfg (НОВИНКА в 0.6.0)
 - Скачивание и установка обновлений приложения
+- Проверка обновлений приложения раз в 7 дней на его старте (НОВИНКА в 0.6.3) 
 - Поддерживаемые языки интерфейса: английский, русский, украинский, корейский.
 - Отслеживание и уведомление о наличии новой версии приложения
 - Настраиваемые параметры приложения:
