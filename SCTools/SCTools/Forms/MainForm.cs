@@ -97,7 +97,7 @@ namespace NSW.StarCitizen.Tools.Forms
             Hide();
         }
 
-        private void Restore()
+        public void Restore()
         {
             ShowInTaskbar = true;
             Show();
@@ -436,15 +436,6 @@ namespace NSW.StarCitizen.Tools.Forms
         }
 
 #endregion
-
-        protected override void WndProc(ref Message message)
-        {
-            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
-            {
-                Restore();
-            }
-            base.WndProc(ref message);
-        }
 
         private bool SetGameFolder(string? path)
         {

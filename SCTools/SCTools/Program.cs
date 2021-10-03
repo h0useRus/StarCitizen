@@ -8,16 +8,17 @@ namespace NSW.StarCitizen.Tools
     public static partial class Program
     {
         // DO NOT CHANGE THIS STRING
-        public const string ApplicationId = "07D391A3-45C7-4271-AAE5-F08D2A697850";
+        private const string ApplicationId = "07D391A3-45C7-4271-AAE5-F08D2A697850";
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            if (!SingleInstance.Start())
+            using var singleInstance = new SingleInstance(ApplicationId);
+            if (!singleInstance.Start(acrossAllUsers: false))
             {
-                SingleInstance.ShowFirstInstance();
+                singleInstance.ShowFirstInstance();
                 return;
             }
             try
@@ -27,12 +28,18 @@ namespace NSW.StarCitizen.Tools
                     return;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+                using var mainForm = new MainForm();
+                Application.AddMessageFilter(new AppMessageFilter()
+                {
+                    ShowFirstInstanceMsg = singleInstance.ShowFirstInstanceMsg,
+                    OnRestoreInstance = mainForm.Restore,
+                });
+                Application.Run(mainForm);
             }
             finally
             {
                 FreeLogging();
-                SingleInstance.Stop();
+                singleInstance.Stop();
             }
         }
     }
