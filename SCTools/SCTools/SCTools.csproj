@@ -10,8 +10,8 @@
   <PropertyGroup>
     <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
     <Description>Star Citizen : Tools</Description>
-    <Authors>Denis Ibragimov</Authors>
-    <Copyright>Copyright (с) 2019-2021 NewSoftWorld</Copyright>
+    <Authors>Denis Ibragimov, Defter</Authors>
+    <Copyright>Copyright (с) 2019-2022 NewSoftWorld</Copyright>
     <AssemblyName>SCTools</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
     <LangVersion>8</LangVersion>
