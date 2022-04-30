@@ -9,7 +9,7 @@ namespace NSW.StarCitizen.Tools.Lib.Global
         public const string GameFolderName = "StarCitizen";
         public const string GameExeName = "StarCitizen.exe";
         public const string PatcherOriginalName = "patcher.bin";
-        public const string PatcherLibraryName = "CIGDevelopmentTools.dll";
+        public const string PatcherLibraryName = "dbghelp.dll";
         public const string SystemConfigName = "system.cfg";
         public const string UserConfigName = "user.cfg";
         public const string SystemLanguagesKey = "sys_languages";
