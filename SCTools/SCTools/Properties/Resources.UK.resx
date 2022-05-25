@@ -539,4 +539,42 @@
     <value>{0} не обраний вами як основний додаткок для локалізації Star Citizen.
 Бажаєте зробити його основним?</value>
   </data>
+  <data name="Launcher_DeleteProfile" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorText" xml:space="preserve">
+    <value>Інстанс гри для профіля: {0} завершив виконня з помилкою.
+Код помилки: {1}</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorTitile" xml:space="preserve">
+    <value>Помилка гри</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorText" xml:space="preserve">
+    <value>Неможливо завантажити гру для профілю: {0}</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorTitle" xml:space="preserve">
+    <value>Помилка завантаження гри</value>
+  </data>
+  <data name="Launcher_GameProfile" xml:space="preserve">
+    <value>Ігровий профіль:</value>
+  </data>
+  <data name="Launcher_ImportCurrentProfile" xml:space="preserve">
+    <value>Імпортувати активний</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorText" xml:space="preserve">
+    <value>Неможливо копіювати і активувати профіль: {0}</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorTitle" xml:space="preserve">
+    <value>Помилка активації профілю</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningText" xml:space="preserve">
+    <value>Не знайдено активного ігрового профілю.
+Будь-ласка запустіть гру з оригінального завантажувача і поки гра активна імпортуйте ігровий профіль.</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningTitle" xml:space="preserve">
+    <value>Игровий профіль не знайдений</value>
+  </data>
+  <data name="Launcher_Title" xml:space="preserve">
+    <value>Star Citizen : Завантажувач</value>
+  </data>
 </root>

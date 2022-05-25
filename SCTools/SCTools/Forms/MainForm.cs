@@ -499,7 +499,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateGameModeInfo(GameInfo gameInfo)
         {
-            tbGameMode.Text = gameInfo.Mode == GameMode.LIVE
+            btnGameMode.Text = gameInfo.Mode == GameMode.LIVE
                     ? Resources.GameMode_LIVE
                     : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(CultureInfo.CurrentUICulture, Resources.LocalizationButton_Text, gameInfo.Mode);
@@ -672,6 +672,15 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             IUpdateRepository repository = (IUpdateRepository)sender;
             niTray.ShowBalloonTip(5000, repository.Name, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
+        }
+
+        private void btnGameMode_Click(object sender, EventArgs e)
+        {
+            if (Program.CurrentGame != null)
+            {
+                using var launcherForm = new LauncherForm(Program.CurrentGame);
+                launcherForm.ShowDialog(this);
+            }
         }
     }
 }

@@ -539,4 +539,42 @@
     <value>{0} не выбран вами как приложение по умолчанию для локализации Star Citizen.
 Желаете сделать его по умолчанию?</value>
   </data>
+  <data name="Launcher_DeleteProfile" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorText" xml:space="preserve">
+    <value>Инстанс игры для профиля: {0} завершился неудачно.
+Код ошибки: {1}</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorTitile" xml:space="preserve">
+    <value>Ошибка игры</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorText" xml:space="preserve">
+    <value>Невозможно запустить игру для профиля: {0}</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorTitle" xml:space="preserve">
+    <value>Ошибка запуска игры</value>
+  </data>
+  <data name="Launcher_GameProfile" xml:space="preserve">
+    <value>Игровой профиль:</value>
+  </data>
+  <data name="Launcher_ImportCurrentProfile" xml:space="preserve">
+    <value>Импортировать активный</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorText" xml:space="preserve">
+    <value>Невозможно скопировать и активировать профиль: {0}</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorTitle" xml:space="preserve">
+    <value>Ошибка активации профиля</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningText" xml:space="preserve">
+    <value>Не обнаружено активного игрового профиля.
+Пожалуйста запустите игру с оригинального игрового лаунчера и пока игра запущенная импортируйте игровой профиль.</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningTitle" xml:space="preserve">
+    <value>Игровой профиль не обнаружен</value>
+  </data>
+  <data name="Launcher_Title" xml:space="preserve">
+    <value>Star Citizen : Лаунчер</value>
+  </data>
 </root>

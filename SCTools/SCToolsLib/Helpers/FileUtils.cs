@@ -30,6 +30,35 @@ namespace NSW.StarCitizen.Tools.Lib.Helpers
             return true;
         }
 
+        public static bool CopyFileNoThrow(string sourceFileName, string destFileName, bool overwrite)
+        {
+            try
+            {
+                File.Copy(sourceFileName, destFileName, overwrite);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool CreateDirectoryNoThrow(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public static bool DeleteDirectoryNoThrow(DirectoryInfo dir, bool recursive)
         {
             try
