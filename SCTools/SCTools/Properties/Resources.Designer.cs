@@ -516,6 +516,116 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Launcher_DeleteProfile {
+            get {
+                return ResourceManager.GetString("Launcher_DeleteProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game instance for profile: {0} is crashed.
+        ///Exit error code: {1}.
+        /// </summary>
+        internal static string Launcher_GameCrashed_ErrorText {
+            get {
+                return ResourceManager.GetString("Launcher_GameCrashed_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game is crashed.
+        /// </summary>
+        internal static string Launcher_GameCrashed_ErrorTitile {
+            get {
+                return ResourceManager.GetString("Launcher_GameCrashed_ErrorTitile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable launch game instance for profile: {0}.
+        /// </summary>
+        internal static string Launcher_GameLaunchFailed_ErrorText {
+            get {
+                return ResourceManager.GetString("Launcher_GameLaunchFailed_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game launch failed.
+        /// </summary>
+        internal static string Launcher_GameLaunchFailed_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Launcher_GameLaunchFailed_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Profile:.
+        /// </summary>
+        internal static string Launcher_GameProfile {
+            get {
+                return ResourceManager.GetString("Launcher_GameProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Current.
+        /// </summary>
+        internal static string Launcher_ImportCurrentProfile {
+            get {
+                return ResourceManager.GetString("Launcher_ImportCurrentProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable copy and activate profile: {0}.
+        /// </summary>
+        internal static string Launcher_ProfileActivate_ErrorText {
+            get {
+                return ResourceManager.GetString("Launcher_ProfileActivate_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile activate error.
+        /// </summary>
+        internal static string Launcher_ProfileActivate_ErrorTitle {
+            get {
+                return ResourceManager.GetString("Launcher_ProfileActivate_ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No active game profile found.
+        ///Please launch game from original game launcher and try import again while game is running.
+        /// </summary>
+        internal static string Launcher_ProfileMissing_WarningText {
+            get {
+                return ResourceManager.GetString("Launcher_ProfileMissing_WarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game profile not found.
+        /// </summary>
+        internal static string Launcher_ProfileMissing_WarningTitle {
+            get {
+                return ResourceManager.GetString("Launcher_ProfileMissing_WarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Citizen : Launcher.
+        /// </summary>
+        internal static string Launcher_Title {
+            get {
+                return ResourceManager.GetString("Launcher_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Localization_Add_Text {
@@ -1294,6 +1404,26 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Promtp_OK_Button {
             get {
                 return ResourceManager.GetString("Promtp_OK_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap start_button {
+            get {
+                object obj = ResourceManager.GetObject("start-button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stop_button {
+            get {
+                object obj = ResourceManager.GetObject("stop-button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

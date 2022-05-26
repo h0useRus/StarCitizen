@@ -117,288 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\app-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Star Citizen : Utils - v{0}</value>
-  </data>
-  <data name="GameMode_LIVE" xml:space="preserve">
-    <value>Persistent Universe</value>
-  </data>
-  <data name="GameMode_PTU" xml:space="preserve">
-    <value>Persistent Test Universe</value>
-  </data>
-  <data name="GamePath_Description" xml:space="preserve">
-    <value>Please select Star Citizen root folder.</value>
-  </data>
-  <data name="GamePath_Error_Text" xml:space="preserve">
-    <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
-  </data>
-  <data name="GamePath_Error_Title" xml:space="preserve">
-    <value>Wrong path to Star Citizen folder</value>
-  </data>
-  <data name="GamePath_Hint" xml:space="preserve">
-    <value>Press here to select Star Citizen root folder</value>
-  </data>
-  <data name="Localization_Game_Mode" xml:space="preserve">
-    <value>Game mode</value>
-  </data>
-  <data name="Localization_Game_Version" xml:space="preserve">
-    <value>Game version</value>
-  </data>
-  <data name="LocalizationButton_Text" xml:space="preserve">
-    <value>Localization {0}</value>
-  </data>
-  <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
-    <value>minutes</value>
-  </data>
-  <data name="Localization_CurrentLanguage" xml:space="preserve">
-    <value>Current language:</value>
-  </data>
-  <data name="Localization_InstallVersion_Text" xml:space="preserve">
-    <value>Install selected version</value>
-  </data>
-  <data name="Localization_Refresh_Text" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="Localization_Title" xml:space="preserve">
-    <value>Star Citizen : Localization</value>
-  </data>
-  <data name="Localization_Install_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during installation. Please try again.</value>
-  </data>
-  <data name="Localization_Install_ErrorTitle" xml:space="preserve">
-    <value>Install Error</value>
-  </data>
-  <data name="Localization_Button_Disable_localization" xml:space="preserve">
-    <value>Disable localization</value>
-  </data>
-  <data name="Localization_Button_Enable_localization" xml:space="preserve">
-    <value>Enable localization</value>
-  </data>
-  <data name="Localization_Download_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an error during download. Please try again.</value>
-  </data>
-  <data name="Localization_Download_ErrorTitle" xml:space="preserve">
-    <value>Download Error</value>
-  </data>
-  <data name="Localization_File_ErrorText" xml:space="preserve">
-    <value>Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions.</value>
-  </data>
-  <data name="Localization_File_ErrorTitle" xml:space="preserve">
-    <value>File Error</value>
-  </data>
-  <data name="Localization_Package_ErrorText" xml:space="preserve">
-    <value>Package is corrupted or not valid. Please try another or contact with package owner.</value>
-  </data>
-  <data name="Localization_Package_ErrorTitle" xml:space="preserve">
-    <value>Package Error</value>
-  </data>
-  <data name="Localization_Verify_ErrorText" xml:space="preserve">
-    <value>Package security verification is not passed. Please try another or contact with package owner.</value>
-  </data>
-  <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
-    <value>Verification Error</value>
-  </data>
-  <data name="Localization_Found_New_Version" xml:space="preserve">
-    <value>Found new version {0}.</value>
-  </data>
   <data name="Localization_Installed_Version" xml:space="preserve">
     <value>Installed version:</value>
   </data>
-  <data name="Localization_Latest_Version" xml:space="preserve">
-    <value>Latest version:</value>
+  <data name="Localization_CoreVersion_Text" xml:space="preserve">
+    <value>Core version:</value>
   </data>
-  <data name="Localization_Press_Refresh_Button" xml:space="preserve">
-    <value>Please press Refresh button</value>
-  </data>
-  <data name="Localization_Start_Monitoring" xml:space="preserve">
-    <value>Start monitoring.</value>
-  </data>
-  <data name="Localization_Stop_Monitoring" xml:space="preserve">
-    <value>Stop monitoring.</value>
-  </data>
-  <data name="Localization_AvailableVersions_Text" xml:space="preserve">
-    <value>Available versions:</value>
-  </data>
-  <data name="Localization_Manage_Text" xml:space="preserve">
-    <value>Manage</value>
-  </data>
-  <data name="Localization_SourceRepository_Text" xml:space="preserve">
-    <value>Source repository:</value>
-  </data>
-  <data name="Localization_Add_Text" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="Localization_Cancel_Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
-    <value>Check for new version every</value>
-  </data>
-  <data name="Localization_Downloading_Text" xml:space="preserve">
-    <value>Downloading...</value>
-  </data>
-  <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
-    <value>Repository name '{0}' is already exist.</value>
-  </data>
-  <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
-    <value>Repository url '{0}' is already exist.</value>
+  <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
+    <value>Failed load settings database json</value>
   </data>
   <data name="Localization_Error_Title" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="Localization_RepositoryURL_Text" xml:space="preserve">
-    <value>Repository URL (GitHub, Gitee, folder)</value>
-  </data>
-  <data name="Localization_Installing_Text" xml:space="preserve">
-    <value>Installing...</value>
-  </data>
-  <data name="Localization_InstallVersion_Title" xml:space="preserve">
-    <value>Install version:  {0}</value>
-  </data>
-  <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
-    <value>Repository name is empty.</value>
-  </data>
-  <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
-    <value>Repository url is empty.</value>
-  </data>
-  <data name="Localization_Language_Text" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="Localization_Name_Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
-    <value>No access to repository '{0}'</value>
-  </data>
-  <data name="Localization_Path_Text" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
-    <value>Refresh available versions</value>
-  </data>
-  <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
-    <value>Repository '{0}' used by '{1}'. Do you want remove it?</value>
+  <data name="Localization_CurrentLanguage" xml:space="preserve">
+    <value>Current language:</value>
   </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
     <value>Remove</value>
   </data>
-  <data name="Localization_Repositories_Title" xml:space="preserve">
-    <value>Star Citizen : Localization repositories</value>
+  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
+    <value>Enabled</value>
   </data>
-  <data name="Localization_RunMinimized_Text" xml:space="preserve">
-    <value>Run minimized</value>
-  </data>
-  <data name="Localization_RunOnStartup_Text" xml:space="preserve">
-    <value>Run On Windows startup</value>
-  </data>
-  <data name="Localization_Stop_Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="Localization_Warning_Title" xml:space="preserve">
-    <value>Warning</value>
-  </data>
-  <data name="Localization_Uninstalling_Text" xml:space="preserve">
-    <value>Uninstalling...</value>
-  </data>
-  <data name="Localization_UninstallLocalization_Text" xml:space="preserve">
-    <value>Uninstall localization</value>
-  </data>
-  <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
-    <value>Unable to uninstall localization. Please ensure install folder and files is not open in other applicaitions.</value>
-  </data>
-  <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
-    <value>Uninstall error</value>
-  </data>
-  <data name="Localization_Uninstall_QuestionText" xml:space="preserve">
-    <value>Are you sure your are want uninstall localization and remove all files?</value>
-  </data>
-  <data name="Localization_Uninstall_QuestionTitle" xml:space="preserve">
-    <value>Uninstall confirmation</value>
-  </data>
-  <data name="Localization_Uninstall_WarningText" xml:space="preserve">
-    <value>Localization removed not fully. Some files can't be removed.</value>
-  </data>
-  <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
-    <value>Uninstall warning</value>
-  </data>
-  <data name="Localization_StdRepos_Title" xml:space="preserve">
-    <value>Standard</value>
-  </data>
-  <data name="Localization_UserRepos_Title" xml:space="preserve">
-    <value>User</value>
-  </data>
-  <data name="Application_Update_Title" xml:space="preserve">
-    <value>Application update</value>
-  </data>
-  <data name="Application_CheckForUpdates_Text" xml:space="preserve">
-    <value>Check for application updates...</value>
-  </data>
-  <data name="Application_CheckForUpdate_Title" xml:space="preserve">
-    <value>Check for application update</value>
-  </data>
-  <data name="Application_FailedInstallUpdate_Text" xml:space="preserve">
-    <value>Failed install application update</value>
-  </data>
-  <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
-    <value>Install update: {0}</value>
-  </data>
-  <data name="Application_NoUpdatesFound_Text" xml:space="preserve">
-    <value>No application updates were found</value>
-  </data>
-  <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
-    <value>New application version {0} is available.
-Do you want download it now?</value>
-  </data>
-  <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>New application version {0} is available.
-Do you want install it now?</value>
-  </data>
-  <data name="UpdateScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\update.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
-  <data name="Localization_DisplayPreReleases_Text" xml:space="preserve">
-    <value>Display alpha versions</value>
-  </data>
-  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
-    <value>Always On Top</value>
+  <data name="Localization_Game_Mode" xml:space="preserve">
+    <value>Game mode</value>
   </data>
   <data name="Localization_QuitApp_Text" xml:space="preserve">
     <value>Quit</value>
   </data>
-  <data name="Localization_Settings_Text" xml:space="preserve">
-    <value>Settings</value>
+  <data name="Localization_RunOnStartup_Text" xml:space="preserve">
+    <value>Run On Windows startup</value>
   </data>
-  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
-    <value>Use Http Proxy</value>
+  <data name="Localization_Title" xml:space="preserve">
+    <value>Star Citizen : Localization</value>
   </data>
-  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
-    <value>New localization version {0} is available.
-Do you want download and install it now?</value>
+  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
-    <value>Check for localization update</value>
+  <data name="Localization_DuplicateRepoName_Text" xml:space="preserve">
+    <value>Repository name '{0}' is already exist.</value>
   </data>
-  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
-    <value>No localization updates were found</value>
+  <data name="Localization_Manage_Text" xml:space="preserve">
+    <value>Manage</value>
   </data>
-  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
-    <value>Update localization {0}</value>
+  <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
+    <value>Allow incremental download</value>
   </data>
-  <data name="LoggingConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\logging-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
-  <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
-    <value>Move LIVE to PTU</value>
-  </data>
-  <data name="Tools_Move_PTU_LIVE" xml:space="preserve">
-    <value>Move PTU to LIVE</value>
-  </data>
-  <data name="Tools_Title" xml:space="preserve">
-    <value>Tools</value>
+  <data name="Promtp_OK_Button" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="Localization_InstallWarning_Text" xml:space="preserve">
     <value>Dear friend,
@@ -411,142 +176,421 @@ But before installation we want to be sure you will read following reminder:
 
 By clicking "Yes", you confirm that you have read and understood the warning and ready to proceed with the installation.</value>
   </data>
-  <data name="Localization_InstallWarning_Title" xml:space="preserve">
-    <value>Warning</value>
+  <data name="Localization_InstallVersion_Title" xml:space="preserve">
+    <value>Install version:  {0}</value>
   </data>
-  <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
-    <value>Application pre releases</value>
-  </data>
-  <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
-    <value>Failed load settings database json</value>
-  </data>
-  <data name="GameSettings_FailedParseDb_Text" xml:space="preserve">
-    <value>Failed parse settings database json</value>
-  </data>
-  <data name="GameSettings_Reset_All_Button" xml:space="preserve">
-    <value>Reset All</value>
+  <data name="Localization_RefreshAvailableVersion_Title" xml:space="preserve">
+    <value>Refresh available versions</value>
   </data>
   <data name="GameSettings_Reset_Page_Button" xml:space="preserve">
     <value>Reset in Page</value>
   </data>
-  <data name="GameSettings_Save_Button" xml:space="preserve">
-    <value>Apply</value>
+  <data name="Application_CheckForUpdates_Text" xml:space="preserve">
+    <value>Check for application updates...</value>
   </data>
-  <data name="GameSettings_Title" xml:space="preserve">
-    <value>Star Citizen : Settings</value>
+  <data name="Localization_Package_ErrorText" xml:space="preserve">
+    <value>Package is corrupted or not valid. Please try another or contact with package owner.</value>
   </data>
-  <data name="GameSettings_Show_Only_Changed_Button" xml:space="preserve">
-    <value>Show Only Changed</value>
-  </data>
-  <data name="GameSettings_Reset_Setting_Button" xml:space="preserve">
-    <value>Reset Setting</value>
-  </data>
-  <data name="GameSettings_Copy_All_Settings_Button" xml:space="preserve">
-    <value>Copy All Settings</value>
-  </data>
-  <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
-    <value>Copy Setting</value>
-  </data>
-  <data name="GameSettings_Button_Text" xml:space="preserve">
-    <value>Settings {0}</value>
-  </data>
-  <data name="GameSettings_Error_Title" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
-    <value>Save changes in profile {0}?</value>
-  </data>
-  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
-    <value>Profile changed</value>
-  </data>
-  <data name="GameSettings_ProfileDelete_Button" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
-    <value>Error create or modify profile</value>
-  </data>
-  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
-    <value>Enter profile name:</value>
-  </data>
-  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
-    <value>Create new profile</value>
-  </data>
-  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
-    <value>Enter profile name:</value>
-  </data>
-  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
-    <value>Rename selected profile</value>
-  </data>
-  <data name="GameSettings_Profile_Text" xml:space="preserve">
-    <value>Profile:</value>
-  </data>
-  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
-    <value>Failed apply settings</value>
-  </data>
-  <data name="Promtp_OK_Button" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
-    <value>Invalid setting:</value>
-  </data>
-  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
-    <value>Invalid Setting Found</value>
-  </data>
-  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
-    <value>Found any issue in settings?
-Please report them by using link below</value>
-  </data>
-  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
-    <value>Default Value</value>
-  </data>
-  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
-    <value>Max Value</value>
-  </data>
-  <data name="GameSettings_MinValue_Text" xml:space="preserve">
-    <value>Min Value</value>
-  </data>
-  <data name="GameSettings_Step_Text" xml:space="preserve">
-    <value>Step</value>
-  </data>
-  <data name="GameSettings_Values_Text" xml:space="preserve">
-    <value>Values Desc</value>
-  </data>
-  <data name="Localization_NotAvailable_Version" xml:space="preserve">
-    <value>N/A</value>
-  </data>
-  <data name="Localization_DefaultApp_Text" xml:space="preserve">
-    <value>Default localization application</value>
+  <data name="Localization_InstallWarning_Title" xml:space="preserve">
+    <value>Warning</value>
   </data>
   <data name="Application_CloseGame_Text" xml:space="preserve">
     <value>Operation can't be done with game runnig.
 To proceed please ensure that game is not running and press retry.</value>
   </data>
-  <data name="Application_AllowIncrementalDownload_Text" xml:space="preserve">
-    <value>Allow incremental download</value>
+  <data name="GameSettings_ProfileRename_Text" xml:space="preserve">
+    <value>Enter profile name:</value>
   </data>
-  <data name="Localization_Modify_Text" xml:space="preserve">
-    <value>Modify</value>
+  <data name="Localization_Uninstall_WarningTitle" xml:space="preserve">
+    <value>Uninstall warning</value>
   </data>
-  <data name="Localization_CoreVersion_Text" xml:space="preserve">
-    <value>Core version:</value>
+  <data name="Localization_Uninstall_ErrorTitle" xml:space="preserve">
+    <value>Uninstall error</value>
   </data>
-  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
-    <value>Disabled</value>
+  <data name="GameMode_PTU" xml:space="preserve">
+    <value>Persistent Test Universe</value>
   </data>
-  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
-    <value>Enabled</value>
+  <data name="GameSettings_ProfileNew_Button" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="GameMode_LIVE" xml:space="preserve">
+    <value>Persistent Universe</value>
+  </data>
+  <data name="Localization_DuplicateRepoUrl_Text" xml:space="preserve">
+    <value>Repository url '{0}' is already exist.</value>
+  </data>
+  <data name="Localization_InstallUpdateVer_Text" xml:space="preserve">
+    <value>Install update: {0}</value>
+  </data>
+  <data name="GameSettings_Title" xml:space="preserve">
+    <value>Star Citizen : Settings</value>
+  </data>
+  <data name="Localization_Add_Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Title" xml:space="preserve">
+    <value>Invalid Setting Found</value>
+  </data>
+  <data name="Application_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>New application version {0} is available.
+Do you want install it now?</value>
+  </data>
+  <data name="Localization_RepositoryURL_Text" xml:space="preserve">
+    <value>Repository URL (GitHub, Gitee, folder)</value>
+  </data>
+  <data name="Localization_Verify_ErrorTitle" xml:space="preserve">
+    <value>Verification Error</value>
+  </data>
+  <data name="Localization_CheckForVersionEvery_Text" xml:space="preserve">
+    <value>Check for new version every</value>
+  </data>
+  <data name="Localization_Found_New_Version" xml:space="preserve">
+    <value>Found new version {0}.</value>
+  </data>
+  <data name="GameSettings_FoundAnyIssue_Text" xml:space="preserve">
+    <value>Found any issue in settings?
+Please report them by using link below</value>
+  </data>
+  <data name="Localization_Downloading_Text" xml:space="preserve">
+    <value>Downloading...</value>
+  </data>
+  <data name="Localization_Install_ErrorText" xml:space="preserve">
+    <value>Unfortunately, it was an error during installation. Please try again.</value>
+  </data>
+  <data name="Localization_Warning_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Localization_StdRepos_Title" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Localization_DisplayPreReleases_Text" xml:space="preserve">
+    <value>Display alpha versions</value>
+  </data>
+  <data name="GamePath_Hint" xml:space="preserve">
+    <value>Press here to select Star Citizen root folder</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Title" xml:space="preserve">
+    <value>Rename selected profile</value>
+  </data>
+  <data name="GameSettings_ProfileError_Text" xml:space="preserve">
+    <value>Error create or modify profile</value>
+  </data>
+  <data name="GameSettings_Step_Text" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="GameSettings_ProfileRename_Button" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Localization_Refresh_Text" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="GameSettings_Save_Button" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Localization_Stop_Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Localization_NoUpdatesFound_Text" xml:space="preserve">
+    <value>No localization updates were found</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="UpdateScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\update.bat;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="Localization_Stop_Monitoring" xml:space="preserve">
+    <value>Stop monitoring.</value>
+  </data>
+  <data name="Localization_Press_Refresh_Button" xml:space="preserve">
+    <value>Please press Refresh button</value>
+  </data>
+  <data name="Localization_CheckForUpdate_Title" xml:space="preserve">
+    <value>Check for localization update</value>
+  </data>
+  <data name="GamePath_Error_Text" xml:space="preserve">
+    <value>Make sure you select the same Star Citizen folder as when installing the game.</value>
+  </data>
+  <data name="GameSettings_Profile_Text" xml:space="preserve">
+    <value>Profile:</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
+    <value>Enter profile name:</value>
   </data>
   <data name="Localization_Core_Missing_Status" xml:space="preserve">
     <value>Missing (Reinstall Localization)</value>
   </data>
+  <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="GameSettings_Show_Only_Changed_Button" xml:space="preserve">
+    <value>Show Only Changed</value>
+  </data>
+  <data name="Localization_File_ErrorText" xml:space="preserve">
+    <value>Unfortunately, it was an file error during install. Please ensure install folder and files is not open in other applicaitions.</value>
+  </data>
+  <data name="Application_FailedInstallUpdate_Text" xml:space="preserve">
+    <value>Failed install application update</value>
+  </data>
+  <data name="Application_NoUpdatesFound_Text" xml:space="preserve">
+    <value>No application updates were found</value>
+  </data>
+  <data name="Localization_Cancel_Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="GameSettings_FailedParseDb_Text" xml:space="preserve">
+    <value>Failed parse settings database json</value>
+  </data>
+  <data name="Localization_CheckForUpdates_Text" xml:space="preserve">
+    <value>Update localization {0}</value>
+  </data>
+  <data name="Localization_NotAvailable_Version" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="LocalizationButton_Text" xml:space="preserve">
+    <value>Localization {0}</value>
+  </data>
+  <data name="Localization_Start_Monitoring" xml:space="preserve">
+    <value>Start monitoring.</value>
+  </data>
+  <data name="Localization_UninstallLocalization_Text" xml:space="preserve">
+    <value>Uninstall localization</value>
+  </data>
+  <data name="Localization_UserRepos_Title" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Localization_Language_Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Localization_Download_ErrorText" xml:space="preserve">
+    <value>Unfortunately, it was an error during download. Please try again.</value>
+  </data>
+  <data name="GameSettings_Copy_Setting_Button" xml:space="preserve">
+    <value>Copy Setting</value>
+  </data>
+  <data name="AppIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\app-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionText" xml:space="preserve">
+    <value>Are you sure your are want uninstall localization and remove all files?</value>
+  </data>
+  <data name="Localization_Settings_Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Tools_Move_LIVE_PTU" xml:space="preserve">
+    <value>Move LIVE to PTU</value>
+  </data>
+  <data name="Localization_Package_ErrorTitle" xml:space="preserve">
+    <value>Package Error</value>
+  </data>
+  <data name="Localization_Button_Disable_localization" xml:space="preserve">
+    <value>Disable localization</value>
+  </data>
+  <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
+    <value>Unable to uninstall localization. Please ensure install folder and files is not open in other applicaitions.</value>
+  </data>
+  <data name="Application_CheckForUpdate_Title" xml:space="preserve">
+    <value>Check for application update</value>
+  </data>
+  <data name="GamePath_Description" xml:space="preserve">
+    <value>Please select Star Citizen root folder.</value>
+  </data>
+  <data name="GameSettings_Button_Text" xml:space="preserve">
+    <value>Settings {0}</value>
+  </data>
+  <data name="Localization_Modify_Text" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="Localization_NoRepoAccess_Text" xml:space="preserve">
+    <value>No access to repository '{0}'</value>
+  </data>
+  <data name="GameSettings_Reset_Setting_Button" xml:space="preserve">
+    <value>Reset Setting</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Star Citizen : Utils - v{0}</value>
+  </data>
+  <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
+    <value>Repository '{0}' used by '{1}'. Do you want remove it?</value>
+  </data>
+  <data name="Localization_Button_Enable_localization" xml:space="preserve">
+    <value>Enable localization</value>
+  </data>
+  <data name="Localization_AvailableVersions_Text" xml:space="preserve">
+    <value>Available versions:</value>
+  </data>
+  <data name="Localization_Uninstall_QuestionTitle" xml:space="preserve">
+    <value>Uninstall confirmation</value>
+  </data>
+  <data name="Localization_Uninstalling_Text" xml:space="preserve">
+    <value>Uninstalling...</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Text" xml:space="preserve">
+    <value>Save changes in profile {0}?</value>
+  </data>
+  <data name="Localization_Install_ErrorTitle" xml:space="preserve">
+    <value>Install Error</value>
+  </data>
+  <data name="Localization_RunMinimized_Text" xml:space="preserve">
+    <value>Run minimized</value>
+  </data>
+  <data name="Localization_Download_ErrorTitle" xml:space="preserve">
+    <value>Download Error</value>
+  </data>
+  <data name="Localization_Installing_Text" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Localization_Repositories_Title" xml:space="preserve">
+    <value>Star Citizen : Localization repositories</value>
+  </data>
+  <data name="Localization_Verify_ErrorText" xml:space="preserve">
+    <value>Package security verification is not passed. Please try another or contact with package owner.</value>
+  </data>
+  <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
+    <value>Application pre releases</value>
+  </data>
+  <data name="GameSettings_DefaultValue_Text" xml:space="preserve">
+    <value>Default Value</value>
+  </data>
+  <data name="Localization_Path_Text" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="GameSettings_MaxValue_Text" xml:space="preserve">
+    <value>Max Value</value>
+  </data>
+  <data name="GameSettings_ProfileAskSave_Title" xml:space="preserve">
+    <value>Profile changed</value>
+  </data>
+  <data name="Localization_InstallVersion_Text" xml:space="preserve">
+    <value>Install selected version</value>
+  </data>
+  <data name="GameSettings_ProfileNew_Title" xml:space="preserve">
+    <value>Create new profile</value>
+  </data>
+  <data name="Localization_Uninstall_WarningText" xml:space="preserve">
+    <value>Localization removed not fully. Some files can't be removed.</value>
+  </data>
+  <data name="GameSettings_Copy_All_Settings_Button" xml:space="preserve">
+    <value>Copy All Settings</value>
+  </data>
+  <data name="Localization_SourceRepository_Text" xml:space="preserve">
+    <value>Source repository:</value>
+  </data>
+  <data name="Localization_Game_Version" xml:space="preserve">
+    <value>Game version</value>
+  </data>
+  <data name="Localization_DefaultApp_Text" xml:space="preserve">
+    <value>Default localization application</value>
+  </data>
+  <data name="Localization_AlwaysOnTop_Text" xml:space="preserve">
+    <value>Always On Top</value>
+  </data>
   <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
     <value>{0} isn't your default Star Citizen localization application.
 Set as default?</value>
+  </data>
+  <data name="Application_UpdateAvailableDownloadAsk_Text" xml:space="preserve">
+    <value>New application version {0} is available.
+Do you want download it now?</value>
+  </data>
+  <data name="Application_Update_Title" xml:space="preserve">
+    <value>Application update</value>
+  </data>
+  <data name="GameSettings_Reset_All_Button" xml:space="preserve">
+    <value>Reset All</value>
+  </data>
+  <data name="Tools_Move_PTU_LIVE" xml:space="preserve">
+    <value>Move PTU to LIVE</value>
+  </data>
+  <data name="Localization_UpdateAvailableInstallAsk_Text" xml:space="preserve">
+    <value>New localization version {0} is available.
+Do you want download and install it now?</value>
+  </data>
+  <data name="Localization_Latest_Version" xml:space="preserve">
+    <value>Latest version:</value>
+  </data>
+  <data name="Localization_InvalidRepoName_Text" xml:space="preserve">
+    <value>Repository name is empty.</value>
+  </data>
+  <data name="GamePath_Error_Title" xml:space="preserve">
+    <value>Wrong path to Star Citizen folder</value>
+  </data>
+  <data name="Tools_Title" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
+    <value>Repository url is empty.</value>
+  </data>
+  <data name="Localization_UseHttpProxy_Text" xml:space="preserve">
+    <value>Use Http Proxy</value>
+  </data>
+  <data name="GameSettings_InvalidSettingFound_Text" xml:space="preserve">
+    <value>Invalid setting:</value>
+  </data>
+  <data name="Localization_Name_Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GameSettings_Values_Text" xml:space="preserve">
+    <value>Values Desc</value>
+  </data>
+  <data name="GameSettings_SettingApplyError_Text" xml:space="preserve">
+    <value>Failed apply settings</value>
+  </data>
+  <data name="GameSettings_MinValue_Text" xml:space="preserve">
+    <value>Min Value</value>
+  </data>
+  <data name="Localization_File_ErrorTitle" xml:space="preserve">
+    <value>File Error</value>
+  </data>
+  <data name="GameSettings_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="LoggingConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\logging-config.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="start-button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\start-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop-button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\stop-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Launcher_DeleteProfile" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorText" xml:space="preserve">
+    <value>Game instance for profile: {0} is crashed.
+Exit error code: {1}</value>
+  </data>
+  <data name="Launcher_GameCrashed_ErrorTitile" xml:space="preserve">
+    <value>Game is crashed</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorText" xml:space="preserve">
+    <value>Unable launch game instance for profile: {0}</value>
+  </data>
+  <data name="Launcher_GameLaunchFailed_ErrorTitle" xml:space="preserve">
+    <value>Game launch failed</value>
+  </data>
+  <data name="Launcher_GameProfile" xml:space="preserve">
+    <value>Game Profile:</value>
+  </data>
+  <data name="Launcher_ImportCurrentProfile" xml:space="preserve">
+    <value>Import Current</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorText" xml:space="preserve">
+    <value>Unable copy and activate profile: {0}</value>
+  </data>
+  <data name="Launcher_ProfileActivate_ErrorTitle" xml:space="preserve">
+    <value>Profile activate error</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningText" xml:space="preserve">
+    <value>No active game profile found.
+Please launch game from original game launcher and try import again while game is running</value>
+  </data>
+  <data name="Launcher_ProfileMissing_WarningTitle" xml:space="preserve">
+    <value>Game profile not found</value>
+  </data>
+  <data name="Launcher_Title" xml:space="preserve">
+    <value>Star Citizen : Launcher</value>
   </data>
 </root>
