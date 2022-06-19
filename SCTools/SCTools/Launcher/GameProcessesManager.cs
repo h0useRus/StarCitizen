@@ -22,6 +22,8 @@ namespace NSW.StarCitizen.Tools.Launcher
             _runningProcesses.Clear();
         }
 
+        public bool IsAnyProcessRunning() => _runningProcesses.Count != 0;
+
         public bool IsProcessRunnnig(string profileName) => _runningProcesses.ContainsKey(profileName);
 
         public Process? GetProcess(string profileName)

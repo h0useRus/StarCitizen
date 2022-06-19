@@ -1,35 +1,37 @@
 using System;
-using System.Threading;
 
 namespace NSW.StarCitizen.Tools.Lib.Global
 {
     public sealed class GameMutex : IDisposable
     {
-        private const string MutexName = "StarCitizenApplication";
-        private Mutex? _mutex;
+        private const string GameMutexName = "StarCitizenApplication";
+        private const string CoreMutexName = "StarCitizenModdingCore";
+        private readonly MutexWrapper _gameMutex = new MutexWrapper(GameMutexName);
+        private readonly MutexWrapper _coreMutex = new MutexWrapper(CoreMutexName);
 
         public bool TryAcquire()
         {
-            if (_mutex != null)
-                throw new InvalidOperationException("Game mutex already acquired");
-            var mutex = new Mutex(true, MutexName, out var onlyInstance);
-            if (!onlyInstance)
+            try
             {
-                mutex.Dispose();
-                return false;
+                if (_gameMutex.TryAcquire() &&
+                    _coreMutex.TryAcquire())
+                {
+                    return true;
+                }
             }
-            _mutex = mutex;
-            return true;
+            catch
+            {
+                Release();
+                throw;
+            }
+            Release();
+            return false;
         }
 
         public void Release()
         {
-            if (_mutex != null)
-            {
-                _mutex.ReleaseMutex();
-                _mutex.Dispose();
-                _mutex = null;
-            }
+            _gameMutex.Release();
+            _coreMutex.Release();
         }
 
         public void Dispose() => Release();

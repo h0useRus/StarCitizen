@@ -125,6 +125,28 @@ namespace NSW.StarCitizen.Tools.Forms
                 await LaunchRegularCheckForUpdatesAsync();
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.WindowsShutDown)
+            {
+                Program.ProcessManager.StopProcesses();
+            }
+            else if (Program.ProcessManager.IsAnyProcessRunning())
+            {
+                var dialogResult = RtlAwareMessageBox.Show(this, Resources.Launcher_AskCloseGame_Text, Resources.Launcher_AskCloseGame_Title,
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+                switch (dialogResult)
+                {
+                    case DialogResult.Yes:
+                        Program.ProcessManager.StopProcesses();
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                }
+            }
+        }
+
         private void MainForm_Shown(object sender, EventArgs e)
         {
             if (Program.Settings.RunMinimized)

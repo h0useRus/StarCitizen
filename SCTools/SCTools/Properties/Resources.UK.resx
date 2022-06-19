@@ -577,4 +577,16 @@
   <data name="Launcher_Title" xml:space="preserve">
     <value>Star Citizen : Завантажувач</value>
   </data>
+  <data name="Launcher_AskCloseGame_Text" xml:space="preserve">
+    <value>Виявлено запущену гру. Зупинити її перед закриттям програми?</value>
+  </data>
+  <data name="Launcher_AskCloseGame_Title" xml:space="preserve">
+    <value>Виявлено запущену гру</value>
+  </data>
+  <data name="Launcher_AskEnableLocalization_Text" xml:space="preserve">
+    <value>Щоб запустити гру необхідно спочатку встановили локалізацію і переконатись що вона увімкнена</value>
+  </data>
+  <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
+    <value>Не можливо запустити без локалізації</value>
+  </data>
 </root>

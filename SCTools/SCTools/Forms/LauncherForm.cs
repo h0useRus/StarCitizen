@@ -6,11 +6,13 @@ using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using NLog;
+using NSW.StarCitizen.Tools.Controllers;
 using NSW.StarCitizen.Tools.Controls;
 using NSW.StarCitizen.Tools.Helpers;
 using NSW.StarCitizen.Tools.Launcher;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
+using NSW.StarCitizen.Tools.Lib.Localization;
 using NSW.StarCitizen.Tools.Properties;
 
 namespace NSW.StarCitizen.Tools.Forms
@@ -18,7 +20,6 @@ namespace NSW.StarCitizen.Tools.Forms
     public partial class LauncherForm : FormEx, ILocalizedForm
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private static readonly GameProcessesManager _processesManager = new GameProcessesManager();
         private readonly ISet<string> _profiles = new HashSet<string>();
         private readonly GameInfo _gameInfo;
         private readonly string _loginDataFilePath;
@@ -35,12 +36,12 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void LauncherForm_Load(object sender, EventArgs e)
         {
-            _processesManager.ProcessExited += GameProcessExited;
+            Program.ProcessManager.ProcessExited += GameProcessExited;
             LoadImportedProfiles();
             UpdateProfilesCombobox(GetActiveProfileName());
         }
 
-        private void LauncherForm_FormClosed(object sender, FormClosedEventArgs e) => _processesManager.ProcessExited -= GameProcessExited;
+        private void LauncherForm_FormClosed(object sender, FormClosedEventArgs e) => Program.ProcessManager.ProcessExited -= GameProcessExited;
 
         public void UpdateLocalizedControls()
         {
@@ -54,29 +55,37 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbProfiles.SelectedItem is string selectedProfile)
             {
-                if (_processesManager.IsProcessRunnnig(selectedProfile))
+                if (Program.ProcessManager.IsProcessRunnnig(selectedProfile))
                 {
-                    _processesManager.StopProcess(selectedProfile);
-                }
-                else if (FileUtils.CopyFileNoThrow(GetProfileNamePath(selectedProfile), _loginDataFilePath, true))
-                {
-                    btnRunGame.Enabled = false;
-                    btnRunGame.ImageKey = "stop";
-                    btnRemoveProfile.Enabled = false;
-                    if (!_processesManager.LaunchProcess(_gameInfo, selectedProfile))
-                    {
-                        btnRemoveProfile.Enabled = true;
-                        btnRunGame.ImageKey = "start";
-                        MessageBox.Show(this, string.Format(Resources.Launcher_GameLaunchFailed_ErrorText, selectedProfile),
-                            Resources.Launcher_GameLaunchFailed_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    btnRunGame.Enabled = true;
-                    cbProfiles.Refresh();
+                    Program.ProcessManager.StopProcess(selectedProfile);
                 }
                 else
                 {
-                    MessageBox.Show(this, string.Format(Resources.Launcher_ProfileActivate_ErrorText, selectedProfile),
-                        Resources.Launcher_ProfileActivate_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!IsLocalizationEnabled())
+                    {
+                        RtlAwareMessageBox.Show(this, Resources.Launcher_AskEnableLocalization_Text,
+                            Resources.Launcher_AskEnableLocalization_Titile, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else if (FileUtils.CopyFileNoThrow(GetProfileNamePath(selectedProfile), _loginDataFilePath, true))
+                    {
+                        btnRunGame.Enabled = false;
+                        btnRunGame.ImageKey = "stop";
+                        btnRemoveProfile.Enabled = false;
+                        if (!Program.ProcessManager.LaunchProcess(_gameInfo, selectedProfile))
+                        {
+                            btnRemoveProfile.Enabled = true;
+                            btnRunGame.ImageKey = "start";
+                            RtlAwareMessageBox.Show(this, string.Format(Resources.Launcher_GameLaunchFailed_ErrorText, selectedProfile),
+                                Resources.Launcher_GameLaunchFailed_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        btnRunGame.Enabled = true;
+                        cbProfiles.Refresh();
+                    }
+                    else
+                    {
+                        RtlAwareMessageBox.Show(this, string.Format(Resources.Launcher_ProfileActivate_ErrorText, selectedProfile),
+                            Resources.Launcher_ProfileActivate_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -94,14 +103,14 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 else
                 {
-                    MessageBox.Show(this, Resources.Launcher_ProfileMissing_WarningText, Resources.Launcher_ProfileMissing_WarningTitle,
+                    RtlAwareMessageBox.Show(this, Resources.Launcher_ProfileMissing_WarningText, Resources.Launcher_ProfileMissing_WarningTitle,
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
                 UpdateProfilesCombobox(null);
-                MessageBox.Show(this, Resources.Launcher_ProfileMissing_WarningText, Resources.Launcher_ProfileMissing_WarningTitle,
+                RtlAwareMessageBox.Show(this, Resources.Launcher_ProfileMissing_WarningText, Resources.Launcher_ProfileMissing_WarningTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -125,8 +134,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 var fontStyle = FontStyle.Italic;
                 if (cbProfiles.Items[e.Index] is string profile)
                 {
-                    fontStyle = _processesManager.IsProcessRunnnig(profile) ? FontStyle.Bold : FontStyle.Regular;
-                    _processesManager.GetProcess(profile);
+                    fontStyle = Program.ProcessManager.IsProcessRunnnig(profile) ? FontStyle.Bold : FontStyle.Regular;
                 }
                 using var brush = new SolidBrush(e.ForeColor);
                 using var font = new Font(e.Font, fontStyle);
@@ -168,7 +176,7 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbProfiles.SelectedItem is string selectedProfile)
             {
-                bool isRunning = _processesManager.IsProcessRunnnig(selectedProfile);
+                bool isRunning = Program.ProcessManager.IsProcessRunnnig(selectedProfile);
                 btnRunGame.ImageKey = isRunning ? "stop" : "start";
                 btnRunGame.Enabled = true;
                 btnRemoveProfile.Enabled = !isRunning;
@@ -196,9 +204,15 @@ namespace NSW.StarCitizen.Tools.Forms
             UpdateButtons();
             if (e.ExitCode != 0 && !e.Stopped)
             {
-                MessageBox.Show(this, string.Format(Resources.Launcher_GameCrashed_ErrorText, e.ProfileName, e.ExitCode),
+                RtlAwareMessageBox.Show(this, string.Format(Resources.Launcher_GameCrashed_ErrorText, e.ProfileName, e.ExitCode),
                         Resources.Launcher_GameCrashed_ErrorTitile, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool IsLocalizationEnabled()
+        {
+            var localizationController = new LocalizationController(_gameInfo);
+            return localizationController.GetInstallationType() == LocalizationInstallationType.Enabled;
         }
     }
 

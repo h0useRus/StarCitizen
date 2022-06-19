@@ -10,9 +10,8 @@ namespace NSW.StarCitizen.Tools.Launcher
         private readonly Process _process = new Process();
         private readonly SynchronizationContext _dispatcher;
         private readonly string _profileName;
-        private bool _stopped;
 
-        public bool Stopped => _stopped;
+        public bool Stopped { get; private set; } = false;
         public int ExitCode => _process.ExitCode;
         public string ProfileName => _profileName;
         public Process Process => _process;
@@ -52,8 +51,11 @@ namespace NSW.StarCitizen.Tools.Launcher
 
         public void Stop()
         {
-            _stopped = true;
-            _process.Kill();
+            if (!Stopped)
+            {
+                Stopped = true;
+                _process.Kill();
+            }
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) => _dispatcher.Post(new SendOrPostCallback((o) =>

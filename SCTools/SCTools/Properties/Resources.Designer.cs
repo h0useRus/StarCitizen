@@ -516,6 +516,42 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Game instances is still runing. Do you want stop them before close application?.
+        /// </summary>
+        internal static string Launcher_AskCloseGame_Text {
+            get {
+                return ResourceManager.GetString("Launcher_AskCloseGame_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game is running.
+        /// </summary>
+        internal static string Launcher_AskCloseGame_Title {
+            get {
+                return ResourceManager.GetString("Launcher_AskCloseGame_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To launch game please install and enable localization.
+        /// </summary>
+        internal static string Launcher_AskEnableLocalization_Text {
+            get {
+                return ResourceManager.GetString("Launcher_AskEnableLocalization_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localization is not enabled.
+        /// </summary>
+        internal static string Launcher_AskEnableLocalization_Titile {
+            get {
+                return ResourceManager.GetString("Launcher_AskEnableLocalization_Titile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string Launcher_DeleteProfile {

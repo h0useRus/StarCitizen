@@ -593,4 +593,16 @@ Please launch game from original game launcher and try import again while game i
   <data name="Launcher_Title" xml:space="preserve">
     <value>Star Citizen : Launcher</value>
   </data>
+  <data name="Launcher_AskCloseGame_Title" xml:space="preserve">
+    <value>Game is running</value>
+  </data>
+  <data name="Launcher_AskCloseGame_Text" xml:space="preserve">
+    <value>Game instances is still runing. Do you want stop them before close application?</value>
+  </data>
+  <data name="Launcher_AskEnableLocalization_Text" xml:space="preserve">
+    <value>To launch game please install and enable localization</value>
+  </data>
+  <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
+    <value>Localization is not enabled</value>
+  </data>
 </root>

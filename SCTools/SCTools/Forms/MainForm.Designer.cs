@@ -35,9 +35,9 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGamePath = new System.Windows.Forms.TextBox();
             this.cbGameModes = new System.Windows.Forms.ComboBox();
             this.gbGameInfo = new System.Windows.Forms.GroupBox();
+            this.btnGameMode = new System.Windows.Forms.Button();
             this.tbGameVersion = new System.Windows.Forms.TextBox();
             this.lblGameVersion = new System.Windows.Forms.Label();
-            this.btnGameMode = new System.Windows.Forms.Button();
             this.lblGameMode = new System.Windows.Forms.Label();
             this.gbButtonMenu = new System.Windows.Forms.GroupBox();
             this.btnGameSettings = new System.Windows.Forms.Button();
@@ -509,6 +509,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Star Citizen : Utils";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
