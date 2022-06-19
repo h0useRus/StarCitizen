@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.6.5
+# Star Citizen Tools v0.6.6
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -37,6 +37,7 @@
 
 - Move LIVE to PTU or reverse
 - Manage user.cfg game settings (NEW in 0.6.0)
+- Launch multiple game instances with enabled localization (NEW in 0.6.5)
 - Download and install application updates
 - Check for application updates on application start every 7 days (NEW in 0.6.3)
 - Supported UI languages: English, Russian, Ukrainian, Korean
