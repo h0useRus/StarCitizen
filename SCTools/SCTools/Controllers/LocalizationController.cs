@@ -309,20 +309,24 @@ namespace NSW.StarCitizen.Tools.Controllers
             return true;
         }
 
-        public void ToggleLocalization(IWin32Window window)
+        public bool SetEnableLocalization(IWin32Window? window, bool enabled)
         {
             try
             {
                 using var gameMutex = new GameMutex();
-                if (!GameMutexController.AcquireWithRetryDialog(window, gameMutex))
+                if (window != null && !GameMutexController.AcquireWithRetryDialog(window, gameMutex))
                 {
-                    return;
+                    return false;
                 }
-                CurrentRepository.Installer.RevertLocalization(CurrentGame.RootFolderPath);
+                var installationType = CurrentRepository.Installer.SetEnableLocalization(CurrentGame.RootFolderPath, enabled);
+                if (enabled)
+                    return installationType == LocalizationInstallationType.Enabled;
+                return installationType != LocalizationInstallationType.Enabled;
             }
             catch (Exception e)
             {
-                _logger.Error(e, $"Error during toggle localization: {CurrentGame.Mode}");
+                _logger.Error(e, $"Error during enable/disable localization: {CurrentGame.Mode}");
+                return false;
             }
         }
     }

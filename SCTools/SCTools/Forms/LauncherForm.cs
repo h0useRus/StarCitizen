@@ -61,7 +61,8 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 else
                 {
-                    if (!IsLocalizationEnabled())
+                    var localizationController = new LocalizationController(_gameInfo);
+                    if (localizationController.GetInstallationType() == LocalizationInstallationType.None)
                     {
                         RtlAwareMessageBox.Show(this, Resources.Launcher_AskEnableLocalization_Text,
                             Resources.Launcher_AskEnableLocalization_Titile, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -71,7 +72,7 @@ namespace NSW.StarCitizen.Tools.Forms
                         btnRunGame.Enabled = false;
                         btnRunGame.ImageKey = "stop";
                         btnRemoveProfile.Enabled = false;
-                        if (!Program.ProcessManager.LaunchProcess(_gameInfo, selectedProfile))
+                        if (!Program.ProcessManager.LaunchProcess(this, _gameInfo, selectedProfile))
                         {
                             btnRemoveProfile.Enabled = true;
                             btnRunGame.ImageKey = "start";
@@ -207,12 +208,6 @@ namespace NSW.StarCitizen.Tools.Forms
                 RtlAwareMessageBox.Show(this, string.Format(Resources.Launcher_GameCrashed_ErrorText, e.ProfileName, e.ExitCode),
                         Resources.Launcher_GameCrashed_ErrorTitile, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private bool IsLocalizationEnabled()
-        {
-            var localizationController = new LocalizationController(_gameInfo);
-            return localizationController.GetInstallationType() == LocalizationInstallationType.Enabled;
         }
     }
 

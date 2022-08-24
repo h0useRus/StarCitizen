@@ -41,7 +41,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.cbVersions = new System.Windows.Forms.ComboBox();
             this.cbRepository = new System.Windows.Forms.ComboBox();
-            this.btnLocalizationDisable = new System.Windows.Forms.Button();
+            this.btnLocalizationToggle = new System.Windows.Forms.Button();
             this.lblSelectedVersion = new System.Windows.Forms.Label();
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.btnManage = new System.Windows.Forms.Button();
@@ -185,16 +185,15 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbRepository_DrawItem);
             this.cbRepository.SelectionChangeCommitted += new System.EventHandler(this.cbRepository_SelectionChangeCommitted);
             // 
-            // btnLocalizationDisable
+            // btnLocalizationToggle
             // 
-            this.btnLocalizationDisable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalizationDisable.Location = new System.Drawing.Point(273, 146);
-            this.btnLocalizationDisable.Name = "btnLocalizationDisable";
-            this.btnLocalizationDisable.Size = new System.Drawing.Size(205, 23);
-            this.btnLocalizationDisable.TabIndex = 8;
-            this.btnLocalizationDisable.Text = "Disable localization support";
-            this.btnLocalizationDisable.UseVisualStyleBackColor = true;
-            this.btnLocalizationDisable.Click += new System.EventHandler(this.btnLocalizationDisable_Click);
+            this.btnLocalizationToggle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLocalizationToggle.Location = new System.Drawing.Point(273, 146);
+            this.btnLocalizationToggle.Name = "btnLocalizationToggle";
+            this.btnLocalizationToggle.Size = new System.Drawing.Size(205, 23);
+            this.btnLocalizationToggle.TabIndex = 8;
+            this.btnLocalizationToggle.Text = "Disable localization support";
+            this.btnLocalizationToggle.UseVisualStyleBackColor = true;
             // 
             // lblSelectedVersion
             // 
@@ -287,7 +286,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
             this.Controls.Add(this.lblSelectedVersion);
-            this.Controls.Add(this.btnLocalizationDisable);
+            this.Controls.Add(this.btnLocalizationToggle);
             this.Controls.Add(this.cbRepository);
             this.Controls.Add(this.cbVersions);
             this.Controls.Add(this.lblMinutes);
@@ -329,7 +328,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
         private System.Windows.Forms.ComboBox cbVersions;
         private System.Windows.Forms.ComboBox cbRepository;
-        private System.Windows.Forms.Button btnLocalizationDisable;
+        private System.Windows.Forms.Button btnLocalizationToggle;
         private System.Windows.Forms.Label lblSelectedVersion;
         private System.Windows.Forms.TextBox tbCurrentVersion;
         private System.Windows.Forms.Button btnManage;

@@ -28,7 +28,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         bool WriteTimestamp(DateTimeOffset date, string destinationFolder);
         UninstallStatus Uninstall(string destinationFolder);
         LocalizationInstallationType GetInstallationType(string destinationFolder);
-        LocalizationInstallationType RevertLocalization(string destinationFolder);
+        LocalizationInstallationType SetEnableLocalization(string destinationFolder, bool enabled);
         FileVersionInfo? GetPatcherFileVersionInfo(string destinationFolder);
     }
 }

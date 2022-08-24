@@ -9,10 +9,12 @@ namespace NSW.StarCitizen.Tools.Launcher
     {
         private readonly Process _process = new Process();
         private readonly SynchronizationContext _dispatcher;
+        private readonly GameInfo _gameInfo;
         private readonly string _profileName;
 
         public bool Stopped { get; private set; } = false;
         public int ExitCode => _process.ExitCode;
+        public GameInfo GameInfo => _gameInfo; 
         public string ProfileName => _profileName;
         public Process Process => _process;
 
@@ -23,6 +25,7 @@ namespace NSW.StarCitizen.Tools.Launcher
         public GameProcess(SynchronizationContext dispatcher, GameInfo gameInfo, string profileName)
         {
             _dispatcher = dispatcher;
+            _gameInfo = gameInfo;
             _profileName = profileName;
             _process.StartInfo.FileName = gameInfo.ExeFilePath;
             _process.StartInfo.WorkingDirectory = gameInfo.RootFolderPath;
@@ -57,6 +60,8 @@ namespace NSW.StarCitizen.Tools.Launcher
                 _process.Kill();
             }
         }
+
+        public void WaitForExit(int milliseconds) => _process.WaitForExit(milliseconds);
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e) => _dispatcher.Post(new SendOrPostCallback((o) =>
         {

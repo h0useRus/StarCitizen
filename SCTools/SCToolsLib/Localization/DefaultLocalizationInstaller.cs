@@ -261,27 +261,40 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             return LocalizationInstallationType.None;
         }
 
-        public LocalizationInstallationType RevertLocalization(string destinationFolder)
+        public LocalizationInstallationType SetEnableLocalization(string destinationFolder, bool enabled)
         {
             if (!Directory.Exists(destinationFolder))
                 return LocalizationInstallationType.None;
+
             string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
             string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-
-            if (File.Exists(enabledLibraryPath))
+            if (enabled)
             {
                 if (File.Exists(disabledLibraryPath))
-                    FileUtils.DeleteFileNoThrow(disabledLibraryPath);
-                File.Move(enabledLibraryPath, disabledLibraryPath);
-                return LocalizationInstallationType.Disabled;
+                {
+                    if (File.Exists(enabledLibraryPath))
+                        FileUtils.DeleteFileNoThrow(enabledLibraryPath);
+                    File.Move(disabledLibraryPath, enabledLibraryPath);
+                    return LocalizationInstallationType.Enabled;
+                }
+                if (File.Exists(enabledLibraryPath))
+                {
+                    return LocalizationInstallationType.Enabled;
+                }
             }
-
-            if (File.Exists(disabledLibraryPath))
+            else
             {
                 if (File.Exists(enabledLibraryPath))
-                    FileUtils.DeleteFileNoThrow(enabledLibraryPath);
-                File.Move(disabledLibraryPath, enabledLibraryPath);
-                return LocalizationInstallationType.Enabled;
+                {
+                    if (File.Exists(disabledLibraryPath))
+                        FileUtils.DeleteFileNoThrow(disabledLibraryPath);
+                    File.Move(enabledLibraryPath, disabledLibraryPath);
+                    return LocalizationInstallationType.Disabled;
+                }
+                if (File.Exists(disabledLibraryPath))
+                {
+                    return LocalizationInstallationType.Disabled;
+                }
             }
 
             return LocalizationInstallationType.None;
