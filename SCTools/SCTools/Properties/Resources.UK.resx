@@ -589,4 +589,7 @@
   <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
     <value>Не можливо запустити без локалізації</value>
   </data>
+  <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
+    <value>Ви впевнені що бажаєте видалити дані аутентифікації для профілю {0}?</value>
+  </data>
 </root>

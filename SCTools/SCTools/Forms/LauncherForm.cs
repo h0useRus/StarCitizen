@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -120,9 +121,13 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             if (cbProfiles.SelectedItem is string profileName)
             {
-                _profiles.Remove(profileName);
-                FileUtils.DeleteFileNoThrow(GetProfileNamePath(profileName));
-                UpdateProfilesCombobox(GetActiveProfileName());
+                if (RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Launcher_RemoveProfileConfirm_Text, profileName),
+                        Resources.Localization_Warning_Title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    _profiles.Remove(profileName);
+                    FileUtils.DeleteFileNoThrow(GetProfileNamePath(profileName));
+                    UpdateProfilesCombobox(GetActiveProfileName());
+                }
             }
         }
 

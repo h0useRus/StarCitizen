@@ -653,6 +653,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove authentication data for profile {0}?.
+        /// </summary>
+        internal static string Launcher_RemoveProfileConfirm_Text {
+            get {
+                return ResourceManager.GetString("Launcher_RemoveProfileConfirm_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Citizen : Launcher.
         /// </summary>
         internal static string Launcher_Title {

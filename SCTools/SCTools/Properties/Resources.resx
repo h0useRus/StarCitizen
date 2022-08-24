@@ -605,4 +605,7 @@ Please launch game from original game launcher and try import again while game i
   <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
     <value>Localization is not enabled</value>
   </data>
+  <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
+    <value>Are you sure you want to remove authentication data for profile {0}?</value>
+  </data>
 </root>
