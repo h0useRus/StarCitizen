@@ -189,9 +189,9 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void cbLanguages_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if ((cbLanguages.SelectedItem is string currentLanguage) && !_controller.GameSettings.SaveCurrentLanguage(currentLanguage))
+            if ((cbLanguages.SelectedValue is string currentLanguage) && !_controller.GameSettings.SaveCurrentLanguage(currentLanguage))
             {
-                cbLanguages.SelectedItem = _controller.GameSettings.LanguageInfo.Current;
+                cbLanguages.SelectedValue = _controller.GameSettings.LanguageInfo.Current;
                 /// TODO: Add dialog with error
             }
         }
@@ -327,8 +327,13 @@ namespace NSW.StarCitizen.Tools.Forms
                 tbCurrentVersion.Text = installedVersion;
                 if (_controller.GameSettings.LanguageInfo.Languages.Any())
                 {
-                    cbLanguages.DataSource = _controller.GameSettings.LanguageInfo.Languages.ToList();
-                    cbLanguages.SelectedItem = _controller.GameSettings.LanguageInfo.Current;
+                    cbLanguages.BindingContext = BindingContext;
+                    cbLanguages.ValueMember = "Key";
+                    cbLanguages.DisplayMember = "Value";
+                    var prevDataSource = cbLanguages.DataSource;
+                    cbLanguages.DataSource = new BindingSource(_controller.GameSettings.LanguageInfo.Languages, null);
+                    DisposableUtils.Dispose(prevDataSource);
+                    cbLanguages.SelectedValue = _controller.GameSettings.LanguageInfo.Current;
                     cbLanguages.Enabled = true;
                 }
                 else

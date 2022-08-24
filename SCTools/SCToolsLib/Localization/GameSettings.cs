@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
@@ -22,7 +23,10 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             // system.cfg
             var systemConfigFile = new CfgFile(GameConstants.GetSystemConfigPath(_currentGame.RootFolderPath));
             var systemConfigData = systemConfigFile.Read();
-            LoadLanguageInfo(systemConfigData, languageInfo);
+            // languages.ini
+            var languagesConfigFile = new CfgFile(Path.Combine(GameConstants.GetDataFolderPath(_currentGame.RootFolderPath), "languages.ini"));
+            var languagesConfigData = languagesConfigFile.Read();
+            LoadLanguageInfo(systemConfigData, languagesConfigData, languageInfo);
             // user.cfg
             var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
             var userConfigData = userConfigFile.Read();
@@ -87,7 +91,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 var anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
                 if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value) && (value != null))
                 {
-                    if (languageInfo.Languages.Contains(value))
+                    if (languageInfo.Languages.ContainsKey(value))
                     {
                         languageInfo.Current = value;
                     }
@@ -102,7 +106,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             return false;
         }
 
-        private static void LoadLanguageInfo(CfgData cfgData, LanguageInfo languageInfo)
+        private static void LoadLanguageInfo(CfgData cfgData, CfgData languagesData, LanguageInfo languageInfo)
         {
             if (cfgData.TryGetValue(GameConstants.SystemLanguagesKey, out var value) && (value != null))
             {
@@ -110,7 +114,20 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 var languages = value.Split(',');
                 foreach (var language in languages)
                 {
-                    languageInfo.Languages.Add(language.Trim());
+                    var trimmedLanguage = language.Trim();
+                    if (languageInfo.Languages.ContainsKey(trimmedLanguage))
+                    {
+                        continue;   // skip duplicate languages
+                    }
+                    if (languagesData.TryGetValue(trimmedLanguage, out var languageLabel) &&
+                        languageLabel != null && !string.IsNullOrWhiteSpace(languageLabel))
+                    {
+                        languageInfo.Languages.Add(trimmedLanguage, languageLabel.Trim());
+                    }
+                    else
+                    {
+                        languageInfo.Languages.Add(trimmedLanguage, trimmedLanguage);
+                    }
                 }
             }
             if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out value) && (value != null))

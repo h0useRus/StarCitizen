@@ -111,7 +111,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbLanguages.FormattingEnabled = true;
             this.cbLanguages.Location = new System.Drawing.Point(117, 148);
             this.cbLanguages.Name = "cbLanguages";
-            this.cbLanguages.Size = new System.Drawing.Size(147, 21);
+            this.cbLanguages.Size = new System.Drawing.Size(361, 21);
             this.cbLanguages.TabIndex = 7;
             this.cbLanguages.SelectionChangeCommitted += new System.EventHandler(this.cbLanguages_SelectionChangeCommitted);
             // 
@@ -188,7 +188,7 @@ namespace NSW.StarCitizen.Tools.Forms
             // btnLocalizationToggle
             // 
             this.btnLocalizationToggle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalizationToggle.Location = new System.Drawing.Point(273, 146);
+            this.btnLocalizationToggle.Location = new System.Drawing.Point(273, 121);
             this.btnLocalizationToggle.Name = "btnLocalizationToggle";
             this.btnLocalizationToggle.Size = new System.Drawing.Size(205, 23);
             this.btnLocalizationToggle.TabIndex = 8;
@@ -271,7 +271,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblCurrentCoreVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 126);
             this.lblCurrentCoreVersion.Name = "lblCurrentCoreVersion";
-            this.lblCurrentCoreVersion.Size = new System.Drawing.Size(361, 13);
+            this.lblCurrentCoreVersion.Size = new System.Drawing.Size(147, 19);
             this.lblCurrentCoreVersion.TabIndex = 15;
             this.lblCurrentCoreVersion.Text = "0.0.0.0";
             // 
