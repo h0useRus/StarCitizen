@@ -608,4 +608,11 @@ Please launch game from original game launcher and try import again while game i
   <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
     <value>Are you sure you want to remove authentication data for profile {0}?</value>
   </data>
+  <data name="Application_AllowTls13_Text" xml:space="preserve">
+    <value>Allow TLS version 1.3</value>
+  </data>
+  <data name="Application_SettingChangeReqRestart_Text" xml:space="preserve">
+    <value>This setting require application restart to apply.
+Please restart application to activate new configuration</value>
+  </data>
 </root>

@@ -71,6 +71,8 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
             this.cbAppUpdateSource = new System.Windows.Forms.ComboBox();
+            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAllowTls13 = new System.Windows.Forms.ToolStripMenuItem();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -269,21 +271,21 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tsSeparator1,
             this.miExitApp});
             this.cmTrayMenu.Name = "cmTrayMenu";
-            this.cmTrayMenu.Size = new System.Drawing.Size(117, 104);
+            this.cmTrayMenu.Size = new System.Drawing.Size(181, 126);
             this.cmTrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.cmTrayMenu_Opening);
             // 
             // miAppName
             // 
             this.miAppName.Image = ((System.Drawing.Image)(resources.GetObject("miAppName.Image")));
             this.miAppName.Name = "miAppName";
-            this.miAppName.Size = new System.Drawing.Size(116, 22);
+            this.miAppName.Size = new System.Drawing.Size(180, 22);
             this.miAppName.Text = "SCTools";
             this.miAppName.Click += new System.EventHandler(this.miAppName_Click);
             // 
             // tsSeparator2
             // 
             this.tsSeparator2.Name = "tsSeparator2";
-            this.tsSeparator2.Size = new System.Drawing.Size(113, 6);
+            this.tsSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // miTools
             // 
@@ -291,20 +293,20 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miMoveLiveToPtu,
             this.miMovePtuToLive});
             this.miTools.Name = "miTools";
-            this.miTools.Size = new System.Drawing.Size(116, 22);
+            this.miTools.Size = new System.Drawing.Size(180, 22);
             this.miTools.Text = "Tools";
             // 
             // miMoveLiveToPtu
             // 
             this.miMoveLiveToPtu.Name = "miMoveLiveToPtu";
-            this.miMoveLiveToPtu.Size = new System.Drawing.Size(167, 22);
+            this.miMoveLiveToPtu.Size = new System.Drawing.Size(180, 22);
             this.miMoveLiveToPtu.Text = "Move LIVE to PTU";
             this.miMoveLiveToPtu.Click += new System.EventHandler(this.miMoveLiveToPtu_Click);
             // 
             // miMovePtuToLive
             // 
             this.miMovePtuToLive.Name = "miMovePtuToLive";
-            this.miMovePtuToLive.Size = new System.Drawing.Size(167, 22);
+            this.miMovePtuToLive.Size = new System.Drawing.Size(180, 22);
             this.miMovePtuToLive.Text = "Move PTU to LIVE";
             this.miMovePtuToLive.Click += new System.EventHandler(this.miMovePtuToLive_Click);
             // 
@@ -314,13 +316,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.miRunOnStartup,
             this.miRunMinimized,
             this.miRunTopMost,
-            this.miUseHttpProxy,
             this.miUpdateToAlphaVersions,
-            this.miAllowIncrementalDownload,
             this.miDefaultLocalizationApp,
-            this.miLanguage});
+            this.miLanguage,
+            this.networkToolStripMenuItem});
             this.miSettings.Name = "miSettings";
-            this.miSettings.Size = new System.Drawing.Size(116, 22);
+            this.miSettings.Size = new System.Drawing.Size(180, 22);
             this.miSettings.Text = "Settings";
             // 
             // miRunOnStartup
@@ -388,12 +389,12 @@ namespace NSW.StarCitizen.Tools.Forms
             // tsSeparator1
             // 
             this.tsSeparator1.Name = "tsSeparator1";
-            this.tsSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.tsSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExitApp
             // 
             this.miExitApp.Name = "miExitApp";
-            this.miExitApp.Size = new System.Drawing.Size(116, 22);
+            this.miExitApp.Size = new System.Drawing.Size(180, 22);
             this.miExitApp.Text = "Quit";
             this.miExitApp.Click += new System.EventHandler(this.miExitApp_Click);
             // 
@@ -488,6 +489,24 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbAppUpdateSource.TabIndex = 12;
             this.cbAppUpdateSource.SelectionChangeCommitted += new System.EventHandler(this.cbAppUpdateSource_SelectionChangeCommitted);
             // 
+            // networkToolStripMenuItem
+            // 
+            this.networkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miUseHttpProxy,
+            this.miAllowTls13,
+            this.miAllowIncrementalDownload});
+            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
+            this.networkToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.networkToolStripMenuItem.Text = "Network";
+            // 
+            // miAllowTls13
+            // 
+            this.miAllowTls13.CheckOnClick = true;
+            this.miAllowTls13.Name = "miAllowTls13";
+            this.miAllowTls13.Size = new System.Drawing.Size(180, 22);
+            this.miAllowTls13.Text = "Allow TLS v1.3";
+            this.miAllowTls13.Click += new System.EventHandler(this.miAllowTls13_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -564,5 +583,7 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.ComboBox cbAppUpdateSource;
         private System.Windows.Forms.ToolStripMenuItem miLanguage;
         private System.Windows.Forms.Button btnGameMode;
+        private System.Windows.Forms.ToolStripMenuItem networkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem miAllowTls13;
     }
 }

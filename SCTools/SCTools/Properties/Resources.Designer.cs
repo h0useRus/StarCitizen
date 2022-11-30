@@ -80,6 +80,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow TLS version 1.3.
+        /// </summary>
+        internal static string Application_AllowTls13_Text {
+            get {
+                return ResourceManager.GetString("Application_AllowTls13_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check for application update.
         /// </summary>
         internal static string Application_CheckForUpdate_Title {
@@ -122,6 +131,16 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Application_NoUpdatesFound_Text {
             get {
                 return ResourceManager.GetString("Application_NoUpdatesFound_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This setting require application restart to apply.
+        ///Please restart application to activate new configuration.
+        /// </summary>
+        internal static string Application_SettingChangeReqRestart_Text {
+            get {
+                return ResourceManager.GetString("Application_SettingChangeReqRestart_Text", resourceCulture);
             }
         }
         

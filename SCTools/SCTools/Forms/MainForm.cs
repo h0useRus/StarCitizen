@@ -58,6 +58,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Text = Resources.Localization_RunOnStartup_Text;
             miRunTopMost.Text = Resources.Localization_AlwaysOnTop_Text;
             miUseHttpProxy.Text = Resources.Localization_UseHttpProxy_Text;
+            miAllowTls13.Text = Resources.Application_AllowTls13_Text;
             miUpdateToAlphaVersions.Text = Resources.Application_UpdatePreReleases_Text;
             miAllowIncrementalDownload.Text = Resources.Application_AllowIncrementalDownload_Text;
             miLanguage.Text = Resources.Localization_Language_Text;
@@ -345,6 +346,7 @@ namespace NSW.StarCitizen.Tools.Forms
             miRunOnStartup.Checked = Program.Settings.RunWithWindows;
             miRunTopMost.Checked = Program.Settings.TopMostWindow;
             miUseHttpProxy.Checked = Program.Settings.UseHttpProxy;
+            miAllowTls13.Checked = Program.Settings.AllowTls13;
             miUpdateToAlphaVersions.Checked = Program.Settings.Update.AllowPreReleases;
             miAllowIncrementalDownload.Checked = Program.Settings.AllowIncrementalDownload;
             if (Program.Settings.GameFolder != null && _gameModes != null)
@@ -399,7 +401,16 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             Program.Settings.UseHttpProxy = miUseHttpProxy.Checked;
             Program.SaveAppSettings();
-            // TODO: need some dialog about need restart to apply this setting
+            RtlAwareMessageBox.Show(this, Resources.Application_SettingChangeReqRestart_Text, Resources.Localization_Title,
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void miAllowTls13_Click(object sender, EventArgs e)
+        {
+            Program.Settings.AllowTls13 = miAllowTls13.Checked;
+            Program.SaveAppSettings();
+            RtlAwareMessageBox.Show(this, Resources.Application_SettingChangeReqRestart_Text, Resources.Localization_Title,
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void miUpdateToAlphaVersions_Click(object sender, EventArgs e)

@@ -38,6 +38,8 @@ namespace NSW.StarCitizen.Tools.Settings
             set => SetDefaultLocalizationApp(value);
         }
         [JsonProperty]
+        public bool AllowTls13 { get; set; }
+        [JsonProperty]
         public bool UseHttpProxy { get; set; }
         [JsonProperty]
         public bool TopMostWindow { get; set; } = true;

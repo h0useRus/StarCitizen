@@ -592,4 +592,11 @@
   <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
     <value>Вы уверенные что хотите удалить данные авторизации для профиля {0}?</value>
   </data>
+  <data name="Application_AllowTls13_Text" xml:space="preserve">
+    <value>Разрешать TLS версии 1.3</value>
+  </data>
+  <data name="Application_SettingChangeReqRestart_Text" xml:space="preserve">
+    <value>Для применения этой настройки требуется перезапуск приложения.
+Пожалуйста, перезапустите приложение для активации новой конфигурации</value>
+  </data>
 </root>
