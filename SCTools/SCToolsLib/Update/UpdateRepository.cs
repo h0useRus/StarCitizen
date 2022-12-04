@@ -131,8 +131,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             if (CurrentVersion == null) return;
             try
             {
-                using var cancellationTokenSource = new CancellationTokenSource();
-                var result = await GetLatestAsync(cancellationTokenSource.Token);
+                var result = await GetLatestAsync(CancellationToken.None);
                 if (result != null && CurrentVersion != null &&
                     string.Compare(result.GetVersion(), CurrentVersion, StringComparison.OrdinalIgnoreCase) != 0)
                 {
