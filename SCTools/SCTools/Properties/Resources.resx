@@ -615,4 +615,7 @@ Please launch game from original game launcher and try import again while game i
     <value>This setting require application restart to apply.
 Please restart application to activate new configuration</value>
   </data>
+  <data name="Application_ManualEnableCore_Text" xml:space="preserve">
+    <value>Manual enable core</value>
+  </data>
 </root>

@@ -126,6 +126,15 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual enable core.
+        /// </summary>
+        internal static string Application_ManualEnableCore_Text {
+            get {
+                return ResourceManager.GetString("Application_ManualEnableCore_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No application updates were found.
         /// </summary>
         internal static string Application_NoUpdatesFound_Text {

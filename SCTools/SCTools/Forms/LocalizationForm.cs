@@ -18,7 +18,6 @@ namespace NSW.StarCitizen.Tools.Forms
 {
     public partial class LocalizationForm : FormEx, ILocalizedForm
     {
-        private const bool ManualEnableCore = false;
         private static bool _setAsDefaultLocalizationAppShown;
         private readonly LocalizationController _controller;
 
@@ -289,7 +288,7 @@ namespace NSW.StarCitizen.Tools.Forms
                 case LocalizationInstallationType.Disabled:
                     btnLocalizationToggle.Click -= btnLocalizationDisable_Click;
                     btnLocalizationToggle.Click += btnLocalizationEnable_Click;
-                    btnLocalizationToggle.Visible = ManualEnableCore && !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
+                    btnLocalizationToggle.Visible = Program.Settings.ManualEnableCore && !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     lblCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     lblCurrentCoreVersion.Visible = !string.IsNullOrEmpty(_controller.CurrentInstallation.InstalledVersion);
                     btnLocalizationToggle.Text = Resources.Localization_Button_Enable_localization;

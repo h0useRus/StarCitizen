@@ -52,6 +52,8 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool RegularCheckForUpdates { get; set; } = true;
         [JsonProperty]
+        public bool ManualEnableCore { get; set; }
+        [JsonProperty]
         public UpdateSettings Update { get; } = new UpdateSettings();
         [JsonProperty]
         public LocalizationSettings Localization { get; } = new LocalizationSettings();

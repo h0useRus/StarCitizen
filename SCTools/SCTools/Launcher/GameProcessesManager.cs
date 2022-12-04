@@ -38,7 +38,7 @@ namespace NSW.StarCitizen.Tools.Launcher
             return null;
         }
 
-        public void StopProcesses()
+        public void StopProcesses(bool autoEnableLocalization)
         {
             var gameInfoList = new List<GameInfo>(_runningProcesses.Count);
             foreach (var pair in _runningProcesses)
@@ -55,9 +55,12 @@ namespace NSW.StarCitizen.Tools.Launcher
                     _logger.Error(e, $"Failed kill process for profile: {pair.Key}");
                 }
             }
-            foreach (var gameInfo in gameInfoList)
+            if (autoEnableLocalization)
             {
-                SetEnableLocalization(null, gameInfo, false);
+                foreach (var gameInfo in gameInfoList)
+                {
+                    SetEnableLocalization(null, gameInfo, false);
+                }
             }
         }
 
@@ -78,11 +81,12 @@ namespace NSW.StarCitizen.Tools.Launcher
             return false;
         }
 
-        public bool LaunchProcess(IWin32Window window, GameInfo gameInfo, string profileName)
+        public bool LaunchProcess(IWin32Window window, GameInfo gameInfo, string profileName, bool autoEnableLocalization)
         {
             if (_runningProcesses.ContainsKey(profileName))
                 return true;
-            if (!IsAnyGameModeInstanceRunning(gameInfo.Mode) &&
+            if (autoEnableLocalization &&
+                !IsAnyGameModeInstanceRunning(gameInfo.Mode) &&
                 !SetEnableLocalization(window, gameInfo, true))
             {
                 return false;
@@ -104,7 +108,10 @@ namespace NSW.StarCitizen.Tools.Launcher
             {
                 _logger.Error(exception, "Unable start game with profile: " + profileName);
                 runningProcess?.Dispose();
-                DisableLocalizationIfNotUsed(window, gameInfo);
+                if (autoEnableLocalization)
+                {
+                    DisableLocalizationIfNotUsed(window, gameInfo);
+                }
                 return false;
             }
             return true;
@@ -126,7 +133,10 @@ namespace NSW.StarCitizen.Tools.Launcher
                 };
                 _runningProcesses.Remove(process.ProfileName);
                 process.Dispose();
-                DisableLocalizationIfNotUsed(null, gameInfo);
+                if (!Program.Settings.ManualEnableCore)
+                {
+                    DisableLocalizationIfNotUsed(null, gameInfo);
+                }
                 ProcessExited?.Invoke(this, eventArgs);
             }
         }

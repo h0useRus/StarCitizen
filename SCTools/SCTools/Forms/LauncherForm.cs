@@ -62,8 +62,11 @@ namespace NSW.StarCitizen.Tools.Forms
                 }
                 else
                 {
+                    bool manualEnableLocalization = Program.Settings.ManualEnableCore;
                     var localizationController = new LocalizationController(_gameInfo);
-                    if (localizationController.GetInstallationType() == LocalizationInstallationType.None)
+                    var localizationInstallationType = localizationController.GetInstallationType();
+                    if (localizationInstallationType == LocalizationInstallationType.None ||
+                        (manualEnableLocalization && localizationInstallationType == LocalizationInstallationType.Disabled))
                     {
                         RtlAwareMessageBox.Show(this, Resources.Launcher_AskEnableLocalization_Text,
                             Resources.Launcher_AskEnableLocalization_Titile, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,7 +76,7 @@ namespace NSW.StarCitizen.Tools.Forms
                         btnRunGame.Enabled = false;
                         btnRunGame.ImageKey = "stop";
                         btnRemoveProfile.Enabled = false;
-                        if (!Program.ProcessManager.LaunchProcess(this, _gameInfo, selectedProfile))
+                        if (!Program.ProcessManager.LaunchProcess(this, _gameInfo, selectedProfile, !manualEnableLocalization))
                         {
                             btnRemoveProfile.Enabled = true;
                             btnRunGame.ImageKey = "start";

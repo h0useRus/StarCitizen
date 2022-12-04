@@ -599,4 +599,7 @@
     <value>Для применения этой настройки требуется перезапуск приложения.
 Пожалуйста, перезапустите приложение для активации новой конфигурации</value>
   </data>
+  <data name="Application_ManualEnableCore_Text" xml:space="preserve">
+    <value>Продвинутое управление ядром</value>
+  </data>
 </root>

@@ -599,4 +599,7 @@
     <value>Для застосування цього налаштування потрібен перезапуск програми.
 Будь ласка, перезапустіть програму для активації нової конфігурації</value>
   </data>
+  <data name="Application_ManualEnableCore_Text" xml:space="preserve">
+    <value>Ручне керування ядром</value>
+  </data>
 </root>
