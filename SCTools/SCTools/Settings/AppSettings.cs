@@ -44,15 +44,11 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonProperty]
         public bool TopMostWindow { get; set; } = true;
         [JsonProperty]
-        public bool AcceptInstallWarning { get; set; }
-        [JsonProperty]
         public bool DefaultLocalizationAppChangeShown { get; set; }
         [JsonProperty]
         public bool AllowIncrementalDownload { get; set; } = true;
         [JsonProperty]
         public bool RegularCheckForUpdates { get; set; } = true;
-        [JsonProperty]
-        public bool ManualEnableCore { get; set; }
         [JsonProperty]
         public UpdateSettings Update { get; } = new UpdateSettings();
         [JsonProperty]

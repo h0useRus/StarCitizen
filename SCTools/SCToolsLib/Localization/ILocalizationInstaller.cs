@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Lib.Localization
@@ -27,8 +27,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         InstallStatus Install(string sourceFolder, string destinationFolder, FilesIndex.DiffList diffList);
         bool WriteTimestamp(DateTimeOffset date, string destinationFolder);
         UninstallStatus Uninstall(string destinationFolder);
-        LocalizationInstallationType GetInstallationType(string destinationFolder);
-        LocalizationInstallationType SetEnableLocalization(string destinationFolder, bool enabled);
-        FileVersionInfo? GetPatcherFileVersionInfo(string destinationFolder);
+        ISet<string>? GetLanguages(string destinationFolder);
     }
 }

@@ -126,15 +126,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manual enable core.
-        /// </summary>
-        internal static string Application_ManualEnableCore_Text {
-            get {
-                return ResourceManager.GetString("Application_ManualEnableCore_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No application updates were found.
         /// </summary>
         internal static string Application_NoUpdatesFound_Text {
@@ -544,161 +535,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Game instances is still runing. Do you want stop them before close application?.
-        /// </summary>
-        internal static string Launcher_AskCloseGame_Text {
-            get {
-                return ResourceManager.GetString("Launcher_AskCloseGame_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game is running.
-        /// </summary>
-        internal static string Launcher_AskCloseGame_Title {
-            get {
-                return ResourceManager.GetString("Launcher_AskCloseGame_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To launch game please install and enable localization.
-        /// </summary>
-        internal static string Launcher_AskEnableLocalization_Text {
-            get {
-                return ResourceManager.GetString("Launcher_AskEnableLocalization_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Localization is not enabled.
-        /// </summary>
-        internal static string Launcher_AskEnableLocalization_Titile {
-            get {
-                return ResourceManager.GetString("Launcher_AskEnableLocalization_Titile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        internal static string Launcher_DeleteProfile {
-            get {
-                return ResourceManager.GetString("Launcher_DeleteProfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game instance for profile: {0} is crashed.
-        ///Exit error code: {1}.
-        /// </summary>
-        internal static string Launcher_GameCrashed_ErrorText {
-            get {
-                return ResourceManager.GetString("Launcher_GameCrashed_ErrorText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game is crashed.
-        /// </summary>
-        internal static string Launcher_GameCrashed_ErrorTitile {
-            get {
-                return ResourceManager.GetString("Launcher_GameCrashed_ErrorTitile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable launch game instance for profile: {0}.
-        /// </summary>
-        internal static string Launcher_GameLaunchFailed_ErrorText {
-            get {
-                return ResourceManager.GetString("Launcher_GameLaunchFailed_ErrorText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game launch failed.
-        /// </summary>
-        internal static string Launcher_GameLaunchFailed_ErrorTitle {
-            get {
-                return ResourceManager.GetString("Launcher_GameLaunchFailed_ErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game Profile:.
-        /// </summary>
-        internal static string Launcher_GameProfile {
-            get {
-                return ResourceManager.GetString("Launcher_GameProfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Import Current.
-        /// </summary>
-        internal static string Launcher_ImportCurrentProfile {
-            get {
-                return ResourceManager.GetString("Launcher_ImportCurrentProfile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable copy and activate profile: {0}.
-        /// </summary>
-        internal static string Launcher_ProfileActivate_ErrorText {
-            get {
-                return ResourceManager.GetString("Launcher_ProfileActivate_ErrorText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profile activate error.
-        /// </summary>
-        internal static string Launcher_ProfileActivate_ErrorTitle {
-            get {
-                return ResourceManager.GetString("Launcher_ProfileActivate_ErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No active game profile found.
-        ///Please launch game from original game launcher and try import again while game is running.
-        /// </summary>
-        internal static string Launcher_ProfileMissing_WarningText {
-            get {
-                return ResourceManager.GetString("Launcher_ProfileMissing_WarningText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Game profile not found.
-        /// </summary>
-        internal static string Launcher_ProfileMissing_WarningTitle {
-            get {
-                return ResourceManager.GetString("Launcher_ProfileMissing_WarningTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove authentication data for profile {0}?.
-        /// </summary>
-        internal static string Launcher_RemoveProfileConfirm_Text {
-            get {
-                return ResourceManager.GetString("Launcher_RemoveProfileConfirm_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Star Citizen : Launcher.
-        /// </summary>
-        internal static string Launcher_Title {
-            get {
-                return ResourceManager.GetString("Launcher_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Localization_Add_Text {
@@ -731,24 +567,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_AvailableVersions_Text {
             get {
                 return ResourceManager.GetString("Localization_AvailableVersions_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disable localization.
-        /// </summary>
-        internal static string Localization_Button_Disable_localization {
-            get {
-                return ResourceManager.GetString("Localization_Button_Disable_localization", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable localization.
-        /// </summary>
-        internal static string Localization_Button_Enable_localization {
-            get {
-                return ResourceManager.GetString("Localization_Button_Enable_localization", resourceCulture);
             }
         }
         
@@ -795,42 +613,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_CheckForVersionEvery_Text {
             get {
                 return ResourceManager.GetString("Localization_CheckForVersionEvery_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disabled.
-        /// </summary>
-        internal static string Localization_Core_Disabled_Status {
-            get {
-                return ResourceManager.GetString("Localization_Core_Disabled_Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enabled.
-        /// </summary>
-        internal static string Localization_Core_Enabled_Status {
-            get {
-                return ResourceManager.GetString("Localization_Core_Enabled_Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Missing (Reinstall Localization).
-        /// </summary>
-        internal static string Localization_Core_Missing_Status {
-            get {
-                return ResourceManager.GetString("Localization_Core_Missing_Status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Core version:.
-        /// </summary>
-        internal static string Localization_CoreVersion_Text {
-            get {
-                return ResourceManager.GetString("Localization_CoreVersion_Text", resourceCulture);
             }
         }
         
@@ -1020,29 +802,6 @@ namespace NSW.StarCitizen.Tools.Properties {
         internal static string Localization_InstallVersion_Title {
             get {
                 return ResourceManager.GetString("Localization_InstallVersion_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dear friend,
-        ///We are happy to see the interest to our project.
-        ///
-        ///But before installation we want to be sure you will read following reminder:
-        ///1. Any modification of the game which may give or give any technical advantage over other players or methods provided by developers violate EULA and will be punished with full strength.
-        ///2. Changes provided by this modification won&apos;t give you advantage over other players or advantages in methods provided by developers in game or any other kind of advantage. Therefor [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Localization_InstallWarning_Text {
-            get {
-                return ResourceManager.GetString("Localization_InstallWarning_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning.
-        /// </summary>
-        internal static string Localization_InstallWarning_Title {
-            get {
-                return ResourceManager.GetString("Localization_InstallWarning_Title", resourceCulture);
             }
         }
         

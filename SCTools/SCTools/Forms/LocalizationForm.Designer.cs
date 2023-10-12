@@ -41,15 +41,12 @@ namespace NSW.StarCitizen.Tools.Forms
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.cbVersions = new System.Windows.Forms.ComboBox();
             this.cbRepository = new System.Windows.Forms.ComboBox();
-            this.btnLocalizationToggle = new System.Windows.Forms.Button();
             this.lblSelectedVersion = new System.Windows.Forms.Label();
             this.tbCurrentVersion = new System.Windows.Forms.TextBox();
             this.btnManage = new System.Windows.Forms.Button();
             this.btnUninstall = new System.Windows.Forms.Button();
             this.cbAllowPreReleaseVersions = new System.Windows.Forms.CheckBox();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.lblCoreVersion = new System.Windows.Forms.Label();
-            this.lblCurrentCoreVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMinutes
@@ -185,16 +182,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbRepository.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbRepository_DrawItem);
             this.cbRepository.SelectionChangeCommitted += new System.EventHandler(this.cbRepository_SelectionChangeCommitted);
             // 
-            // btnLocalizationToggle
-            // 
-            this.btnLocalizationToggle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLocalizationToggle.Location = new System.Drawing.Point(273, 121);
-            this.btnLocalizationToggle.Name = "btnLocalizationToggle";
-            this.btnLocalizationToggle.Size = new System.Drawing.Size(205, 23);
-            this.btnLocalizationToggle.TabIndex = 8;
-            this.btnLocalizationToggle.Text = "Disable localization support";
-            this.btnLocalizationToggle.UseVisualStyleBackColor = true;
-            // 
             // lblSelectedVersion
             // 
             this.lblSelectedVersion.AutoSize = true;
@@ -257,36 +244,15 @@ namespace NSW.StarCitizen.Tools.Forms
             this.imageList.Images.SetKeyName(1, "Gitee");
             this.imageList.Images.SetKeyName(2, "GitHub");
             // 
-            // lblCoreVersion
-            // 
-            this.lblCoreVersion.AutoSize = true;
-            this.lblCoreVersion.Location = new System.Drawing.Point(6, 126);
-            this.lblCoreVersion.Name = "lblCoreVersion";
-            this.lblCoreVersion.Size = new System.Drawing.Size(69, 13);
-            this.lblCoreVersion.TabIndex = 14;
-            this.lblCoreVersion.Text = "Core version:";
-            // 
-            // lblCurrentCoreVersion
-            // 
-            this.lblCurrentCoreVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.lblCurrentCoreVersion.Location = new System.Drawing.Point(117, 126);
-            this.lblCurrentCoreVersion.Name = "lblCurrentCoreVersion";
-            this.lblCurrentCoreVersion.Size = new System.Drawing.Size(147, 19);
-            this.lblCurrentCoreVersion.TabIndex = 15;
-            this.lblCurrentCoreVersion.Text = "0.0.0.0";
-            // 
             // LocalizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 228);
-            this.Controls.Add(this.lblCurrentCoreVersion);
-            this.Controls.Add(this.lblCoreVersion);
             this.Controls.Add(this.cbAllowPreReleaseVersions);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tbCurrentVersion);
             this.Controls.Add(this.lblSelectedVersion);
-            this.Controls.Add(this.btnLocalizationToggle);
             this.Controls.Add(this.cbRepository);
             this.Controls.Add(this.cbVersions);
             this.Controls.Add(this.lblMinutes);
@@ -328,14 +294,11 @@ namespace NSW.StarCitizen.Tools.Forms
         private System.Windows.Forms.CheckBox cbCheckNewVersions;
         private System.Windows.Forms.ComboBox cbVersions;
         private System.Windows.Forms.ComboBox cbRepository;
-        private System.Windows.Forms.Button btnLocalizationToggle;
         private System.Windows.Forms.Label lblSelectedVersion;
         private System.Windows.Forms.TextBox tbCurrentVersion;
         private System.Windows.Forms.Button btnManage;
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.CheckBox cbAllowPreReleaseVersions;
         private System.Windows.Forms.ImageList imageList;
-        private System.Windows.Forms.Label lblCoreVersion;
-        private System.Windows.Forms.Label lblCurrentCoreVersion;
     }
 }

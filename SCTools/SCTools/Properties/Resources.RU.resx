@@ -156,12 +156,6 @@
   <data name="Localization_AvailableVersions_Text" xml:space="preserve">
     <value>Доступные версии:</value>
   </data>
-  <data name="Localization_Button_Disable_localization" xml:space="preserve">
-    <value>Выключить локализацию</value>
-  </data>
-  <data name="Localization_Button_Enable_localization" xml:space="preserve">
-    <value>Включить локализацию</value>
-  </data>
   <data name="Localization_Cancel_Text" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -390,20 +384,6 @@
   <data name="Tools_Title" xml:space="preserve">
     <value>Инструменты</value>
   </data>
-  <data name="Localization_InstallWarning_Text" xml:space="preserve">
-    <value>Дорогой друг,
-Нам приятен интерес к локализации проекта.
-
-Но перед установкой хотим предупредить и уточнить: 
-1. Любые модификации игры, дающие преимущество технического плана над другими игроками или предоставленными разработчиками методами нарушают правила лицензионного соглашения и наказываются по всей строгости.
-2. Предусмотренные данной модификацией изменения не предоставляют технические, не предусмотренные разработчиками или какие-либо другие преимущества. Поэтому, пока модификация используется исключительно в предусмотренных нами параметрах, Вы можете не опасаться каких-либо санкций со стороны разработчиков.
-3. За использование данного программного обеспечения, как и за любые устанавливаемые модификации, любую ответственность несёте только Вы.
-
-После нажатия кнопки "Да" Вы подтверждаете что прочли и поняли предупреждение и готовы продолжить установку.</value>
-  </data>
-  <data name="Localization_InstallWarning_Title" xml:space="preserve">
-    <value>Предупреждение</value>
-  </data>
   <data name="Application_UpdatePreReleases_Text" xml:space="preserve">
     <value>Альфа версии приложения</value>
   </data>
@@ -523,74 +503,9 @@
   <data name="Localization_Modify_Text" xml:space="preserve">
     <value>Изменить</value>
   </data>
-  <data name="Localization_CoreVersion_Text" xml:space="preserve">
-    <value>Версия ядра:</value>
-  </data>
-  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
-    <value>Выключено</value>
-  </data>
-  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
-    <value>Включено</value>
-  </data>
-  <data name="Localization_Core_Missing_Status" xml:space="preserve">
-    <value>Отсутствует (Переустановите локализацию)</value>
-  </data>
   <data name="Localization_ChangeDefaultApp_Text" xml:space="preserve">
     <value>{0} не выбран вами как приложение по умолчанию для локализации Star Citizen.
 Желаете сделать его по умолчанию?</value>
-  </data>
-  <data name="Launcher_DeleteProfile" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="Launcher_GameCrashed_ErrorText" xml:space="preserve">
-    <value>Инстанс игры для профиля: {0} завершился неудачно.
-Код ошибки: {1}</value>
-  </data>
-  <data name="Launcher_GameCrashed_ErrorTitile" xml:space="preserve">
-    <value>Ошибка игры</value>
-  </data>
-  <data name="Launcher_GameLaunchFailed_ErrorText" xml:space="preserve">
-    <value>Невозможно запустить игру для профиля: {0}</value>
-  </data>
-  <data name="Launcher_GameLaunchFailed_ErrorTitle" xml:space="preserve">
-    <value>Ошибка запуска игры</value>
-  </data>
-  <data name="Launcher_GameProfile" xml:space="preserve">
-    <value>Игровой профиль:</value>
-  </data>
-  <data name="Launcher_ImportCurrentProfile" xml:space="preserve">
-    <value>Импортировать активный</value>
-  </data>
-  <data name="Launcher_ProfileActivate_ErrorText" xml:space="preserve">
-    <value>Невозможно скопировать и активировать профиль: {0}</value>
-  </data>
-  <data name="Launcher_ProfileActivate_ErrorTitle" xml:space="preserve">
-    <value>Ошибка активации профиля</value>
-  </data>
-  <data name="Launcher_ProfileMissing_WarningText" xml:space="preserve">
-    <value>Не обнаружено активного игрового профиля.
-Пожалуйста запустите игру с оригинального игрового лаунчера и пока игра запущенная импортируйте игровой профиль.</value>
-  </data>
-  <data name="Launcher_ProfileMissing_WarningTitle" xml:space="preserve">
-    <value>Игровой профиль не обнаружен</value>
-  </data>
-  <data name="Launcher_Title" xml:space="preserve">
-    <value>Star Citizen : Лаунчер</value>
-  </data>
-  <data name="Launcher_AskCloseGame_Text" xml:space="preserve">
-    <value>Обнаружена запущенная игра. Остановить её перед закрытием приложения?</value>
-  </data>
-  <data name="Launcher_AskCloseGame_Title" xml:space="preserve">
-    <value>Остановка запущенной игры</value>
-  </data>
-  <data name="Launcher_AskEnableLocalization_Text" xml:space="preserve">
-    <value>Чтобы запустить игру пожалуйста установите локализацию и убедитесь что она включена</value>
-  </data>
-  <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
-    <value>Невозможно запустить игру без локализации</value>
-  </data>
-  <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
-    <value>Вы уверенные что хотите удалить данные авторизации для профиля {0}?</value>
   </data>
   <data name="Application_AllowTls13_Text" xml:space="preserve">
     <value>Разрешать TLS версии 1.3</value>
@@ -598,8 +513,5 @@
   <data name="Application_SettingChangeReqRestart_Text" xml:space="preserve">
     <value>Для применения этой настройки требуется перезапуск приложения.
 Пожалуйста, перезапустите приложение для активации новой конфигурации</value>
-  </data>
-  <data name="Application_ManualEnableCore_Text" xml:space="preserve">
-    <value>Продвинутое управление ядром</value>
   </data>
 </root>

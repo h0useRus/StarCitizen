@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -42,10 +41,10 @@ namespace NSW.StarCitizen.Tools.Controllers
 
         public void Load()
         {
-            GameSettings.Load();
             Repositories = RepositoryManager.GetRepositoriesList();
             CurrentRepository = RepositoryManager.GetCurrentRepository(Repositories);
             CurrentInstallation = RepositoryManager.CreateRepositoryInstallation(CurrentRepository);
+            GameSettings.Load(CurrentRepository.Installer.GetLanguages(CurrentGame.RootFolderPath));
             IsLoaded = true;
         }
 
@@ -75,10 +74,6 @@ namespace NSW.StarCitizen.Tools.Controllers
                 CurrentRepository.SetCurrentVersion(latestUpdateInfo.GetVersion());
             }
         }
-
-        public LocalizationInstallationType GetInstallationType() => CurrentRepository.Installer.GetInstallationType(CurrentGame.RootFolderPath);
-
-        public FileVersionInfo? GetPatcherFileVersionInfo() => CurrentRepository.Installer.GetPatcherFileVersionInfo(CurrentGame.RootFolderPath);
 
         public async Task<bool> RefreshVersionsAsync(IWin32Window window)
         {
@@ -127,18 +122,6 @@ namespace NSW.StarCitizen.Tools.Controllers
                     Resources.Localization_File_ErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (!Program.Settings.AcceptInstallWarning)
-            {
-                var dialogResult = RtlAwareMessageBox.Show(window, Resources.Localization_InstallWarning_Text,
-                    Resources.Localization_InstallWarning_Title, MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-                if (dialogResult != DialogResult.Yes)
-                {
-                    return false;
-                }
-                Program.Settings.AcceptInstallWarning = true;
-                Program.SaveAppSettings();
-            }
             _logger.Info($"Install localization: {CurrentGame.Mode}, {selectedUpdateInfo.Dump()}");
             bool status = false;
             DirectoryInfo? downloadDirInfo = null;
@@ -176,7 +159,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                         {
                             CurrentRepository.Installer.WriteTimestamp(selectedUpdateInfo.Released, CurrentGame.RootFolderPath);
                         }
-                        GameSettings.Load();
+                        GameSettings.Load(CurrentRepository.Installer.GetLanguages(CurrentGame.RootFolderPath));
                         gameMutex.Release();
                         progressDlg.CurrentTaskProgress = 1.0f;
                         RepositoryManager.SetInstalledRepository(CurrentRepository, selectedUpdateInfo.GetVersion());
@@ -269,7 +252,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                     {
                         case UninstallStatus.Success:
                             GameSettings.RemoveCurrentLanguage();
-                            GameSettings.Load();
+                            GameSettings.Load(null);
                             gameMutex.Release();
                             progressDlg.CurrentTaskProgress = 1.0f;
                             RepositoryManager.RemoveInstalledRepository(CurrentRepository);
@@ -277,7 +260,7 @@ namespace NSW.StarCitizen.Tools.Controllers
                             break;
                         case UninstallStatus.Partial:
                             GameSettings.RemoveCurrentLanguage();
-                            GameSettings.Load();
+                            GameSettings.Load(null);
                             gameMutex.Release();
                             progressDlg.CurrentTaskProgress = 1.0f;
                             RepositoryManager.RemoveInstalledRepository(CurrentRepository);
@@ -307,27 +290,6 @@ namespace NSW.StarCitizen.Tools.Controllers
                 return status;
             }
             return true;
-        }
-
-        public bool SetEnableLocalization(IWin32Window? window, bool enabled)
-        {
-            try
-            {
-                using var gameMutex = new GameMutex();
-                if (window != null && !GameMutexController.AcquireWithRetryDialog(window, gameMutex))
-                {
-                    return false;
-                }
-                var installationType = CurrentRepository.Installer.SetEnableLocalization(CurrentGame.RootFolderPath, enabled);
-                if (enabled)
-                    return installationType == LocalizationInstallationType.Enabled;
-                return installationType != LocalizationInstallationType.Enabled;
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, $"Error during enable/disable localization: {CurrentGame.Mode}");
-                return false;
-            }
         }
     }
 }

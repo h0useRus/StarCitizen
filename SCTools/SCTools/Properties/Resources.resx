@@ -120,9 +120,6 @@
   <data name="Localization_Installed_Version" xml:space="preserve">
     <value>Installed version:</value>
   </data>
-  <data name="Localization_CoreVersion_Text" xml:space="preserve">
-    <value>Core version:</value>
-  </data>
   <data name="GameSettings_FailedLoadDb_Text" xml:space="preserve">
     <value>Failed load settings database json</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="Localization_Remove_Text" xml:space="preserve">
     <value>Remove</value>
-  </data>
-  <data name="Localization_Core_Enabled_Status" xml:space="preserve">
-    <value>Enabled</value>
   </data>
   <data name="Localization_Game_Mode" xml:space="preserve">
     <value>Game mode</value>
@@ -165,17 +159,6 @@
   <data name="Promtp_OK_Button" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="Localization_InstallWarning_Text" xml:space="preserve">
-    <value>Dear friend,
-We are happy to see the interest to our project.
-
-But before installation we want to be sure you will read following reminder:
-1. Any modification of the game which may give or give any technical advantage over other players or methods provided by developers violate EULA and will be punished with full strength.
-2. Changes provided by this modification won't give you advantage over other players or advantages in methods provided by developers in game or any other kind of advantage. Therefore, as long as the modification is used exclusively in the parameters provided by us, you can not be afraid of any sanctions from the developers.
-3. But still, only you are solely responsible for the use of this software, as well as for any installed modifications.
-
-By clicking "Yes", you confirm that you have read and understood the warning and ready to proceed with the installation.</value>
-  </data>
   <data name="Localization_InstallVersion_Title" xml:space="preserve">
     <value>Install version:  {0}</value>
   </data>
@@ -190,9 +173,6 @@ By clicking "Yes", you confirm that you have read and understood the warning and
   </data>
   <data name="Localization_Package_ErrorText" xml:space="preserve">
     <value>Package is corrupted or not valid. Please try another or contact with package owner.</value>
-  </data>
-  <data name="Localization_InstallWarning_Title" xml:space="preserve">
-    <value>Warning</value>
   </data>
   <data name="Application_CloseGame_Text" xml:space="preserve">
     <value>Operation can't be done with game runnig.
@@ -315,9 +295,6 @@ Please report them by using link below</value>
   <data name="GameSettings_ProfileNew_Text" xml:space="preserve">
     <value>Enter profile name:</value>
   </data>
-  <data name="Localization_Core_Missing_Status" xml:space="preserve">
-    <value>Missing (Reinstall Localization)</value>
-  </data>
   <data name="Localization_AutomaticCheck_Measure" xml:space="preserve">
     <value>minutes</value>
   </data>
@@ -381,9 +358,6 @@ Please report them by using link below</value>
   <data name="Localization_Package_ErrorTitle" xml:space="preserve">
     <value>Package Error</value>
   </data>
-  <data name="Localization_Button_Disable_localization" xml:space="preserve">
-    <value>Disable localization</value>
-  </data>
   <data name="Localization_Uninstall_ErrorText" xml:space="preserve">
     <value>Unable to uninstall localization. Please ensure install folder and files is not open in other applicaitions.</value>
   </data>
@@ -410,9 +384,6 @@ Please report them by using link below</value>
   </data>
   <data name="Localization_RemoveUsedRepoWarning_Text" xml:space="preserve">
     <value>Repository '{0}' used by '{1}'. Do you want remove it?</value>
-  </data>
-  <data name="Localization_Button_Enable_localization" xml:space="preserve">
-    <value>Enable localization</value>
   </data>
   <data name="Localization_AvailableVersions_Text" xml:space="preserve">
     <value>Available versions:</value>
@@ -516,9 +487,6 @@ Do you want download and install it now?</value>
   <data name="Tools_Title" xml:space="preserve">
     <value>Tools</value>
   </data>
-  <data name="Localization_Core_Disabled_Status" xml:space="preserve">
-    <value>Disabled</value>
-  </data>
   <data name="Localization_InvalidRepoUrl_Text" xml:space="preserve">
     <value>Repository url is empty.</value>
   </data>
@@ -555,67 +523,11 @@ Do you want download and install it now?</value>
   <data name="stop-button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\stop-button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Launcher_DeleteProfile" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Launcher_GameCrashed_ErrorText" xml:space="preserve">
-    <value>Game instance for profile: {0} is crashed.
-Exit error code: {1}</value>
-  </data>
-  <data name="Launcher_GameCrashed_ErrorTitile" xml:space="preserve">
-    <value>Game is crashed</value>
-  </data>
-  <data name="Launcher_GameLaunchFailed_ErrorText" xml:space="preserve">
-    <value>Unable launch game instance for profile: {0}</value>
-  </data>
-  <data name="Launcher_GameLaunchFailed_ErrorTitle" xml:space="preserve">
-    <value>Game launch failed</value>
-  </data>
-  <data name="Launcher_GameProfile" xml:space="preserve">
-    <value>Game Profile:</value>
-  </data>
-  <data name="Launcher_ImportCurrentProfile" xml:space="preserve">
-    <value>Import Current</value>
-  </data>
-  <data name="Launcher_ProfileActivate_ErrorText" xml:space="preserve">
-    <value>Unable copy and activate profile: {0}</value>
-  </data>
-  <data name="Launcher_ProfileActivate_ErrorTitle" xml:space="preserve">
-    <value>Profile activate error</value>
-  </data>
-  <data name="Launcher_ProfileMissing_WarningText" xml:space="preserve">
-    <value>No active game profile found.
-Please launch game from original game launcher and try import again while game is running</value>
-  </data>
-  <data name="Launcher_ProfileMissing_WarningTitle" xml:space="preserve">
-    <value>Game profile not found</value>
-  </data>
-  <data name="Launcher_Title" xml:space="preserve">
-    <value>Star Citizen : Launcher</value>
-  </data>
-  <data name="Launcher_AskCloseGame_Title" xml:space="preserve">
-    <value>Game is running</value>
-  </data>
-  <data name="Launcher_AskCloseGame_Text" xml:space="preserve">
-    <value>Game instances is still runing. Do you want stop them before close application?</value>
-  </data>
-  <data name="Launcher_AskEnableLocalization_Text" xml:space="preserve">
-    <value>To launch game please install and enable localization</value>
-  </data>
-  <data name="Launcher_AskEnableLocalization_Titile" xml:space="preserve">
-    <value>Localization is not enabled</value>
-  </data>
-  <data name="Launcher_RemoveProfileConfirm_Text" xml:space="preserve">
-    <value>Are you sure you want to remove authentication data for profile {0}?</value>
-  </data>
   <data name="Application_AllowTls13_Text" xml:space="preserve">
     <value>Allow TLS version 1.3</value>
   </data>
   <data name="Application_SettingChangeReqRestart_Text" xml:space="preserve">
     <value>This setting require application restart to apply.
 Please restart application to activate new configuration</value>
-  </data>
-  <data name="Application_ManualEnableCore_Text" xml:space="preserve">
-    <value>Manual enable core</value>
   </data>
 </root>

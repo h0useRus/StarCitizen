@@ -9,7 +9,7 @@ namespace NSW.StarCitizen.Tools.Controllers
     {
         public static bool AcquireWithRetryDialog(IWin32Window window, GameMutex gameMutex)
         {
-            while (Program.ProcessManager.IsAnyProcessRunning() || !gameMutex.TryAcquire())
+            while (!gameMutex.TryAcquire())
             {
                 var dialogResult = RtlAwareMessageBox.Show(window, Resources.Application_CloseGame_Text, Resources.Localization_Warning_Title,
                     MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);

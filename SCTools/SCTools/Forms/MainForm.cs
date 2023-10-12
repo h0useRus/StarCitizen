@@ -61,7 +61,6 @@ namespace NSW.StarCitizen.Tools.Forms
             miAllowTls13.Text = Resources.Application_AllowTls13_Text;
             miUpdateToAlphaVersions.Text = Resources.Application_UpdatePreReleases_Text;
             miAllowIncrementalDownload.Text = Resources.Application_AllowIncrementalDownload_Text;
-            miManualEnableCore.Text = Resources.Application_ManualEnableCore_Text;
             miLanguage.Text = Resources.Localization_Language_Text;
             miTools.Text = Resources.Tools_Title;
             miMoveLiveToPtu.Text = Resources.Tools_Move_LIVE_PTU;
@@ -125,28 +124,6 @@ namespace NSW.StarCitizen.Tools.Forms
 
             if (Program.Settings.RegularCheckForUpdates && Program.Settings.GameFolder != null)
                 await LaunchRegularCheckForUpdatesAsync();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.WindowsShutDown)
-            {
-                Program.ProcessManager.StopProcesses(!Program.Settings.ManualEnableCore);
-            }
-            else if (Program.ProcessManager.IsAnyProcessRunning())
-            {
-                var dialogResult = RtlAwareMessageBox.Show(this, Resources.Launcher_AskCloseGame_Text, Resources.Launcher_AskCloseGame_Title,
-                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
-                switch (dialogResult)
-                {
-                    case DialogResult.Yes:
-                        Program.ProcessManager.StopProcesses(!Program.Settings.ManualEnableCore);
-                        break;
-                    case DialogResult.Cancel:
-                        e.Cancel = true;
-                        break;
-                }
-            }
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -350,7 +327,6 @@ namespace NSW.StarCitizen.Tools.Forms
             miAllowTls13.Checked = Program.Settings.AllowTls13;
             miUpdateToAlphaVersions.Checked = Program.Settings.Update.AllowPreReleases;
             miAllowIncrementalDownload.Checked = Program.Settings.AllowIncrementalDownload;
-            miManualEnableCore.Checked = Program.Settings.ManualEnableCore;
             if (Program.Settings.GameFolder != null && _gameModes != null)
             {
                 miMoveLiveToPtu.Enabled = _gameModes.Contains(GameMode.LIVE) && !_gameModes.Contains(GameMode.PTU);
@@ -430,13 +406,6 @@ namespace NSW.StarCitizen.Tools.Forms
             Program.Settings.AllowIncrementalDownload = miAllowIncrementalDownload.Checked;
             Program.UpdateAllowIncrementalDownload(miAllowIncrementalDownload.Checked);
             Program.SaveAppSettings();
-        }
-
-        private void miManualEnableCore_Click(object sender, EventArgs e)
-        {
-            Program.Settings.ManualEnableCore = miManualEnableCore.Checked;
-            Program.SaveAppSettings();
-            Program.UpdateUiLanguage();
         }
 
         private void miLanguage_CheckedChanged(object sender, EventArgs e)
@@ -541,15 +510,12 @@ namespace NSW.StarCitizen.Tools.Forms
 
         private void UpdateGameModeInfo(GameInfo gameInfo)
         {
-            btnGameMode.Text = gameInfo.Mode == GameMode.LIVE
-                    ? Resources.GameMode_LIVE
-                    : Resources.GameMode_PTU;
+            tbGameMode.Text = (gameInfo.Mode == GameMode.LIVE) ? Resources.GameMode_LIVE : Resources.GameMode_PTU;
             btnLocalization.Text = string.Format(CultureInfo.CurrentUICulture, Resources.LocalizationButton_Text, gameInfo.Mode);
             tbGameVersion.Text = gameInfo.ExeVersion;
             btnUpdateLocalization.Text = string.Format(CultureInfo.CurrentUICulture, Resources.Localization_CheckForUpdates_Text, gameInfo.Mode);
             var controller = new LocalizationController(gameInfo);
-            btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null &&
-                                            controller.GetInstallationType() != LocalizationInstallationType.None;
+            btnUpdateLocalization.Visible = controller.CurrentInstallation.InstalledVersion != null;
             btnGameSettings.Text = string.Format(CultureInfo.CurrentUICulture, Resources.GameSettings_Button_Text, gameInfo.Mode);
         }
 
@@ -714,15 +680,6 @@ namespace NSW.StarCitizen.Tools.Forms
         {
             IUpdateRepository repository = (IUpdateRepository)sender;
             niTray.ShowBalloonTip(5000, repository.Name, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_Found_New_Version, version), ToolTipIcon.Info);
-        }
-
-        private void btnGameMode_Click(object sender, EventArgs e)
-        {
-            if (Program.CurrentGame != null)
-            {
-                using var launcherForm = new LauncherForm(Program.CurrentGame);
-                launcherForm.ShowDialog(this);
-            }
         }
     }
 }

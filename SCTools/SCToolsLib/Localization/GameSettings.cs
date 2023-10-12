@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NSW.StarCitizen.Tools.Lib.Global;
@@ -17,16 +18,12 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             _currentGame = currentGame;
         }
 
-        public CfgData Load()
+        public CfgData Load(ISet<string>? languages)
         {
-            var languageInfo = new LanguageInfo();
-            // system.cfg
-            var systemConfigFile = new CfgFile(GameConstants.GetSystemConfigPath(_currentGame.RootFolderPath));
-            var systemConfigData = systemConfigFile.Read();
             // languages.ini
             var languagesConfigFile = new CfgFile(Path.Combine(GameConstants.GetDataFolderPath(_currentGame.RootFolderPath), "languages.ini"));
             var languagesConfigData = languagesConfigFile.Read();
-            LoadLanguageInfo(systemConfigData, languagesConfigData, languageInfo);
+            var languageInfo = LoadLanguageInfo(languages, languagesConfigData);
             // user.cfg
             var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
             var userConfigData = userConfigFile.Read();
@@ -88,7 +85,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         {
             if (cfgData.Any())
             {
-                var anyFieldFixed = cfgData.RemoveRow(GameConstants.SystemLanguagesKey) != null;
+                var anyFieldFixed = false;
                 if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out var value) && (value != null))
                 {
                     if (languageInfo.Languages.ContainsKey(value))
@@ -98,42 +95,50 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     else
                     {
                         cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
+                        languageInfo.Current = GameConstants.EnglishLocalization;
                         anyFieldFixed = true;
                     }
                 }
+                else
+                {
+                    languageInfo.Current = GameConstants.EnglishLocalization;
+                }
                 return anyFieldFixed;
             }
+            languageInfo.Current = GameConstants.EnglishLocalization;
             return false;
         }
 
-        private static void LoadLanguageInfo(CfgData cfgData, CfgData languagesData, LanguageInfo languageInfo)
+        private static LanguageInfo LoadLanguageInfo(ISet<string>? languages, CfgData languagesData)
         {
-            if (cfgData.TryGetValue(GameConstants.SystemLanguagesKey, out var value) && (value != null))
+            var languageInfo = new LanguageInfo();
+            if (languages != null)
             {
-                languageInfo.Languages.Clear();
-                var languages = value.Split(',');
                 foreach (var language in languages)
                 {
-                    var trimmedLanguage = language.Trim();
-                    if (languageInfo.Languages.ContainsKey(trimmedLanguage))
+                    if (languageInfo.Languages.ContainsKey(language))
                     {
                         continue;   // skip duplicate languages
                     }
-                    if (languagesData.TryGetValue(trimmedLanguage, out var languageLabel) &&
-                        languageLabel != null && !string.IsNullOrWhiteSpace(languageLabel))
-                    {
-                        languageInfo.Languages.Add(trimmedLanguage, languageLabel.Trim());
-                    }
-                    else
-                    {
-                        languageInfo.Languages.Add(trimmedLanguage, trimmedLanguage);
-                    }
+                    languageInfo.Languages.Add(language, GetLanguageLabel(languagesData, language));
                 }
             }
-            if (cfgData.TryGetValue(GameConstants.CurrentLanguageKey, out value) && (value != null))
+            if (!languageInfo.Languages.ContainsKey(GameConstants.EnglishLocalization))
             {
-                languageInfo.Current = value;
+                languageInfo.Languages.Add(GameConstants.EnglishLocalization,
+                    GetLanguageLabel(languagesData, GameConstants.EnglishLocalization));
             }
+            return languageInfo;
+        }
+
+        private static string GetLanguageLabel(CfgData languagesData, string language)
+        {
+            if (languagesData.TryGetValue(language, out var languageLabel) &&
+                languageLabel != null && !string.IsNullOrWhiteSpace(languageLabel))
+            {
+                return languageLabel.Trim();
+            }
+            return language;
         }
     }
 }

@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Security.Cryptography;
 using NLog;
 using NSW.StarCitizen.Tools.Lib.Global;
 using NSW.StarCitizen.Tools.Lib.Helpers;
-using NSW.StarCitizen.Tools.Lib.Properties;
 using NSW.StarCitizen.Tools.Lib.Update;
 
 namespace NSW.StarCitizen.Tools.Lib.Localization
@@ -23,8 +20,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 using var archive = ZipFile.OpenRead(zipFileName);
                 if (archive.Entries.Count != 0)
                 {
-                    var dataPresent = false;
-                    var corePresent = false;
                     var rootEntry = archive.Entries[0];
                     var dataPathStart = GameConstants.DataFolderName + "/";
                     foreach (var entry in archive.Entries)
@@ -32,17 +27,10 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                         if (entry.FullName.StartsWith(rootEntry.FullName, StringComparison.OrdinalIgnoreCase))
                         {
                             var relativePath = entry.FullName.Substring(rootEntry.FullName.Length);
-                            if (relativePath.StartsWith(dataPathStart, StringComparison.OrdinalIgnoreCase))
+                            if (relativePath.StartsWith(dataPathStart, StringComparison.OrdinalIgnoreCase) &&
+                                entry.Name.Equals(GameConstants.GlobalIniName, StringComparison.OrdinalIgnoreCase))
                             {
-                                dataPresent = true;
-                                if (corePresent)
-                                    return true;
-                            }
-                            else if (relativePath.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
-                            {
-                                corePresent = true;
-                                if (dataPresent)
-                                    return true;
+                                return true;
                             }
                         }
                     }
@@ -74,13 +62,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     _logger.Error($"Failed unpack install package to: {unpackDataDirPath}");
                     return InstallStatus.PackageError;
                 }
-                var newLibraryPath = Path.Combine(unpackDataDir.FullName, GameConstants.PatcherOriginalName);
-                using var libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
-                if (!libraryCertVerifier.VerifyFile(newLibraryPath))
-                {
-                    _logger.Error("Core certificate is invalid. Abort installation");
-                    return InstallStatus.VerifyError;
-                }
                 if (dataPathDir.Exists)
                 {
                     var backupDataDirPath = Path.Combine(destinationFolder, "backup_" + Path.GetRandomFileName());
@@ -93,12 +74,6 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     FileUtils.DeleteDirectoryNoThrow(backupDataDir, true);
                     backupDataDir = null;
                 }
-                InstallCore(newLibraryPath, destinationFolder);
-            }
-            catch (CryptographicException e)
-            {
-                _logger.Error(e, "Exception during verify core");
-                return InstallStatus.VerifyError;
             }
             catch (IOException e)
             {
@@ -144,27 +119,13 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
             var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
             try
             {
-                var newLibraryPath = Path.Combine(sourceFolder, GameConstants.PatcherOriginalName);
-                bool newLibraryExist = File.Exists(newLibraryPath);
-                if (newLibraryExist)
-                {
-                    using var libraryCertVerifier = new FileCertVerifier(Resources.CoreSigning);
-                    if (!libraryCertVerifier.VerifyFile(newLibraryPath))
-                    {
-                        _logger.Error("Core certificate is invalid. Abort installation");
-                        return InstallStatus.VerifyError;
-                    }
-                }
                 foreach (var reusePair in diffList.ReuseFiles)
                 {
-                    if (!reusePair.Key.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        var sourceReusePath = Path.Combine(destinationFolder, reusePair.Key);
-                        var destReusePath = Path.Combine(sourceFolder, reusePair.Value);
-                        Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
-                        File.Move(sourceReusePath, destReusePath);
-                        movedReusedFiles.Add(destReusePath, sourceReusePath);
-                    }
+                    var sourceReusePath = Path.Combine(destinationFolder, reusePair.Key);
+                    var destReusePath = Path.Combine(sourceFolder, reusePair.Value);
+                    Directory.CreateDirectory(Path.GetDirectoryName(destReusePath));
+                    File.Move(sourceReusePath, destReusePath);
+                    movedReusedFiles.Add(destReusePath, sourceReusePath);
                 }
                 if (dataPathDir.Exists)
                 {
@@ -178,16 +139,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     FileUtils.DeleteDirectoryNoThrow(backupDataDir, true);
                     backupDataDir = null;
                 }
-                if (newLibraryExist)
-                {
-                    InstallCore(newLibraryPath, destinationFolder);
-                }
                 movedReusedFiles.Clear();
-            }
-            catch (CryptographicException e)
-            {
-                _logger.Error(e, "Exception during verify core");
-                return InstallStatus.VerifyError;
             }
             catch (IOException e)
             {
@@ -237,117 +189,37 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         {
             if (!Directory.Exists(destinationFolder))
                 return UninstallStatus.Failed;
-            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            if (File.Exists(enabledLibraryPath) && !FileUtils.DeleteFileNoThrow(enabledLibraryPath))
-                return UninstallStatus.Failed;
             var result = UninstallStatus.Success;
-            var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-            if (File.Exists(disabledLibraryPath) && !FileUtils.DeleteFileNoThrow(disabledLibraryPath))
-                result = UninstallStatus.Partial;
             var dataPathDir = new DirectoryInfo(GameConstants.GetDataFolderPath(destinationFolder));
             if (dataPathDir.Exists && !FileUtils.DeleteDirectoryNoThrow(dataPathDir, true))
                 result = UninstallStatus.Partial;
             return result;
         }
 
-        public LocalizationInstallationType GetInstallationType(string destinationFolder)
-        {
-            if (!Directory.Exists(destinationFolder))
-                return LocalizationInstallationType.None;
-            if (File.Exists(GameConstants.GetEnabledPatcherPath(destinationFolder)))
-                return LocalizationInstallationType.Enabled;
-            if (File.Exists(GameConstants.GetDisabledPatcherPath(destinationFolder)))
-                return LocalizationInstallationType.Disabled;
-            return LocalizationInstallationType.None;
-        }
-
-        public LocalizationInstallationType SetEnableLocalization(string destinationFolder, bool enabled)
-        {
-            if (!Directory.Exists(destinationFolder))
-                return LocalizationInstallationType.None;
-
-            string enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            string disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-            if (enabled)
-            {
-                if (File.Exists(disabledLibraryPath))
-                {
-                    if (File.Exists(enabledLibraryPath))
-                        FileUtils.DeleteFileNoThrow(enabledLibraryPath);
-                    File.Move(disabledLibraryPath, enabledLibraryPath);
-                    return LocalizationInstallationType.Enabled;
-                }
-                if (File.Exists(enabledLibraryPath))
-                {
-                    return LocalizationInstallationType.Enabled;
-                }
-            }
-            else
-            {
-                if (File.Exists(enabledLibraryPath))
-                {
-                    if (File.Exists(disabledLibraryPath))
-                        FileUtils.DeleteFileNoThrow(disabledLibraryPath);
-                    File.Move(enabledLibraryPath, disabledLibraryPath);
-                    return LocalizationInstallationType.Disabled;
-                }
-                if (File.Exists(disabledLibraryPath))
-                {
-                    return LocalizationInstallationType.Disabled;
-                }
-            }
-
-            return LocalizationInstallationType.None;
-        }
-
-        public FileVersionInfo? GetPatcherFileVersionInfo(string destinationFolder)
+        public ISet<string>? GetLanguages(string destinationFolder)
         {
             if (!Directory.Exists(destinationFolder))
                 return null;
-            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            if (File.Exists(enabledLibraryPath))
+            var localizationPath = GameConstants.GetLocalizationFolderPath(destinationFolder);
+            if (!Directory.Exists(localizationPath))
+                return null;
+            var languages = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            try
             {
-                try
+                var directoryInfo = new DirectoryInfo(localizationPath);
+                foreach (var subDirInfo in directoryInfo.EnumerateDirectories())
                 {
-                    return FileVersionInfo.GetVersionInfo(enabledLibraryPath);
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, $"Failed get core version info: {enabledLibraryPath}");
+                    if (File.Exists(Path.Combine(subDirInfo.FullName, GameConstants.GlobalIniName)))
+                    {
+                        languages.Add(subDirInfo.Name);
+                    }
                 }
             }
-            var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-            if (File.Exists(disabledLibraryPath))
+            catch (Exception e)
             {
-                try
-                {
-                    return FileVersionInfo.GetVersionInfo(disabledLibraryPath);
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, $"Failed get core version info: {disabledLibraryPath}");
-                }
+                _logger.Error(e, $"Failed enum localization folders: {destinationFolder}");
             }
-            return null;
-        }
-
-        private static void InstallCore(string newLibraryPath, string destinationFolder)
-        {
-            var enabledLibraryPath = GameConstants.GetEnabledPatcherPath(destinationFolder);
-            if (File.Exists(enabledLibraryPath))
-            {
-                File.Delete(enabledLibraryPath);
-                File.Move(newLibraryPath, enabledLibraryPath);
-            }
-            else
-            {
-                var disabledLibraryPath = GameConstants.GetDisabledPatcherPath(destinationFolder);
-                if (File.Exists(disabledLibraryPath))
-                {
-                    File.Delete(disabledLibraryPath);
-                }
-                File.Move(newLibraryPath, disabledLibraryPath);
-            }
+            return languages;
         }
 
         private static bool Unpack(string zipFileName, string destinationFolder)
@@ -359,7 +231,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 return false;
             }
             var dataExtracted = false;
-            var coreExtracted = false;
+            var translationExtracted = false;
             var rootEntry = archive.Entries[0];
             var dataPathStart = GameConstants.DataFolderName + "/";
             //extract only data folder and core module
@@ -378,17 +250,17 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                     {
                         entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
                         dataExtracted = true;
-                    }
-                    else if (relativePath.Equals(GameConstants.PatcherOriginalName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
-                        coreExtracted = true;
+                        if (entry.Name.Equals(GameConstants.GlobalIniName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            entry.ExtractToFile(Path.Combine(destinationFolder, relativePath), true);
+                            translationExtracted = true;
+                        }
                     }
                 }
             }
-            if (!dataExtracted || !coreExtracted)
+            if (!dataExtracted || !translationExtracted)
             {
-                _logger.Error($"Wrong localization archive: hasData={dataExtracted}, hasCore={coreExtracted}");
+                _logger.Error($"Wrong localization archive: hasData={dataExtracted}, hasTranslation={translationExtracted}");
                 return false;
             }
             return true;

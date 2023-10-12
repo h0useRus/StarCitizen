@@ -9,13 +9,13 @@
     <AssemblyTitle>Star Citizen : Tools Library</AssemblyTitle>
     <Description>Star Citizen : Tools Library</Description>
     <Authors>Denis Ibragimov, Defter</Authors>
-    <Copyright>Copyright (с) 2021-2022 NewSoftWorld</Copyright>
+    <Copyright>Copyright (с) 2021-2023 NewSoftWorld</Copyright>
     <AssemblyName>SCToolsLib</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools.Lib</RootNamespace>
     <LangVersion>8</LangVersion>
     <NoWin32Manifest>true</NoWin32Manifest>
     <Nullable>enable</Nullable>
-    <Version>0.1.9</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,24 +25,13 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>    
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
 
 </Project>

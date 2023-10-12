@@ -220,7 +220,7 @@ namespace NSW.StarCitizen.Tools.Repository
         }
 
         public GameMode? GetRepositoryUsedGameMode(ILocalizationRepository repository)
-        { 
+        {
             return _localizationSettings.Installations.FirstOrDefault(i => !string.IsNullOrEmpty(i.InstalledVersion) &&
                                                                            i.Type == repository.Type && string.Compare(i.Repository, repository.Repository, StringComparison.OrdinalIgnoreCase) == 0)?.Mode;
         }

@@ -11,7 +11,7 @@
     <AssemblyTitle>Star Citizen : Tools</AssemblyTitle>
     <Description>Star Citizen : Tools</Description>
     <Authors>Denis Ibragimov, Defter</Authors>
-    <Copyright>Copyright (с) 2019-2022 NewSoftWorld</Copyright>
+    <Copyright>Copyright (с) 2019-2023 NewSoftWorld</Copyright>
     <AssemblyName>SCTools</AssemblyName>
     <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
     <LangVersion>8</LangVersion>
@@ -19,7 +19,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <StartupObject>NSW.StarCitizen.Tools.Program</StartupObject>
     <Nullable>enable</Nullable>
-    <Version>0.6.7</Version>
+    <Version>0.7.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

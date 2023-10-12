@@ -57,7 +57,7 @@ namespace NSW.StarCitizen.Tools.Forms
 
             LoadSettingControls(_configData);
 
-            var cfgData = _gameSettings.Load();
+            var cfgData = _gameSettings.Load(null);
             cfgData.RemoveRow(GameConstants.CurrentLanguageKey);
             LoadGameSettings(cfgData);
             SelectProfileByData(cfgData);
