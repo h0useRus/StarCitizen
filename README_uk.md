@@ -1,4 +1,4 @@
-# Star Citizen Tools v0.6.7
+# Star Citizen Tools v0.7.0
 [![Build](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/h0useRus/StarCitizen/actions/workflows/build.yml)
 [![Latest Release Version](https://img.shields.io/github/release/h0useRus/StarCitizen?sort=date)](https://github.com/h0useRus/StarCitizen/releases/latest)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/h0useRus/StarCitizen/latest/total)](https://github.com/h0useRus/StarCitizen/releases/latest)
@@ -34,7 +34,6 @@
 
 - Перейменування папки LIVE у PTU чи навпаки
 - Редагування налаштувань гри у user.cfg (НОВЕ у 0.6.0)
-- Запуск декілької інстансів гри з увімкненою локалізацією (НОВЕ у 0.6.5)
 - Завантаження і встановлення оновлень додатку
 - Перевірка оновлень додатку раз в 7 днів при його запуску (НОВЕ у 0.6.3)
 - Підтримувані мови інтерфейсу: англійська, російська, українська, корейська
