@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>SCTools.API</AssemblyName>
+    <RootNamespace>NSW.StarCitizen.Tools.API</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyTitle>Star Citizen : Api Library</AssemblyTitle>
+    <Description>Shared Library for all plug-ins</Description>
+  </PropertyGroup>
+
+</Project>

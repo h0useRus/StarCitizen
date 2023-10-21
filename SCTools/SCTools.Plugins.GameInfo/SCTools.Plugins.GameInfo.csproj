@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>SCTools.Plugins.GameInfo</AssemblyName>
+    <RootNamespace>NSW.StarCitizen.Tools.Plugins.GameInfo</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyTitle>Star Citizen : Tools GameInfo Plug-in</AssemblyTitle>
+    <Description>Show game-info panel</Description>
+    <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>False</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SCTools.Api\SCTools.Api.csproj" />
+  </ItemGroup>
+
+</Project>

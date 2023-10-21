@@ -2,31 +2,21 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net45</TargetFramework>
+    <AssemblyName>SCToolsLib</AssemblyName>
+    <RootNamespace>NSW.StarCitizen.Tools.Lib</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
     <AssemblyTitle>Star Citizen : Tools Library</AssemblyTitle>
     <Description>Star Citizen : Tools Library</Description>
-    <Authors>Denis Ibragimov, Defter</Authors>
-    <Copyright>Copyright (с) 2021-2023 NewSoftWorld</Copyright>
-    <AssemblyName>SCToolsLib</AssemblyName>
-    <RootNamespace>NSW.StarCitizen.Tools.Lib</RootNamespace>
-    <LangVersion>8</LangVersion>
-    <NoWin32Manifest>true</NoWin32Manifest>
-    <Nullable>enable</Nullable>
     <Version>0.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NLog" Version="4.7.5" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NLog" />
+    <PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.Net.Http" />
   </ItemGroup>
 
   <PropertyGroup>

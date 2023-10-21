@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Label="Build">
+    <TargetFramework>net48</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <Company>NewSoftWorld</Company>
+    <Copyright>© NewSoftWorld $([System.DateTime]::Now.Year)</Copyright>
+    <Authors>Denis Ibragimov, Defter</Authors>
+    <RepositoryUrl>https://github.com/h0useRus/StarCitizen</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
