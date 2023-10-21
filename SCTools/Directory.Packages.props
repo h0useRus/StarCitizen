@@ -5,14 +5,11 @@
   </PropertyGroup>
   <ItemGroup Label="Main">
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="NLog" Version="4.7.5" />
+    <PackageVersion Include="NLog" Version="5.2.5" />
     <PackageVersion Include="System.IO.Compression" Version="4.3.0" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="SCConfigDB" Version="0.3.3" />
   </ItemGroup>
-  
   <ItemGroup Label="Tests">
-    
   </ItemGroup>
-  
 </Project>

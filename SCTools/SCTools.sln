@@ -7,19 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCTools", "SCTools\SCTools.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCToolsLib", "SCToolsLib\SCToolsLib.csproj", "{B5E09626-91BF-45B9-A6E4-0ED0CEF5D15C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCTools.Api", "SCTools.Api\SCTools.Api.csproj", "{2B1BFD30-7776-4690-961F-851F49A412C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCTools.Api", "SCTools.Api\SCTools.Api.csproj", "{2B1BFD30-7776-4690-961F-851F49A412C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{4BB5E6CB-DAAE-4263-8C8A-216E3EF98A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCTools.Plugins.GameInfo", "SCTools.Plugins.GameInfo\SCTools.Plugins.GameInfo.csproj", "{D8A6045C-B1CC-41F8-9088-F1DB5DF08C53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCTools.Plugins.GameInfo", "SCTools.Plugins.GameInfo\SCTools.Plugins.GameInfo.csproj", "{D8A6045C-B1CC-41F8-9088-F1DB5DF08C53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCTools.Plugins.Localization", "SCTools.Plugins.Localization\SCTools.Plugins.Localization.csproj", "{9B6D56D5-0BA6-4D4D-AEF5-841F8D0EF6B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCTools.Plugins.Localization", "SCTools.Plugins.Localization\SCTools.Plugins.Localization.csproj", "{9B6D56D5-0BA6-4D4D-AEF5-841F8D0EF6B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A3442F8B-9992-4C56-B503-CF62AE7EA7EF}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCTools.Shared", "SCTools.Shared\SCTools.Shared.csproj", "{D350397D-D25F-4805-88B1-C208B8643FCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{9B6D56D5-0BA6-4D4D-AEF5-841F8D0EF6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B6D56D5-0BA6-4D4D-AEF5-841F8D0EF6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B6D56D5-0BA6-4D4D-AEF5-841F8D0EF6B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D350397D-D25F-4805-88B1-C208B8643FCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D350397D-D25F-4805-88B1-C208B8643FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D350397D-D25F-4805-88B1-C208B8643FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D350397D-D25F-4805-88B1-C208B8643FCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

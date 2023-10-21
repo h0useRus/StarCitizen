@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>SCTools.Shared</AssemblyName>
+    <RootNamespace>NSW.StarCitizen.Tools</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyTitle>SC Tools : Shared Library</AssemblyTitle>
+    <Description>Shared Library</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\GitHub\" />
+    <Folder Include="Repositories\Gitee\" />
+    <Folder Include="Repositories\Local\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.Net.Http" />
+  </ItemGroup>
+
+</Project>

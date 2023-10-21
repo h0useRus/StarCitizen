@@ -6,9 +6,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using NSW.StarCitizen.Tools.Lib.Helpers;
+using NSW.StarCitizen.Tools.Extensions;
 
-namespace NSW.StarCitizen.Tools.Lib.Update
+namespace NSW.StarCitizen.Tools.Repositories
 {
     public sealed class FilesIndex
     {
@@ -33,11 +33,11 @@ namespace NSW.StarCitizen.Tools.Lib.Update
             }
         }
 
-        public struct Record
+        public readonly struct Record
         {
             public long Size { get; }
             private byte[] Hash { get; }
-            public string HashString => Convert.ToBase64String(Hash);
+            public readonly string HashString => Convert.ToBase64String(Hash);
 
             public Record(long size, byte[] hash)
             {
@@ -221,7 +221,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
 
             public void Dispose() => _md5.Dispose();
 
-            public async Task<bool> AddFileAsync(string path, string relativeFilePath, CancellationToken? cancellationToken = default)
+            public async Task<bool> AddFileAsync(string path, string relativeFilePath, CancellationToken cancellationToken)
             {
                 var fileInfo = new FileInfo(path);
                 if (fileInfo.Exists)
@@ -232,7 +232,7 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return false;
             }
 
-            public async Task<bool> AddDirectoryAsync(string path, string? pathPrefix, CancellationToken? cancellationToken = default)
+            public async Task<bool> AddDirectoryAsync(string path, string? pathPrefix, CancellationToken cancellationToken)
             {
                 var directoryInfo = new DirectoryInfo(path);
                 if (directoryInfo.Exists)
@@ -243,20 +243,20 @@ namespace NSW.StarCitizen.Tools.Lib.Update
                 return false;
             }
 
-            private async Task AddFileAsync(FileInfo fileInfo, string relativeFilePath, CancellationToken? cancellationToken = default)
+            private async Task AddFileAsync(FileInfo fileInfo, string relativeFilePath, CancellationToken cancellationToken)
             {
                 using var stream = File.Open(fileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 var fileHash = await _md5.ComputeHashAsync(stream, cancellationToken).ConfigureAwait(false);
                 Add(relativeFilePath, new Record(stream.Length, fileHash));
             }
 
-            private async Task AddFileAtPathAsync(FileInfo fileInfo, string? path = default, CancellationToken? cancellationToken = default)
+            private async Task AddFileAtPathAsync(FileInfo fileInfo, string? path, CancellationToken cancellationToken)
             {
                 var relativeFilePath = string.IsNullOrEmpty(path) ? fileInfo.Name : (path + DirectorySeparatorChar + fileInfo.Name);
                 await AddFileAsync(fileInfo, relativeFilePath, cancellationToken).ConfigureAwait(false);
             }
 
-            private async Task AddDirectoryAsync(DirectoryInfo directoryInfo, string? path = default, CancellationToken? cancellationToken = default)
+            private async Task AddDirectoryAsync(DirectoryInfo directoryInfo, string? path, CancellationToken cancellationToken)
             {
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
                 {
