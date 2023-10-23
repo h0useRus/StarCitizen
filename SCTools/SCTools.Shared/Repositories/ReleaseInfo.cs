@@ -10,7 +10,7 @@ namespace NSW.StarCitizen.Tools.Repositories
         [JsonProperty]
         public string TagName { get; }
         [JsonProperty]
-        public string DownloadUrl { get; }
+        public string FilePath { get; }
         [JsonProperty]
         public DateTimeOffset Released { get; protected set; }
         [JsonProperty]
@@ -18,15 +18,15 @@ namespace NSW.StarCitizen.Tools.Repositories
         public override string ToString() => Name;
 
         [JsonConstructor]
-        protected ReleaseInfo(string name, string tagName, string downloadUrl)
+        protected ReleaseInfo(string name, string tagName, string filePath)
         {
             Name = name;
             TagName = tagName;
-            DownloadUrl = downloadUrl;
+            FilePath = filePath;
         }
 
         public abstract string GetVersion();
 
-        public string Dump() => $"(Name={Name}, TagName={TagName}, DownloadUrl={DownloadUrl}, Released={Released}, PreRelease={PreRelease})";
+        public string Dump() => $"(Name={Name}, TagName={TagName}, FilePath={FilePath}, Released={Released}, PreRelease={PreRelease})";
     }
 }
