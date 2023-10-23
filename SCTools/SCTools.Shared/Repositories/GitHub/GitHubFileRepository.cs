@@ -22,7 +22,6 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub
         private const string ApiUrl = $"https://api.{Host}";
         private const string ApiReposUrl = $"{ApiUrl}/repos";
         private const string ApiRateLimitUrl = $"{ApiUrl}/rate_limit";
-        private const string RawContent = "https://raw.githubusercontent.com";
         private const int DownloadBufferSize = 0x4000;
 
         private readonly string _apiReleasesUrl;
@@ -64,7 +63,7 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub
                 {
                     return SortAndFilterReleases(releases
                                                     .Where(GitHubReleaseInfo.IsValid)
-                                                    .Select(r => GitHubReleaseInfo.MapFrom(r, true)),
+                                                    .Select(GitHubReleaseInfo.MapFrom),
                                                  allowPreRelease);
                 }
             }

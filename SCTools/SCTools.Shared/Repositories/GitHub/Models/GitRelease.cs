@@ -8,7 +8,7 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub.Models
         [JsonProperty("id")]
         public int Id { get; }
         [JsonProperty("name")]
-        public string Name { get; } = string.Empty;
+        public string? Name { get; }
         [JsonProperty("tag_name")]
         public string TagName { get; } = string.Empty;
         [JsonProperty("draft")]
