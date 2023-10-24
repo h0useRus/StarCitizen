@@ -36,7 +36,7 @@ namespace NSW.StarCitizen.Tools.Repositories
 
         public abstract Task<bool> CheckRepositoryAsync(CancellationToken cancellationToken = default);
         public abstract Task<IEnumerable<ReleaseInfo>> GetReleasesAsync(bool allowPreRelease = false, CancellationToken cancellationToken = default);
-        public abstract Task<DownloadResult> DownloadReleaseAsync(ReleaseInfo releaseInfo, string outputDirectory, IDownloadProgress? downloadProgress = null, CancellationToken cancellationToken = default);
+        public abstract Task<DownloadResult> DownloadReleaseAsync(ReleaseInfo releaseInfo, string outputFolder, IDownloadProgress? downloadProgress = null, CancellationToken cancellationToken = default);
 
         protected virtual IEnumerable<ReleaseInfo> SortAndFilterReleases(IEnumerable<ReleaseInfo> releases, bool allowPreRelease)
             => releases.Where(ri => allowPreRelease || !ri.PreRelease)

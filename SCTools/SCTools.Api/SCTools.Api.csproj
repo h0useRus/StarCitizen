@@ -12,4 +12,8 @@
     <Description>Shared Library for all plug-ins</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SCTools.Shared\SCTools.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

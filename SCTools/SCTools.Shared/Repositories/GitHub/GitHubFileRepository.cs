@@ -57,7 +57,10 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub
                 using var requestMessage = BuildGetRequestMessage(_apiReleasesUrl);
                 using var response = await _httpClient.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
                 await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
-                var content = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().ConfigureAwait(false);
+                var content = await response
+                                        .EnsureSuccessStatusCode()
+                                        .Content.ReadAsStringAsync()
+                                        .ConfigureAwait(false);
                 var releases = content.FromJson<GitRelease[]>();
                 if (releases != null && releases.Any())
                 {
@@ -73,29 +76,32 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub
             }
             return Enumerable.Empty<ReleaseInfo>();
         }
-        public override async Task<DownloadResult> DownloadReleaseAsync(ReleaseInfo releaseInfo, string outputDirectory, IDownloadProgress? downloadProgress = null, CancellationToken cancellationToken = default)
+        public override async Task<DownloadResult> DownloadReleaseAsync(ReleaseInfo releaseInfo, string outputFolder, IDownloadProgress? downloadProgress = null, CancellationToken cancellationToken = default)
         {
             using var requestMessage = BuildGetRequestMessage(releaseInfo.FilePath);
             using var response = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             await CheckRequestLimitStatusCodeAsync(response, cancellationToken);
-            using var contentStream = await response.EnsureSuccessStatusCode().Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var contentStream = await response
+                                                .EnsureSuccessStatusCode()
+                                                .Content.ReadAsStreamAsync()
+                                                .ConfigureAwait(false);
             if (downloadProgress != null && response.Content.Headers.ContentLength.HasValue)
             {
                 downloadProgress.Total(response.Content.Headers.ContentLength.Value);
             }
-            var tempFileName = Path.Combine(outputDirectory, response.Content.Headers.ContentDisposition.FileName);
+            var outputFileName = Path.Combine(outputFolder, response.Content.Headers.ContentDisposition.FileName);
             try
             {
-                using var fileStream = File.Create(tempFileName);
+                using var fileStream = File.Create(outputFileName);
                 await contentStream.CopyToAsync(fileStream, DownloadBufferSize, downloadProgress, cancellationToken);
             }
             catch
             {
-                if (File.Exists(tempFileName) && !FileHelper.DeleteFileNoThrow(tempFileName))
-                    _logger.LogWarning("Failed remove temporary file: {FileName}", tempFileName);
+                if (File.Exists(outputFileName) && !FileHelper.DeleteFileNoThrow(outputFileName))
+                    _logger.LogWarning("Failed to remove output file: {FileName}", outputFileName);
                 throw;
             }
-            return DownloadResult.FromArchivePath(tempFileName);
+            return DownloadResult.FromArchivePath(outputFileName);
         }
 
         private HttpRequestMessage BuildGetRequestMessage(string requestUri)
@@ -126,7 +132,10 @@ namespace NSW.StarCitizen.Tools.Repositories.GitHub
             {
                 using var requestMessage = BuildGetRequestMessage(ApiRateLimitUrl);
                 using var response = await _httpClient.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-                var json = await response.EnsureSuccessStatusCode().Content.ReadAsStringAsync().ConfigureAwait(false);
+                var json = await response
+                                    .EnsureSuccessStatusCode()
+                                    .Content.ReadAsStringAsync()
+                                    .ConfigureAwait(false);
                 return json.FromJson<GitRateLimit>();
             }
             catch (Exception exception)

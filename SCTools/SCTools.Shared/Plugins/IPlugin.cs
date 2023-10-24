@@ -1,4 +1,4 @@
-namespace NSW.StarCitizen.Tools.API.Plugins
+namespace NSW.StarCitizen.Tools.Plugins
 {
     public interface IPlugin
     {
