@@ -5,7 +5,7 @@ namespace NSW.StarCitizen.Tools.API.Universes
 {
     public interface IUniverse : IDisposable
     {
-        UniverseType Type { get; }
+        string Name { get; }
         IFiles Files { get; }
     }
 }

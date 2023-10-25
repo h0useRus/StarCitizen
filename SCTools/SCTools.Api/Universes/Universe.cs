@@ -9,27 +9,37 @@ namespace NSW.StarCitizen.Tools.API.Universes
 {
     internal class Universe : IUniverse
     {
+        public const string LiveName = "LIVE";
+        public const string PtuName = "PTU";
+
         private readonly ILogger _logger;
         private readonly IDisposable? _loggerScope;
 
-        public UniverseType Type { get; }
+        public string Name { get; }
         public bool IsActive => Files.Executable.File.Exists;
         public IFiles Files { get; }
 
-        public Universe(UniverseType type, string baseFolder, ILogger logger)
+        public Universe(string name, string baseFolder, ILogger logger)
         {
-            Type = type;
-            Files = new Storage.Files(Path.Combine(baseFolder, type.ToString()));
-            _logger = logger;
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(baseFolder))
+                throw new ArgumentNullException(nameof(baseFolder));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            Name = name.ToUpper();
+            Files = new Storage.Files(Path.Combine(baseFolder, Name));
+
             _loggerScope = _logger.BeginScope(new Dictionary<string, object>
             {
-                [LogScope.Universe] = type,
+                [LogScope.Universe] = Name,
                 [LogScope.UniverseFolder] = Files.RootDirectory.FullName
             });
         }
 
         public void Dispose() => _loggerScope?.Dispose();
-
-        public override string ToString() => $"{Type} root path: {Files.RootDirectory.FullName}";
+        public override string ToString() => $"{Name} root path: {Files.RootDirectory.FullName}";
+        //check for StarCitizen.exe
+        public static bool IsValidPath(string path) => File.Exists(Path.Combine(path, Storage.Files.BinPath, Storage.Files.ExecutableName));
     }
 }
