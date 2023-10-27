@@ -6,12 +6,13 @@ namespace NSW.StarCitizen.Tools.Lib.Global
     {
         public const string BinFolderName = "Bin64";
         public const string DataFolderName = "data";
-        public const string LocalizationFolderName = "localization"; 
+        public const string LocalizationFolderName = "localization";
         public const string GameFolderName = "StarCitizen";
         public const string GameExeName = "StarCitizen.exe";
         public const string UserConfigName = "user.cfg";
         public const string GlobalIniName = "global.ini";
         public const string CurrentLanguageKey = "g_language";
+        public const string CurrentLanguageAudioKey = "g_languageAudio";
         public const string EnglishLocalization = "english";
 
         public static string GetGameModePath(string gamePath, GameMode mode) => Path.Combine(gamePath, mode.ToString());
