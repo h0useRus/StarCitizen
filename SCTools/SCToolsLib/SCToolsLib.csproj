@@ -15,8 +15,8 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="NLog" />
-    <PackageReference Include="System.IO.Compression" />
-    <PackageReference Include="System.Net.Http" />
+    <!--<PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.Net.Http" />-->
   </ItemGroup>
 
   <PropertyGroup>

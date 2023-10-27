@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -17,8 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="System.IO.Compression" />
-    <PackageReference Include="System.Net.Http" />
+    <!--<PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.Net.Http" />-->
   </ItemGroup>
 
 </Project>

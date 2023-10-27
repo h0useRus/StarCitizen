@@ -20,8 +20,8 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="NLog" />
     <PackageReference Include="SCConfigDB" />
-    <PackageReference Include="System.IO.Compression" />
-    <PackageReference Include="System.Net.Http" />
+    <!--<PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.Net.Http" />-->
   </ItemGroup>
 
   <ItemGroup>
@@ -49,12 +49,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="publish\**" />
-    <EmbeddedResource Remove="publish\**" />
-    <None Remove="publish\**" />
   </ItemGroup>
 
   <ItemGroup>

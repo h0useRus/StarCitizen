@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup Label="Build">
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net7-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <NoWin32Manifest>true</NoWin32Manifest>
     <LangVersion>latest</LangVersion>
