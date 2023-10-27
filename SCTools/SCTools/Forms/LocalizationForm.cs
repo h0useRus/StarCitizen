@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -68,26 +67,6 @@ namespace NSW.StarCitizen.Tools.Forms
             {
                 _setAsDefaultLocalizationAppShown = true;
                 return;
-            }
-            string? defaultLocalizationApp = LocalizationAppRegistry.GetDefaultLocalizationApp();
-            if (defaultLocalizationApp == null)
-            {
-                LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
-            }
-            else if (!string.Equals(defaultLocalizationApp, executablePath, StringComparison.OrdinalIgnoreCase))
-            {
-                _setAsDefaultLocalizationAppShown = true;
-                var dialogResult = RtlAwareMessageBox.Show(this, string.Format(CultureInfo.CurrentUICulture, Resources.Localization_ChangeDefaultApp_Text, Program.Name),
-                    Resources.Localization_DefaultApp_Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (dialogResult != DialogResult.Cancel)
-                {
-                    Program.Settings.DefaultLocalizationAppChangeShown = true;
-                    Program.SaveAppSettings();
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        LocalizationAppRegistry.SetDefaultLocalizationApp(executablePath);
-                    }
-                }
             }
         }
 

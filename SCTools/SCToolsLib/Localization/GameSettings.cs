@@ -58,6 +58,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
                 var userConfigFile = new CfgFile(GameConstants.GetUserConfigPath(_currentGame.RootFolderPath));
                 var userConfigData = userConfigFile.Read();
                 userConfigData.AddOrUpdateRow(GameConstants.CurrentLanguageKey, languageName);
+                userConfigData.AddOrUpdateRow(GameConstants.CurrentLanguageAudioKey, GameConstants.EnglishLocalization);
                 if (userConfigFile.Save(userConfigData))
                 {
                     LanguageInfo.Current = languageName;
