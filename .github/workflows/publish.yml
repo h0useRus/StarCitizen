@@ -14,6 +14,7 @@ jobs:
     env:
       Solution_Name: SCTools
       Build_Config: Release
+      Build_Version: {{ github.event.inputs.version }}
 
     steps:
     - name: Checkout
@@ -28,7 +29,7 @@ jobs:
       run: dotnet restore $env:Solution_Name
       
     - name: Build solution
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Build_Config /property:Version={{ github.event.inputs.version }}
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Build_Config /property:Version=$env:Build_Version
     
     - name: Publish to folder
       run: dotnet publish $env:Solution_Name -c $env:Build_Config /p:PublishProfile=FolderProfile.pubxml --no-build
