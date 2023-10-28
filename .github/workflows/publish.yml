@@ -14,7 +14,7 @@ jobs:
     env:
       Solution_Name: SCTools
       Build_Config: Release
-      Build_Version: {{ github.event.inputs.version }}
+      Build_Version: ${{ github.event.inputs.version }}
 
     steps:
     - name: Checkout
