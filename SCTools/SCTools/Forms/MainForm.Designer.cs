@@ -35,6 +35,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.tbGamePath = new System.Windows.Forms.TextBox();
             this.cbGameModes = new System.Windows.Forms.ComboBox();
             this.gbGameInfo = new System.Windows.Forms.GroupBox();
+            this.tbGameMode = new System.Windows.Forms.TextBox();
             this.tbGameVersion = new System.Windows.Forms.TextBox();
             this.lblGameVersion = new System.Windows.Forms.Label();
             this.lblGameMode = new System.Windows.Forms.Label();
@@ -72,7 +73,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbCheckNewVersions = new System.Windows.Forms.CheckBox();
             this.gbApplicationUpdate = new System.Windows.Forms.GroupBox();
             this.cbAppUpdateSource = new System.Windows.Forms.ComboBox();
-            this.tbGameMode = new System.Windows.Forms.TextBox();
             this.gbGameInfo.SuspendLayout();
             this.gbButtonMenu.SuspendLayout();
             this.cmTrayMenu.SuspendLayout();
@@ -124,6 +124,19 @@ namespace NSW.StarCitizen.Tools.Forms
             this.gbGameInfo.Size = new System.Drawing.Size(200, 108);
             this.gbGameInfo.TabIndex = 3;
             this.gbGameInfo.TabStop = false;
+            // 
+            // tbGameMode
+            // 
+            this.tbGameMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbGameMode.BackColor = System.Drawing.SystemColors.Window;
+            this.tbGameMode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbGameMode.Location = new System.Drawing.Point(9, 33);
+            this.tbGameMode.Name = "tbGameMode";
+            this.tbGameMode.ReadOnly = true;
+            this.tbGameMode.Size = new System.Drawing.Size(185, 20);
+            this.tbGameMode.TabIndex = 4;
+            this.tbGameMode.TabStop = false;
             // 
             // tbGameVersion
             // 
@@ -180,6 +193,7 @@ namespace NSW.StarCitizen.Tools.Forms
             this.btnGameSettings.TabIndex = 5;
             this.btnGameSettings.Text = "Game settings";
             this.btnGameSettings.UseVisualStyleBackColor = true;
+            this.btnGameSettings.Visible = false;
             this.btnGameSettings.Click += new System.EventHandler(this.btnGameSettings_Click);
             // 
             // btnUpdateLocalization
@@ -493,19 +507,6 @@ namespace NSW.StarCitizen.Tools.Forms
             this.cbAppUpdateSource.Size = new System.Drawing.Size(68, 21);
             this.cbAppUpdateSource.TabIndex = 12;
             this.cbAppUpdateSource.SelectionChangeCommitted += new System.EventHandler(this.cbAppUpdateSource_SelectionChangeCommitted);
-            // 
-            // tbGameMode
-            // 
-            this.tbGameMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbGameMode.BackColor = System.Drawing.SystemColors.Window;
-            this.tbGameMode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbGameMode.Location = new System.Drawing.Point(9, 33);
-            this.tbGameMode.Name = "tbGameMode";
-            this.tbGameMode.ReadOnly = true;
-            this.tbGameMode.Size = new System.Drawing.Size(185, 20);
-            this.tbGameMode.TabIndex = 4;
-            this.tbGameMode.TabStop = false;
             // 
             // MainForm
             // 

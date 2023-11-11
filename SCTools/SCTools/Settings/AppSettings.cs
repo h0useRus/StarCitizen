@@ -55,6 +55,7 @@ namespace NSW.StarCitizen.Tools.Settings
         public LocalizationSettings Localization { get; } = new LocalizationSettings();
         [JsonProperty]
         public LocalizationSettings LocalizationPtu { get; } = new LocalizationSettings();
+        public LocalizationSettings LocalizationEPtu { get; } = new LocalizationSettings();
         [JsonProperty]
         public string? AuthToken { get; private set; }
 
@@ -63,6 +64,7 @@ namespace NSW.StarCitizen.Tools.Settings
             {
                 GameMode.LIVE => Localization,
                 GameMode.PTU => LocalizationPtu,
+                GameMode.EPTU => LocalizationEPtu,
                 _ => throw new NotSupportedException("Not supported game mode: " + gameMode)
             };
 
