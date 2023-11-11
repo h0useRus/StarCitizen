@@ -19,9 +19,7 @@ namespace NSW.StarCitizen.Tools
 
         private static void ValidateAppSettings(AppSettings appSettings)
         {
-            if (FixLocalizationSettings(appSettings.Localization) ||
-                FixLocalizationSettings(appSettings.LocalizationPtu) ||
-                FixLocalizationSettings(appSettings.LocalizationEPtu))
+            if (FixLocalizationSettings(appSettings.Localization) | FixLocalizationSettings(appSettings.LocalizationPtu))
             {
                 SaveAppSettings(appSettings);
             }

@@ -41,7 +41,7 @@ namespace NSW.StarCitizen.Tools.Settings
         [JsonConstructor]
         public LocalizationInstallation(GameMode mode, string repository, UpdateRepositoryType? type)
         {
-            Mode = mode;
+            Mode = mode == GameMode.EPTU ? GameMode.PTU : mode; // Use PTU for ePTU
             Repository = repository;
             Type = type ?? UpdateRepositoryType.GitHub;
         }
