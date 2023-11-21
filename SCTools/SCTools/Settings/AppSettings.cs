@@ -63,6 +63,7 @@ namespace NSW.StarCitizen.Tools.Settings
             {
                 GameMode.LIVE => Localization,
                 GameMode.PTU => LocalizationPtu,
+                GameMode.EPTU => LocalizationPtu,
                 _ => throw new NotSupportedException("Not supported game mode: " + gameMode)
             };
 

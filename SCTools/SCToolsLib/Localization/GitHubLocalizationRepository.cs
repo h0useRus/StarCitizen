@@ -25,7 +25,7 @@ namespace NSW.StarCitizen.Tools.Lib.Localization
         public override async Task<List<UpdateInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
             var updates = await base.GetAllAsync(cancellationToken).ConfigureAwait(false);
-            return updates.Where(i => IsTagNameForMode(i.TagName, Mode)).ToList();
+            return updates.Where(i => IsTagNameForMode(i.TagName, Mode == GameMode.EPTU ? GameMode.PTU : Mode)).ToList();
         }
 
         private static bool IsTagNameForMode(string tagName, GameMode mode)
